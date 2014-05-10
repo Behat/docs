@@ -4,7 +4,7 @@ Quick Intro to Behat
 Welcome to Behat! Behat is a tool to close `behavior driven development`_
 (BDD) communication loop. BDD is a methodology of developing software through
 continuous example-based communication between developers and business,
-wchich this application supports. This communication happens in a form that
+which this application supports. This communication happens in a form that
 both business and developers can clearly understand - examples. Examples are
 structured arond ``Context-Action-Outcome`` pattern and are written in a
 special format called *Gherkin*. The fact that Gherkin is a very structural
