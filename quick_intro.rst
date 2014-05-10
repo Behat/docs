@@ -6,7 +6,7 @@ Welcome to Behat! Behat is a tool to close the `behavior driven development`_
 continuous example-based communication between developers and business,
 which this application supports. This communication happens in a form that
 both business and developers can clearly understand - examples. Examples are
-structured arond ``Context-Action-Outcome`` pattern and are written in a
+structured around ``Context-Action-Outcome`` pattern and are written in a
 special format called *Gherkin*. The fact that Gherkin is a very structural
 makes it very easy to automate and autotest your behaviour examples against
 a developing application. Automated examples are then actually used to drive
@@ -114,7 +114,7 @@ examples (in BDD these are called *scenarios*):
         Scenario: Some description of the scenario
           Given some context
           And more context
-          When some event]
+          When some event
           And second event occurs
           Then outcome
           And another outcome
@@ -669,13 +669,16 @@ After refactoring is done, you will have:
 
 #. Clearly designed and obvious code that does exactly the thing it should do
    without any gold plating.
+
 #. A regression test suite that will help you to be confident in your code going
    forward.
+
 #. Living documentation for behaviour of your code that will live, evolve and
    die together with your code.
+
 #. Incredible level of confidence in your code. Not only you are confident now
    that it does exactly what it supposed to do. You are confident that it does
-    so by delivering value to the final users (customers in our case).
+   so by delivering value to the final users (customers in our case).
 
 There are much more benefits to BDD. But those are the key reasons why most BDD
 practitioners do BDD in Ruby, .Net, Java, Python and JS. Welcome to the family!
