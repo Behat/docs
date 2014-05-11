@@ -12,7 +12,7 @@ application behaves, then the context class is all about how to test it.
 
 .. code-block:: php
 
-    # features/bootstrap/FeatureContext.php
+    // features/bootstrap/FeatureContext.php
 
     use Behat\Behat\Context\Context;
 
@@ -313,7 +313,7 @@ That means if you put some step definitions or hooks inside a trait:
 
 .. code-block:: php
 
-    # features/bootstrap/ProductsDictionary.php
+    // features/bootstrap/ProductsDictionary.php
 
     trait ProductsDictionary
     {

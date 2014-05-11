@@ -39,6 +39,7 @@ an initial context class to get you started:
 .. code-block:: php
 
     // features/bootstrap/FeatureContext.php
+
     use Behat\Behat\Context\SnippetAcceptingContext;
     use Behat\Gherkin\Node\PyStringNode;
     use Behat\Gherkin\Node\TableNode;
@@ -260,7 +261,7 @@ Let's pretend our context class contains the code below:
 
 .. code-block:: php
 
-    # features/bootstrap/FeatureContext.php
+    // features/bootstrap/FeatureContext.php
 
     use Behat\Behat\Context\Context;
 
@@ -301,7 +302,7 @@ Let's pretend we have an empty context class:
 
 .. code-block:: php
 
-    # features/bootstrap/FeatureContext.php
+    // features/bootstrap/FeatureContext.php
 
     use Behat\Behat\Context\Context;
 
@@ -339,7 +340,7 @@ Let's pretend your ``FeatureContext`` looks like this:
 
 .. code-block:: php
 
-    # features/bootstrap/FeatureContext.php
+    // features/bootstrap/FeatureContext.php
 
     use Behat\Behat\Context\Context;
     use Behat\Behat\Tester\Exception\PendingException;
@@ -390,7 +391,7 @@ Let's pretend, that your ``FeatureContext`` has following code:
 
 .. code-block:: php
 
-    # features/bootstrap/FeatureContext.php
+    // features/bootstrap/FeatureContext.php
 
     use Behat\Behat\Context\Context;
 
@@ -474,7 +475,7 @@ Consider your ``FeatureContext`` has following code:
 
 .. code-block:: php
 
-    # features/bootstrap/FeatureContext.php
+    // features/bootstrap/FeatureContext.php
 
     use Behat\Behat\Context\Context;
 
@@ -507,7 +508,7 @@ feature context:
 
 .. code-block:: php
 
-    # features/bootstrap/FeatureContext.php
+    // features/bootstrap/FeatureContext.php
 
     use Behat\Behat\Context\Context;
 
@@ -549,7 +550,7 @@ integers with the following context class code:
 
 .. code-block:: php
 
-    # features/bootstrap/FeatureContext.php
+    // features/bootstrap/FeatureContext.php
 
     use Behat\Behat\Context\Context;
 
@@ -586,7 +587,7 @@ will create and return a new ``User`` object:
 
 .. code-block:: php
 
-    # features/bootstrap/FeatureContext.php
+    // features/bootstrap/FeatureContext.php
 
     use Behat\Behat\Context\Context;
 
@@ -633,7 +634,7 @@ And our ``FeatureContext`` class looks like this:
 
 .. code-block:: php
 
-    # features/bootstrap/FeatureContext.php
+    // features/bootstrap/FeatureContext.php
 
     use Behat\Behat\Context\Context;
     use Behat\Gherkin\Node\TableNode;
@@ -671,7 +672,7 @@ via a comma-delimited list of the column headers prefixed with ``table:``:
 
 .. code-block:: php
 
-    # features/bootstrap/FeatureContext.php
+    // features/bootstrap/FeatureContext.php
 
     use Behat\Behat\Context\Context;
     use Behat\Gherkin\Node\TableNode;

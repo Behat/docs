@@ -9,7 +9,7 @@ specific scenario? Hooks to the rescue:
 
 .. code-block:: php
 
-    # features/bootstrap/FeatureContext.php
+    // features/bootstrap/FeatureContext.php
 
     use Behat\Behat\Context\Context;
     use Behat\Testwork\Hook\Scope\BeforeSuiteScope;
