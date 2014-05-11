@@ -102,7 +102,7 @@ criteria. Gherkin parser comes bundled with a set of cool filters
 such as *tags* and *name* filters. You can use these filters to run
 features with specific tag (or name) in specific contexts:
 
-.. code-block::
+.. code-block:: yaml
 
     # behat.yml
 
@@ -126,7 +126,7 @@ in the same folder. How cool is that? It could be even cooler,
 because Gherkin 4+ (used in Behat 3+) added a very special *role*
 filter. It means, you now could have nice actor-based suites:
 
-.. code-block::
+.. code-block:: yaml
 
     # behat.yml
 
