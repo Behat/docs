@@ -36,3 +36,8 @@ highlight_language = 'php'
 # List of directories, relative to source directory, that shouldn't be searched
 # for source files.
 exclude_trees = []
+
+# -- Options for HTML output ---------------------------------------------------
+
+# Output file base name for HTML help builder.
+htmlhelp_basename = 'behat'
