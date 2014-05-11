@@ -201,7 +201,7 @@ option:
 
     $ vendor/bin/behat --suite=web_features
 
-Suite Initialisaation
+Suite Initialisation
 ---------------------
 
 Suites are the core part of Behat. Any feature of Behat knows about
