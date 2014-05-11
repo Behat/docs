@@ -476,7 +476,7 @@ code we could come up with to fulfil our scenario. Something like this:
     }
 
 As you can see, in order to test and implement our application, we introduced 2 objects -
-``Shelf`` and ``Basket``. The first is responsbile for storing products and their prices,
+``Shelf`` and ``Basket``. The first is responsible for storing products and their prices,
 the second is responsible for representation of our customer basket. Through appropriate step
 definitions we declare product prices and add products to the basket. We then compare the
 state of our ``Basket`` object with our expectations using PHPUnit assertions.

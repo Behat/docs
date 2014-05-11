@@ -191,7 +191,7 @@ Context Parameters
 
 Context classes could be very flexible depending on how far you want
 to go in making them dynamic. Though there's one attribute most of us
-will want to make our contexts environment-independant. Where to put
+will want to make our contexts environment-independent. Where to put
 temporary files, through which URL to access application? These are
 context configuration options highly dependant on the environment you
 will test your features in.

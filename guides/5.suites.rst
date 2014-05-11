@@ -60,8 +60,8 @@ for a test. You could, for example, tell Behat to look into
                 paths:    [ %paths.base%/features/web ]
                 contexts: [ WebContext ]
 
-You then might want to also describe some API-specifc features in
-``features/api`` and test them with API-specifc ``ApiContext``. Easy:
+You then might want to also describe some API-specific features in
+``features/api`` and test them with API-specific ``ApiContext``. Easy:
 
 .. code-block:: yaml
 

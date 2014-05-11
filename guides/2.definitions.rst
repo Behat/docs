@@ -110,7 +110,7 @@ including:
     Then I do something with 25
 
 The only real difference between those steps in the eyes of Behat is the
-catpured token text. This text will be passed to its step's corresponding
+captured token text. This text will be passed to its step's corresponding
 method as an argument value. In the example above,
 ``FeatureContext::someMethod()`` will be called three times, each time with
 a different argument:
@@ -361,7 +361,7 @@ Let's pretend your ``FeatureContext`` looks like this:
     }
 
 When you run your feature, you'll get 1 pending step that is marked yellow and
-one step following it that is makred cyan.
+one step following it that is marked cyan.
 
 .. note::
 
@@ -492,7 +492,7 @@ Consider your ``FeatureContext`` has following code:
         }
     }
 
-Executing Behat with this feature context will result in a ``Ambigious``
+Executing Behat with this feature context will result in a ``Ambiguous``
 exception being thrown.
 
 Behat will not make a decision about which definition to execute. That's your
