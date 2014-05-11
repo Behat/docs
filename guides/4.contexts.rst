@@ -151,7 +151,7 @@ that suite is a way to tell Behat of where to find your features and
 how to test them. The interesting part for us now is the ``contexts``
 section - this is an array of context class names. Behat will use classes
 specified there as your feature contexts. It simply means that every time
-Behat will see scenario in your test suite, he will:
+Behat will see scenario in your test suite, it will:
 
 #. Get list of all context classes from this ``contexts`` option.
 
@@ -168,7 +168,7 @@ Behat will see scenario in your test suite, he will:
     Behat.
 
 Basically, all contexts under ``contexts`` section of your ``behat.yml``
-are the same for Behat. He will find and use methods in them same way
+are the same for Behat. It will find and use methods in them same way
 it does in default ``FeatureContext``. And if you're happy with a single
 context class, but you don't like the name ``FeatureContext``, here's
 how you change it:

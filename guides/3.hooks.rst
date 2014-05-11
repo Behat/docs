@@ -72,7 +72,7 @@ This is a basic test cycle in Behat. There are many test suites, each of
 which has many features, which themselves have many scenarios with many
 steps. Note that when Behat actually runs, scenario outline examples are
 interpreted as scenarios - meaning each outline example becomes an actual
-scenario in this action tree. 
+scenario in this action tree.
 
 Hooks
 -----
@@ -114,7 +114,7 @@ of these actions. Behat allows you to use next hooks:
    hook receives an optional argument  with an instance of the
    ``Behat\Behat\Hook\Scope\AfterStepScope`` class.
 
-You can use any of these hooks by annotatitng any of your methods in your context
+You can use any of these hooks by annotating any of your methods in your context
 class:
 
 .. code-block:: php

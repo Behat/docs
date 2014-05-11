@@ -86,7 +86,7 @@ This will cause Behat to:
 
 .. note::
 
-    ``%paths.base`` is a special variable in ``behat.yml`` that refers
+    ``%paths.base%`` is a special variable in ``behat.yml`` that refers
     to the folder in which ``behat.yml`` is stored.
 
 Path-based suites is an easy way to test highly-modular applications
