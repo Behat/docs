@@ -89,3 +89,5 @@ and the same.
 
 * `Dan North's "What's in a Story?" <http://dannorth.net/whats-in-a-story/>`_
 * `Cucumber's "Backgrounder" <https://github.com/cucumber/cucumber/wiki/Cucumber-Backgrounder>`_
+
+.. _`Cucumber`: http://cukes.info/

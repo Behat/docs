@@ -67,7 +67,7 @@ through the above example:
 When you're executing the feature, the trailing portion of each step (after
 keywords like ``Given``, ``And``, ``When``, etc) is matched to
 a regular expression, which executes a PHP callback function. You can read more
-about steps matching and execution in :doc:`/guides/4.definitions`.
+about steps matching and execution in :doc:`/guides/2.definitions`.
 
 Features
 --------
@@ -217,7 +217,7 @@ Backgrounds
 Backgrounds allows you to add some context to all scenarios in a single
 feature. A Background is like an untitled scenario, containing a number of
 steps. The difference is when it is run: the background is run before each of
-your scenarios, but after your ``BeforeScenario`` hooks (:doc:`/guides/5.hooks`).
+your scenarios, but after your ``BeforeScenario`` hooks (:doc:`/guides/3.hooks`).
 
 .. code-block:: gherkin
 
