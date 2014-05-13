@@ -343,7 +343,7 @@ And then use it in your context:
 It will just work as you expect it to.
 
 Custom Autoloading
------------------
+------------------
 
 Sometimes when you need to place your ``features`` folder somewhere else than the
 default location (e.g. ``app/features``). All you need to do is specify the path
