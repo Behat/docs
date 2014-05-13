@@ -357,3 +357,9 @@ you want to autoload via ``behat.yml``:
         autoload:
             default:
                 - %paths.base%/app/features/bootstrap
+                
+.. note::
+
+    Using ``behat.yml`` to autoload will only allow for ``PSR-0``
+    You can also use ``composer.json`` to autoload, which will also
+    allow for ``PSR-4``
