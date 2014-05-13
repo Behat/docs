@@ -64,6 +64,7 @@ In order to be used by Behat, your context class should follow these rules:
    by following PSR-0 convention or you can even define your own custom
    autoloading folder via ``behat.yml``.
 
+
 .. note::
 
     ``Behat\Behat\Context\SnippetAcceptingContext`` and
@@ -341,3 +342,18 @@ And then use it in your context:
 
 It will just work as you expect it to.
 
+Custom Autoloading
+-----------------
+
+Sometimes when you need to place your ``features`` folder somewhere else than the
+default location (e.g. ``app/features``). All you need to do is specify the path
+you want to autoload via ``behat.yml``:
+
+.. code-block:: yaml
+
+    # behat.yml
+
+    default:
+        autoload:
+            default:
+                - %paths.base%/app/features/bootstrap
