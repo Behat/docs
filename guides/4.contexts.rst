@@ -355,8 +355,7 @@ you want to autoload via ``behat.yml``:
 
     default:
         autoload:
-            default:
-                - %paths.base%/app/features/bootstrap
+            '': %paths.base%/app/features/bootstrap
                 
 .. note::
 
