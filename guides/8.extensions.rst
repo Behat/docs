@@ -1,0 +1,63 @@
+Extensions
+==========
+
+Behat is based on Testwork, a framework for building testing frameworks.
+Extensions are first class citizens in Testwork and all Behat functionalities
+are actually implemented with Testwork extensions. Service container lies at
+the core of the extension system. An extension can manipulate the service
+container, register or alter service definitions and define configuration.
+This is what makes Testwork and Behat so powerful and extensible.
+
+Enabling extensions
+-------------------
+
+Behat application registers the default extensions automatically. Additional
+extensions can be enabled and configured via the ``extensions`` section in
+``behat.yml``:
+
+.. code-block:: yaml
+
+    default:
+      extensions:
+        Behat\MinkExtension:
+          base_url: http://localhost/
+          goutte: ~
+        Acme\Mailer: ~
+        my_extension.phar: ~
+
+Resolving extension class and file names
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+When enabling an extension we can choose to use a short syntax, give a full
+class namespace, or specify a path to a file. Given a class name, the Extension
+Manager will instantiate it. Given a file name, it will include it.
+The included file should take care of instantiating the extension and
+it's mostly useful with phar archives.
+
+``Behat\MinkExtension`` could be resolved to one of:
+
+* ``Behat\MinkExtension``
+* ``Behat\MinkExtension\ServiceContainer\MinkExtension``
+
+``Acme\Mailer`` could be resolved to one of:
+
+* ``Acme\Mailer``
+* ``Acme\Mailer\ServiceContainer\MailerExtension``
+
+``my_extension.phar`` would be resolved to a file name (it's mostly used with
+phar archives).
+
+Creating an extension
+---------------------
+
+An extension class should implement the
+``Behat\Testwork\ServiceContainer\Extension`` interface and therefore provide
+the following methods:
+
+* ``getConfigKey()`` - returns the extension's configuration key
+* ``initialize()`` - called after all extensions are activated to allow them
+  hooking into each other's configuration
+* ``configure()`` - defines configuration for the extension
+* ``load()`` - loads service definitions into the container
+* ``process()`` - is run just before the container is dumped to PHP code,
+  so it could still be altered

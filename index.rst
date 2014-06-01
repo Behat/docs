@@ -78,6 +78,7 @@ Learn Behat with the topical guides:
     guides/5.suites
     guides/6.profiles
     guides/7.run
+    guides/8.extensions
 
 More about Behavior Driven Development
 --------------------------------------
