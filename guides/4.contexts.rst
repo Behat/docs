@@ -157,8 +157,8 @@ Behat will see scenario in your test suite, it will:
 
 #. Will try to initialize all these context classes into an objects.
 
-#. Will search for `step definitions </guides/2.definitions>`, `hooks
-   </guides/3.hooks>` in all of them.
+#. Will search for :doc:`step definitions </guides/2.definitions>`,
+   :doc:`hooks </guides/3.hooks>` in all of them.
 
 .. note::
 
