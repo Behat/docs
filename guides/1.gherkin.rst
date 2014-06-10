@@ -267,7 +267,7 @@ the user (or external system) starts interacting with the system (in the When
 steps). Avoid talking about user interaction in givens. If you have worked with
 use cases, givens are your preconditions.
 
-.. sidebar:: Given Examples
+.. topic:: Given Examples
 
     Two good examples of using **Givens** are:
 
@@ -290,7 +290,7 @@ use cases, givens are your preconditions.
     It's ok to call into the layer "inside" the UI layer here (in symfony: talk
     to the models).
 
-.. sidebar:: Using Givens as Data Fixtures
+.. topic:: Using Givens as Data Fixtures
 
     If you use ORMs like Doctrine or Propel, we recommend using a Given step
     with a `tables`_ arguments to set up records instead of fixtures. This
@@ -310,7 +310,7 @@ Whens
 The purpose of **When** steps is to **describe the key action** the user
 performs (or, using Robert C. Martin's metaphor, the state transition).
 
-.. sidebar:: When Examples
+.. topic:: When Examples
 
     Two good examples of using **Whens** are:
 
@@ -339,7 +339,7 @@ The observations should inspect the output of the system (a report, user
 interface, message, command output) and not something deeply buried inside it
 (that has no business value and is instead part of the implementation).
 
-.. sidebar:: Then Examples
+.. topic:: Then Examples
 
     Two good examples of using **Thens** are:
 
@@ -439,7 +439,7 @@ usually as input to a Given or as expected output from a Then.
     multiple different values for the same scenario, while tables are used to
     expect a set of data.
 
-.. sidebar:: Matching Tables in your Step Definition
+.. topic:: Matching Tables in your Step Definition
 
     A matching definition for this step looks like this:
 
@@ -488,7 +488,7 @@ three double-quote marks (``"""``), placed on their own line:
     delineate docstrings, much in the way ``/* ... */`` is used for multiline
     docblocks in PHP.
 
-.. sidebar:: Matching PyStrings in your Step Definition
+.. topic:: Matching PyStrings in your Step Definition
 
     In your step definition, there's no need to find this text and match it in
     your pattern. The text will automatically be passed as the last
