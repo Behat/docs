@@ -22,7 +22,7 @@ Definitions Home - ``FeatureContext`` Class
 -------------------------------------------
 
 Step definitions are just normal PHP methods. They are instance methods in
-a special class called Feature:doc:`Context</guides/4.contexts>`. This class
+a special class called :doc:`FeatureContext</guides/4.contexts>`. This class
 can be easily created by running ``behat`` with the ``--init`` command from
 your project's directory:
 
