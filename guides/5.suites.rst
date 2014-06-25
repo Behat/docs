@@ -2,7 +2,7 @@ Telling How To Test - Test Suites
 =================================
 
 We already talked about configuring multiple contexts for a single test
-suite in a `previous chapter </guides/4.contexts>`. Now it is time to talk
+suite in a :doc:`previous chapter </guides/4.contexts>`. Now it is time to talk
 about test suites themselves. Test suite represents a group of concrete
 features together with the information on how to test them.
 
