@@ -199,7 +199,7 @@ option:
 
 .. code-block:: bash
 
-    $ vendor/bin/behat --suite=web_features
+    $ bin/behat --suite=web_features
 
 Suite Initialisation
 ---------------------
@@ -208,4 +208,3 @@ Suites are the core part of Behat. Any feature of Behat knows about
 them and can give you a hand with them. For example, if you defined
 your suites in ``behat.yml`` before running ``--init``, it will actually
 create you a folders and suites you configured instead of default ones.
-

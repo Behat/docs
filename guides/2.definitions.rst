@@ -28,7 +28,7 @@ your project's directory:
 
 .. code-block:: bash
 
-    $ vendor/bin/behat --init
+    $ bin/behat --init
 
 After you run this command, Behat will set up a ``features`` directory
 inside your project:
@@ -160,7 +160,7 @@ You can also specify alternative words and optional parts of words, like this:
      * @When there is/are :count monster(s)
      */
     public function thereAreMonsters($count) {}
-    
+
 If you need to come up with much more complicated matching algorithm, you can
 always use good old regular expressions:
 
@@ -191,7 +191,7 @@ interface and you test a feature with missing steps in Behat:
 
 .. code-block:: bash
 
-    $ vendor/bin/behat features/example.feature
+    $ bin/behat features/example.feature
 
 Behat will provide auto-generated snippets for your context class.
 
@@ -206,7 +206,7 @@ run behat with ``--append-snippets`` option:
 
 .. code-block:: bash
 
-    $ vendor/bin/behat features/example.feature --dry-run --append-snippets
+    $ bin/behat features/example.feature --dry-run --append-snippets
 
 ``--append-snippets`` tells Behat to automatically add snippets inside your
 context class.
@@ -252,7 +252,7 @@ Let's use our previously introduced feature for all the following examples:
 Successful Steps
 ~~~~~~~~~~~~~~~~
 
-When Behat finds a matching step definition it will execute it. If the 
+When Behat finds a matching step definition it will execute it. If the
 definition method does **not** throw any ``Exception``, the step is marked
 as successful (green). What you return from a definition method has no
 significance on the passing or failing status of the definition itself.
@@ -451,7 +451,7 @@ it will be followed by 1 skipped step that is marked cyan.
 
     .. code-block:: bash
 
-        $ vendor/bin/behat features/example.feature -vv
+        $ bin/behat features/example.feature -vv
 
 Skipped Steps
 ~~~~~~~~~~~~~
@@ -718,4 +718,3 @@ via a comma-delimited list of the column headers prefixed with ``table:``:
     implement them. A mistake can often introduce strange and unexpected
     behavior. Also, they are inherently hard to debug because of their
     highly dynamic nature.
-
