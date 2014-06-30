@@ -61,3 +61,10 @@ the following methods:
 * ``load()`` - loads service definitions into the container
 * ``process()`` - is run just before the container is dumped to PHP code,
   so it could still be altered
+
+.. tip::
+
+    Since the Testwork extensions are based on the Symfony's
+    DependencyInjection component, it might be handy to read
+    the component's
+    `official documentation <http://symfony.com/doc/current/components/dependency_injection/index.html>`_.
