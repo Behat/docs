@@ -187,8 +187,8 @@ Then you will be able to check installed Behat version using:
 
 .. code-block:: bash
 
-    $ vendor/bin/behat -V
-    
+    $ bin/behat -V
+
 Method #2 - PHAR (an easy one)
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
@@ -216,12 +216,12 @@ class. Lets initialise this suite:
 
 .. code-block:: bash
 
-    $ vendor/bin/behat --init
+    $ bin/behat --init
 
 .. note::
 
     If you installed Behat via PHAR, use ``php behat.phar`` instead of
-    ``vendor/bin/behat`` in the rest of this article.
+    ``bin/behat`` in the rest of this article.
 
 The ``--init`` command tells Behat to provide you with things missing
 to start testing your feature. In our case - it's just a ``FeatureContext``
@@ -234,7 +234,7 @@ I think we're ready to see Behat in action! Let's run it:
 
 .. code-block:: bash
 
-    $ vendor/bin/behat
+    $ bin/behat
 
 You should see that Behat recognised that you have 3 scenarios. Behat should
 also tell you that your ``FeatureContext`` class has missing steps and proposes
@@ -331,7 +331,7 @@ Not only that, but Behat will capture tokens (words starting with ``:``, e.g.
 
 Those patterns could be quite powerful, but at the same time, writing them for all
 possible steps manually could become extremely tedious and boring. That's why Behat
-does it for you. Remember when you previously executed ``vendor/bin/behat`` you
+does it for you. Remember when you previously executed ``bin/behat`` you
 got:
 
 .. code-block:: text
@@ -352,7 +352,7 @@ way - just run:
 
 .. code-block:: bash
 
-    $ vendor/bin/behat --dry-run --append-snippets
+    $ bin/behat --dry-run --append-snippets
 
 And Behat will automatically append all the missing step methods into your
 ``FeatureContext`` class. How cool is that?
@@ -502,7 +502,7 @@ Now try to execute your feature tests:
 
 .. code-block:: bash
 
-    $ vendor/bin/behat
+    $ bin/behat
 
 You should see a beginning of the feature and then an error saying that class ``Shelf``
 does not exist. It means we're ready to start writing actual application code!
@@ -529,7 +529,7 @@ Lets start! Run:
 
 .. code-block:: bash
 
-    $ vendor/bin/behat
+    $ bin/behat
 
 Behat will try to test your application with ``FeatureContext`` but will fail soon,
 producing something like this onto your screen:
@@ -561,7 +561,7 @@ Let's run Behat again:
 
 .. code-block:: bash
 
-    $ vendor/bin/behat
+    $ bin/behat
 
 We will get different message on our screen:
 
@@ -584,7 +584,7 @@ Run Behat again:
 
 .. code-block:: bash
 
-    $> vendor/bin/behat
+    $ bin/behat
 
 Great! Another "instruction":
 
@@ -654,7 +654,7 @@ Run Behat again:
 
 .. code-block:: bash
 
-    $ vendor/bin/behat
+    $ bin/behat
 
 All scenarios should pass now! Congratulations, you almost finished your first
 feature. The last step is to *refactor*. Look at the ``Basket`` and ``Shelf``

@@ -76,7 +76,7 @@ with the ``--init`` option inside your project directory:
 
 .. code-block:: bash
 
-    $ vendor/bin/behat --init
+    $ bin/behat --init
 
 Behat will create a few directories and a skeleton ``FeatureContext`` class
 inside your project.
@@ -340,4 +340,3 @@ And then use it in your context:
     }
 
 It will just work as you expect it to.
-
