@@ -146,12 +146,12 @@ The first ``default`` in this configuration is a name of the profile. We
 will discuss :doc:`profiles </guides/6.profiles>` a little bit later. Under
 the specific profile, we have a special ``suites`` section, which
 configures suites inside profile. We will talk about test suites in more
-detail in :doc:`next chapter </guides/5.suites>`, for now just keep in mind
-that suite is a way to tell Behat of where to find your features and
+detail in the :doc:`next chapter </guides/5.suites>`, for now just keep in mind
+that a suite is a way to tell Behat where to find your features and
 how to test them. The interesting part for us now is the ``contexts``
 section - this is an array of context class names. Behat will use classes
 specified there as your feature contexts. It simply means that every time
-Behat will see scenario in your test suite, it will:
+Behat will see a scenario in your test suite, it will:
 
 #. Get list of all context classes from this ``contexts`` option.
 
