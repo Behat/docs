@@ -1,0 +1,91 @@
+{% extends "!layout.html" %}
+
+{% set css_files = css_files + ['_static/main.css', 'http://fonts.googleapis.com/css?family=Lobster'] %}
+
+{% block content %}
+    <header>
+        <a id="logo-{{ logo_name }}" href="http://behat.org">{{ logo_name|capitalize }}</a>
+        <ul class="main-menu">
+            <li>
+                <a href="http://behat.org">main</a>
+            </li>
+            <li>
+                <a href="http://pear.behat.org">pear</a>
+            </li>
+            <li {% if 'extensions' == menu_section %}class="active"{% endif %}>
+                <a href="http://extensions.behat.org">extensions</a>
+            </li>
+            <li {% if 'behat-docs' == menu_section %}class="active"{% endif %}>
+                <a href="http://docs.behat.org">behat docs</a>
+            </li>
+            <li {% if 'mink-docs' == menu_section %}class="active"{% endif %}>
+                <a href="http://mink.behat.org">mink docs</a>
+            </li>
+        </ul>
+        <div class="install body"> 
+            <a href='http://behat.org/downloads/behat.phar' class='button phar'>Behat.phar</a> 
+            <a href='http://behat.org/downloads/mink.phar' class='button conseq'>Mink.phar</a> 
+            <a href='https://github.com/Behat' class='button github'>GitHub</a> 
+        </div>
+    </header>
+
+    <section class="docs">
+
+        <nav class="toc">
+            <h3>Chapters</h3>
+            {{ toc }}
+        </nav>
+
+        <section class="documentation">
+            {% block body %}{% endblock %}
+        </section>
+
+        {#% if pagename != 'index' %}
+            <footer>
+                <nav>
+                    {%- if prev %}
+                        &laquo; <a href="{{ prev.link|e }}">{{ prev.title }}</a> |
+                    {%- endif %}
+                        {{ title }}
+                    {%- if next %}
+                        | <a href="{{ next.link|e }}">{{ next.title }}</a> &raquo;
+                    {%- endif %}
+                </nav>
+            </footer>
+        {% endif %#}
+
+    </section>
+
+    <footer>
+        <dl>
+            <dt>Docs</dt>
+            <dd><a href="http://docs.behat.org/quick_intro.html">Behat intro</a></dd>
+            <dd><a href="http://docs.behat.org/index.html">Behat docs</a></dd>
+            <dd><a href="http://mink.behat.org/index.html">Mink docs</a></dd>
+        </dl>
+        <dl>
+            <dt>Extensions</dt>
+            <dd><a href="https://github.com/Behat/Symfony2Extension">Symfony2Extension</a></dd>
+            <dd><a href="https://github.com/Behat/MinkExtension">MinkExtension</a></dd>
+        </dl>
+        <dl>
+            <dt>Pear</dt>
+            <dd><a href="http://pear.behat.org/">Behat</a></dd>
+            <dd><a href="http://pear.behat.org/">Mink</a></dd>
+        </dl>
+        <dl>
+            <dt>GitHub</dt>
+            <dd><a href="https://github.com/Behat/Behat">Behat</a></dd>
+            <dd><a href="https://github.com/Behat/Mink">Mink</a></dd>
+        </dl>
+
+        <div class="clear"></div>
+
+        <div class="sponsor">
+            <span>sponsored by</span>
+            <a class="knp" href="http://www.knplabs.com">knpLabs, Symfony developers</a>
+        </div>
+    </footer>
+{% endblock %}
+
+{% block footer %}{% endblock %}
