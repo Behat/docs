@@ -40,52 +40,7 @@
             {% block body %}{% endblock %}
         </section>
 
-        {#% if pagename != 'index' %}
-            <footer>
-                <nav>
-                    {%- if prev %}
-                        &laquo; <a href="{{ prev.link|e }}">{{ prev.title }}</a> |
-                    {%- endif %}
-                        {{ title }}
-                    {%- if next %}
-                        | <a href="{{ next.link|e }}">{{ next.title }}</a> &raquo;
-                    {%- endif %}
-                </nav>
-            </footer>
-        {% endif %#}
-
     </section>
-
-    <footer>
-        <dl>
-            <dt>Docs</dt>
-            <dd><a href="http://docs.behat.org/quick_intro.html">Behat intro</a></dd>
-            <dd><a href="http://docs.behat.org/index.html">Behat docs</a></dd>
-            <dd><a href="http://mink.behat.org/index.html">Mink docs</a></dd>
-        </dl>
-        <dl>
-            <dt>Extensions</dt>
-            <dd><a href="https://github.com/Behat/Symfony2Extension">Symfony2Extension</a></dd>
-            <dd><a href="https://github.com/Behat/MinkExtension">MinkExtension</a></dd>
-        </dl>
-        <dl>
-            <dt>Pear</dt>
-            <dd><a href="http://pear.behat.org/">Behat</a></dd>
-            <dd><a href="http://pear.behat.org/">Mink</a></dd>
-        </dl>
-        <dl>
-            <dt>GitHub</dt>
-            <dd><a href="https://github.com/Behat/Behat">Behat</a></dd>
-            <dd><a href="https://github.com/Behat/Mink">Mink</a></dd>
-        </dl>
-
-        <div class="clear"></div>
-
-        <div class="sponsor">
-            <span>sponsored by</span>
-            <a class="knp" href="http://www.knplabs.com">knpLabs, Symfony developers</a>
-        </div>
-    </footer>
 {% endblock %}
 
 {% block footer %}{% endblock %}
