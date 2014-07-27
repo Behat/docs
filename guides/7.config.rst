@@ -1,0 +1,306 @@
+Configuration - ``behat.yml``
+=============================
+
+Sometimes, Behat's default configuration is not enough. Some day you'll need
+some extended tools to configure your feature suite. For that day, Behat has
+a very powerful configuration system based on ``YAML`` configuration files and
+profiles.
+
+``behat.yml``
+-------------
+
+All configuration happens inside a single configuration file in the ``YAML``
+format. Behat tries to load ``behat.yml`` or ``config/behat.yml`` by default,
+or you can tell Behat where your config file is with the ``--config`` option:
+
+.. code-block:: bash
+
+    $ behat --config custom-config.yml
+
+All configuration parameters in that file are defined under a profile name root
+(``default:`` for example). A profile is just a custom name you can use to
+quickly switch testing configuration by using the ``--profile`` option when
+executing your feature suite.
+
+The default profile is always ``default``. All other profiles inherit
+parameters from the ``default`` profile. If you only need one profile, define
+all of your parameters under the ``default:`` root:
+
+.. code-block:: yaml
+
+    # behat.yml
+    default:
+        #...
+
+Paths
+~~~~~
+
+The first configuration block is ``paths``. Parameters under this configuration
+block tell Behat where to find your feature and bootstrap files:
+
+.. code-block:: yaml
+    
+    # behat.yml
+    default:
+        paths:
+            features: features
+            bootstrap: %behat.paths.features%/bootstrap
+
+
+* The ``features`` parameter defines where Behat will look for your ``*.feature``
+  files. The given directory will be scanned recursivly.
+
+* The ``bootstrap`` parameter defines the directory from which Behat will
+  automatically load all ``*.php`` files.
+
+.. tip::
+
+    Notice the ``%behat.paths.features%`` placeholder. These strings are predefined
+    configuration variables, that you can use to build very flexible configurations.
+
+    A **variable** is a placeholder that consists of lower-case letters and
+    starts/ends with a single ``%``. These variables are your current
+    configuration parameters, which you can use to nest configurations.
+    Usable variables are:
+
+      1. ``%behat.paths.base%`` - current working dir or configuration path (if
+         configuration file exists and loaded).
+      2. ``%behat.paths.features%`` - features path.
+      3. ``%behat.paths.bootstrap%`` - bootstrap path.
+
+Filters
+~~~~~~~
+
+Another very useful configuration block is the ``filters`` block. This block
+defines default filters (name or tag) for your features. If you find yourself
+typing the same filters again and again from run to run, it would be more
+efficient for you to define them as parameters:
+
+.. code-block:: yaml
+
+    # behat.yml
+    default:
+        filters:
+            tags: "@wip"
+
+These filter parameters (``name`` and ``tags``) accept the same strings as
+the Behat ``--name`` or ``--tags`` parameters do.
+
+Formatter
+~~~~~~~~~
+
+If you need to customize your output formatter, the ``formatter`` block is
+right for you:
+
+.. code-block:: yaml
+
+    # behat.yml
+    default:
+        formatter:
+            name:                       pretty
+            parameters:
+                decorated:              true
+                verbose:                false
+                time:                   true
+                language:               en
+                output_path:            null
+                multiline_arguments:    true
+                #...
+
+* ``name`` defines the default output formatter name to use for your features.
+  You could write a class name here so Behat will use your custom class as the
+  default output formatter, but be careful - this class should be accessible by
+  Behat and implement ``Behat\Behat\Formatter\FormatterInterface``.
+
+* The ``parameters`` section defines additional parameters which will be
+  provided into the formatter instance. As you can see, all parameters from
+  this section duplicate ``behat`` tool options. You can redefine ``behat``
+  formatter defaults here. Also, this is the place to specify parameters for
+  your custom formatters.
+
+The YAML configuration file supports the same formatter parameters as 
+the ``behat`` tool, so you can give multiple options for e.g. different formatters. 
+This is useful when run in a continuous integration (CI) environment, so you get 
+machine-readable output for JUnit as well as human-readable text in one single run.
+
+An example that generates multiple output formats could look like this:
+
+.. code-block:: yaml
+
+    # behat.yml
+    ci:
+      formatter:
+        name:                   pretty,junit,html
+        parameters:
+          output_path:          null,junit,behat_report.html
+
+This will write pretty text output to the console, one XML file per feature
+to the junit directory and an HTML report to the file behat_report.html. See
+each formatter's documentation for details on what parameters are available,
+optional or mandatory.
+
+
+Colors
+~~~~~~
+
+.. versionadded:: 2.2
+
+As of version 2.2, you can configure Behat formatters to use specific output
+styles (colors).
+
+.. code-block:: yaml
+
+    default:
+        formatter:
+            name:               pretty
+            parameters:
+                output_styles:
+                    comment: [ black, white, [ underscore ] ]
+
+this will force Behat to print comments (key of the style) with black foreground
+(first parameter), white background (second parameter) and as underscore (list of
+options - third parameter).
+
+Styles available for redefinition:
+
+* ``undefined`` - style of undefined step
+* ``pending`` - style of pending step
+* ``pending_param`` - style of param in pending step
+* ``failed`` - style of failed step
+* ``failed_param`` - style of param in failed step
+* ``passed`` - style of passed step
+* ``passed_param`` - style of param in passed step
+* ``skipped`` - style of skipped step
+* ``skipped_param`` - style of param in skipped step
+* ``comment`` - style of comment
+* ``tag`` - style of scenario/feature tag
+
+Available colors for first two arguments (``fg`` and ``bg``) are: ``black``, ``red``,
+``green``, ``yellow``, ``blue``, ``magenta``, ``cyan``, ``white``
+
+Available options are: ``bold``, ``underscore``, ``blink``, ``reverse``, ``conceal``
+
+Context
+~~~~~~~
+
+Sometimes you may want to use a different default :doc:`context </guides/4.context>`
+class or provide useful parameters for the context constructor from your
+``behat.yml``. Use the ``context`` block to set these options:
+
+.. code-block:: yaml
+
+    # behat.yml
+    default:
+        context:
+            class:          Your\Custom\Context
+            parameters:
+                base_url:   http://test.mink.loc
+
+* ``class`` defines which class you want to use as the environment. This class
+  should be accessible by Behat and implement ``Behat\Behat\Context\ContextInterface``.
+
+* ``parameters`` parameters is a simple array that will be passed into the constructor
+  of your context class when instantiated, which happens before each scenario.
+
+Profiles
+--------
+
+Profiles help you define different configurations for running your feature
+suite. Let's say we need 2 different configurations that share
+common options, but use different formatters. Our ``behat.yml`` might
+look like this:
+
+.. code-block:: yaml
+
+    # behat.yml
+    default:
+        context:
+            class:      Your\Custom\Context
+    wip:
+        filters:
+            tags:       "@wip"
+        formatter:
+            name:       progress
+    ci:
+        formatter:
+            name:       junit
+            parameters:
+                output_path: /var/tmp/junit
+
+This file defines 2 additional profiles (additional to default). Every profile
+will use ``Your\Custom\Context`` as its environment object, but the ``wip``
+profile will run only scenarios with the ``@wip`` (work in progress) tag and
+will output them with the ``progress`` formatter. The ``ci`` profile will run
+all features and output them with the ``junit`` formatter to the
+``/var/tmp/junit`` path.
+
+To run each of these custom profiles, use the ``--profile`` option:
+
+.. code-block:: bash
+
+    behat --profile wip
+    behat --profile ci
+
+Extensions
+----------
+
+The ``extensions`` block allows you to activate extensions for your suite
+or for specific profile of the suite:
+
+.. code-block:: yaml
+
+    # behat.yml
+    default:
+      extensions:
+        Behat\Symfony2Extension\Extension: ~
+
+    mink:
+      extensions:
+        mink-extension.phar:
+          base_url: http://domain.org
+
+    api:
+      extensions:
+        Behat\WebApiExtension\Extension:
+          base_url: http://api.domain.org
+
+In the example above, we activate 2 extensions depending on profile. ``mink`` profile
+will have activate ``MinkExtension`` and ``api`` profile will have ``WebApiExtension``,
+but both of them will also have ``Symfony2Extension`` activated as any profile always inherit
+from ``default`` profile.
+
+Extensions help you integrate Behat with frameworks and tools, that you might need
+to ease your test suite building.
+
+Imports
+-------
+
+The ``imports`` block allows you to share your feature suite configuration
+between projects and their test suites:
+
+.. code-block:: yaml
+
+    # behat.yml
+    imports:
+        - some_installed_pear_package_or_lib/behat.yml
+        - /full/path/to/custom_behat_config.yml
+
+All files from the ``imports`` block will be loaded by Behat and merged into
+your ``behat.yml`` config.
+
+Environment Variable
+--------------------
+
+.. versionadded:: 2.2.5
+
+If you want to configure some system-wide Behat defaults, then ``BEHAT_PARAMS``
+environment variable is right for you:
+
+.. code-block:: bash
+
+    export BEHAT_PARAMS="formatter[name]=progress&context[parameters][base_url]=http://localhost"
+
+You could setup default value for any option, that available for you in ``behat.yml``.
+Just provide options in *url* format (parseable by ``parse_str()`` php function).
+Behat will use those options as default ones and you will always be able to redefine
+them with project ``behat.yml`` (it has higher priority).

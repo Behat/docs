@@ -1,26 +1,27 @@
 Hooking into the Test Process - Hooks
 =====================================
 
-You've learned :doc:`how to write step definitions </guides/2.definitions>` and
-that with :doc:`Gherkin </guides/1.gherkin>` you can move common steps into the
+You've learned :doc:`how to write step definitions</guides/2.definitions>` and
+that with :doc:`Gherkin</guides/1.gherkin>` you can move common steps into the
 background block, making your features DRY. But what if that's not enough? What
 if you want to execute some code before the whole test suite or after a
 specific scenario? Hooks to the rescue:
 
 .. code-block:: php
 
-    // features/bootstrap/FeatureContext.php
+    # features/bootstrap/FeatureContext.php
+    <?php
 
-    use Behat\Behat\Context\Context;
-    use Behat\Testwork\Hook\Scope\BeforeSuiteScope;
-    use Behat\Behat\Hook\Scope\AfterScenarioScope;
+    use Behat\Behat\Context\BehatContext,
+        Behat\Behat\Event\SuiteEvent,
+        Behat\Behat\Event\ScenarioEvent;
 
-    class FeatureContext implements Context
+    class FeatureContext extends BehatContext
     {
         /**
          * @BeforeSuite
          */
-         public static function prepare(BeforeSuiteScope $scope)
+         public static function prepare(SuiteEvent $event)
          {
              // prepare system for test suite
              // before it runs
@@ -29,129 +30,128 @@ specific scenario? Hooks to the rescue:
          /**
           * @AfterScenario @database
           */
-         public function cleanDB(AfterScenarioScope $scope)
+         public function cleanDB(ScenarioEvent $event)
          {
              // clean database after scenarios,
              // tagged with @database
          }
     }
 
-Behat Hook System
------------------
+Behat Event System
+------------------
 
-Behat provides a number of hook points which allow us to run arbitrary
-logic at various points in the Behat test cycle. Hooks are a lot like
-step definitions or transformations - they are just a simple methods
-with special annotations inside your context classes. There is no
-association between where the hook is defined and which node it is run
-for, but you can use tagged or named hooks if you want more fine grained
-control.
+Before understanding what hooks really are and how to use them, you should
+first understand how Behat actually works (on the highest possible level).
+Consider this diagram:
 
-All defined hooks are run whenever the relevant action occurs. The action
-tree looks something like that:
+.. image:: /images/event-system-scheme.png
+   :align: center
 
-.. code-block:: text
+Let's explain it a little bit:
 
-    ├── Suite #1
-    │   ├── Feature #1
-    │   │   ├── Scenario #1
-    │   │   │   ├── Step #1
-    │   │   │   └── Step #2
-    │   │   └── Scenario #2
-    │   │       ├── Step #1
-    │   │       └── Step #2
-    │   └── Feature #2
-    │       └── Scenario #1
-    │           └── Step #1
-    └── Suite #2
-        └── Feature #1
-            └── Scenario #1
-                └── Step #1
+1. First, Behat reads all features files that you provide to it.
 
-This is a basic test cycle in Behat. There are many test suites, each of
-which has many features, which themselves have many scenarios with many
-steps. Note that when Behat actually runs, scenario outline examples are
-interpreted as scenarios - meaning each outline example becomes an actual
-scenario in this action tree.
+2. Second, Behat passes the loaded feature files to the Gherkin parser,
+   which builds an abstract syntax tree out of every one of them.
+
+3. Next, Behat passes every parsed feature tree into the feature tester.
+
+4. The feature tester retrieves all scenarios in the passed feature and
+   passes them further along to the scenario tester.
+
+5. The scenario tester initializes a context object out of your ``FeatureContext``
+   class and passes it, with all scenario step nodes and background step nodes
+   (if the feature has them), further to the step tester.
+
+6. The step tester searches for matching step definitions in the provided
+   context object and, if it finds one, executes it.
+
+That's basically it! Behat exits when it finishes executing the last step in
+the last scenario of the last parsed feature.
+
+Here's a good question for you to consider: how does Behat print suite execution
+information into the console and collect statistics to be printed after? The
+answer is hidden in the `Observer Design Pattern <http://en.wikipedia.org/wiki/Observer_pattern>`_.
+
+On every point of execution, testers initialize special objects called
+*events* (in green text in the diagram) and send them to a special ``EventDispatcher``
+object (green square in the diagram). Other objects, called *listeners* (blue
+squares in the diagram) register on ``EventDispatcher`` to be able to receive those
+events. ``EventDispatcher`` automatically dispatches received events to registered
+listeners that are capable of handling a particular event type.
+
+That's how statistic collectors, formatters and hooks work. They just provide
+listeners to some type of Behat lifetime events.
 
 Hooks
 -----
-Hooks allow you to execute your custom code just before or just after each
-of these actions. Behat allows you to use next hooks:
 
-#. ``BeforeSuite`` hook is ran before any feature in the suite runs. For
+Behat hooks are a simple way to execute code when core Behat events occur.
+Behat provides 8 event types for you to hook into:
+
+1. The ``BeforeSuite`` event happens before any feature in the suite runs. For
    example, you could use this to setup the project you are testing. This
-   hook receives an optional argument with an instance of the
-   ``Behat\Testwork\Hook\Scope\BeforeSuiteScope`` class.
+   event comes with an instance of the ``Behat\Behat\Event\SuiteEvent`` class.
 
-#. ``AfterSuite`` hook is ran after all features in the suite have run.
-   This hooks is useful to dump or print some kind of statistics or tear
-   down your application after testing. This hook receives an optional
-   argument with an instance of the
-   ``Behat\Testwork\Hook\Scope\AfterSuiteScope`` class.
+2. The ``AfterSuite`` event happens after all features in the suite have run.
+   This event is used internally for statistics printing. This event comes with
+   an instance of the ``Behat\Behat\Event\SuiteEvent`` class.
 
-#. ``BeforeFeature`` hook is ran before a feature runs. This hook receives
-   an optional argument with an instance of the
-   ``Behat\Behat\Hook\Scope\BeforeFeatureScope`` class.
+3. The ``BeforeFeature`` event occurs before a feature runs. This event comes
+   with an instance of the ``Behat\Behat\Event\FeatureEvent`` class.
 
-#. ``AfterFeature`` hook is ran after Behat finishes executing a feature.
-   This hook receives an optional argument with an instance of the
-   ``Behat\Behat\Hook\Scope\AfterFeatureScope`` class.
+4. The ``AfterFeature`` event occurs after Behat finishes executing a feature.
+   This event comes with an instance of the ``Behat\Behat\Event\FeatureEvent``
+   class.
 
-#. ``BeforeScenario`` hook is ran before a specific scenario will run. This
-   hook receives an optional argument with an instance of the
-   ``Behat\Behat\Hook\Scope\BeforeScenarioScope`` class.
+5. The ``BeforeScenario`` event occurs before a specific scenario will run. This
+   event comes with an instance of the ``Behat\Behat\Event\ScenarioEvent``
+   class.
 
-#. ``AfterScenario`` hook is ran after Behat finishes executing a scenario.
-   This hook receives an optional argument with an instance of the
-   ``Behat\Behat\Hook\Scope\AfterScenarioScope`` class.
+6. The ``AfterScenario`` event occurs after Behat finishes executing a scenario.
+   This event comes with an instance of the ``Behat\Behat\Event\ScenarioEvent``
+   class.
 
-#. ``BeforeStep`` hook is ran before a step runs. This hook receives an
-   optional argument with an instance of the
-   ``Behat\Behat\Hook\Scope\BeforeStepScope`` class.
+7. The ``BeforeStep`` event occurs before a specific step runs. This event comes
+   with an instance of the ``Behat\Behat\Event\StepEvent`` class.
 
-#. ``AfterStep`` hook is ran after Behat finishes executing a step. This
-   hook receives an optional argument  with an instance of the
-   ``Behat\Behat\Hook\Scope\AfterStepScope`` class.
+8. The ``AfterStep`` event occurs after Behat finishes executing a step. This
+   event comes with an instance of the ``Behat\Behat\Event\StepEvent`` class.
 
-You can use any of these hooks by annotating any of your methods in your context
-class:
+You can hook into any of these events by using annotations on methods in your
+``FeatureContext`` class:
 
 .. code-block:: php
 
     /**
      * @BeforeSuite
      */
-    public static function prepare($scope)
+    public static function prepare(SuiteEvent $event)
     {
         // prepare system for test suite
         // before it runs
     }
 
-We use annotations as we did before with :doc:`definitions </guides/2.definitions>`.
-Simply use the annotation of the name of the hook you want to use (e.g.
-``@BeforeSuite``).
+We use annotations as we did before with `definitions </guides/2.definitions>`_.
+Simply use the annotation of the name of the event you want to hook into (e.g.
+@BeforeSuite).
 
 Suite Hooks
 -----------
 
-Suite hooks are ran outside of the scenario context. It means that your context
-class (e.g. ``FeatureContext``) is not instantiated yet and the only way Behat
-can execute code in it is through the static calls. That is why suite hooks must
-be defined as static methods in the context class:
+Suite hooks are triggered before or after actual scenarios, so
+``FeatureContext`` is used. So suite hooks should be defined as
+``public static`` methods in your ``FeatureContext`` class:
 
 .. code-block:: php
 
-    use Behat\Testwork\Hook\Scope\BeforeSuiteScope;
-    use Behat\Testwork\Hook\Scope\AfterSuiteScope;
-
     /** @BeforeSuite */
-    public static function setup(BeforeSuiteScope $scope)
+    public static function setup(SuiteEvent $event)
     {
     }
 
     /** @AfterSuite */
-    public static function teardown(AfterSuiteScope $scope)
+    public static function teardown(SuiteEvent $event)
     {
     }
 
@@ -160,54 +160,73 @@ There are two suite hook types available:
 * ``@BeforeSuite`` - executed before any feature runs.
 * ``@AfterSuite`` - executed after all features have run.
 
+Both hooks receive ``Behat\Behat\Event\SuiteEvent`` as their argument. This
+object has some useful methods for you to consider:
+
+* ``getContextParameters()`` - returns an array of parameters for your context
+  instance.
+
+* ``getLogger()`` - returns ``Behat\Behat\DataCollector\LoggerDataCollector``
+  instance, which holds all suite run statistics.
+
+* ``isCompleted()`` - returns ``true`` when the whole suite is successfully executed,
+  or ``false`` when the suite is not executed (``@BeforeSuite`` or
+  ``@AfterSuite`` after ``SIGINT``).
+
 Feature Hooks
 -------------
 
-Same as suite hooks, feature hooks are ran outside of the scenario context.
-So same as suite hooks, your feature hooks should be defined as static methods
-inside your context:
+Feature hooks are triggered before or after each feature runs. Like
+`Suite Hooks`_, a ``FeatureContext`` instance is not created. Feature hooks
+should also be defined as ``public static`` methods:
 
 .. code-block:: php
 
-    use Behat\Behat\Hook\Scope\BeforeFeatureScope;
-    use Behat\Behat\Hook\Scope\AfterFeatureScope;
-
     /** @BeforeFeature */
-    public static function setupFeature(BeforeFeatureScope $scope)
+    public static function setupFeature(FeatureEvent $event)
     {
     }
 
     /** @AfterFeature */
-    public static function teardownFeature(AfterFeatureScope $scope)
+    public static function teardownFeature(FeatureEvent $event)
     {
     }
 
 
 There are two feature hook types available:
 
-* ``@BeforeFeature`` - gets executed before every feature in suite.
-* ``@AfterFeature`` - gets executed after every feature in suite.
+* ``@BeforeFeature`` - gets executed before every feature in the suite.
+* ``@AfterFeature`` - gets executed after every feature in the suite.
+
+Both hooks receive ``Behat\Behat\Event\FeatureEvent`` as their argument. This
+object has useful methods for you:
+
+* ``getContextParameters()`` - returns an array of parameters for your context
+  instance.
+
+* ``getFeature()`` - returns a ``Behat\Gherkin\Node\FeatureNode`` instance, which
+  is an abstract syntax tree representing the whole feature.
+
+* ``getResult()`` - returns the resulting (highest) feature run code: ``4`` when
+  the feature has failed steps, ``3`` when the feature has undefined steps, ``2`` when
+  the feature has pending steps and ``0`` when all steps are passing.
 
 Scenario Hooks
 --------------
 
 Scenario hooks are triggered before or after each scenario runs. These
-hooks are executed inside an initialized context instance, so not only they
-could be a simple context instance methods, they will also have access to
-any ivars you set during your scenario:
+hooks are executed inside an initialized ``FeatureContext`` instance, so they
+are just plain ``FeatureContext`` instance methods:
 
 .. code-block:: php
 
-    use Behat\Behat\Hook\Scope\BeforeScenarioScope;
-    use Behat\Behat\Hook\Scope\AfterScenarioScope;
-
     /** @BeforeScenario */
-    public function before(BeforeScenarioScope $scope)
+    public function before($event)
     {
     }
 
     /** @AfterScenario */
-    public function after(AfterScenarioScope $scope)
+    public function after($event)
     {
     }
 
@@ -221,30 +240,73 @@ Now, the interesting part:
 The ``@BeforeScenario`` hook executes not only
 before each scenario in each feature, but before **each example row** in
 the scenario outline. Yes, each scenario outline example row works almost the
-same as a usual scenario.
+same as a usual scenario, except that it sends a different event:
+``Behat\Behat\Event\OutlineExampleEvent``.
 
-``@AfterScenario`` functions exactly the same way, being executed both after
-usual scenarios and outline examples.
+``@AfterScenario`` functions exactly the same way, except after each scenario
+in each feature.
+
+So, the ``@BeforeScenario`` or ``@AfterScenario`` hook will receive either a
+``Behat\Behat\Event\ScenarioEvent`` or ``Behat\Behat\Event\OutlineExampleEvent``
+instance, depending on the situation. It's your job to differentiate between
+them if needed.
+
+``Behat\Behat\Event\ScenarioEvent`` has the following methods:
+
+* ``getScenario()`` - returns a ``Behat\Gherkin\Node\ScenarioNode`` instance,
+  which is an abstract syntax tree node representing a specific scenario.
+
+* ``getContext()`` - returns a ``FeatureContext`` instance. But take note!
+  Because your hook method is already defined inside ``FeatureContext``,
+  the ``FeatureContext`` instance passed with the event is **the same object**
+  accessible from within the method itself by using ``$this->``. The instance
+  passed with the event isn't very useful in this case.
+
+* ``getResult()`` - returns the resulting (highest) step run code. ``4`` when
+  the scenario has failed steps, ``3`` when the scenario has undefined steps, ``2`` when
+  the scenario has pending steps and ``0`` when all steps are passing.
+
+* ``isSkipped()`` - returns ``true`` if the scenario has skipped steps (steps
+  that follow **pending**, **undefined** or **failed** steps).
+
+``Behat\Behat\Event\OutlineExampleEvent`` has the following methods:
+
+* ``getOutline()`` - returns a ``Behat\Gherkin\Node\OutlineNode`` instance,
+  which is an abstract syntax tree node representing a specific scenario
+  outline.
+
+* ``getIteration()`` - returns an integer representing the example row number
+  that sent this event.
+
+* ``getContext()`` - returns a ``FeatureContext`` instance. But take note!
+  Because your hook method is already defined inside ``FeatureContext``,
+  the ``FeatureContext`` instance passed with the event is **the same object**
+  accessible from within the method itself by using ``$this->``. The instance
+  passed with the event isn't very useful in this case.
+
+* ``getResult()`` - returns the resulting (highest) step run code. This returned value
+  is one of StepEvent constants: ``4`` when an examples row has failed steps, ``3`` when
+  a row has undefined steps, ``2`` when a row has pending steps and ``0`` when all steps
+  are passing.
+
+* ``isSkipped()`` - returns ``true`` if the scenario has skipped steps (steps
+  that follow **pending**, **undefined** or **failed** steps).
 
 Step Hooks
 ----------
-
 Step hooks are triggered before or after each step runs. These hooks are
-ran inside an initialized context instance, so they are just plain context
-instance methods in the same way as scenario hooks are:
+executed inside an initialized ``FeatureContext`` instance, so they
+are just plain ``FeatureContext`` instance methods:
 
 .. code-block:: php
 
-    use Behat\Behat\Hook\Scope\BeforeStepScope;
-    use Behat\Behat\Hook\Scope\AfterStepScope;
-
     /** @BeforeStep */
-    public function beforeStep(BeforeStepScope $scope)
+    public function beforeStep(StepEvent $event)
     {
     }
 
     /** @AfterStep */
-    public function after(AfterStepScope $scope)
+    public function after(StepEvent $event)
     {
     }
 
@@ -253,6 +315,38 @@ There are two step hook types available:
 
 * ``@BeforeStep`` - executed before every step in each scenario.
 * ``@AfterStep`` - executed after every step in each scenario.
+
+Both hooks receive ``Behat\Behat\Event\StepEvent`` as their argument. This
+object has the following methods:
+
+* ``getStep()`` - returns a ``Behat\Gherkin\Node\StepNode`` instance, which is an
+  abstract syntax tree node representing a scenario step.
+
+* ``getContext()`` - returns a ``FeatureContext`` instance. But take note!
+  Because your hook method is already defined inside ``FeatureContext``,
+  the ``FeatureContext`` instance passed with the event is **the same object**
+  accessible from within the method itself by using ``$this->``. The instance
+  passed with the event isn't very useful in this case.
+
+* ``getResult()`` - returns the resulting step run code. ``4`` when the step has
+  failed, ``3`` when the step is undefined, ``2`` when the step is pending,
+  ``1`` when the step has been skipped and ``0`` when the step is passing.
+
+* ``hasDefinition()`` - returns ``true`` if a definition for the current step is
+  found.
+
+* ``getDefinition()`` - returns ``Behat\Behat\Definition\DefinitionInterface``
+  implementation, which represents the matched step definition for this step.
+
+* ``hasException()`` - returns ``true`` if the step threw an exception during
+  its execution.
+
+* ``getException()`` - returns an exception instance thrown from within the
+  step, if one was thrown.
+
+* ``hasSnippet()`` - returns ``true`` if the step is undefined.
+
+* ``getSnippet()`` - returns the step snippet if the step is undefined.
 
 Tagged Hooks
 ------------
@@ -287,4 +381,3 @@ Use the ``&&`` tag to execute a hook only when it has *all* provided tags:
         // before @database @fixtures
         // scenarios
     }
-

@@ -1,696 +1,610 @@
 Quick Intro to Behat
 ====================
 
-Welcome to Behat! Behat is a tool to close the `behavior driven development`_
-(BDD) communication loop. BDD is a methodology of developing software through
-continuous example-based communication between developers and business,
-which this application supports. This communication happens in a form that
-both business and developers can clearly understand - examples. Examples are
-structured around ``Context-Action-Outcome`` pattern and are written in a
-special format called *Gherkin*. The fact that Gherkin is a very structural
-makes it very easy to automate and autotest your behaviour examples against
-a developing application. Automated examples are then actually used to drive
-this application development TDD-style.
+Welcome to Behat! Behat is a tool that makes `behavior driven development`_
+(BDD) possible. With BDD, you write human-readable stories that describe
+the behavior of your application. These stories can then be auto-tested against
+your application. And yes, it's as cool as it sounds!
 
-Examples
---------
-
-Let's imagine that you are building a completely new e-commerce platform.
-One of the key features of any online shopping platform is ability to buy
-products. But before buying anything, customers should be able to tell the
-system which products they are interested in buying. You need a basket.
-So let's write our first user-story:
+For example, imagine you've been hired to build the famous ``ls`` UNIX command.
+A stakeholder may say to you:
 
 .. code-block:: gherkin
 
-    Feature: Product basket
-      In order to buy products
-      As a customer
-      I need to be able to put interesting products into a basket
+    Feature: ls
+      In order to see the directory structure
+      As a UNIX user
+      I need to be able to list the current directory's contents
+
+      Scenario: List 2 files in a directory
+        Given I am in a directory "test"
+        And I have a file named "foo"
+        And I have a file named "bar"
+        When I run "ls"
+        Then I should get:
+          """
+          bar
+          foo
+          """
+
+In this tutorial, we'll show you how Behat can execute this simple story
+as a test that verifies that the ``ls`` commands works as described.
+
+That's it! Behat can be used to test anything, including web-related behavior
+via the `Mink`_ library.
 
 .. note::
 
-    This is a basic Gherkin feature and it is a simple description of
-    this feature's story. Every feature starts with this same format: a
-    line with the title of the feature, followed by three lines that
-    describe the benefit, the role and the feature itself with any
-    amount of additional description lines following after.
-
-Before we begin to work on this feature, we must fulfil a promise of any
-user-story and have a real conversation with our business stakeholders.
-They might say that they want customers to see not only the combined
-price of the products in the basket, but the price reflecting both the
-VAT (20%) and the delivery cost (which depends on the total price of
-the products):
-
-.. code-block:: gherkin
-
-    Feature: Product basket
-      In order to buy products
-      As a customer
-      I need to be able to put interesting products into a basket
-
-      Rules:
-      - VAT is 20%
-      - Delivery for basket under £10 is £3
-      - Delivery for basket over £10 is £2
-
-So as you can see, it already becomes tricky (ambiguous at least) to talk
-about this feature in *rules* terms. What does it mean to add VAT? What
-happens when we have two products one of which is less that 10 and another
-is more? So instead you proceed with having a back-and-forth chat with
-stakeholders in form of actual examples of *customer* adding products to
-the basket. After some time, you come up with your first behaviour
-examples (in BDD these are called *scenarios*):
-
-.. code-block:: gherkin
-
-    Feature: Product basket
-      In order to buy products
-      As a customer
-      I need to be able to put interesting products into a basket
-
-      Rules:
-      - VAT is 20%
-      - Delivery for basket under £10 is £3
-      - Delivery for basket over £10 is £2
-
-      Scenario: Buying a single product under £10
-        Given there is a "Sith Lord Lightsaber", which costs £5
-        When I add the "Sith Lord Lightsaber" to the basket
-        Then I should have 1 product in the basket
-        And the overall basket price should be £9
-
-      Scenario: Buying a single product over £10
-        Given there is a "Sith Lord Lightsaber", which costs £15
-        When I add the "Sith Lord Lightsaber" to the basket
-        Then I should have 1 product in the basket
-        And the overall basket price should be £20
-
-      Scenario: Buying two products over £10
-        Given there is a "Sith Lord Lightsaber", which costs £10
-        And there is a "Jedi Lightsaber", which costs £5
-        When I add the "Sith Lord Lightsaber" to the basket
-        And I add the "Jedi Lightsaber" to the basket
-        Then I should have 2 products in the basket
-        And the overall basket price should be £20
+    If you want to learn more about the philosophy of testing the "behavior"
+    of your application, see `What's in a Story?`_
 
 .. note::
 
-    Each scenario always follows the same basic format:
-
-    .. code-block:: gherkin
-
-        Scenario: Some description of the scenario
-          Given some context
-          When some event
-          Then outcome
-
-    Each part of the scenario - the *context*, the *event*,  and the
-    *outcome* - can be extended by adding the ``And`` or ``But`` keyword:
-
-    .. code-block:: gherkin
-
-        Scenario: Some description of the scenario
-          Given some context
-          And more context
-          When some event
-          And second event occurs
-          Then outcome
-          And another outcome
-          But another outcome
-
-    There's no actual difference between, ``Then``, ``And`` ``But`` or any
-    of the other words that start each line. These keywords are all made
-    available so that your scenarios are natural and readable.
-
-This is yours and stakeholders shared understanding of the project written
-in the structured format. It is all based on the clear and constructive
-conversation you had together. Now you can put this text in a simple file -
-``features/basket.feature`` - under your project directory and start
-implementing the feature by manually checking if it fits the defined scenarios.
-No tools (Behat in our case) needed. That, in essence, is what BDD is.
-
-If you are still reading, it means you are expecting more. Good! Because
-even though tools are not the central piece of BDD puzzle, they do improve
-the entire process and add a lot of benefits on top of it. For one, tools
-like Behat actually do close the communication loop of the story. It means
-that not only you and your stakeholder can together define how your
-feature should work before going to implement it, BDD tools allow you to
-automate that behaviour check after this feature is implemented. So everybody
-knows when it is done and when the team can stop writing code. That, in
-essence, is what Behat is.
-
-Behat is an executable that you'll run from the command line to test that your
-application behaves exactly as you described in your ``*.feature`` scenarios.
-
-Going forward, we'll show you how Behat can be used to automate this particular
-basket feature as a test verifying that the application (existing or not)
-works as you and your stakeholders expect (according to your conversation) it
-to.
-
-That's it! Behat can be used to automate anything, including web-related
-functionality via the `Mink`_ library.
-
-.. note::
-
-    If you want to learn more about the philosophy of a "Behaviour Driven
-    Development" of your application, see `What's in a Story?`_
-
-.. note::
-
-    Behat was heavily inspired by Ruby's `Cucumber`_ project. Since v3.0,
-    Behat is considered an official Cucumber implementation in PHP and is part
-    of one big BDD tools family.
+    Behat was inspired by Ruby's `Cucumber`_ project.
 
 Installation
 ------------
 
-Before you begin, ensure that you have at least PHP 5.3.3 installed.
+Behat is an executable that you'll run from the command line to execute your
+stories as tests. Before you begin, ensure that you have at least PHP 5.3.1
+installed.
 
-Method #1 - Composer (the recommended one)
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+Method #1 (Composer)
+~~~~~~~~~~~~~~~~~~~~
 
-The official way to install Behat is through Composer. Composer is a package
-manager for PHP. Not only can it install Behat for you right now, it will be
-able to easily update you to the latest version later when one comes out. If
-you don't have Composer already, see
-`the Composer documentation <https://getcomposer.org/download/>`_ for
-instructions. After that, just go into your project directory (or create a
-new one) and run:
+The simplest way to install Behat is through Composer.
 
-.. code-block:: bash
+Create ``composer.json`` file in the project root:
 
-    $ php composer.phar require --dev behat/behat=~3.0.4
+.. code-block:: js
 
-Then you will be able to check installed Behat version using:
+    {
+        "require": {
+            "behat/behat": "2.4.*@stable"
+        },
+        "minimum-stability": "dev",
+        "config": {
+            "bin-dir": "bin/"
+        }
+    }
 
-.. code-block:: bash
-
-    $ vendor/bin/behat -V
-    
-Method #2 - PHAR (an easy one)
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-
-An easier way to install Behat is to grab a latest ``behat.phar`` from
-`the download page <https://github.com/Behat/Behat/releases>`_. Make sure
-that you download a ``3+`` release. After downloading it, just place it in
-your project folder (or create a new one) and check the installed version using:
+Then download ``composer.phar`` and run ``install`` command:
 
 .. code-block:: bash
 
-    $ php behat.phar -V
-
-Development
------------
-
-Now we will use our newly installed Behat to automate our previously written
-feature under the ``features/basket.feature``.
-
-Our first step after describing the feature and installing Behat is configuring
-the test suite. A test suite is a key concept in Behat. Suites are a way for Behat
-to know where to find and how to test your application against your features.
-By default, Behat comes with a ``default`` suite, which tells Behat to search
-for features under the ``features/`` folder and test them using ``FeatureContext``
-class. Lets initialise this suite:
-
-.. code-block:: bash
-
-    $ vendor/bin/behat --init
+    $ curl http://getcomposer.org/installer | php
+    $ php composer.phar install
 
 .. note::
 
-    If you installed Behat via PHAR, use ``php behat.phar`` instead of
-    ``vendor/bin/behat`` in the rest of this article.
+    Composer uses GitHub zipball service by default and this
+    service is known for outages from time to time. If you get
 
-The ``--init`` command tells Behat to provide you with things missing
-to start testing your feature. In our case - it's just a ``FeatureContext``
-class under the ``features/bootstrap/FeatureContext.php`` file.
+    .. code-block:: bash
+
+        The ... file could not be downloaded (HTTP/1.1 502 Bad Gateway)
+
+    during installation, just use ``--prefer-source`` option:
+
+    .. code-block:: bash
+
+        $ php composer.phar install --prefer-source
+
+After that, you will be able to run Behat with:
+
+.. code-block:: bash
+
+    $ bin/behat
+
+Method #2 (PHAR)
+~~~~~~~~~~~~~~~~
+
+Also, you can use behat phar package:
+
+.. code-block:: bash
+
+    $ wget https://github.com/downloads/Behat/Behat/behat.phar
+
+Now you can execute Behat by simply running phar archive through ``php``:
+
+.. code-block:: bash
+
+    $ php behat.phar
+
+Method #3 (Git)
+~~~~~~~~~~~~~~~
+
+You can also clone the project with Git by running:
+
+.. code-block:: bash
+
+    $ git clone git://github.com/Behat/Behat.git && cd Behat
+    $ git submodule update --init
+
+Then download ``composer.phar`` and run ``install`` command:
+
+.. code-block:: bash
+
+    $ wget -nc http://getcomposer.org/composer.phar
+    $ php composer.phar install
+
+After that, you will be able to run Behat with:
+
+.. code-block:: bash
+
+    $ bin/behat
+
+Basic Usage
+-----------
+
+In this example, we'll rewind several decades and pretend we're building
+the original UNIX ``ls`` command. Create a new directory and setup behat
+inside that directory:
+
+.. code-block:: bash
+
+    $ mkdir ls_project
+    $ cd ls_project
+    $ behat --init
+
+The ``behat --init`` will create a ``features/`` directory with some basic
+things to get your started.
+
+Define your Feature
+~~~~~~~~~~~~~~~~~~~
+
+Everything in Behat always starts with a *feature* that you want to describe
+and then implement. In this example, the feature will be the ``ls`` command,
+which can be thought of as one feature of the whole UNIX system. Since the
+feature is the ``ls`` command, start by creating a ``features/ls.feature``
+file:
+
+.. code-block:: gherkin
+
+    # features/ls.feature
+    Feature: ls
+      In order to see the directory structure
+      As a UNIX user
+      I need to be able to list the current directory's contents
+
+Every feature starts with this same format: a line naming the feature, followed
+by three lines that describe the benefit, the role and the feature itself.
+And while this section is required, its contents aren't actually important
+to Behat or your eventual test. This section is important, however, so that
+each feature is described consistently and is readable by other people.
+
+Define a Scenario
+~~~~~~~~~~~~~~~~~
+
+Next, add the following scenario to the end of the ``features/ls.feature``
+file:
+
+.. code-block:: gherkin
+
+    Scenario: List 2 files in a directory
+      Given I am in a directory "test"
+      And I have a file named "foo"
+      And I have a file named "bar"
+      When I run "ls"
+      Then I should get:
+        """
+        bar
+        foo
+        """
+
+.. tip::
+
+    The special ``"""`` syntax seen on the last few lines is just a special
+    syntax for defining steps on multiple lines. Don't worry about it too
+    much for now.
+
+Each feature is defined by one or more "scenarios", which explain how that
+feature should act under different conditions. This is the part that will
+be transformed into a test. Each scenario always follows the same basic format:
+
+.. code-block:: gherkin
+
+    Scenario: Some description of the scenario
+      Given [some context]
+      When [some event]
+      Then [outcome]
+
+Each part of the scenario - the *context*, the *event*,  and the *outcome* -
+can be extended by adding the ``And`` or ``But`` keyword:
+
+.. code-block:: gherkin
+
+    Scenario: Some description of the scenario
+      Given [some context]
+        And [more context]
+       When [some event]
+        And [second event occurs]
+       Then [outcome]
+        And [another outcome]
+        But [another outcome]
+
+There's no actual difference between ``Then``, ``And``, ``But`` or any of
+the other words that start each line. These keywords are all made available
+so that your scenarios are natural and readable.
 
 Executing Behat
 ~~~~~~~~~~~~~~~
 
-I think we're ready to see Behat in action! Let's run it:
+You've now defined the feature and one scenario for that feature. You're
+ready to see Behat in action! Try executing Behat from inside your ``ls_project``
+directory:
 
 .. code-block:: bash
 
-    $ vendor/bin/behat
+    $ behat
 
-You should see that Behat recognised that you have 3 scenarios. Behat should
-also tell you that your ``FeatureContext`` class has missing steps and proposes
-step snippets for you. ``FeatureContext`` is your test environment. It is an
-object through which you will describe how you would test your application against
-your features. It was generated by the ``--init`` command and now looks like this:
+If everything worked correctly, you should see something like this:
+
+.. image:: /images/ls_no_defined_steps.png
+   :align: center
+
+Writing your Step definitions
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+Behat automatically finds the ``features/ls.feature`` file and tries to execute
+its ``Scenario`` as a test. However, we haven't told Behat what to do with
+statements like ``Given I am in a directory "test"``, which causes an error.
+Behat works by matching each statement of a ``Scenario`` to a list of regular
+expression "steps" that you define. In other words, it's your job to tell
+Behat what to do when it sees ``Given I am in a directory "test"``. Fortunately,
+Behat helps you out by printing the regular expression that you probably
+need in order to create that step definition:
+
+.. code-block:: text
+
+    You can implement step definitions for undefined steps with these snippets:
+
+        /**
+         * @Given /^I am in a directory "([^"]*)"$/
+         */
+        public function iAmInADirectory($argument1)
+        {
+            throw new PendingException();
+        }
+
+Let's use Behat's advice and add the following to the ``features/bootstrap/FeatureContext.php``
+file, renaming ``$argument1`` to ``$dir``, simply for clarity:
 
 .. code-block:: php
 
-    // features/bootstrap/FeatureContext.php
+    # features/bootstrap/FeatureContext.php
+    <?php
 
-    use Behat\Behat\Context\SnippetAcceptingContext;
-    use Behat\Gherkin\Node\PyStringNode;
-    use Behat\Gherkin\Node\TableNode;
+    use Behat\Behat\Context\BehatContext,
+        Behat\Behat\Exception\PendingException;
+    use Behat\Gherkin\Node\PyStringNode,
+        Behat\Gherkin\Node\TableNode;
 
-    class FeatureContext implements SnippetAcceptingContext
+    class FeatureContext extends BehatContext
     {
         /**
-         * Initializes context.
+         * @Given /^I am in a directory "([^"]*)"$/
          */
-        public function __construct()
+        public function iAmInADirectory($dir)
         {
+            if (!file_exists($dir)) {
+                mkdir($dir);
+            }
+            chdir($dir);
         }
     }
 
-Defining Steps
-~~~~~~~~~~~~~~
+Basically, we've started with the regular expression suggested by Behat, which
+makes the value inside the quotations (e.g. "test") available as the ``$dir``
+variable. Inside the method, we simple create the directory and move into it.
 
-Finally, we got to the automation part. How does Behat knows what to do
-when it sees ``Given there is a "Sith Lord Lightsaber", which costs £5``? You
-tell him. You write a PHP code inside your context class (``FeatureContext``
-in our case) and tell Behat that this code represents specific scenario step
-(via annotation with a pattern):
+Repeat this for the other three missing steps so that your ``FeatureContext.php``
+file looks like this:
+
+.. code-block:: php
+
+    # features/bootstrap/FeatureContext.php
+    <?php
+
+    use Behat\Behat\Context\BehatContext,
+        Behat\Behat\Exception\PendingException;
+    use Behat\Gherkin\Node\PyStringNode,
+        Behat\Gherkin\Node\TableNode;
+
+    class FeatureContext extends BehatContext
+    {
+        private $output;
+
+        /** @Given /^I am in a directory "([^"]*)"$/ */
+        public function iAmInADirectory($dir)
+        {
+            if (!file_exists($dir)) {
+                mkdir($dir);
+            }
+            chdir($dir);
+        }
+
+        /** @Given /^I have a file named "([^"]*)"$/ */
+        public function iHaveAFileNamed($file)
+        {
+            touch($file);
+        }
+
+        /** @When /^I run "([^"]*)"$/ */
+        public function iRun($command)
+        {
+            exec($command, $output);
+            $this->output = trim(implode("\n", $output));
+        }
+
+        /** @Then /^I should get:$/ */
+        public function iShouldGet(PyStringNode $string)
+        {
+            if ((string) $string !== $this->output) {
+                throw new Exception(
+                    "Actual output is:\n" . $this->output
+                );
+            }
+        }
+    }
+
+.. note::
+
+    When you specify multi-line step arguments - like we did using the triple
+    quotation syntax (``"""``) in the above scenario, the value passed into
+    the step function (e.g. ``$string``) is actually an object, which can
+    be converted into a string using ``(string) $string`` or
+    ``$string->getRaw()``.
+
+Great! Now that you've defined all of your steps, run Behat again:
+
+.. code-block:: bash
+
+    $ behat
+
+.. image:: /images/ls_passing_one_step.png
+   :align: center
+
+Success! Behat executed each of your steps - creating a new directory with
+two files and running the ``ls`` command - and compared the result to the
+expected result.
+
+Of course, now that you've defined your basic steps, adding more scenarios
+is easy. For example, add the following to your ``features/ls.feature`` file
+so that you now have two scenarios defined:
+
+.. code-block:: gherkin
+
+    Scenario: List 2 files in a directory with the -a option
+      Given I am in a directory "test"
+      And I have a file named "foo"
+      And I have a file named ".bar"
+      When I run "ls -a"
+      Then I should get:
+        """
+        .
+        ..
+        .bar
+        foo
+        """
+
+Run Behat again. This time, it'll run two tests, and both will pass.
+
+.. image:: /images/ls_passing_two_steps.png
+   :align: center
+
+That's it! Now that you've got a few steps defined, you can probably dream
+up lots of different scenarios to write for the ``ls`` command. Of course,
+this same basic idea could be used to test web applications, and Behat integrates
+beautifully with a library called `Mink`_ to do just that.
+
+Of course, there's still lot's more to learn, including more about the
+:doc:`Gherkin syntax </guides/1.gherkin>` (the language used in the ``ls.feature``
+file).
+
+Some more Behat Basics
+----------------------
+
+When you run ``behat --init``, it sets up a directory that looks like this:
+
+.. code-block:: bash
+
+    |-- features
+       `-- bootstrap
+           `-- FeatureContext.php
+
+Everything related to Behat will live inside the ``features`` directory, which
+is composed of three basic areas:
+
+1. ``features/`` - Behat looks for ``*.feature`` files here to execute
+
+2. ``features/bootstrap/`` - Every ``*.php`` file in that directory will
+   be autoloaded by Behat before any actual steps are executed
+
+3. ``features/bootstrap/FeatureContext.php`` - This file is the context
+   class in which every scenario step will be executed
+
+More about Features
+-------------------
+
+As you've already seen, a feature is a simple, readable plain text file,
+in a format called Gherkin. Each feature file follows a few basic rules:
+
+1. Every ``*.feature`` file conventionally consists of a single "feature"
+   (like the ``ls`` command or *user registration*).
+
+2. A line starting with the keyword ``Feature:`` followed by its title and
+   three indented lines defines the start of a new feature.
+
+3. A feature usually contains a list of scenarios. You can write whatever
+   you want up until the first scenario: this text will become the feature
+   description.
+
+4. Each scenario starts with the ``Scenario:`` keyword followed by a short
+   description of the scenario. Under each scenario is a list of steps, which
+   must start with one of the following keywords: ``Given``, ``When``, ``Then``,
+   ``But`` or ``And``. Behat treats each of these keywords the same, but you
+   should use them as intended for consistent scenarios.
+
+.. tip::
+
+    Behat also allows you to write your features in your native language.
+    In other words, instead of writing ``Feature``, ``Scenario`` or ``Given``,
+    you can use your native language by configuring Behat to use one of its
+    many supported languages.
+
+    To check if your language is supported and to see the available keywords,
+    run:
+
+    .. code-block:: bash
+
+        $ behat --story-syntax --lang YOUR_LANG
+
+    Supported languages include (but are not limited to) ``fr``, ``es``, ``it``
+    and, of course, the english pirate dialect ``en-pirate``.
+
+    Keep in mind, that any language, different from ``en`` should be explicitly
+    marked with ``# language: ...`` comment at the beginning of your
+    ``*.feature`` file:
+
+    .. code-block:: gherkin
+
+        # language: fr
+        Fonctionnalité: ...
+          ...
+
+You can read more about features and Gherkin language in ":doc:`/guides/1.gherkin`"
+guide.
+
+More about Steps
+----------------
+
+For each step (e.g. ``Given I am in a directory "test"``), Behat will look
+for a matching step definition by matching the text of the step against the
+regular expressions defined by each step definition.
+
+A step definition is written in php and consists of a keyword, a regular
+expression, and a callback. For example:
 
 .. code-block:: php
 
     /**
-     * @Given there is a(n) :arg1, which costs £:arg2
+     * @Given /^I am in a directory "([^"]*)"$/
      */
-    public function thereIsAWhichCostsPs($arg1, $arg2)
+    public function iAmInADirectory($dir)
     {
-        throw new PendingException();
+        if (!file_exists($dir)) {
+            mkdir($dir);
+        }
+        chdir($dir);
     }
 
-.. note::
+A few pointers:
 
-    ``/** ... */`` is a special syntax in PHP called doc-block. It is
-    discoverable in the runtime and used by different PHP frameworks as a
-    way to provide additional meta-information for the classes, methods and
-    functions. Behat uses doc-blocks for step definitions, step
-    transformations and hooks.
+1. ``@Given`` is a definition keyword. There are 3 supported keywords in
+   annotations: ``@Given``/``@When``/``@Then``. These three definition keywords
+   are actually equivalent, but all three are available so that your step
+   definition remains readable.
 
-``@Given there is a(n) :arg1, which costs £:arg2`` above the method tells Behat
-that this particular method should be executed whenever Behat sees step that
-looks like ``... there is a ..., which costs £...``. This pattern will match
-any of the following steps:
+2. The text after the keyword is the regular expression (e.g. ``/^I am in a directory "([^"]*)"$/``).
 
-.. code-block:: gherkin
+3. All search patterns in the regular expression (e.g. ``([^"]*)``) will become
+   method arguments (``$dir``).
 
-    Given there is a "Sith Lord Lightsaber", which costs £5
-    When there is a "Sith Lord Lightsaber", which costs £10
-    Then there is an 'Anakin Lightsaber', which costs £10
-    And there is a Lightsaber, which costs £2
-    But there is a Lightsaber, which costs £25
-
-Not only that, but Behat will capture tokens (words starting with ``:``, e.g.
-``:arg1``) from the step and pass their value to the method as arguments:
-
-.. code-block:: php
-
-    // Given there is a "Sith Lord Lightsaber", which costs £5
-    $context->thereIsAWhichCostsPs('Sith Lord Lightsaber', '5');
-
-    // Then there is a 'Jedi Lightsaber', which costs £10
-    $context->thereIsAWhichCostsPs('Jedi Lightsaber', '10');
-
-    // But there is a Lightsaber, which costs £25
-    $context->thereIsAWhichCostsPs('Lightsaber', '25');
-
-.. note::
-
-    If you need to define more complex matching algorithms, you can also use regular
-    expressions:
+4. If, inside a step, you need to tell Behat that some sort of "failure" has
+   occurred, you should throw an exception:
 
     .. code-block:: php
 
-        /**
-         * @Given /there is an? \"([^\"]+)\", which costs £([\d\.]+)/
-         */
-        public function thereIsAWhichCostsPs($arg1, $arg2)
-        {
-            throw new PendingException();
-        }
-
-Those patterns could be quite powerful, but at the same time, writing them for all
-possible steps manually could become extremely tedious and boring. That's why Behat
-does it for you. Remember when you previously executed ``vendor/bin/behat`` you
-got:
-
-.. code-block:: text
-
-    --- FeatureContext has missing steps. Define them with these snippets:
-
-        /**
-         * @Given there is a :arg1, which costs £:arg2
-         */
-        public function thereIsAWhichCostsPs($arg1, $arg2)
-        {
-            throw new PendingException();
-        }
-
-Behat automatically generates snippets for missing steps and all that you need to
-do is copy and paste them into your context classes. Or there is an even easier
-way - just run:
-
-.. code-block:: bash
-
-    $ vendor/bin/behat --dry-run --append-snippets
-
-And Behat will automatically append all the missing step methods into your
-``FeatureContext`` class. How cool is that?
-
-If you executed ``--append-snippets``, your ``FeatureContext`` should looks like:
-
-.. code-block:: php
-
-    // features/bootstrap/FeatureContext.php
-
-    use Behat\Behat\Tester\Exception\PendingException;
-    use Behat\Behat\Context\SnippetAcceptingContext;
-    use Behat\Gherkin\Node\PyStringNode;
-    use Behat\Gherkin\Node\TableNode;
-
-    class FeatureContext implements SnippetAcceptingContext
-    {
-        /**
-         * @Given there is a :arg1, which costs £:arg2
-         */
-        public function thereIsAWhichCostsPs($arg1, $arg2)
-        {
-            throw new PendingException();
-        }
-
-        /**
-         * @When I add the :arg1 to the basket
-         */
-        public function iAddTheToTheBasket($arg1)
-        {
-            throw new PendingException();
-        }
-
-        /**
-         * @Then I should have :arg1 product(s) in the basket
-         */
-        public function iShouldHaveProductInTheBasket($arg1)
-        {
-            throw new PendingException();
-        }
-
-        /**
-         * @Then the overall basket price should be £:arg1
-         */
-        public function theOverallBasketPriceShouldBePs($arg1)
-        {
-            throw new PendingException();
-        }
-    }
-
-.. note::
-
-    I removed constructor and grouped ``I should have :arg1 product in the basket``
-    and ``I should have :arg1 products in the basket`` into one
-    ``I should have :arg1 product(s) in the basket``.
-
-Automating Steps
-~~~~~~~~~~~~~~~~
-
-Now it is finally time to start implementing our basket feature. The approach when
-you use tests to drive your application development is called a Test-Driven Development
-(or simply TDD). With TDD you start by defining test cases for the functionality you
-develop. Then you fill these test cases with a best looking application code you could
-come up with (use your design skills and imagination).
-
-In case of Behat, you already have defined test cases (step definitions in your
-``FeatureContext``) and the only thing that is missing is that best looking application
-code we could come up with to fulfil our scenario. Something like this:
-
-.. code-block:: php
-
-    // features/bootstrap/FeatureContext.php
-
-    use Behat\Behat\Tester\Exception\PendingException;
-    use Behat\Behat\Context\SnippetAcceptingContext;
-    use Behat\Gherkin\Node\PyStringNode;
-    use Behat\Gherkin\Node\TableNode;
-
-    class FeatureContext implements SnippetAcceptingContext
-    {
-        private $shelf;
-        private $basket;
-
-        public function __construct()
-        {
-            $this->shelf = new Shelf();
-            $this->basket = new Basket($this->shelf);
-        }
-
-        /**
-         * @Given there is a :product, which costs £:price
-         */
-        public function thereIsAWhichCostsPs($product, $price)
-        {
-            $this->shelf->setProductPrice($product, floatval($price));
-        }
-
-        /**
-         * @When I add the :product to the basket
-         */
-        public function iAddTheToTheBasket($product)
-        {
-            $this->basket->addProduct($product);
-        }
-
-        /**
-         * @Then I should have :count product(s) in the basket
-         */
-        public function iShouldHaveProductInTheBasket($count)
-        {
-            PHPUnit_Framework_Assert::assertCount(intval($count), $this->basket);
-        }
-
-        /**
-         * @Then the overall basket price should be £:price
-         */
-        public function theOverallBasketPriceShouldBePs($price)
-        {
-            PHPUnit_Framework_Assert::assertSame(floatval($price), $this->basket->getTotalPrice());
-        }
-    }
-
-As you can see, in order to test and implement our application, we introduced 2 objects -
-``Shelf`` and ``Basket``. The first is responsible for storing products and their prices,
-the second is responsible for representation of our customer basket. Through appropriate step
-definitions we declare product prices and add products to the basket. We then compare the
-state of our ``Basket`` object with our expectations using PHPUnit assertions.
-
-.. note::
-
-    Behat doesn't come with its own assertion tool, but you can use any proper assertion
-    tool out there. Proper assertion tool is a library, which assertions throw
-    exceptions on fail. For example, if you're familiar with PHPUnit, you can use
-    its assertions in Behat by installing it via composer:
-
-    .. code-block:: bash
-
-        $ php composer.phar require --dev phpunit/phpunit='~4.1.0'
-
-    and then by simply using assertions in your steps:
-
-    .. code-block:: php
-
-        PHPUnit_Framework_Assert::assertCount(intval($count), $this->basket);
-
-Now try to execute your feature tests:
-
-.. code-block:: bash
-
-    $ vendor/bin/behat
-
-You should see a beginning of the feature and then an error saying that class ``Shelf``
-does not exist. It means we're ready to start writing actual application code!
-
-Implementing the Feature
-~~~~~~~~~~~~~~~~~~~~~~~~
-
-So now we have 2 very important things:
-
-1. Concrete user-aimed description of functionality we're trying to deliver.
-2. Set of failing tests that tell us what to do next.
-
-Now is the easiest part of application development - feature implementation. Yes, with
-TDD and BDD implementation becomes a routine task, because you already did most of the
-job in previous phases - you wrote tests, you came up with an elegant solution (as far
-as you could go in current context) and you chose the actors (objects) and actions
-(methods) that are involved. Now it's time to write bunch of PHP keywords to glue it
-all together. Tools like Behat, when used in a right way, will help you to write this
-phase by giving you a simple set of instructions that you simply need to follow. You
-did your thinking and design, now it's time to sit back, run the tool and follow its
-instructions in order to write your production code.
-
-Lets start! Run:
-
-.. code-block:: bash
-
-    $ vendor/bin/behat
-
-Behat will try to test your application with ``FeatureContext`` but will fail soon,
-producing something like this onto your screen:
-
-.. code-block:: text
-
-    Fatal error: Class 'Shelf' not found
-
-Now our job is to reinterpret this phrase into an actionable instruction. Like
-"Create ``Shelf`` class". Let's go and create it inside ``features/bootstrap``:
-
-.. code-block:: php
-
-    // features/bootstrap/Shelf.php
-
-    final class Shelf
-    {
-    }
-
-.. note::
-
-    We put ``Shelf`` class into the ``features/bootstrap/Shelf.php``, because
-    ``features/bootstrap`` is an autoloading folder for Behat. Behat has a built-in
-    PSR-0 autoloader, which looks into ``features/bootstrap``. If you're developing
-    your own application, you probably would want to put classes into a place
-    appropriate for your app.
-
-Let's run Behat again:
-
-.. code-block:: bash
-
-    $ vendor/bin/behat
-
-We will get different message on our screen:
-
-.. code-block:: text
-
-    Fatal error: Class 'Basket' not found
-
-Good, we are progressing! Reinterpreting the message, "Create ``Basket`` class".
-Let's follow our new instruction:
-
-.. code-block:: php
-
-    // features/bootstrap/Basket.php
-
-    final class Basket
-    {
-    }
-
-Run Behat again:
-
-.. code-block:: bash
-
-    $> vendor/bin/behat
-
-Great! Another "instruction":
-
-.. code-block:: text
-
-    Call to undefined method Shelf::setProductPrice()
-
-Follow these instructions step-by-step and you will end up with ``Shelf``
-class looking like this:
-
-.. code-block:: php
-
-    // features/bootstrap/Shelf.php
-
-    final class Shelf
-    {
-        private $priceMap = array();
-
-        public function setProductPrice($product, $price)
-        {
-            $this->priceMap[$product] = $price;
-        }
-
-        public function getProductPrice($product)
-        {
-            return $this->priceMap[$product];
-        }
-    }
-
-and ``Basket`` class looking like this:
-
-.. code-block:: php
-
-    // features/bootstrap/Basket.php
-
-    final class Basket implements \Countable
-    {
-        private $shelf;
-        private $products;
-        private $productsPrice = 0.0;
-
-        public function __construct(Shelf $shelf)
-        {
-            $this->shelf = $shelf;
-        }
-
-        public function addProduct($product)
-        {
-            $this->products[] = $product;
-            $this->productsPrice += $this->shelf->getProductPrice($product);
-        }
-
-        public function getTotalPrice()
-        {
-            return $this->productsPrice
-                 + ($this->productsPrice * 0.2)
-                 + ($this->productsPrice > 10 ? 2.0 : 3.0);
-        }
-
-        public function count()
-        {
-            return count($this->products);
-        }
-    }
-
-Run Behat again:
-
-.. code-block:: bash
-
-    $ vendor/bin/behat
-
-All scenarios should pass now! Congratulations, you almost finished your first
-feature. The last step is to *refactor*. Look at the ``Basket`` and ``Shelf``
-classes and try to find a way to make their code even more cleaner, easier to
-read and concise.
+       /**
+        * @Then /^I should get:$/
+        */
+       public function iShouldGet(PyStringNode $string)
+       {
+           if ((string) $string !== $this->output) {
+               throw new Exception(
+                   "Actual output is:\n" . $this->output
+               );
+           }
+       }
 
 .. tip::
 
-    I would recommend starting from ``Basket::getTotalPrice()`` method and
-    extracting VAT and delivery cost calculation in private methods.
+    Behat doesn't come with its own assertion tool, but you can use any proper
+    assertion tool out there. Proper assertion tool is a library, which
+    assertions throw exceptions on fail. For example, if you're familiar with
+    PHPUnit, you can use its assertions in Behat:
 
-After refactoring is done, you will have:
+    .. code-block:: php
 
-#. Clearly designed and obvious code that does exactly the thing it should do
-   without any gold plating.
+        # features/bootstrap/FeatureContext.php
+        <?php
 
-#. A regression test suite that will help you to be confident in your code going
-   forward.
+        use Behat\Behat\Context\BehatContext;
+        use Behat\Gherkin\Node\PyStringNode;
 
-#. Living documentation for behaviour of your code that will live, evolve and
-   die together with your code.
+        require_once 'PHPUnit/Autoload.php';
+        require_once 'PHPUnit/Framework/Assert/Functions.php';
 
-#. Incredible level of confidence in your code. Not only you are confident now
-   that it does exactly what it supposed to do. You are confident that it does
-   so by delivering value to the final users (customers in our case).
+        class FeatureContext extends BehatContext
+        {
+            /**
+             * @Then /^I should get:$/
+             */
+            public function iShouldGet(PyStringNode $string)
+            {
+                assertEquals($string->getRaw(), $this->output);
+            }
+        }
 
-There are much more benefits to BDD. But those are the key reasons why most BDD
-practitioners do BDD in Ruby, .Net, Java, Python and JS. Welcome to the family!
+In the same way, any step that does *not* throw an exception will be seen
+by Behat as "passing".
+
+You can read more about step definitions in ":doc:`/guides/2.definitions`" guide.
+
+The Context Class: ``FeatureContext``
+-------------------------------------
+
+Behat creates a context object for each scenario and executes all scenario
+steps inside that same object. In other words, if you want to share variables
+between steps, you can easily do that by setting property values on the context
+object itself (which was shown in the previous example).
+
+You can read more about ``FeatureContext`` in ":doc:`/guides/4.context`" guide.
+
+The ``behat`` Command Line Tool
+-------------------------------
+
+Behat comes with a powerful console utility responsible for executing the
+Behat tests. The utility comes with a wide array of options.
+
+To see options and usage for the utility, run:
+
+.. code-block:: bash
+
+    $ behat -h
+
+One of the handiest things it does it to show you all of the step definitions
+that you have configured in your system. This is an easy way to recall exactly
+how a step you defined earlier is worded:
+
+.. code-block:: bash
+
+    $ behat -dl
+
+You can read more about Behat CLI in ":doc:`/guides/6.cli`" guide.
 
 What's Next?
 ------------
 
 Congratulations! You now know everything you need in order to get started
 with behavior driven development and Behat. From here, you can learn more
-about the :doc:`Gherkin </guides/1.gherkin>` syntax or learn how to test your
+about the :doc:`Gherkin</guides/1.gherkin>` syntax or learn how to test your
 web applications by using Behat with Mink.
+
+* :doc:`/cookbook/behat_and_mink`
+* :doc:`/guides/1.gherkin`
+* :doc:`/guides/6.cli`
 
 .. _`behavior driven development`: http://en.wikipedia.org/wiki/Behavior_Driven_Development
 .. _`Mink`: https://github.com/behat/mink

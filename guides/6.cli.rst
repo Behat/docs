@@ -1,0 +1,274 @@
+Command Line Tool - ``behat``
+=============================
+
+Behat on its own is just a command line utility that executes your behavior
+descriptions written in :doc:`Gherkin language </guides/1.gherkin>`. ``behat``
+comes with bunch of useful options and commands:
+
+.. image:: /images/--help.png
+   :align: center
+
+Informational Options
+---------------------
+
+To show all available commands and options, run:
+
+.. code-block:: bash
+
+    $ behat -h
+
+To view the version of the ``behat`` tool used, call:
+
+.. code-block:: bash
+
+    $ behat -V
+
+Initialization Options
+----------------------
+
+To initialize the feature suite structure inside your project, run:
+
+.. code-block:: bash
+
+    $ behat --init
+
+Running this command will setup a ``features`` directory and a skeleton
+``FeatureContext`` class inside your project:
+
+.. image:: /images/--init.png
+   :align: center
+
+You can use :doc:`configuration files </guides/7.config>` to configure your
+feature suite. By default, ``behat`` will try to load ``behat.yml`` and
+``config/behat.yml``, but if you want to name your config file differently,
+tell ``behat`` about it with the ``--config`` option:
+
+.. code-block:: bash
+
+    $ behat --config custom-config-file.yml
+
+Your :doc:`configuration files </guides/7.config>` can have multiple profiles
+(named configurations). You can run ``behat`` with a specific profile
+by calling it with the ``--profile`` option:
+
+.. code-block:: bash
+
+    $ behat --config behat.yml --profile ios
+
+.. note::
+
+    The default profile is always named ``default``.
+
+Format Options
+--------------
+
+Behat supports different ways of printing output information. Output printers
+in ``behat`` are called *formats* or *formatters*. You can tell ``behat`` to
+run with a specific formatter by providing the ``--format`` option:
+
+.. code-block:: bash
+
+    $ behat --format progress
+
+.. note::
+
+    The default formatter is ``pretty``.
+
+``behat`` supports 6 formatters out of the box:
+
+* ``pretty`` - prints the feature as is:
+
+    .. image:: /images/formatter-pretty.png
+       :align: center
+
+* ``progress`` - prints one character per step:
+
+   .. image:: /images/formatter-progress.png
+      :align: center
+
+* ``html`` - almost the same as ``pretty``, but prints HTML output.
+
+* ``junit`` - generates a report similar to Ant+JUnit.
+
+* ``failed`` - prints paths to failed scenarios.
+
+* ``snippets`` - prints only snippets for undefined steps.
+
+If you don't want to print output to the console, you can tell ``behat``
+to print output to a file instead of ``STDOUT`` with the ``--out`` option:
+
+.. code-block:: bash
+
+    $ behat --format html --out report.html
+
+.. note::
+
+    Some formatters, like ``junit``, always require the ``--out`` option to be
+    specified. The ``junit`` formatter generates ``*.xml`` files for every
+    feature, so it needs a destination directory to put these XML files into.
+
+Also, you can specify multiple formats to be used by Behat with comma (``,``):
+
+.. code-block:: bash
+
+    $ behat -f pretty,progress
+
+In this case, default output will be used as output for both formatters. But if you want
+them to use different ones - specify them with ``--out``:
+
+.. code-block:: bash
+
+    $ behat -f pretty,progress,junit --out ~/pretty.out,,xml
+
+In this case, output of pretty formatter will be written to ``~/pretty.out`` file, output of junit
+formatter will be written to ``xml`` folder and progress formatter will just print to console.
+Empty out option (as in case with progress in example) tells Behat to use stdout. So:
+
+.. code-block:: bash
+
+    $ behat -f pretty,progress,junit --out ,progress.out,xml
+
+Will print pretty output instead, but will write progress output to ``progress.out`` file.
+
+Behat tries hard to identify if your terminal supports colors or not, but
+sometimes it still fails. In such cases, you can force ``behat`` to
+use colors (or not) with the options ``--ansi`` or ``--no-ansi``,
+respectively:
+
+.. code-block:: bash
+
+    $ behat --no-ansi
+
+Behat prints suite execution time information after each run. If you don't want
+this information, you can turn it off with the ``--no-time`` option:
+
+.. code-block:: bash
+
+    $ behat --no-time
+
+Also, there are a bunch of options to hide some default output information from
+the output:
+
+* ``--no-paths`` - hides paths after steps and scenarios.
+* ``--no-snippets`` - hides snippet proposals for undefined steps after
+  statistics.
+* ``--snippets-paths`` - prints step information with snippets.
+* ``--no-multiline`` - hides multiline arguments (tables and pystrings) from
+  ``pretty`` output.
+
+By default, Behat prints scenario outlines the same as you define them:
+
+.. image:: /images/formatter-outline-default.png
+   :align: center
+
+The output is pretty minimal and enough for you to see some errors. But in some
+complex cases, it may be hard to actually find failed steps in the output.
+To make this easier, ``behat`` offers the ``--expand`` option:
+
+.. code-block:: bash
+
+    $ behat --expand
+
+This options will make the previous output more verbose:
+
+.. image:: /images/formatter-outline-expand.png
+   :align: center
+
+.. code-block:: bash
+
+    $ behat --name="element of feature"
+
+Only execute the feature elements which match part of the given name or regex.
+
+If the element is part of feature-definition behat executes the whole feature, otherwise one or more scenarios.
+
+.. code-block:: bash
+
+    $ behat --rerun="return.log"
+
+Save list of failed scenarios into new file or use existing file to run only scenarios from it.
+
+If the file contains no scenarios, then all scenarios will executed.
+
+Help Options
+------------
+
+If you don't know where to start with the :doc:`Gherkin syntax </guides/1.gherkin>`,
+Behat can help you with some feature example:
+
+.. code-block:: bash
+
+    $ behat --story-syntax
+
+This command will print an example feature for you to understand what keywords
+to use and where to use them in your ``*.feature`` files:
+
+.. image:: /images/--story-syntax.png
+   :align: center
+
+If you write features in a language other than English, you can view a
+localized example feature in your language of choice by using the
+``--lang`` option:
+
+.. code-block:: bash
+
+    $ behat --story-syntax --lang fr
+
+Will print the feature example in French:
+
+.. image:: /images/--story-syntax-fr.png
+   :align: center
+
+Also, if you forgot what `step definitions </guides/2.definitions>`_ you've
+already implemented, or how to spell a particular step, ``behat`` will print
+all available definitions by calling it with the ``-dl`` option:
+
+.. code-block:: bash
+
+    $ behat -dl
+
+This command will print all available definition regular expressions:
+
+.. image:: /images/--definitions.png
+   :align: center
+
+If you want to get extended info about definitions, use:
+
+.. code-block:: bash
+
+    $ behat -di
+
+To search for a specific definition, use:
+
+.. code-block:: bash
+
+    $ behat -d 'search string'
+
+Gherkin Filters
+---------------
+
+If you want to run only part of your suite, or some scenarios, you
+can do it with name or tags filters:
+
+.. code-block:: bash
+
+    $ behat --tags '@orm,@database'
+    $ behat --tags 'ticket,723'
+    $ behat --tags '@orm&&@fixtures'
+    $ behat --tags '~@javascript'
+    $ behat --name 'number has'
+
+The first command will run only features or scenarios which have either the
+``@orm`` or the ``@database`` tag.
+
+The second command will run only features or scenarios which have either the
+``@ticket`` or the ``@723`` tag.
+
+The third command will run only features or scenarios with both the ``@orm``
+and the ``@fixtures`` tags.
+
+The forth command will run all features or scenarios except those, that marked
+with ``@javascript`` tag. In other terms, ``~`` means **excluding**.
+
+The fifth command will run only features and scenarios that contain ``number has``
+in their title.
