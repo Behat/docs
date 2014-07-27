@@ -58,3 +58,18 @@
 .highlight .vg { color: #f8f8f2 } /* Name.Variable.Global */
 .highlight .vi { color: #f8f8f2 } /* Name.Variable.Instance */
 .highlight .il { color: #ae81ff } /* Literal.Number.Integer.Long */
+
+.highlight-gherkin pre .k {
+    color:#fff;
+    font-weight:bold;
+}
+
+.highlight-gherkin pre .nf {
+    color:#ccc;
+    font-weight:normal;
+}
+
+.highlight-gherkin pre .s {
+    color:#f1f1f1;
+    font-weight:normal;
+}

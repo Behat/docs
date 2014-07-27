@@ -7,8 +7,6 @@ from pygments.lexers.web import PhpLexer
 lexers['php'] = PhpLexer(startinline=True)
 extensions = []
 
-templates_path = ['theme/_templates']
-
 source_suffix = '.rst'
 source_encoding = 'utf-8'
 master_doc = 'index'
@@ -27,12 +25,5 @@ exclude_patterns = []
 
 htmlhelp_basename = 'behat'
 
-html_theme = 'scrolls'
-pygments_style = 'monokai'
-
-html_context = {
-    'logo_name':     'behat',
-    'menu_section':  'behat-docs'
-}
-
-html_static_path = ['theme/_static']
+html_theme_path = ["_themes"]
+html_theme = 'borg'
