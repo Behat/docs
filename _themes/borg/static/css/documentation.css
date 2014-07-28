@@ -241,6 +241,13 @@
 
 
 
+#guides > .toctree-wrapper > ul > li,
+#cookbook > .toctree-wrapper > ul > li {
+    margin-bottom:2px;
+}
+
+
+
 .highlight {
     margin-left:13px;
     padding:0px;

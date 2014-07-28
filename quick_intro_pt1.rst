@@ -1,5 +1,5 @@
-Quick Intro to Behat
-====================
+Building Domain Model
+=====================
 
 Welcome to Behat! Behat is a tool to close the `behavior driven development`_
 (BDD) communication loop. BDD is a methodology of developing software through
@@ -12,8 +12,8 @@ makes it very easy to automate and autotest your behaviour examples against
 a developing application. Automated examples are then actually used to drive
 this application development TDD-style.
 
-Examples
---------
+Example
+-------
 
 Let's imagine that you are building a completely new e-commerce platform.
 One of the key features of any online shopping platform is ability to buy

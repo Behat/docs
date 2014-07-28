@@ -58,10 +58,7 @@ Quick Intro
 To become *Behat'er* in 30 minutes, just dive into the quick-start guide and
 enjoy!
 
-.. toctree::
-    :maxdepth: 2
-
-    quick_intro
+#. :doc:`Building Domain Model<quick_intro_pt1>`
 
 Guides
 ------
@@ -79,10 +76,10 @@ Learn Behat with the topical guides:
     guides/6.profiles
     guides/7.run
 
-More about Behavior Driven Development
---------------------------------------
+More about Behaviour Driven Development
+---------------------------------------
 
-Once you're up and running with Behat, you can learn more about behavior
+Once you're up and running with Behat, you can learn more about behaviour
 driven development via the following links. Though both tutorials are specific
 to Cucumber, Behat shares a lot with Cucumber and the philosophies are one
 and the same.
