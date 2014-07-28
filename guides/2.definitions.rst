@@ -1,5 +1,5 @@
-Defining Reusable Actions - Step Definitions
-============================================
+Defining Reusable Actions
+=========================
 
 :doc:`Gherkin language</guides/1.gherkin>` provides a way to describe your
 application behavior in business understandable language. But how do you test

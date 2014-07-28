@@ -1,5 +1,5 @@
-Telling How To Test - Test Suites
-=================================
+Configuring Test Suites
+=======================
 
 We already talked about configuring multiple contexts for a single test
 suite in a :doc:`previous chapter </guides/4.contexts>`. Now it is time to talk

@@ -1,5 +1,5 @@
-Writing Features - Gherkin Language
-===================================
+Writing Features
+================
 
 Behat is a tool to test the behavior of your application, described in special
 language called Gherkin. Gherkin is a

@@ -1,5 +1,5 @@
-Testing Features - Contexts
-===========================
+Testing Features
+================
 
 We've already used this strange ``FeatureContext`` class as a home for our
 :doc:`step definitions </guides/2.definitions>` and :doc:`hooks </guides/3.hooks>`,

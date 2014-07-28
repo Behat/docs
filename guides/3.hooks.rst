@@ -1,5 +1,5 @@
-Hooking into the Test Process - Hooks
-=====================================
+Hooking into the Test Process
+=============================
 
 You've learned :doc:`how to write step definitions </guides/2.definitions>` and
 that with :doc:`Gherkin </guides/1.gherkin>` you can move common steps into the

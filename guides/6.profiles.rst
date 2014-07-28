@@ -1,5 +1,5 @@
-Configuration - Profiles
-========================
+Configuring Behat
+=================
 
 Custom Autoloading
 ------------------
