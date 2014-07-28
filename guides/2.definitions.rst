@@ -160,7 +160,7 @@ You can also specify alternative words and optional parts of words, like this:
      * @When there is/are :count monster(s)
      */
     public function thereAreMonsters($count) {}
-    
+
 If you need to come up with a much more complicated matching algorithm, you can
 always use good old regular expressions:
 
@@ -252,7 +252,7 @@ Let's use our previously introduced feature for all the following examples:
 Successful Steps
 ~~~~~~~~~~~~~~~~
 
-When Behat finds a matching step definition it will execute it. If the 
+When Behat finds a matching step definition it will execute it. If the
 definition method does **not** throw any ``Exception``, the step is marked
 as successful (green). What you return from a definition method has no
 effect on the passing or failing status of the definition itself.
@@ -719,3 +719,62 @@ via a comma-delimited list of the column headers prefixed with ``table:``:
     behavior. Also, they are inherently hard to debug because of their
     highly dynamic nature.
 
+Browse your steps dictionnary
+-----------------------------
+
+As your set of features will grow, there's a good chance that the amount of
+different steps that you'll have at your disposal to describe new scenarios will also grow.
+
+Behat provides a command line option ``--definitions`` or simply ``-d`` to easily browse definitions
+in order to reuse them or adapt them (introducing new placeholders for example).
+
+For example, when using the Mink context provided by the Mink extension, you'll have access to its
+step dictionnary by running:
+
+.. code-block:: console
+
+    $ behat --di
+    web_features | Given /^(?:|I )am on (?:|the )homepage$/
+                 | Opens homepage.
+                 | at `Behat\MinkExtension\Context\MinkContext::iAmOnHomepage()`
+
+    web_features | When /^(?:|I )go to (?:|the )homepage$/
+                 | Opens homepage.
+                 | at `Behat\MinkExtension\Context\MinkContext::iAmOnHomepage()`
+
+    web_features | Given /^(?:|I )am on "(?P<page>[^"]+)"$/
+                 | Opens specified page.
+                 | at `Behat\MinkExtension\Context\MinkContext::visit()`
+
+    # ...
+
+or, for a shorter output:
+
+.. code-block:: console
+
+    $ behat --dl
+    web_features | Given /^(?:|I )am on (?:|the )homepage$/
+    web_features |  When /^(?:|I )go to (?:|the )homepage$/
+    web_features | Given /^(?:|I )am on "(?P<page>[^"]+)"$/
+    web_features |  When /^(?:|I )go to "(?P<page>[^"]+)"$/
+    web_features |  When /^(?:|I )reload the page$/
+    web_features |  When /^(?:|I )move backward one page$/
+    web_features |  When /^(?:|I )move forward one page$/
+    # ...
+
+You can also search for a specific pattern by running:
+
+.. code-block:: console
+
+    $ behat --definitions="field" (or simply behat -dfield)
+    web_features | When /^(?:|I )fill in "(?P<field>(?:[^"]|\\")*)" with "(?P<value>(?:[^"]|\\")*)"$/
+                 | Fills in form field with specified id|name|label|value.
+                 | at `Behat\MinkExtension\Context\MinkContext::fillField()`
+
+    web_features | When /^(?:|I )fill in "(?P<field>(?:[^"]|\\")*)" with:$/
+                 | Fills in form field with specified id|name|label|value.
+                 | at `Behat\MinkExtension\Context\MinkContext::fillField()`
+
+    #...
+
+That's it, you can now search and browse your whole step dictionnary.
