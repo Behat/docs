@@ -4,7 +4,7 @@ Configuring Behat
 Custom Autoloading
 ------------------
 
-Sometimes when you need to place your ``features`` folder somewhere else than the
+Sometimes you will need to place your ``features`` folder somewhere other than the
 default location (e.g. ``app/features``). All you need to do is specify the path
 you want to autoload via ``behat.yml``:
 
