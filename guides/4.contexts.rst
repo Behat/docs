@@ -38,9 +38,9 @@ application behaves, then the context class is all about how to test it.
         {} // do something
     }
 
-Simple mnemonic for context classes is - "testing feature *in a context*".
-Feature descriptions tend to be very high level. It means there's much
-technical details unexposed in them. So the way you will test those
+Simple mnemonic for context classes is - "testing features *in a context*".
+Feature descriptions tend to be very high level. It means there's not much
+technical detail exposed in them, so the way you will test those
 features pretty much depends on the context you test them in. That's what
 context classes are.
 
@@ -49,17 +49,17 @@ Context Class Requirements
 
 In order to be used by Behat, your context class should follow these rules:
 
-#. Context class should implement ``Behat\Behat\Context\Context`` interface.
+#. The context class should implement the ``Behat\Behat\Context\Context`` interface.
 
-#. Context class should be called ``FeatureContext``. It's a simple convention
+#. The context class should be called ``FeatureContext``. It's a simple convention
    inside the Behat infrastructure. ``FeatureContext`` is the name of the
-   context class for the default suite. This could easily be changed through
+   context class for the default suite. This can easily be changed through
    suite configuration inside ``behat.yml``.
 
-#. Context class should be discoverable and loadable by Behat. That means you
+#. The context class should be discoverable and loadable by Behat. That means you
    should somehow tell Behat about your class file. Behat comes with a PSR-0
    autoloader out-of-the-box and default autoloading directory is
-   ``features/bootstrap``. That's why default ``FeatureContext`` is loaded so
+   ``features/bootstrap``. That's why the default ``FeatureContext`` is loaded so
    easily by Behat. You can place your own classes under ``features/bootstrap``
    by following PSR-0 convention or you can even define your own custom
    autoloading folder via ``behat.yml``.
@@ -103,7 +103,7 @@ inside your project.
 Contexts Lifetime
 -----------------
 
-Your context class is initialized before each scenario run, and every scenario
+Your context class is initialized before each scenario is run, and every scenario
 has its very own context instance. This means 2 things:
 
 #. Every scenario is isolated from each other scenario's context. You can do
@@ -155,7 +155,7 @@ Behat will see a scenario in your test suite, it will:
 
 #. Get list of all context classes from this ``contexts`` option.
 
-#. Will try to initialize all these context classes into an objects.
+#. Will try to initialize all these context classes into objects.
 
 #. Will search for :doc:`step definitions </guides/2.definitions>`,
    :doc:`hooks </guides/3.hooks>` in all of them.
@@ -189,10 +189,10 @@ instead of the default ``FeatureContext``.
 Context Parameters
 ------------------
 
-Context classes could be very flexible depending on how far you want
-to go in making them dynamic. Though there's one attribute most of us
-will want to make our contexts environment-independent. Where to put
-temporary files, through which URL to access application? These are
+Context classes can be very flexible depending on how far you want
+to go in making them dynamic. Most of us will want to make our contexts 
+environment-independent; where should we put temporary files, which URLs 
+will be used to access the application? These are
 context configuration options highly dependant on the environment you
 will test your features in.
 
@@ -244,7 +244,6 @@ same ``contexts`` setting inside your ``behat.yml``:
 
     Aligned four spaces from the context class itself.
 
-
 Arguments would be passed to the ``MyAwesomeContext`` constructor in
 the order they were specified here. If you are not happy with the idea
 of keeping an order of arguments in your head, you can use argument
@@ -277,7 +276,7 @@ arguments becomes irrelevant:
                         tempPath: /var/tmp
                         baseUrl: http://localhost:8080
 
-Taking this a step further, if you context constructor arguments are
+Taking this a step further, if your context constructor arguments are
 optional:
 
 .. code-block:: php
@@ -301,7 +300,7 @@ You then can specify only the parameter that you actually need to change:
                     - MyAwesomeContext:
                         tempPath: /var/tmp
 
-In this case, default value would be used for other parameters.
+In this case, the default values would be used for other parameters.
 
 Context Traits
 --------------
