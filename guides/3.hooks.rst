@@ -2,7 +2,7 @@ Hooking into the Test Process
 =============================
 
 You've learned :doc:`how to write step definitions </guides/2.definitions>` and
-that with :doc:`Gherkin </guides/1.gherkin>` you can move common steps into the
+that with :doc:`Gherkin </guides/1.gherkin>` you can move common steps into a
 background block, making your features DRY. But what if that's not enough? What
 if you want to execute some code before the whole test suite or after a
 specific scenario? Hooks to the rescue:
@@ -79,38 +79,38 @@ Hooks
 Hooks allow you to execute your custom code just before or just after each
 of these actions. Behat allows you to use next hooks:
 
-#. ``BeforeSuite`` hook is ran before any feature in the suite runs. For
+#. The ``BeforeSuite`` hook is run before any feature in the suite runs. For
    example, you could use this to setup the project you are testing. This
    hook receives an optional argument with an instance of the
    ``Behat\Testwork\Hook\Scope\BeforeSuiteScope`` class.
 
-#. ``AfterSuite`` hook is ran after all features in the suite have run.
+#. The ``AfterSuite`` hook is run after all features in the suite have run.
    This hooks is useful to dump or print some kind of statistics or tear
    down your application after testing. This hook receives an optional
    argument with an instance of the
    ``Behat\Testwork\Hook\Scope\AfterSuiteScope`` class.
 
-#. ``BeforeFeature`` hook is ran before a feature runs. This hook receives
+#. The ``BeforeFeature`` hook is run before a feature runs. This hook receives
    an optional argument with an instance of the
    ``Behat\Behat\Hook\Scope\BeforeFeatureScope`` class.
 
-#. ``AfterFeature`` hook is ran after Behat finishes executing a feature.
+#. The ``AfterFeature`` hook is run after Behat finishes executing a feature.
    This hook receives an optional argument with an instance of the
    ``Behat\Behat\Hook\Scope\AfterFeatureScope`` class.
 
-#. ``BeforeScenario`` hook is ran before a specific scenario will run. This
+#. The ``BeforeScenario`` hook is run before a specific scenario will run. This
    hook receives an optional argument with an instance of the
    ``Behat\Behat\Hook\Scope\BeforeScenarioScope`` class.
 
-#. ``AfterScenario`` hook is ran after Behat finishes executing a scenario.
+#. The ``AfterScenario`` hook is run after Behat finishes executing a scenario.
    This hook receives an optional argument with an instance of the
    ``Behat\Behat\Hook\Scope\AfterScenarioScope`` class.
 
-#. ``BeforeStep`` hook is ran before a step runs. This hook receives an
+#. The ``BeforeStep`` hook is run before a step runs. This hook receives an
    optional argument with an instance of the
    ``Behat\Behat\Hook\Scope\BeforeStepScope`` class.
 
-#. ``AfterStep`` hook is ran after Behat finishes executing a step. This
+#. The ``AfterStep`` hook is run after Behat finishes executing a step. This
    hook receives an optional argument  with an instance of the
    ``Behat\Behat\Hook\Scope\AfterStepScope`` class.
 
@@ -135,7 +135,7 @@ Simply use the annotation of the name of the hook you want to use (e.g.
 Suite Hooks
 -----------
 
-Suite hooks are ran outside of the scenario context. It means that your context
+Suite hooks are run outside of the scenario context. It means that your context
 class (e.g. ``FeatureContext``) is not instantiated yet and the only way Behat
 can execute code in it is through the static calls. That is why suite hooks must
 be defined as static methods in the context class:
@@ -192,9 +192,9 @@ Scenario Hooks
 --------------
 
 Scenario hooks are triggered before or after each scenario runs. These
-hooks are executed inside an initialized context instance, so not only they
-could be a simple context instance methods, they will also have access to
-any ivars you set during your scenario:
+hooks are executed inside an initialized context instance, so not only could they
+ be simple context instance methods, they will also have access to
+any object properties you set during your scenario:
 
 .. code-block:: php
 
@@ -230,7 +230,7 @@ Step Hooks
 ----------
 
 Step hooks are triggered before or after each step runs. These hooks are
-ran inside an initialized context instance, so they are just plain context
+run inside an initialized context instance, so they are just plain context
 instance methods in the same way as scenario hooks are:
 
 .. code-block:: php
