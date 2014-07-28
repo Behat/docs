@@ -1,12 +1,12 @@
 Building Domain Model
 =====================
 
-Welcome to Behat! Behat is a tool to close the `behavior driven development`_
-(BDD) communication loop. BDD is a methodology of developing software through
-continuous example-based communication between developers and business,
+Welcome to Behat! Behat is a tool to close the `Behavior Driven Development`_
+(BDD) communication loop. BDD is a methodology for developing software through
+continuous example-based communication between developers and a business,
 which this application supports. This communication happens in a form that
-both business and developers can clearly understand - examples. Examples are
-structured around ``Context-Action-Outcome`` pattern and are written in a
+both the business and developers can clearly understand - examples. Examples are
+structured around the ``Context-Action-Outcome`` pattern and are written in a
 special format called *Gherkin*. The fact that Gherkin is a very structural
 makes it very easy to automate and autotest your behaviour examples against
 a developing application. Automated examples are then actually used to drive
@@ -56,11 +56,11 @@ the products):
       - Delivery for basket over £10 is £2
 
 So as you can see, it already becomes tricky (ambiguous at least) to talk
-about this feature in *rules* terms. What does it mean to add VAT? What
-happens when we have two products one of which is less that 10 and another
-is more? So instead you proceed with having a back-and-forth chat with
-stakeholders in form of actual examples of *customer* adding products to
-the basket. After some time, you come up with your first behaviour
+about this feature in terms of *rules*. What does it mean to add VAT? What
+happens when we have two products, one of which is less than £10 and another
+that is more? Instead you proceed with having a back-and-forth chat with
+stakeholders in form of actual examples of a *customer* adding products to
+the basket. After some time, you will come up with your first behaviour
 examples (in BDD these are called *scenarios*):
 
 .. code-block:: gherkin
@@ -124,9 +124,9 @@ examples (in BDD these are called *scenarios*):
     of the other words that start each line. These keywords are all made
     available so that your scenarios are natural and readable.
 
-This is yours and stakeholders shared understanding of the project written
-in the structured format. It is all based on the clear and constructive
-conversation you had together. Now you can put this text in a simple file -
+This is your and your stakeholders' shared understanding of the project written
+in a structured format. It is all based on the clear and constructive
+conversation you have had together. Now you can put this text in a simple file -
 ``features/basket.feature`` - under your project directory and start
 implementing the feature by manually checking if it fits the defined scenarios.
 No tools (Behat in our case) needed. That, in essence, is what BDD is.
@@ -154,14 +154,14 @@ functionality via the `Mink`_ library.
 
 .. note::
 
-    If you want to learn more about the philosophy of a "Behaviour Driven
+    If you want to learn more about the philosophy of "Behaviour Driven
     Development" of your application, see `What's in a Story?`_
 
 .. note::
 
     Behat was heavily inspired by Ruby's `Cucumber`_ project. Since v3.0,
     Behat is considered an official Cucumber implementation in PHP and is part
-    of one big BDD tools family.
+    of one big family of BDD tools.
 
 Installation
 ------------
@@ -265,9 +265,9 @@ Defining Steps
 
 Finally, we got to the automation part. How does Behat knows what to do
 when it sees ``Given there is a "Sith Lord Lightsaber", which costs £5``? You
-tell him. You write a PHP code inside your context class (``FeatureContext``
-in our case) and tell Behat that this code represents specific scenario step
-(via annotation with a pattern):
+tell it. You write PHP code inside your context class (``FeatureContext``
+in our case) and tell Behat that this code represents a specific scenario step
+(via an annotation with a pattern):
 
 .. code-block:: php
 
@@ -281,8 +281,8 @@ in our case) and tell Behat that this code represents specific scenario step
 
 .. note::
 
-    ``/** ... */`` is a special syntax in PHP called doc-block. It is
-    discoverable in the runtime and used by different PHP frameworks as a
+    ``/** ... */`` is a special syntax in PHP called a doc-block. It is
+    discoverable at runtime and used by different PHP frameworks as a
     way to provide additional meta-information for the classes, methods and
     functions. Behat uses doc-blocks for step definitions, step
     transformations and hooks.
@@ -357,7 +357,7 @@ way - just run:
 And Behat will automatically append all the missing step methods into your
 ``FeatureContext`` class. How cool is that?
 
-If you executed ``--append-snippets``, your ``FeatureContext`` should looks like:
+If you executed ``--append-snippets``, your ``FeatureContext`` should look like:
 
 .. code-block:: php
 
@@ -405,7 +405,7 @@ If you executed ``--append-snippets``, your ``FeatureContext`` should looks like
 
 .. note::
 
-    I removed constructor and grouped ``I should have :arg1 product in the basket``
+    We have removed the constructor and grouped ``I should have :arg1 product in the basket``
     and ``I should have :arg1 products in the basket`` into one
     ``I should have :arg1 product(s) in the basket``.
 
@@ -415,11 +415,11 @@ Automating Steps
 Now it is finally time to start implementing our basket feature. The approach when
 you use tests to drive your application development is called a Test-Driven Development
 (or simply TDD). With TDD you start by defining test cases for the functionality you
-develop. Then you fill these test cases with a best looking application code you could
+develop, then you fill these test cases with the best-looking application code you could
 come up with (use your design skills and imagination).
 
-In case of Behat, you already have defined test cases (step definitions in your
-``FeatureContext``) and the only thing that is missing is that best looking application
+In the case of Behat, you already have defined test cases (step definitions in your
+``FeatureContext``) and the only thing that is missing is that best-looking application
 code we could come up with to fulfil our scenario. Something like this:
 
 .. code-block:: php
@@ -477,15 +477,15 @@ code we could come up with to fulfil our scenario. Something like this:
 
 As you can see, in order to test and implement our application, we introduced 2 objects -
 ``Shelf`` and ``Basket``. The first is responsible for storing products and their prices,
-the second is responsible for representation of our customer basket. Through appropriate step
-definitions we declare product prices and add products to the basket. We then compare the
+the second is responsible for the representation of our customer basket. Through appropriate step
+definitions we declare products' prices and add products to the basket. We then compare the
 state of our ``Basket`` object with our expectations using PHPUnit assertions.
 
 .. note::
 
     Behat doesn't come with its own assertion tool, but you can use any proper assertion
-    tool out there. Proper assertion tool is a library, which assertions throw
-    exceptions on fail. For example, if you're familiar with PHPUnit, you can use
+    tool out there. A proper assertion tool is a library whose assertions throw
+    exceptions on failure. For example, if you're familiar with PHPUnit you can use
     its assertions in Behat by installing it via composer:
 
     .. code-block:: bash
@@ -512,16 +512,16 @@ Implementing the Feature
 
 So now we have 2 very important things:
 
-1. Concrete user-aimed description of functionality we're trying to deliver.
+1. A concrete user-aimed description of functionality we're trying to deliver.
 2. Set of failing tests that tell us what to do next.
 
 Now is the easiest part of application development - feature implementation. Yes, with
 TDD and BDD implementation becomes a routine task, because you already did most of the
-job in previous phases - you wrote tests, you came up with an elegant solution (as far
+job in the previous phases - you wrote tests, you came up with an elegant solution (as far
 as you could go in current context) and you chose the actors (objects) and actions
-(methods) that are involved. Now it's time to write bunch of PHP keywords to glue it
-all together. Tools like Behat, when used in a right way, will help you to write this
-phase by giving you a simple set of instructions that you simply need to follow. You
+(methods) that are involved. Now it's time to write a bunch of PHP keywords to glue it
+all together. Tools like Behat, when used in the right way, will help you to write this
+phase by giving you a simple set of instructions that you need to follow. You
 did your thinking and design, now it's time to sit back, run the tool and follow its
 instructions in order to write your production code.
 
@@ -539,7 +539,7 @@ producing something like this onto your screen:
     Fatal error: Class 'Shelf' not found
 
 Now our job is to reinterpret this phrase into an actionable instruction. Like
-"Create ``Shelf`` class". Let's go and create it inside ``features/bootstrap``:
+"Create the ``Shelf`` class". Let's go and create it inside ``features/bootstrap``:
 
 .. code-block:: php
 
@@ -551,7 +551,7 @@ Now our job is to reinterpret this phrase into an actionable instruction. Like
 
 .. note::
 
-    We put ``Shelf`` class into the ``features/bootstrap/Shelf.php``, because
+    We put the ``Shelf`` class into ``features/bootstrap/Shelf.php`` because
     ``features/bootstrap`` is an autoloading folder for Behat. Behat has a built-in
     PSR-0 autoloader, which looks into ``features/bootstrap``. If you're developing
     your own application, you probably would want to put classes into a place
@@ -569,7 +569,7 @@ We will get different message on our screen:
 
     Fatal error: Class 'Basket' not found
 
-Good, we are progressing! Reinterpreting the message, "Create ``Basket`` class".
+Good, we are progressing! Reinterpreting the message as, "Create the ``Basket`` class".
 Let's follow our new instruction:
 
 .. code-block:: php
@@ -674,14 +674,14 @@ After refactoring is done, you will have:
 #. A regression test suite that will help you to be confident in your code going
    forward.
 
-#. Living documentation for behaviour of your code that will live, evolve and
+#. Living documentation for the behaviour of your code that will live, evolve and
    die together with your code.
 
-#. Incredible level of confidence in your code. Not only you are confident now
-   that it does exactly what it supposed to do. You are confident that it does
+#. An incredible level of confidence in your code. Not only are you confident now
+   that it does exactly what it's supposed to do, you are confident that it does
    so by delivering value to the final users (customers in our case).
 
-There are much more benefits to BDD. But those are the key reasons why most BDD
+There are many more benefits to BDD but those are the key reasons why most BDD
 practitioners do BDD in Ruby, .Net, Java, Python and JS. Welcome to the family!
 
 What's Next?
@@ -692,7 +692,7 @@ with behavior driven development and Behat. From here, you can learn more
 about the :doc:`Gherkin </guides/1.gherkin>` syntax or learn how to test your
 web applications by using Behat with Mink.
 
-.. _`behavior driven development`: http://en.wikipedia.org/wiki/Behavior_Driven_Development
+.. _`Behavior Driven Development`: http://en.wikipedia.org/wiki/Behavior_Driven_Development
 .. _`Mink`: https://github.com/behat/mink
 .. _`What's in a Story?`: http://blog.dannorth.net/whats-in-a-story/
 .. _`Cucumber`: http://cukes.info/

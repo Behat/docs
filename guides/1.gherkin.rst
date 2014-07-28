@@ -1,7 +1,7 @@
 Writing Features
 ================
 
-Behat is a tool to test the behavior of your application, described in special
+Behat is a tool to test the behavior of your application, described in a special
 language called Gherkin. Gherkin is a
 `Business Readable, Domain Specific Language <http://martinfowler.com/bliki/BusinessReadableDSL.html>`_
 created specifically for behavior descriptions. It gives you the ability to
@@ -262,7 +262,7 @@ machine.
 Givens
 ~~~~~~
 
-The purpose of **Given** steps is to **put the system in a known state** before
+The purpose of the **Given** steps is to **put the system in a known state** before
 the user (or external system) starts interacting with the system (in the When
 steps). Avoid talking about user interaction in givens. If you have worked with
 use cases, givens are your preconditions.
@@ -293,7 +293,7 @@ use cases, givens are your preconditions.
 .. sidebar:: Using Givens as Data Fixtures
 
     If you use ORMs like Doctrine or Propel, we recommend using a Given step
-    with a `tables`_ arguments to set up records instead of fixtures. This
+    with a `tables`_ argument to set up records instead of fixtures. This
     way you can read the scenario all in one place and make sense out of it
     without having to jump between files:
 
@@ -343,7 +343,7 @@ interface, message, command output) and not something deeply buried inside it
 
     Two good examples of using **Thens** are:
 
-    * Verify that something related to the Given+When is (or is not) in the
+    * Verify that something related to the Given + When is (or is not) in the
       output:
 
       .. code-block:: gherkin
@@ -402,12 +402,12 @@ fluently:
       But I don't see something else
 
 Behat interprets steps beginning with And or But exactly the same as all other
-steps; it doesn't differ between them - you should!
+steps; it doesn't differentiate between them - you should!
 
 Multiline Arguments
 -------------------
 
-The one line `steps`_ let's your Behat extract small strings from your steps
+The one line `steps`_ let Behat extract small strings from your steps
 and receive them in your step definitions. However, there are times when you
 want to pass a richer data structure from a step to a step definition.
 
@@ -434,7 +434,7 @@ usually as input to a Given or as expected output from a Then.
 
 .. attention::
 
-    Don't be confused with tables from `scenario outlines`_ - syntactically
+    Don't confuse tables with `scenario outlines`_ - syntactically
     they are identical, but they have a different purpose. Outlines declare
     multiple different values for the same scenario, while tables are used to
     expect a set of data.
@@ -577,6 +577,6 @@ run:
           ...
 
     This way your features will hold all the information about its content
-    type, which is very important for methodologies like BDD and will also give
+    type, which is very important for methodologies like BDD and also gives
     Behat the ability to have multilanguage features in one suite.
 

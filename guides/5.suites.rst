@@ -97,7 +97,7 @@ Suite Filters
 -------------
 
 In addition to being able to run features from different directories,
-we can run scenarios from the same directory, but filtered by a specific
+we can run scenarios from the same directory, but filtered by specific
 criteria. The Gherkin parser comes bundled with a set of cool filters
 such as *tags* and *name* filters. You can use these filters to run
 features with specific tag (or name) in specific contexts:
@@ -192,7 +192,7 @@ Executing Suites
 ----------------
 
 By default, when you run Behat it will execute all registered suites
-one-by-one. If you want to run a single suite instead, use ``--suite``
+one-by-one. If you want to run a single suite instead, use the ``--suite``
 option:
 
 .. code-block:: bash
