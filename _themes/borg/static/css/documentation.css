@@ -176,6 +176,7 @@
 .text ol,
 .highlight,
 .text .note,
+.text .sidebar,
 .text .tip,
 .text img {
     margin-bottom:20px;
@@ -302,7 +303,7 @@
     margin-top: 0px;
 }
 
-.text .note, .text .tip {
+.text .note, .text .tip, .text .sidebar {
     margin-left:13px;
     padding:10px;
     padding-left:20px;
@@ -310,9 +311,37 @@
     -moz-border-radius: 0px 10px 0px 10px;
     -webkit-border-radius: 0px 10px 0px 10px;
     border-radius: 0px 10px 10px 0px;
+    position:relative;
+    float: none;
+    width: auto;
+    border: 0px;
+}
+
+.text .sidebar {
+    background: #ffe;
+    border: 1px solid #ddb;
+    color: inherit;
+}
+
+.text .sidebar:before {
+    position:absolute;
+    display:block;
+    content:'';
+    width:28px;
+    height:28px;
+    left:-15px;
+    top:6px;
+
+    -moz-border-radius: 5px;
+    -webkit-border-radius: 5px;
+    border-radius: 5px;
+    border: 1px solid #ddb;
+    background:#ffe url(../img/example.png) no-repeat 4px;
+}
+
+.text .note {
     background:#474747;
     color:#ccc;
-    position:relative;
 }
 
 .text .note .docutils.literal, .text .tip .docutils.literal {
