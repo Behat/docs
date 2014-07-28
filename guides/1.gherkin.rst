@@ -359,7 +359,7 @@ interface, message, command output) and not something deeply buried inside it
             """
             ...
             """
-          Then the client should recieve the email with:
+          Then the client should receive the email with:
             """
             ...
             """
@@ -466,7 +466,7 @@ usually as input to a Given or as expected output from a Then.
 PyStrings
 ~~~~~~~~~
 
-Multiline Strings (also known as PyStrings) are usefull for specifying a
+Multiline Strings (also known as PyStrings) are useful for specifying a
 larger piece of text. The text should be offset by delimiters consisting of
 three double-quote marks (``"""``), placed on their own line:
 
