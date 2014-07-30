@@ -255,7 +255,7 @@ selected for their purpose and you should know what the purpose is to get into
 the BDD mindset.
 
 Robert C. Martin has written a
-`great post <http://blog.objectmentor.com/articles/2008/11/27/the-truth-about-bdd>`_
+`great post <https://sites.google.com/site/unclebobconsultingllc/the-truth-about-bdd>`_
 about BDD's Given-When-Then concept where he thinks of them as a finite state
 machine.
 
