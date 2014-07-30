@@ -13,7 +13,7 @@ real, human language telling you what code you should write.
 
 .. tip::
 
-    If you're still new to Behat, jump into the :doc:`/quick_intro` first,
+    If you're still new to Behat, jump into the :doc:`/quick_intro_pt1` first,
     then return here to learn more about Gherkin.
 
 Gherkin Syntax
