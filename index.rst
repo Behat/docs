@@ -58,7 +58,10 @@ Quick Intro
 To become a *Behat'er* in 30 minutes, just dive into the quick-start guide and
 enjoy!
 
-#. :doc:`Building Domain Model<quick_intro_pt1>`
+.. toctree::
+    :maxdepth: 1
+
+    quick_intro_pt1
 
 Guides
 ------

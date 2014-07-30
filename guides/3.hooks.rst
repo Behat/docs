@@ -193,7 +193,7 @@ Scenario Hooks
 
 Scenario hooks are triggered before or after each scenario runs. These
 hooks are executed inside an initialized context instance, so not only could they
- be simple context instance methods, they will also have access to
+be simple context instance methods, they will also have access to
 any object properties you set during your scenario:
 
 .. code-block:: php
