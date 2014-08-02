@@ -35,3 +35,18 @@ If you wish to namespace your features (for example: to be PSR-1 complaint) you 
     Using ``behat.yml`` to autoload will only allow for ``PSR-0``
     You can also use ``composer.json`` to autoload, which will also
     allow for ``PSR-4``
+
+Extensions
+----------
+
+Extensions can be configured like this:
+.. code-block:: yaml
+
+    # behat.yml
+    
+    default:
+    	extensions:
+            Behat\MinkExtension:
+                base_url: http://www.example.com
+            	selenium2: ~
+
