@@ -454,6 +454,8 @@ usually as input to a Given or as expected output from a Then.
          */
         public function thePeopleExist(TableNode $table)
         {
+            $hash = $table->getHash();
+            
             foreach ($hash as $row) {
                 // $row['name'], $row['email'], $row['phone']
             }
