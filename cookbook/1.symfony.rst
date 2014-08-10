@@ -1,13 +1,10 @@
 Integrating Symfony2 with Behat
 ===============================
 
-Symfony2 framework can be easily integrated and used seamlessly with Behat 3.
+Symfony2 is a `Web Application Framework <http://symfony.com/>`_ that can be easily integrated and used seamlessly with Behat 3.
+As a prerequisite for this cookbook you need to have working Symfony2 application.
 
-Symfony2 is a `Web Application Framework <http://symfony.com/>`_
-and prerequisite for this cookbook is that you are already working on Symfony2 application
-and would like to integrate it with Behat.
-
-In this we will cover:
+In this cookbook we will cover:
 
 #. Installing Behat dependency with Composer.
 
