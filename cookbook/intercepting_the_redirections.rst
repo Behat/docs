@@ -55,7 +55,7 @@ the features with this step to avoid misuses):
             if (!$driver instanceof GoutteDriver) {
                 throw new UnsupportedDriverActionException(
                     'You need to tag the scenario with '.
-                    '"@mink:goutte" or "@mink:symfony". '.
+                    '"@mink:goutte" or "@mink:symfony2". '.
                     'Intercepting the redirections is not '.
                     'supported by %s', $driver
                 );
@@ -72,7 +72,7 @@ the features with this step to avoid misuses):
 
     .. code-block:: gherkin
 
-        @mink:symfony
+        @mink:symfony2
         Scenario: I should receive an email
 
 Implementing Interception Steps Logic
