@@ -1,6 +1,29 @@
 Configuring Behat
 =================
 
+Global Filters
+--------------
+
+While it is possible to specify filters as part of suite configuration, sometimes you will want to 
+exclude certain scenarios across the suite, with the option to override the filters at the command line.
+
+This is achieved by specifying the filter in the gherkin configuration:
+
+.. code-block:: yaml
+
+    # behat.yml
+
+    default:
+        gherkin:
+          filters:
+            tags: ~@wip
+            
+In this instance, scenarios tagged as @wip will be ignored unless the CLI command is run with a custom filter, e.g.:
+
+.. code-block:: bash
+
+    /bin/behat --tags=wip
+
 Custom Autoloading
 ------------------
 
