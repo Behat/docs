@@ -22,7 +22,7 @@ In this instance, scenarios tagged as @wip will be ignored unless the CLI comman
 
 .. code-block:: bash
 
-    /bin/behat --tags=wip
+    vendor/bin/behat --tags=wip
 
 Custom Autoloading
 ------------------
