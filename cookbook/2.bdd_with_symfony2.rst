@@ -1,0 +1,43 @@
+BDD with Symfony and Behat
+==========================
+
+Symfony2 is a `Web Application Framework <http://symfony.com/>`_ that can be easily integrated and used seamlessly with Behat 3.
+In this tutorial we will extend ideas explained in  :doc:`/quick_intro_pt1`,
+so if you don't feel comfortable enough it's recommended to step back and have a look on it.
+
+As a prerequisite we need to assume, you have some knowledge of Symfony framework,
+if you don't have any please have a look into `documentation <http://symfony.com/doc/current/book/index.html>`_.
+We will explain used concepts, but in case something is not really clear this line is the best source to look at.
+
+In previous article we decided to develop a online shopping platform which allows clients to buy products.
+In this step we will actually extend previously built Domain Model,
+and make use of it inside real web application written in Symfony framework,
+so you will be able to see incremental evolution of product.
+
+Setting up Symfony project
+--------------------------
+
+Recommended way of managing Behat dependency in your project is to use `Composer <https://getcomposer.org/)>`_,
+and we also did recommend that in previous tutorial. From this point, this is the official one.
+We will not support others because it will be a pain to manage dependencies, and you want to learn good practices, don't you?
+
+In order to create a new Symfony project we need to run following command:
+
+.. code-block:: bash
+
+    $ php composer.phar create-project symfony/framework-standard-edition bdd-with-symfony '2.5.*'
+
+During the installation process script will ask us a question: ``Would you like to install Acme demo bundle? [y/N]``.
+Because we are going to implement our app from scratch suggested option is ``N`` - we will not need to remove any unnecessary config.
+All the questions that will follow will be about parameters, but just pressing return for all of them will be fine, defaults here are sensible for our example.
+
+Now it's time to copy your composer.phar file to project directory, open it and verify Symfony installation.
+
+.. code-block:: bash
+
+    $ cp composer.phar bdd-with-symfony
+    $ cd bdd-with-symfony
+    $ php app/check.php
+
+As an output of this message you should get nice green box with sucess message ``[OK] Your system is ready to run Symfony2 projects``.
+If it doesn't happen Symfony's command line check will suggest way of fixing existing problems, and please sort them out.
