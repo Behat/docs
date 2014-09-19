@@ -24,7 +24,7 @@ really powerful and ``behat.yml`` makes them that much more powerful:
                 filters:  { role: user }
                 contexts: [ UserContext ]
             admin_features:
-                paths:    [ %paths.base%/features/web ]
+                paths:    [ %paths.base%/features/admin ]
                 filters:  { role: admin }
                 contexts: [ AdminContext ]
 
