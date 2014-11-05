@@ -79,6 +79,16 @@ Learn Behat with the topical guides:
     guides/6.profiles
     guides/7.run
 
+Cookbook
+--------
+
+Learn specific solutions for specific needs:
+
+.. toctree::
+:maxdepth: 1
+
+        cookbooks/1.symfony2_integration
+
 More about Behaviour Driven Development
 ---------------------------------------
 
