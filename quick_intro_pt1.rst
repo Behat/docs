@@ -7,7 +7,7 @@ continuous example-based communication between developers and a business,
 which this application supports. This communication happens in a form that
 both the business and developers can clearly understand - examples. Examples are
 structured around the ``Context-Action-Outcome`` pattern and are written in a
-special format called *Gherkin*. The fact that Gherkin is a very structural
+special format called *Gherkin*. The fact that Gherkin is very structural
 makes it very easy to automate and autotest your behaviour examples against
 a developing application. Automated examples are then actually used to drive
 this application development TDD-style.
@@ -16,7 +16,7 @@ Example
 -------
 
 Let's imagine that you are building a completely new e-commerce platform.
-One of the key features of any online shopping platform is ability to buy
+One of the key features of any online shopping platform is the ability to buy
 products. But before buying anything, customers should be able to tell the
 system which products they are interested in buying. You need a basket.
 So let's write our first user-story:
