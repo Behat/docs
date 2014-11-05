@@ -85,9 +85,9 @@ Cookbook
 Learn specific solutions for specific needs:
 
 .. toctree::
-:maxdepth: 1
+    :maxdepth: 1
 
-        cookbooks/1.symfony2_integration
+    cookbooks/1.symfony2_integration
 
 More about Behaviour Driven Development
 ---------------------------------------
