@@ -545,8 +545,8 @@ Transformation methods are defined using the same annotation style as step
 definition methods, but instead use the ``@Transform`` keyword, followed by
 a matching pattern.
 
-As a basic example, you can automatically cast all numeric arguments to
-integers with the following context class code:
+As a basic example, you can automatically cast all arguments named ``number``
+to integers with the following context class code:
 
 .. code-block:: php
 
@@ -557,7 +557,7 @@ integers with the following context class code:
     class FeatureContext implements Context
     {
         /**
-         * @Transform /^(\d+)$/
+         * @Transform :number
          */
         public function castStringToNumber($string)
         {
@@ -565,11 +565,11 @@ integers with the following context class code:
         }
 
         /**
-         * @Then a user :name, should have :count followers
+         * @Then a user :name, should have :number followers
          */
-        public function assertUserHasFollowers($name, $count)
+        public function assertUserHasFollowers($name, $number)
         {
-            if ('integer' !== gettype($count)) {
+            if ('integer' !== gettype($number)) {
                 throw new Exception('Integer expected');
             }
         }
