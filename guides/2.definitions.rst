@@ -4,8 +4,8 @@ Defining Reusable Actions
 :doc:`Gherkin language</guides/1.gherkin>` provides a way to describe your
 application behavior in business understandable language. But how do you test
 that the described behavior is actually implemented? Or that the application
-satisfies you business expectations as described in the feature scenarios? Behat
-provides a way to map your scenario steps (actions) 1-to-1 with actual
+satisfies your business expectations as described in the feature scenarios?
+Behat provides a way to map your scenario steps (actions) 1-to-1 with actual
 PHP code called step definitions:
 
 .. code-block:: php
@@ -213,8 +213,8 @@ context class.
 
 .. note::
 
-    Implementing ``SnippetAcceptingContext`` interface tells Behat that your
-    context is expecting snippets to be generated inside it. Behat will
+    Implementing the ``SnippetAcceptingContext`` interface tells Behat that
+    your context is expecting snippets to be generated inside it. Behat will
     generate simple pattern snippets for you, but if regular expressions
     are your thing, Behat can generate them instead if you implement
     ``Behat\Behat\Context\CustomSnippetAcceptingContext`` interface instead
