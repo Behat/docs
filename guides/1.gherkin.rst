@@ -382,8 +382,8 @@ If you have several Given, When or Then steps you can write:
 
     Scenario: Multiple Givens
       Given one thing
-      Given an other thing
-      Given yet an other thing
+      Given another thing
+      Given yet another thing
       When I open my eyes
       Then I see something
       Then I don't see something else
@@ -395,8 +395,8 @@ fluently:
 
     Scenario: Multiple Givens
       Given one thing
-      And an other thing
-      And yet an other thing
+      And another thing
+      And yet another thing
       When I open my eyes
       Then I see something
       But I don't see something else
