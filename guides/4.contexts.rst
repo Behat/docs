@@ -194,12 +194,12 @@ Context classes can be very flexible depending on how far you want
 to go in making them dynamic. Most of us will want to make our contexts 
 environment-independent; where should we put temporary files, which URLs 
 will be used to access the application? These are
-context configuration options highly dependant on the environment you
+context configuration options highly dependent on the environment you
 will test your features in.
 
 We already said that context classes are just plain old PHP classes.
-How would you incorporate environment-dependant parameters into your
-PHP classes? You will use *constructor arguments*:
+How would you incorporate environment-dependent parameters into your
+PHP classes? Use *constructor arguments*:
 
 .. code-block:: php
 
