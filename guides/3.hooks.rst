@@ -41,14 +41,14 @@ Behat Hook System
 
 Behat provides a number of hook points which allow us to run arbitrary
 logic at various points in the Behat test cycle. Hooks are a lot like
-step definitions or transformations - they are just a simple methods
+step definitions or transformations - they are just simple methods
 with special annotations inside your context classes. There is no
 association between where the hook is defined and which node it is run
 for, but you can use tagged or named hooks if you want more fine grained
 control.
 
 All defined hooks are run whenever the relevant action occurs. The action
-tree looks something like that:
+tree looks something like this:
 
 .. code-block:: text
 
@@ -77,10 +77,10 @@ scenario in this action tree.
 Hooks
 -----
 Hooks allow you to execute your custom code just before or just after each
-of these actions. Behat allows you to use next hooks:
+of these actions. Behat allows you to use the following hooks:
 
 #. The ``BeforeSuite`` hook is run before any feature in the suite runs. For
-   example, you could use this to setup the project you are testing. This
+   example, you could use this to set up the project you are testing. This
    hook receives an optional argument with an instance of the
    ``Behat\Testwork\Hook\Scope\BeforeSuiteScope`` class.
 
