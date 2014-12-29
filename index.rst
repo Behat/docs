@@ -88,6 +88,7 @@ Learn specific solutions for specific needs:
     :maxdepth: 1
 
     cookbooks/1.symfony2_integration
+    cookbooks/context_communication
 
 More about Behaviour Driven Development
 ---------------------------------------
