@@ -38,7 +38,7 @@ application behaves, then the context class is all about how to test it.
         {} // do something
     }
 
-Simple mnemonic for context classes is - "testing features *in a context*".
+A simple mnemonic for context classes is "testing features *in a context*".
 Feature descriptions tend to be very high level. It means there's not much
 technical detail exposed in them, so the way you will test those
 features pretty much depends on the context you test them in. That's what
@@ -58,10 +58,10 @@ In order to be used by Behat, your context class should follow these rules:
 
 #. The context class should be discoverable and loadable by Behat. That means you
    should somehow tell Behat about your class file. Behat comes with a PSR-0
-   autoloader out-of-the-box and default autoloading directory is
+   autoloader out of the box and the default autoloading directory is
    ``features/bootstrap``. That's why the default ``FeatureContext`` is loaded so
    easily by Behat. You can place your own classes under ``features/bootstrap``
-   by following PSR-0 convention or you can even define your own custom
+   by following the PSR-0 convention or you can even define your own custom
    autoloading folder via ``behat.yml``.
 
 .. note::
@@ -124,10 +124,11 @@ inside a single class. You could use class inheritance and split definitions
 into multiple classes, but doing so could cause your code to become more
 difficult to follow and use.
 
-In light of these issues, Behat provides a more flexible way to help make
-your code more structured using multiple contexts per a single test suite.
+In light of these issues, Behat provides a more flexible way of helping make
+your code more structured by allowing you to use multiple contexts in a single test 
+suite.
 
-In order to customise list of contexts your test suite requires, you need
+In order to customise the list of contexts your test suite requires, you need
 to fine-tune the suite configuration inside ``behat.yml``:
 
 .. code-block:: yaml
@@ -149,15 +150,15 @@ configures suites inside profile. We will talk about test suites in more
 detail in the :doc:`next chapter </guides/5.suites>`, for now just keep in mind
 that a suite is a way to tell Behat where to find your features and
 how to test them. The interesting part for us now is the ``contexts``
-section - this is an array of context class names. Behat will use classes
-specified there as your feature contexts. It simply means that every time
-Behat will see a scenario in your test suite, it will:
+section - this is an array of context class names. Behat will use the classes
+specified there as your feature contexts. This means that every time
+Behat sees a scenario in your test suite, it will:
 
 #. Get list of all context classes from this ``contexts`` option.
 
 #. Will try to initialize all these context classes into objects.
 
-#. Will search for :doc:`step definitions </guides/2.definitions>`,
+#. Will search for :doc:`step definitions </guides/2.definitions>` and
    :doc:`hooks </guides/3.hooks>` in all of them.
 
 .. note::
@@ -168,8 +169,8 @@ Behat will see a scenario in your test suite, it will:
     Behat.
 
 Basically, all contexts under ``contexts`` section of your ``behat.yml``
-are the same for Behat. It will find and use methods in them same way
-it does in default ``FeatureContext``. And if you're happy with a single
+are the same for Behat. It will find and use the methods in them the same way
+it does in the default ``FeatureContext``. And if you're happy with a single
 context class, but you don't like the name ``FeatureContext``, here's
 how you change it:
 
@@ -193,12 +194,12 @@ Context classes can be very flexible depending on how far you want
 to go in making them dynamic. Most of us will want to make our contexts 
 environment-independent; where should we put temporary files, which URLs 
 will be used to access the application? These are
-context configuration options highly dependant on the environment you
+context configuration options highly dependent on the environment you
 will test your features in.
 
 We already said that context classes are just plain old PHP classes.
-How would you incorporate environment-dependant parameters into your
-PHP classes? You will use *constructor arguments*:
+How would you incorporate environment-dependent parameters into your
+PHP classes? Use *constructor arguments*:
 
 .. code-block:: php
 
