@@ -289,8 +289,9 @@ execution.
 
 .. tip::
 
-    Install ``php5-posix`` on Linux, Mac OS or other Unix system
-    to be able to see colorful Behat output.
+    Enable the "posix" PHP extension in order to see colorful Behat output.
+    Depending on your Linux, Mac OS or other Unix system it might be part
+    of the default PHP installation or a separate ``php5-posix`` package.
 
 Undefined Steps
 ~~~~~~~~~~~~~~~
