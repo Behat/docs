@@ -73,9 +73,9 @@ From that point you should be able to run Behat and Symfony2 extension will be l
 Accessing application services in contexts
 ------------------------------------------
 
-Extension we have just installed detects default Symfony configuration and allows
-to use your application services in context classes. To be able to do it you need
-to change your ``behat.yml``` configuration and tell extension which services will be injected:
+The extension we have just installed detects the default Symfony configuration and allows
+to use your application services in context classes. To make a service available in a context you need
+to change your ``behat.yml`` configuration and tell the extension which services to inject:
 
 .. code-block:: yaml
 
@@ -88,8 +88,8 @@ to change your ``behat.yml``` configuration and tell extension which services wi
       extensions:
         Behat\Symfony2Extension: ~
 
-This configuration will try to to match ``$session`` dependency of your ``FeatureContext`` constructor by injecting ``session`` service to the context.
-Be careful because if such service does not exist or name does not match it will not work and you will end up with Behat exception.
+This configuration will try to to match the ``$session`` dependency of your ``FeatureContext`` constructor by injecting the ``session`` service into the context.
+Be careful because if such a service does not exist or its name does not match, it will not work and you will end up with a Behat exception.
 
 Using KernelDriver with your Behat suite
 ----------------------------------------
