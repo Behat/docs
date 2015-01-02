@@ -14,8 +14,8 @@ master_doc = 'index'
 project = u'Behat'
 copyright = u'2014, Konstantin Kudryashov (@everzet)'
 
-version = '3.0'
-release = '3.0.12'
+version = '2.5'
+release = '2.5.3'
 
 language = 'php'
 highlight_language = 'php'
