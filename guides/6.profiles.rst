@@ -24,8 +24,8 @@ In this instance, scenarios tagged as @wip will be ignored unless the CLI comman
 
     vendor/bin/behat --tags=wip
 
-Custom Locations Autoloaded Files and Feature Descriptions
-----------------------------------------------------------
+Relocating Autoloaded Files and Feature Descriptions
+----------------------------------------------------
 
 Generally web frameworks have a conventional place for test-related
 files. When starting a new project or incorporating Behat into an
@@ -37,6 +37,8 @@ to be told where to find things. The following behat.yml snippet is
 taken from a Laravel project:
 
 .. code-block:: yaml
+
+
     default:
 	autoload:
 		'': %paths.base%/app/tests/features/bootstrap
@@ -50,6 +52,7 @@ taken from a Laravel project:
 - The "autoload" section instructs Behat where to look for the context
   PHP class files.
 
+  
 - The "suites" section instructs behat where to look for feature
   descriptions related to the "cart" feature of the website. The
   "paths" directive defines the directory location where individual
@@ -57,6 +60,7 @@ taken from a Laravel project:
   PHP classes to load for this test suite. These classes are the ones
   discovered via the "autoload" section above.
 
+  
 - Suites are explained in :doc:`previous chapter </guides/5.suites>`,
   but, briefly, they are a way of organizing related tests into
   subdirectories so that a large set of tests does not become
