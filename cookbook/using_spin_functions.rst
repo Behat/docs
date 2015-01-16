@@ -110,7 +110,7 @@ sit spinning forever. To resolve this, we can add a timeout.
                 // do nothing
             }
             
-            sleep(1);
+            $this->getSession()->wait(500); // miliseconds
         }
         
         $backtrace = debug_backtrace();
