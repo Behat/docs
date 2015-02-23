@@ -115,11 +115,11 @@ method as an argument value. In the example above,
 ``FeatureContext::someMethod()`` will be called three times, each time with
 a different argument:
 
-#. ``$context->someMethod( $methodArgument = 'string1' );``.
+#. ``$context->someMethod($methodArgument = 'string1');``.
 
-#. ``$context->someMethod( $methodArgument = 'some other string' );``.
+#. ``$context->someMethod($methodArgument = 'some other string');``.
 
-#. ``$context->someMethod( $methodArgument = '25' );``.
+#. ``$context->someMethod($methodArgument = '25');``.
 
 .. note::
 
@@ -296,7 +296,7 @@ execution.
 Undefined Steps
 ~~~~~~~~~~~~~~~
 
-When Behat cannot find a matching definition, the step are marked as
+When Behat cannot find a matching definition, the step is marked as
 **undefined**, and all subsequent steps in the scenarios are **skipped**.
 
 Let's pretend we have an empty context class:
@@ -720,8 +720,8 @@ via a comma-delimited list of the column headers prefixed with ``table:``:
     behavior. Also, they are inherently hard to debug because of their
     highly dynamic nature.
 
-Browse your steps dictionnary
------------------------------
+Browse your steps dictionary
+----------------------------
 
 As your set of features will grow, there's a good chance that the amount of
 different steps that you'll have at your disposal to describe new scenarios will also grow.
@@ -730,7 +730,7 @@ Behat provides a command line option ``--definitions`` or simply ``-d`` to easil
 in order to reuse them or adapt them (introducing new placeholders for example).
 
 For example, when using the Mink context provided by the Mink extension, you'll have access to its
-step dictionnary by running:
+step dictionary by running:
 
 .. code-block:: console
 
@@ -778,4 +778,4 @@ You can also search for a specific pattern by running:
 
     #...
 
-That's it, you can now search and browse your whole step dictionnary.
+That's it, you can now search and browse your whole step dictionary.

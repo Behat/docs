@@ -167,7 +167,7 @@ use of a template with placeholders:
 
 The Scenario Outline steps provide a template which is never directly run. A
 Scenario Outline is run once for each row in the Examples section beneath it
-(except from the first header row).
+(except for the first header row).
 
 The Scenario Outline uses placeholders, which are contained within
 ``< >`` in the Scenario Outline's steps. For example:
@@ -195,7 +195,7 @@ So when running the first row of our example:
 
 .. code-block:: gherkin
 
-    Scenario Outline: controlling order
+    Scenario Outline: Eating
       Given there are <start> cucumbers
       When I eat <eat> cucumbers
       Then I should have <left> cucumbers
@@ -208,7 +208,7 @@ The scenario that is actually run is:
 
 .. code-block:: gherkin
 
-    Scenario Outline: controlling order
+    Scenario: Eating
       # <start> replaced with 12:
       Given there are 12 cucumbers
       # <eat> replaced with 5:
@@ -287,7 +287,7 @@ use cases, givens are your preconditions.
 
 .. tip::
 
-    It's ok to call into the layer "inside" the UI layer here (in symfony: talk
+    It's OK to call into the layer "inside" the UI layer here (in Symfony: talk
     to the models).
 
 .. sidebar:: Using Givens as Data Fixtures
@@ -485,7 +485,7 @@ three double-quote marks (``"""``), placed on their own line:
 .. note::
 
     The inspiration for PyString comes from Python where ``"""`` is used to
-    delineate docstrings, much in the way ``/* ... */`` is used for multiline
+    delineate docstrings, much in the way ``/** ... */`` is used for multiline
     docblocks in PHP.
 
 .. sidebar:: Matching PyStrings in your Step Definition
