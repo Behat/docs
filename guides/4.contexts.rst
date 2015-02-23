@@ -19,23 +19,33 @@ application behaves, then the context class is all about how to test it.
     class FeatureContext implements Context
     {
         public function __construct($parameter)
-        {} // instantiate context
+        {
+            // instantiate context
+        }
 
         /** @BeforeFeature */
         public static function prepareForTheFeature()
-        {} // clean database or do other preparation stuff
+        {
+            // clean database or do other preparation stuff
+        }
 
         /** @Given we have some context */
         public function prepareContext()
-        {} // do something
+        {
+            // do something
+        }
 
         /** @When event occurs */
         public function doSomeAction()
-        {} // do something
+        {
+            // do something
+        }
 
         /** @Then something should be done */
         public function checkOutcomes()
-        {} // do something
+        {
+            // do something
+        }
     }
 
 A simple mnemonic for context classes is "testing features *in a context*".
