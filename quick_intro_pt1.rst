@@ -643,8 +643,7 @@ and ``Basket`` class looking like this:
         public function addProduct($product)
         {
             $this->products[] = $product;
-            $this->productsPrice += $this->shelf
-                ->getProductPrice($product);
+            $this->productsPrice += $this->shelf->getProductPrice($product);
         }
 
         public function getTotalPrice()
