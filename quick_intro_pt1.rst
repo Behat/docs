@@ -463,7 +463,10 @@ code we could come up with to fulfil our scenario. Something like this:
          */
         public function iShouldHaveProductInTheBasket($count)
         {
-            PHPUnit_Framework_Assert::assertCount(intval($count), $this->basket);
+            PHPUnit_Framework_Assert::assertCount(
+                intval($count),
+                $this->basket
+            );
         }
 
         /**
@@ -471,7 +474,10 @@ code we could come up with to fulfil our scenario. Something like this:
          */
         public function theOverallBasketPriceShouldBePs($price)
         {
-            PHPUnit_Framework_Assert::assertSame(floatval($price), $this->basket->getTotalPrice());
+            PHPUnit_Framework_Assert::assertSame(
+                floatval($price),
+                $this->basket->getTotalPrice()
+            );
         }
     }
 
@@ -496,7 +502,10 @@ state of our ``Basket`` object with our expectations using PHPUnit assertions.
 
     .. code-block:: php
 
-        PHPUnit_Framework_Assert::assertCount(intval($count), $this->basket);
+        PHPUnit_Framework_Assert::assertCount(
+            intval($count),
+            $this->basket
+        );
 
 Now try to execute your feature tests:
 
@@ -640,8 +649,8 @@ and ``Basket`` class looking like this:
         public function getTotalPrice()
         {
             return $this->productsPrice
-                 + ($this->productsPrice * 0.2)
-                 + ($this->productsPrice > 10 ? 2.0 : 3.0);
+                + ($this->productsPrice * 0.2)
+                + ($this->productsPrice > 10 ? 2.0 : 3.0);
         }
 
         public function count()
