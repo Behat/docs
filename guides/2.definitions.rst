@@ -734,7 +734,7 @@ step dictionary by running:
 
 .. code-block:: console
 
-    $ behat --di
+    $ behat -di
     web_features | Given /^(?:|I )am on (?:|the )homepage$/
                  | Opens homepage.
                  | at `Behat\MinkExtension\Context\MinkContext::iAmOnHomepage()`
@@ -753,7 +753,7 @@ or, for a shorter output:
 
 .. code-block:: console
 
-    $ behat --dl
+    $ behat -dl
     web_features | Given /^(?:|I )am on (?:|the )homepage$/
     web_features |  When /^(?:|I )go to (?:|the )homepage$/
     web_features | Given /^(?:|I )am on "(?P<page>[^"]+)"$/
