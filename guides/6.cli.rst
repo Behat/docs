@@ -254,7 +254,7 @@ Tag filters supports three logical operators:
 
 - Tags separated by commas will be combined using the ``OR`` operation
 - Tags separated by ``&&`` will be combined using the ``AND`` operation
-- Tags preceded by ``~`` will be excluded, combined using the ``NOT`` operation
+- Tags preceded by ``~`` will be excluded using the ``NOT`` operation
 
 For example:
 
