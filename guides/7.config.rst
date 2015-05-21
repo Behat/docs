@@ -304,3 +304,8 @@ You could setup default value for any option, that available for you in ``behat.
 Just provide options in *url* format (parseable by ``parse_str()`` php function).
 Behat will use those options as default ones and you will always be able to redefine
 them with project ``behat.yml`` (it has higher priority).
+
+.. tip::
+
+    NOTE: In Behat 3.x the value for the `BEHAT_PARAMS` variable must be in JSON format.
+
