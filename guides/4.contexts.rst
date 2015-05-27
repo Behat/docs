@@ -197,36 +197,38 @@ how you change it:
 This configuration will tell Behat to look for ``MyAwesomeContext``
 instead of the default ``FeatureContext``.
 
-Unlike :doc:`profiles </guides/6.profiles>`, Behat will not inherit any
-configuration of your ``default`` suite. The name ``default`` is only used for
-demonstration purpose in this guide. If you have multiple suites that all
-should use the same context, you will have to define that specific context for
-every specifc suite:
+.. note::
 
-.. code-block:: yaml
+    Unlike :doc:`profiles </guides/6.profiles>`, Behat will not inherit any
+    configuration of your ``default`` suite. The name ``default`` is only used
+    for demonstration purpose in this guide. If you have multiple suites that
+    all should use the same context, you will have to define that specific
+    context for every specific suite:
 
-    # behat.yml
+    .. code-block:: yaml
 
-    default:
-        suites:
-            default:
-                contexts:
-                    - MyAwesomeContext
-                    - MyWickedContext
-            suite_a:
-                contexts:
-                    - MyAwesomeContext
-                    - MyWickedContext
-            suite_b:
-                contexts:
-                    - MyAwesomeContext
+        # behat.yml
 
-This configuration will tell Behat to look for ``MyAwesomeContext`` and
-``MyWickedContext`` when testing ``suite_a`` and ``MyAwesomeContext`` when
-testing ``suite_b``. In this example, ``suite_b`` will not be able to call steps
-that are defined in the ``MyWickedContext``. As you can see, even if you are
-using the name ``default`` as the name of the suite, Behat will not inherit any
-configuration from this suite.
+        default:
+            suites:
+                default:
+                    contexts:
+                        - MyAwesomeContext
+                        - MyWickedContext
+                suite_a:
+                    contexts:
+                        - MyAwesomeContext
+                        - MyWickedContext
+                suite_b:
+                    contexts:
+                        - MyAwesomeContext
+
+    This configuration will tell Behat to look for ``MyAwesomeContext`` and
+    ``MyWickedContext`` when testing ``suite_a`` and ``MyAwesomeContext`` when
+    testing ``suite_b``. In this example, ``suite_b`` will not be able to call
+    steps that are defined in the ``MyWickedContext``. As you can see, even if
+    you are using the name ``default`` as the name of the suite, Behat will not
+    inherit any configuration from this suite.
 
 Context Parameters
 ------------------
