@@ -60,9 +60,8 @@ Create ``composer.json`` file in the project root:
 
     {
         "require": {
-            "behat/behat": "2.4.*@stable"
+            "behat/behat": "~2.5"
         },
-        "minimum-stability": "dev",
         "config": {
             "bin-dir": "bin/"
         }
@@ -72,7 +71,7 @@ Then download ``composer.phar`` and run ``install`` command:
 
 .. code-block:: bash
 
-    $ curl http://getcomposer.org/installer | php
+    $ curl -sS https://getcomposer.org/installer | php
     $ php composer.phar install
 
 .. note::
@@ -99,11 +98,7 @@ After that, you will be able to run Behat with:
 Method #2 (PHAR)
 ~~~~~~~~~~~~~~~~
 
-Also, you can use behat phar package:
-
-.. code-block:: bash
-
-    $ wget https://github.com/downloads/Behat/Behat/behat.phar
+Download the PHAR corresponding to the latest 2.5 release on the `Github release page`_.
 
 Now you can execute Behat by simply running phar archive through ``php``:
 
@@ -119,13 +114,12 @@ You can also clone the project with Git by running:
 .. code-block:: bash
 
     $ git clone git://github.com/Behat/Behat.git && cd Behat
-    $ git submodule update --init
 
 Then download ``composer.phar`` and run ``install`` command:
 
 .. code-block:: bash
 
-    $ wget -nc http://getcomposer.org/composer.phar
+    $ wget -nc https://getcomposer.org/composer.phar
     $ php composer.phar install
 
 After that, you will be able to run Behat with:
@@ -610,6 +604,7 @@ web applications by using Behat with Mink.
 .. _`Mink`: https://github.com/behat/mink
 .. _`What's in a Story?`: http://blog.dannorth.net/whats-in-a-story/
 .. _`Cucumber`: http://cukes.info/
+.. _`Github release page`: https://github.com/Behat/Behat/releases
 .. _`Goutte`: https://github.com/fabpot/goutte
 .. _`PHPUnit`: http://phpunit.de
 .. _`Testing Web Applications with Mink`: https://github.com/behat/mink
