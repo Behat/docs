@@ -36,5 +36,5 @@ your project folder (or create a new one) and check the installed version using:
 
     $ php behat.phar -V
 
-.. _the Composer documentation: https://getcomposer.org/download/
-.. _the download page: https://github.com/Behat/Behat/releases
+.. _`the Composer documentation`: https://getcomposer.org/download/
+.. _`the download page`: https://github.com/Behat/Behat/releases
