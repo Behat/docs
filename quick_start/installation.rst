@@ -4,7 +4,7 @@ Installation
 Before you begin, ensure that you have at least PHP 5.3.3 installed.
 
 Method #1 - Composer (the recommended one)
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+------------------------------------------
 
 The official way to install Behat is through Composer. Composer is a package
 manager for PHP. Not only can it install Behat for you right now, it will be
@@ -25,7 +25,7 @@ Then you will be able to check installed Behat version using:
     $ vendor/bin/behat -V
 
 Method #2 - PHAR (an easy one)
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+------------------------------
 
 An easier way to install Behat is to grab a latest ``behat.phar`` from
 `the download page`_. Make sure
