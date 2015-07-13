@@ -1,8 +1,8 @@
 # -*- coding: utf-8 -*-
 
-import sys, os
-from sphinx.highlighting import lexers 
-from pygments.lexers.web import PhpLexer 
+import sys, os, sphinx_rtd_theme
+from sphinx.highlighting import lexers
+from pygments.lexers.web import PhpLexer
 
 lexers['php'] = PhpLexer(startinline=True)
 extensions = []
@@ -27,3 +27,8 @@ htmlhelp_basename = 'behat'
 
 html_theme_path = ["_themes"]
 html_theme = 'borg'
+
+# Overriding the default Behat theme in order to have the default RTD theme.
+# This allows us to check the entire documentation structure.
+html_theme = "sphinx_rtd_theme"
+html_theme_path = [sphinx_rtd_theme.get_html_theme_path()]
