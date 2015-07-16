@@ -229,7 +229,7 @@ develop different layers of your application with Behat:
 
 In this case, Behat will first run all the features from the ``features/``
 folder in ``DomainContext`` and then only those tagged with ``@web`` in
- ``WebContext``.
+``WebContext``.
 
 .. tip::
 
