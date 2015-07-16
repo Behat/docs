@@ -22,6 +22,5 @@ enjoy!
    quick_start/example
    quick_start/installation
    quick_start/development
-   quick_start/executing_behat
 
 .. _`Behavior Driven Development`: http://en.wikipedia.org/wiki/Behavior_Driven_Development
