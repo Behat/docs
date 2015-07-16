@@ -1,4 +1,4 @@
-Useful resources
+Useful Resources
 ================
 
 Integrating Behat with PHPStorm

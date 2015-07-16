@@ -492,7 +492,7 @@ There are many more benefits to BDD but those are the key reasons why most BDD
 practitioners do BDD in Ruby, .Net, Java, Python and JS. Welcome to the family!
 
 
-What's next?
+What's Next?
 ------------
 
 Congratulations! You now know everything you need in order to get started

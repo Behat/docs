@@ -1,4 +1,4 @@
-Informative output
+Informative Output
 ==================
 
 .. _user-guide--comand-line-tool--informative-output--print-definitions:

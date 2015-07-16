@@ -1,4 +1,4 @@
-Initializing a new Behat Project
+Initializing a New Behat Project
 ================================
 
 The easiest way to start using Behat in your project is to call ``behat``

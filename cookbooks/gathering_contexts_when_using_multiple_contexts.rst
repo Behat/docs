@@ -1,4 +1,4 @@
-Gathering contexts when using multiple contexts
+Gathering Contexts when using Multiple Contexts
 ===============================================
 
 When splitting the definitions in multiple contexts, it might be useful to
