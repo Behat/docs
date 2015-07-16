@@ -25,9 +25,14 @@
 
         <nav class="toc">
             <h3>Chapters</h3>
-            {{ toc }}
+            {% set toctree = toctree(maxdepth=2, collapse=True, includehidden=True) %}
+            {% if toctree %}
+                {{ toctree }}
+            {% else %}
+                <!-- Local TOC -->
+                <div class="local-toc">{{ toc }}</div>
+            {% endif %}
         </nav>
-
         <section class="text">
             {% block body %}{% endblock %}
         </section>
