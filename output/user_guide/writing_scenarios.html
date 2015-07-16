@@ -1,0 +1,440 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>Writing Scenarios &mdash; Behat 3.0.12 documentation</title>
+    
+    <link rel="stylesheet" href="../_static/basic.css" type="text/css" />
+    <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+    <link rel="stylesheet" href="../_static/css/normalize.css" type="text/css" />
+    <link rel="stylesheet" href="../_static/css/borg.css" type="text/css" />
+    <link rel="stylesheet" href="../_static/css/documentation.css" type="text/css" />
+    <link rel="stylesheet" href="../_static/css/pygments.css" type="text/css" />
+    <link rel="stylesheet" href="http://fonts.googleapis.com/css?family=Comfortaa" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '../',
+        VERSION:     '3.0.12',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="../_static/jquery.js"></script>
+    <script type="text/javascript" src="../_static/underscore.js"></script>
+    <script type="text/javascript" src="../_static/doctools.js"></script>
+    <link rel="top" title="Behat 3.0.12 documentation" href="../index.html" />
+    <link rel="up" title="User Guide" href="../user_guide.html" />
+    <link rel="next" title="Organizing Features and Scenarios" href="organizing_features_and_scenarios.html" />
+    <link rel="prev" title="Initializing a New Behat Project" href="initializing_a_new_behat_project.html" /> 
+  </head>
+  <body role="document">
+    <header>
+        <a class="logo" href="http://behat.org">behat</a>
+
+        <nav>
+            <ul>
+                <li><a href="http://behat.org">About</a></li>
+                <li class="active"><a href="/">Docs</a></li>
+            </ul>
+        </nav>
+
+        <a class="fork" href="https://github.com/Behat/Behat">Fork us</a>
+    </header>
+
+    <section>
+
+        <nav class="toc">
+            <h3>Chapters</h3>
+            
+            
+                <ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="../intro.html">Introduction</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../quick_start.html">Quick Start</a></li>
+<li class="toctree-l1 current"><a class="reference internal" href="../user_guide.html">User Guide</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="gherkin_language.html">About Gherkin Language</a></li>
+<li class="toctree-l2"><a class="reference internal" href="features_scenarios.html">Features and Scenarios</a></li>
+<li class="toctree-l2"><a class="reference internal" href="initializing_a_new_behat_project.html">Initializing a New Behat Project</a></li>
+<li class="toctree-l2 current"><a class="current reference internal" href="">Writing Scenarios</a></li>
+<li class="toctree-l2"><a class="reference internal" href="organizing_features_and_scenarios.html">Organizing Features and Scenarios</a></li>
+<li class="toctree-l2"><a class="reference internal" href="feature_contexts.html">Feature Contexts</a></li>
+<li class="toctree-l2"><a class="reference internal" href="command_line_tool.html">Command Line Tool</a></li>
+<li class="toctree-l2"><a class="reference internal" href="configuration.html">Configuration</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../cookbooks.html">Cookbooks</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../useful_resources.html">Useful Resources</a></li>
+</ul>
+
+            
+        </nav>
+        <section class="text">
+            
+  <div class="section" id="writing-scenarios">
+<h1>Writing Scenarios<a class="headerlink" href="#writing-scenarios" title="Permalink to this headline">¶</a></h1>
+<div class="section" id="steps">
+<span id="user-guide-writing-scenarios-steps"></span><h2>Steps<a class="headerlink" href="#steps" title="Permalink to this headline">¶</a></h2>
+<p><a class="reference internal" href="features_scenarios.html#user-guide-features-scenarios-features"><span>Features</span></a> consist of steps, also known as
+<a class="reference internal" href="#givens">Givens</a>, <a class="reference internal" href="#whens">Whens</a> and <a class="reference internal" href="#thens">Thens</a>.</p>
+<p>Behat doesn&#8217;t technically distinguish between these three kind of steps.
+However, we strongly recommend that you do! These words have been carefully
+selected for their purpose and you should know what the purpose is to get into
+the BDD mindset.</p>
+<p>Robert C. Martin has written a <a class="reference external" href="https://sites.google.com/site/unclebobconsultingllc/the-truth-about-bdd">great post</a> about BDD&#8217;s Given-When-Then concept
+where he thinks of them as a finite state machine.</p>
+<div class="section" id="givens">
+<h3>Givens<a class="headerlink" href="#givens" title="Permalink to this headline">¶</a></h3>
+<p>The purpose of the <strong>Given</strong> steps is to <strong>put the system in a known state</strong> before
+the user (or external system) starts interacting with the system (in the When
+steps). Avoid talking about user interaction in givens. If you have worked with
+use cases, givens are your preconditions.</p>
+<div class="sidebar">
+<p class="first sidebar-title">Given Examples</p>
+<p>Two good examples of using <strong>Givens</strong> are:</p>
+<ul class="last">
+<li><p class="first">To create records (model instances) or set up the database:</p>
+<div class="highlight-gherkin"><div class="highlight"><pre><span class="k">Given </span><span class="nf">there are no users on site</span>
+<span class="k">Given </span><span class="nf">the database is clean</span>
+</pre></div>
+</div>
+</li>
+<li><p class="first">Authenticate a user (an exception to the no-interaction recommendation.
+Things that &#8220;happened earlier&#8221; are ok):</p>
+<div class="highlight-gherkin"><div class="highlight"><pre><span class="k">Given </span><span class="nf">I am logged in as &quot;</span><span class="s">Everzet</span><span class="nf">&quot;</span>
+</pre></div>
+</div>
+</li>
+</ul>
+</div>
+<div class="admonition tip">
+<p class="first admonition-title">Tip</p>
+<p class="last">It&#8217;s OK to call into the layer &#8220;inside&#8221; the UI layer here (in Symfony: talk
+to the models).</p>
+</div>
+<div class="sidebar">
+<p class="first sidebar-title">Using Givens as Data Fixtures</p>
+<p>If you use ORMs like Doctrine or Propel, we recommend using a Given step
+with a <a class="reference internal" href="#tables">tables</a> argument to   set up records instead of fixtures. This
+way you can read the scenario all in one place and make sense out of it
+without having to jump between files:</p>
+<div class="last highlight-gherkin"><div class="highlight"><pre><span class="k">Given </span><span class="nf">there are users:</span>
+<span class="nf">| username</span><span class="k"> |</span><span class="s"> password</span><span class="k"> |</span><span class="s"> email</span><span class="k">               |</span><span class="nf"></span>
+<span class="nf">| everzet</span><span class="k">  |</span><span class="s"> 123456</span><span class="k">   |</span><span class="s"> everzet@knplabs.com</span><span class="k"> |</span><span class="nf"></span>
+<span class="nf">| fabpot</span><span class="k">   |</span><span class="s"> 22@222</span><span class="k">   |</span><span class="s"> fabpot@symfony.com</span><span class="k">  |</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="section" id="whens">
+<h3>Whens<a class="headerlink" href="#whens" title="Permalink to this headline">¶</a></h3>
+<p>The purpose of <strong>When</strong> steps is to <strong>describe the key action</strong> the user
+performs (or, using Robert C. Martin&#8217;s metaphor, the state transition).</p>
+<div class="sidebar">
+<p class="first sidebar-title">When Examples</p>
+<p>Two good examples of using <strong>Whens</strong> are:</p>
+<ul class="last">
+<li><p class="first">Interact with a web page (the Mink library gives you many web-friendly
+<code class="docutils literal"><span class="pre">When</span></code> steps out of the box):</p>
+<div class="highlight-gherkin"><div class="highlight"><pre><span class="k">When </span><span class="nf">I am on &quot;</span><span class="s">/some/page</span><span class="nf">&quot;</span>
+<span class="k">When </span><span class="nf">I fill &quot;</span><span class="s">username</span><span class="nf">&quot; with &quot;</span><span class="s">everzet</span><span class="nf">&quot;</span>
+<span class="k">When </span><span class="nf">I fill &quot;</span><span class="s">password</span><span class="nf">&quot; with &quot;</span><span class="s">123456</span><span class="nf">&quot;</span>
+<span class="k">When </span><span class="nf">I press &quot;</span><span class="s">login</span><span class="nf">&quot;</span>
+</pre></div>
+</div>
+</li>
+<li><p class="first">Interact with some CLI library (call commands and record output):</p>
+<div class="highlight-gherkin"><div class="highlight"><pre><span class="k">When </span><span class="nf">I call &quot;</span><span class="s">ls -la</span><span class="nf">&quot;</span>
+</pre></div>
+</div>
+</li>
+</ul>
+</div>
+</div>
+<div class="section" id="thens">
+<h3>Thens<a class="headerlink" href="#thens" title="Permalink to this headline">¶</a></h3>
+<p>The purpose of <strong>Then</strong> steps is to <strong>observe outcomes</strong>. The observations
+should be related to the business value/benefit in your feature description.
+The observations should inspect the output of the system (a report, user
+interface, message, command output) and not something deeply buried inside it
+(that has no business value and is instead part of the implementation).</p>
+<div class="sidebar">
+<p class="first sidebar-title">Then Examples</p>
+<p>Two good examples of using <strong>Thens</strong> are:</p>
+<ul class="last">
+<li><p class="first">Verify that something related to the Given + When is (or is not) in the
+output:</p>
+<div class="highlight-gherkin"><div class="highlight"><pre><span class="k">When </span><span class="nf">I call &quot;</span><span class="s">echo hello</span><span class="nf">&quot;</span>
+<span class="k">Then </span><span class="nf">the output should be &quot;</span><span class="s">hello</span><span class="nf">&quot;</span>
+</pre></div>
+</div>
+</li>
+<li><p class="first">Check that some external system has received the expected message:</p>
+<div class="highlight-gherkin"><div class="highlight"><pre><span class="k">When </span><span class="nf">I send an email with:</span>
+<span class="nf">  </span><span class="k">&quot;&quot;&quot;</span><span class="s"></span>
+<span class="s">  ...</span>
+<span class="s">  </span><span class="k">&quot;&quot;&quot;</span><span class="nf"></span>
+<span class="k">Then </span><span class="nf">the client should receive the email with:</span>
+<span class="nf">  </span><span class="k">&quot;&quot;&quot;</span><span class="s"></span>
+<span class="s">  ...</span>
+<span class="s">  </span><span class="k">&quot;&quot;&quot;</span><span class="nf"></span>
+</pre></div>
+</div>
+</li>
+</ul>
+</div>
+<div class="admonition caution">
+<p class="first admonition-title">Caution</p>
+<p class="last">While it might be tempting to implement Then steps to just look in the
+database – resist the temptation. You should only verify output that is
+observable by the user (or external system). Database data itself is
+only visible internally to your application, but is then finally exposed
+by the output of your system in a web browser, on the command-line or an
+email message.</p>
+</div>
+</div>
+<div class="section" id="and-but">
+<h3>And &amp; But<a class="headerlink" href="#and-but" title="Permalink to this headline">¶</a></h3>
+<p>If you have several Given, When or Then steps you can write:</p>
+<div class="highlight-gherkin"><div class="highlight"><pre><span class="k">Scenario:</span><span class="nf"> Multiple Givens</span>
+<span class="k">  Given </span><span class="nf">one thing</span>
+<span class="nf">  </span><span class="k">Given </span><span class="nf">another thing</span>
+<span class="nf">  </span><span class="k">Given </span><span class="nf">yet another thing</span>
+<span class="nf">  </span><span class="k">When </span><span class="nf">I open my eyes</span>
+<span class="nf">  </span><span class="k">Then </span><span class="nf">I see something</span>
+<span class="nf">  </span><span class="k">Then </span><span class="nf">I don&#39;t see something else</span>
+</pre></div>
+</div>
+<p>Or you can use <strong>And</strong> or <strong>But</strong> steps, allowing your Scenario to read more
+fluently:</p>
+<div class="highlight-gherkin"><div class="highlight"><pre><span class="k">Scenario:</span><span class="nf"> Multiple Givens</span>
+<span class="k">  Given </span><span class="nf">one thing</span>
+<span class="nf">  </span><span class="k">And </span><span class="nf">another thing</span>
+<span class="nf">  </span><span class="k">And </span><span class="nf">yet another thing</span>
+<span class="nf">  </span><span class="k">When </span><span class="nf">I open my eyes</span>
+<span class="nf">  </span><span class="k">Then </span><span class="nf">I see something</span>
+<span class="nf">  </span><span class="k">But </span><span class="nf">I don&#39;t see something else</span>
+</pre></div>
+</div>
+<p>Behat interprets steps beginning with And or But exactly the same as all other
+steps; it doesn&#8217;t differentiate between them - you should!</p>
+</div>
+</div>
+<div class="section" id="backgrounds">
+<span id="user-guide-writing-scenarios-backgrounds"></span><h2>Backgrounds<a class="headerlink" href="#backgrounds" title="Permalink to this headline">¶</a></h2>
+<p>Backgrounds allows you to add some context to all scenarios in a single
+feature. A Background is like an untitled scenario, containing a number of
+steps. The difference is when it is run: the background is run <em>before each</em> of
+your scenarios, but after your <code class="docutils literal"><span class="pre">BeforeScenario</span></code>
+<a class="reference internal" href="feature_contexts/hooking_into_the_test_process.html#user-guide-feature-contexts-hooking-into-the-test-process-hooks"><span>Hooks</span></a>.</p>
+<div class="highlight-gherkin"><div class="highlight"><pre><span class="k">Feature:</span><span class="nf"> Multiple site support</span>
+
+<span class="nf">  </span><span class="k">Background:</span><span class="nf"></span>
+<span class="k">    Given </span><span class="nf">a global administrator named &quot;</span><span class="s">Greg</span><span class="nf">&quot;</span>
+<span class="nf">    </span><span class="k">And </span><span class="nf">a blog named &quot;</span><span class="s">Greg&#39;s anti-tax rants</span><span class="nf">&quot;</span>
+<span class="nf">    </span><span class="k">And </span><span class="nf">a customer named &quot;</span><span class="s">Wilson</span><span class="nf">&quot;</span>
+<span class="nf">    </span><span class="k">And </span><span class="nf">a blog named &quot;</span><span class="s">Expensive Therapy</span><span class="nf">&quot; owned by &quot;</span><span class="s">Wilson</span><span class="nf">&quot;</span>
+
+<span class="nf">  </span><span class="k">Scenario:</span><span class="nf"> Wilson posts to his own blog</span>
+<span class="k">    Given </span><span class="nf">I am logged in as Wilson</span>
+<span class="nf">    </span><span class="k">When </span><span class="nf">I try to post to &quot;</span><span class="s">Expensive Therapy</span><span class="nf">&quot;</span>
+<span class="nf">    </span><span class="k">Then </span><span class="nf">I should see &quot;</span><span class="s">Your article was published.</span><span class="nf">&quot;</span>
+
+<span class="nf">  </span><span class="k">Scenario:</span><span class="nf"> Greg posts to a client&#39;s blog</span>
+<span class="k">    Given </span><span class="nf">I am logged in as Greg</span>
+<span class="nf">    </span><span class="k">When </span><span class="nf">I try to post to &quot;</span><span class="s">Expensive Therapy</span><span class="nf">&quot;</span>
+<span class="nf">    </span><span class="k">Then </span><span class="nf">I should see &quot;</span><span class="s">Your article was published.</span><span class="nf">&quot;</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="scenario-outlines">
+<span id="user-guide-writing-scenarios-scenario-outlines"></span><h2>Scenario Outlines<a class="headerlink" href="#scenario-outlines" title="Permalink to this headline">¶</a></h2>
+<p>Copying and pasting scenarios to use different values can quickly become
+tedious and repetitive:</p>
+<div class="highlight-gherkin"><div class="highlight"><pre><span class="k">Scenario:</span><span class="nf"> Eat 5 out of 12</span>
+<span class="k">  Given </span><span class="nf">there are </span><span class="s">12</span><span class="nf"> cucumbers</span>
+<span class="nf">  </span><span class="k">When </span><span class="nf">I eat </span><span class="s">5</span><span class="nf"> cucumbers</span>
+<span class="nf">  </span><span class="k">Then </span><span class="nf">I should have </span><span class="s">7</span><span class="nf"> cucumbers</span>
+
+<span class="k">Scenario:</span><span class="nf"> Eat 5 out of 20</span>
+<span class="k">  Given </span><span class="nf">there are </span><span class="s">20</span><span class="nf"> cucumbers</span>
+<span class="nf">  </span><span class="k">When </span><span class="nf">I eat </span><span class="s">5</span><span class="nf"> cucumbers</span>
+<span class="nf">  </span><span class="k">Then </span><span class="nf">I should have </span><span class="s">15</span><span class="nf"> cucumbers</span>
+</pre></div>
+</div>
+<p>Scenario Outlines allow us to more concisely express these examples through the
+use of a template with placeholders:</p>
+<div class="highlight-gherkin"><div class="highlight"><pre><span class="k">Scenario Outline:</span><span class="nf"> Eating</span>
+<span class="k">  Given </span><span class="nf">there are </span><span class="nv">&lt;start&gt;</span><span class="nf"> cucumbers</span>
+<span class="nf">  </span><span class="k">When </span><span class="nf">I eat </span><span class="nv">&lt;eat&gt;</span><span class="nf"> cucumbers</span>
+<span class="nf">  </span><span class="k">Then </span><span class="nf">I should have </span><span class="nv">&lt;left&gt;</span><span class="nf"> cucumbers</span>
+
+<span class="nf">  </span><span class="k">Examples:</span>
+<span class="k">    |</span><span class="nv"> start</span><span class="k"> |</span><span class="nv"> eat</span><span class="k"> |</span><span class="nv"> left</span><span class="k"> |</span><span class="nf"></span>
+<span class="k">    |</span><span class="s">  12</span><span class="k">   |</span><span class="s">  5</span><span class="k">  |</span><span class="s">  7</span><span class="k">   |</span><span class="nf"></span>
+<span class="k">    |</span><span class="s">  20</span><span class="k">   |</span><span class="s">  5</span><span class="k">  |</span><span class="s">  15</span><span class="k">  |</span>
+</pre></div>
+</div>
+<p>The Scenario Outline steps provide a template which is never directly run. A
+Scenario Outline is run once for each row in the Examples section beneath it
+(except for the first header row).</p>
+<p>The Scenario Outline uses placeholders, which are contained within
+<code class="docutils literal"><span class="pre">&lt;</span> <span class="pre">&gt;</span></code> in the Scenario Outline&#8217;s steps. For example:</p>
+<div class="highlight-gherkin"><div class="highlight"><pre><span class="k">Given </span><span class="nv">&lt;I&#39;m a placeholder and I&#39;m ok&gt;</span><span class="nf"></span>
+</pre></div>
+</div>
+<p>Think of a placeholder like a variable. It is replaced with a real value from
+the <code class="docutils literal"><span class="pre">Examples:</span></code> table row, where the text between the placeholder angle
+brackets matches that of the table column header. The value substituted for
+the placeholder changes with each subsequent run of the Scenario Outline,
+until the end of the <code class="docutils literal"><span class="pre">Examples</span></code> table is reached.</p>
+<div class="admonition tip">
+<p class="first admonition-title">Tip</p>
+<p class="last">You can also use placeholders in <a class="reference internal" href="#multiline-arguments">Multiline Arguments</a>.</p>
+</div>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p class="last">Your step definitions will never have to match the placeholder text itself,
+but rather the values replacing the placeholder.</p>
+</div>
+<p>So when running the first row of our example:</p>
+<div class="highlight-gherkin"><div class="highlight"><pre><span class="k">Scenario Outline:</span><span class="nf"> Eating</span>
+<span class="k">  Given </span><span class="nf">there are </span><span class="nv">&lt;start&gt;</span><span class="nf"> cucumbers</span>
+<span class="nf">  </span><span class="k">When </span><span class="nf">I eat </span><span class="nv">&lt;eat&gt;</span><span class="nf"> cucumbers</span>
+<span class="nf">  </span><span class="k">Then </span><span class="nf">I should have </span><span class="nv">&lt;left&gt;</span><span class="nf"> cucumbers</span>
+
+<span class="nf">  </span><span class="k">Examples:</span>
+<span class="k">    |</span><span class="nv"> start</span><span class="k"> |</span><span class="nv"> eat</span><span class="k"> |</span><span class="nv"> left</span><span class="k"> |</span><span class="nf"></span>
+<span class="k">    |</span><span class="s">  12</span><span class="k">   |</span><span class="s">  5</span><span class="k">  |</span><span class="s">  7</span><span class="k">   |</span>
+</pre></div>
+</div>
+<p>The scenario that is actually run is:</p>
+<div class="highlight-gherkin"><div class="highlight"><pre><span class="k">Scenario:</span><span class="nf"> Eating</span>
+<span class="c">  # &lt;start&gt; replaced with 12:</span><span class="nf"></span>
+<span class="k">  Given </span><span class="nf">there are </span><span class="s">12</span><span class="nf"> cucumbers</span>
+<span class="c">  # &lt;eat&gt; replaced with 5:</span><span class="nf"></span>
+<span class="nf">  </span><span class="k">When </span><span class="nf">I eat </span><span class="s">5</span><span class="nf"> cucumbers</span>
+<span class="c">  # &lt;left&gt; replaced with 7:</span><span class="nf"></span>
+<span class="nf">  </span><span class="k">Then </span><span class="nf">I should have </span><span class="s">7</span><span class="nf"> cucumbers</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="tables">
+<h2>Tables<a class="headerlink" href="#tables" title="Permalink to this headline">¶</a></h2>
+<p>Tables as arguments to steps are handy for specifying a larger data set -
+usually as input to a Given or as expected output from a Then.</p>
+<div class="highlight-gherkin"><div class="highlight"><pre><span class="k">Scenario:</span><span class="nf"></span>
+<span class="k">  Given </span><span class="nf">the following people exist:</span>
+<span class="k">    |</span><span class="s"> name</span><span class="k">  |</span><span class="s"> email</span><span class="k">           |</span><span class="s"> phone</span><span class="k"> |</span><span class="nf"></span>
+<span class="k">    |</span><span class="s"> Aslak</span><span class="k"> |</span><span class="s"> aslak@email.com</span><span class="k"> |</span><span class="s"> 123</span><span class="k">   |</span><span class="nf"></span>
+<span class="k">    |</span><span class="s"> Joe</span><span class="k">   |</span><span class="s"> joe@email.com</span><span class="k">   |</span><span class="s"> 234</span><span class="k">   |</span><span class="nf"></span>
+<span class="k">    |</span><span class="s"> Bryan</span><span class="k"> |</span><span class="s"> bryan@email.org</span><span class="k"> |</span><span class="s"> 456</span><span class="k">   |</span>
+</pre></div>
+</div>
+<div class="admonition attention">
+<p class="first admonition-title">Attention</p>
+<p class="last">Don&#8217;t confuse tables with <a class="reference internal" href="#scenario-outlines">scenario outlines</a> - syntactically
+they are identical, but they have a different purpose. Outlines declare
+multiple different values for the same scenario, while tables are used to
+expect a set of data.</p>
+</div>
+<div class="sidebar">
+<p class="first sidebar-title">Matching Tables in your Step Definition</p>
+<p>A matching definition for this step looks like this:</p>
+<div class="highlight-php"><div class="highlight"><pre><span class="k">use</span> <span class="nx">Behat\Gherkin\Node\TableNode</span><span class="p">;</span>
+
+<span class="c1">// ...</span>
+
+<span class="sd">/**</span>
+<span class="sd"> * @Given the following people exist:</span>
+<span class="sd"> */</span>
+<span class="k">public</span> <span class="k">function</span> <span class="nf">thePeopleExist</span><span class="p">(</span><span class="nx">TableNode</span> <span class="nv">$table</span><span class="p">)</span>
+<span class="p">{</span>
+    <span class="k">foreach</span> <span class="p">(</span><span class="nv">$table</span> <span class="k">as</span> <span class="nv">$row</span><span class="p">)</span> <span class="p">{</span>
+        <span class="c1">// $row[&#39;name&#39;], $row[&#39;email&#39;], $row[&#39;phone&#39;]</span>
+    <span class="p">}</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+<p class="last">A table is injected into a definition as a <code class="docutils literal"><span class="pre">TableNode</span></code> object, from
+which you can get hash by columns (<code class="docutils literal"><span class="pre">TableNode::getHash()</span></code> method) or by
+rows (<code class="docutils literal"><span class="pre">TableNode::getRowsHash()</span></code>).</p>
+</div>
+</div>
+<div class="section" id="multiline-arguments">
+<h2>Multiline Arguments<a class="headerlink" href="#multiline-arguments" title="Permalink to this headline">¶</a></h2>
+<p>The one line <a class="reference internal" href="#steps">steps</a> let Behat extract small strings from your steps
+and receive them in your step definitions. However, there are times when you
+want to pass a richer data structure from a step to a step definition.</p>
+<p>This is what multiline step arguments are designed for. They are written on
+lines immediately following a step and are passed to the step definition
+method as the last argument.</p>
+<p>Multiline step arguments come in two flavours: <a class="reference internal" href="#tables">tables</a> or <a class="reference internal" href="#pystrings">pystrings</a>.</p>
+</div>
+<div class="section" id="pystrings">
+<h2>Pystrings<a class="headerlink" href="#pystrings" title="Permalink to this headline">¶</a></h2>
+<p>Multiline Strings (also known as PyStrings) are useful for specifying a
+larger piece of text. The text should be offset by delimiters consisting of
+three double-quote marks (<code class="docutils literal"><span class="pre">&quot;&quot;&quot;</span></code>), placed on their own line:</p>
+<div class="highlight-gherkin"><div class="highlight"><pre><span class="k">Scenario:</span><span class="nf"></span>
+<span class="k">  Given </span><span class="nf">a blog post named &quot;</span><span class="s">Random</span><span class="nf">&quot; with:</span>
+<span class="nf">    </span><span class="k">&quot;&quot;&quot;</span><span class="s"></span>
+<span class="s">    Some Title, Eh?</span>
+<span class="s">    ===============</span>
+<span class="s">    Here is the first paragraph of my blog post.</span>
+<span class="s">    Lorem ipsum dolor sit amet, consectetur adipiscing</span>
+<span class="s">    elit.</span>
+<span class="s">    </span><span class="k">&quot;&quot;&quot;</span><span class="nf"></span>
+</pre></div>
+</div>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p class="last">The inspiration for PyString comes from Python where <code class="docutils literal"><span class="pre">&quot;&quot;&quot;</span></code> is used to
+delineate docstrings, much in the way <code class="docutils literal"><span class="pre">/**</span> <span class="pre">...</span> <span class="pre">*/</span></code> is used for multiline
+docblocks in PHP.</p>
+</div>
+<div class="sidebar">
+<p class="first sidebar-title">Matching PyStrings in your Step Definition</p>
+<p>In your step definition, there&#8217;s no need to find this text and match it in
+your pattern. The text will automatically be passed as the last
+argument into the step definition method. For example:</p>
+<div class="highlight-php"><div class="highlight"><pre><span class="k">use</span> <span class="nx">Behat\Gherkin\Node\PyStringNode</span><span class="p">;</span>
+
+<span class="c1">// ...</span>
+
+<span class="sd">/**</span>
+<span class="sd"> * @Given a blog post named :title with:</span>
+<span class="sd"> */</span>
+<span class="k">public</span> <span class="k">function</span> <span class="nf">blogPost</span><span class="p">(</span><span class="nv">$title</span><span class="p">,</span> <span class="nx">PyStringNode</span> <span class="nv">$markdown</span><span class="p">)</span>
+<span class="p">{</span>
+    <span class="nv">$this</span><span class="o">-&gt;</span><span class="na">createPost</span><span class="p">(</span><span class="nv">$title</span><span class="p">,</span> <span class="nv">$markdown</span><span class="o">-&gt;</span><span class="na">getRaw</span><span class="p">());</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+<p class="last">PyStrings are stored in a <code class="docutils literal"><span class="pre">PyStringNode</span></code> instance, which you can simply
+convert to a string with <code class="docutils literal"><span class="pre">(string)</span> <span class="pre">$pystring</span></code> or <code class="docutils literal"><span class="pre">$pystring-&gt;getRaw()</span></code>
+as in the example above.</p>
+</div>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p class="last">Indentation of the opening <code class="docutils literal"><span class="pre">&quot;&quot;&quot;</span></code> is not important, although common practice
+is two spaces in from the enclosing step. The indentation inside the triple
+quotes, however, is significant. Each line of the string passed to the step
+definition&#8217;s callback will be de-indented according to the opening <code class="docutils literal"><span class="pre">&quot;&quot;&quot;</span></code>.
+Indentation beyond the column of the opening <code class="docutils literal"><span class="pre">&quot;&quot;&quot;</span></code> will therefore be
+preserved.</p>
+</div>
+</div>
+</div>
+
+
+        </section>
+
+    </section>
+
+  </body>
+</html>

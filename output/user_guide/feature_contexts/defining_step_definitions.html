@@ -1,0 +1,702 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>Defining Step Definitions &mdash; Behat 3.0.12 documentation</title>
+    
+    <link rel="stylesheet" href="../../_static/basic.css" type="text/css" />
+    <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
+    <link rel="stylesheet" href="../../_static/css/normalize.css" type="text/css" />
+    <link rel="stylesheet" href="../../_static/css/borg.css" type="text/css" />
+    <link rel="stylesheet" href="../../_static/css/documentation.css" type="text/css" />
+    <link rel="stylesheet" href="../../_static/css/pygments.css" type="text/css" />
+    <link rel="stylesheet" href="http://fonts.googleapis.com/css?family=Comfortaa" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '../../',
+        VERSION:     '3.0.12',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="../../_static/jquery.js"></script>
+    <script type="text/javascript" src="../../_static/underscore.js"></script>
+    <script type="text/javascript" src="../../_static/doctools.js"></script>
+    <link rel="top" title="Behat 3.0.12 documentation" href="../../index.html" />
+    <link rel="up" title="Feature Contexts" href="../feature_contexts.html" />
+    <link rel="next" title="Command Line Tool" href="../command_line_tool.html" />
+    <link rel="prev" title="Hooking into the Test Process" href="hooking_into_the_test_process.html" /> 
+  </head>
+  <body role="document">
+    <header>
+        <a class="logo" href="http://behat.org">behat</a>
+
+        <nav>
+            <ul>
+                <li><a href="http://behat.org">About</a></li>
+                <li class="active"><a href="/">Docs</a></li>
+            </ul>
+        </nav>
+
+        <a class="fork" href="https://github.com/Behat/Behat">Fork us</a>
+    </header>
+
+    <section>
+
+        <nav class="toc">
+            <h3>Chapters</h3>
+            
+            
+                <ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="../../intro.html">Introduction</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../quick_start.html">Quick Start</a></li>
+<li class="toctree-l1 current"><a class="reference internal" href="../../user_guide.html">User Guide</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="../gherkin_language.html">About Gherkin Language</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../features_scenarios.html">Features and Scenarios</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../initializing_a_new_behat_project.html">Initializing a New Behat Project</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../writing_scenarios.html">Writing Scenarios</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../organizing_features_and_scenarios.html">Organizing Features and Scenarios</a></li>
+<li class="toctree-l2 current"><a class="reference internal" href="../feature_contexts.html">Feature Contexts</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../command_line_tool.html">Command Line Tool</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../configuration.html">Configuration</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../../cookbooks.html">Cookbooks</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../useful_resources.html">Useful Resources</a></li>
+</ul>
+
+            
+        </nav>
+        <section class="text">
+            
+  <div class="section" id="defining-step-definitions">
+<h1>Defining Step Definitions<a class="headerlink" href="#defining-step-definitions" title="Permalink to this headline">¶</a></h1>
+<p><a class="reference internal" href="../gherkin_language.html"><em>Gherkin language</em></a> provides a way to describe your
+application behavior in business understandable language. But how do you test
+that the described behavior is actually implemented? Or that the application
+satisfies your business expectations as described in the feature scenarios?
+Behat provides a way to map your scenario steps (actions) 1-to-1 with actual
+PHP code called step definitions:</p>
+<div class="highlight-php"><div class="highlight"><pre><span class="sd">/**</span>
+<span class="sd"> * @When I do something with :argument</span>
+<span class="sd"> */</span>
+<span class="k">public</span> <span class="k">function</span> <span class="nf">iDoSomethingWith</span><span class="p">(</span><span class="nv">$argument</span><span class="p">)</span>
+<span class="p">{</span>
+    <span class="c1">// do something with $argument</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p class="last">Step definitions are just normal PHP methods. They are instance methods in
+a special class called <a class="reference internal" href="../feature_contexts.html"><em>FeatureContext</em></a>.</p>
+</div>
+<div class="section" id="creating-your-first-step-definition">
+<h2>Creating Your First Step Definition<a class="headerlink" href="#creating-your-first-step-definition" title="Permalink to this headline">¶</a></h2>
+<p>The main goal for a step definition is to be executed when Behat sees its matching
+step in executed scenario. However, just because a method exists within <code class="docutils literal"><span class="pre">FeatureContext</span></code>
+doesn&#8217;t mean Behat can find it. Behat needs a way to check that a concrete class
+method is suitable for a concrete step in a scenario. Behat matches
+<code class="docutils literal"><span class="pre">FeatureContext</span></code> methods to step definitions using pattern matching.</p>
+<p>When Behat runs, it compares lines of Gherkin steps from each scenario to the
+patterns bound to each method in your <code class="docutils literal"><span class="pre">FeatureContext</span></code>. If the line of Gherkin
+satisfies a bound pattern, its corresponding step definition is executed. It&#8217;s
+that simple!</p>
+<p>Behat uses php-doc annotations to bind patterns to <code class="docutils literal"><span class="pre">FeatureContext</span></code> methods:</p>
+<div class="highlight-php"><div class="highlight"><pre><span class="sd">/**</span>
+<span class="sd"> * @When I do something with :methodArgument</span>
+<span class="sd"> */</span>
+<span class="k">public</span> <span class="k">function</span> <span class="nf">someMethod</span><span class="p">(</span><span class="nv">$methodArgument</span><span class="p">)</span> <span class="p">{}</span>
+</pre></div>
+</div>
+<p>Let&#8217;s take a closer look at this code:</p>
+<ol class="arabic simple">
+<li><code class="docutils literal"><span class="pre">&#64;When</span></code> is a definition keyword. There are 3 supported keywords in
+annotations: <code class="docutils literal"><span class="pre">&#64;Given</span></code>/<code class="docutils literal"><span class="pre">&#64;When</span></code>/<code class="docutils literal"><span class="pre">&#64;Then</span></code>. These three definition keywords
+are actually equivalent, but all three are available so that your step
+definition remains readable.</li>
+<li>The text after the keyword is the step text pattern (e.g.
+<code class="docutils literal"><span class="pre">I</span> <span class="pre">do</span> <span class="pre">something</span> <span class="pre">with</span> <span class="pre">:methodArgument</span></code>).</li>
+<li>All token values of the pattern (e.g. <code class="docutils literal"><span class="pre">:methodArgument</span></code>) will be captured
+and passed to the method argument with the same name (<code class="docutils literal"><span class="pre">$methodArgument</span></code>).</li>
+</ol>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p class="last">Notice the comment block starts with <code class="docutils literal"><span class="pre">/**</span></code>, and not the usual <code class="docutils literal"><span class="pre">/*</span></code>.
+This is important for Behat to be able to parse such comments as annotations!</p>
+</div>
+<p>As you have probably noticed, this pattern is quite general and its corresponding
+method will be called for steps that contain <code class="docutils literal"><span class="pre">...</span> <span class="pre">I</span> <span class="pre">do</span> <span class="pre">something</span> <span class="pre">with</span> <span class="pre">...</span></code>,
+including:</p>
+<div class="highlight-gherkin"><div class="highlight"><pre><span class="k">Given </span><span class="nf">I do something with &quot;</span><span class="s">string1</span><span class="nf">&quot;</span>
+<span class="k">When </span><span class="nf">I do something with &#39;some other string&#39;</span>
+<span class="k">Then </span><span class="nf">I do something with </span><span class="s">25</span><span class="nf"></span>
+</pre></div>
+</div>
+<p>The only real difference between those steps in the eyes of Behat is the
+captured token text. This text will be passed to the step&#8217;s corresponding
+method as an argument value. In the example above,
+<code class="docutils literal"><span class="pre">FeatureContext::someMethod()</span></code> will be called three times, each time with
+a different argument:</p>
+<ol class="arabic simple">
+<li><code class="docutils literal"><span class="pre">$context-&gt;someMethod($methodArgument</span> <span class="pre">=</span> <span class="pre">'string1');</span></code>.</li>
+<li><code class="docutils literal"><span class="pre">$context-&gt;someMethod($methodArgument</span> <span class="pre">=</span> <span class="pre">'some</span> <span class="pre">other</span> <span class="pre">string');</span></code>.</li>
+<li><code class="docutils literal"><span class="pre">$context-&gt;someMethod($methodArgument</span> <span class="pre">=</span> <span class="pre">'25');</span></code>.</li>
+</ol>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p>A pattern can&#8217;t automatically determine the datatype of its matches, so
+all method arguments coming from step definitions are passed as strings.
+Even if your pattern matches &#8220;500&#8221;, which could be considered an integer,
+&#8216;500&#8217; will be passed as a string argument to the step definition&#8217;s method.</p>
+<p>This is not a feature or limitation of Behat, but rather the inherent way
+string matching works. It is your responsibility to cast string arguments
+to integers, floats or booleans where applicable given the code you are
+testing.</p>
+<p class="last">Casting arguments to specific types can be accomplished using
+<a class="reference internal" href="#step-argument-transformations">step argument transformations</a>.</p>
+</div>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p class="last">Behat does not differentiate between step keywords when matching patterns
+to methods. So a step defined with <code class="docutils literal"><span class="pre">&#64;When</span></code> could also be matched to
+<code class="docutils literal"><span class="pre">&#64;Given</span> <span class="pre">...</span></code>, <code class="docutils literal"><span class="pre">&#64;Then</span> <span class="pre">...</span></code>, <code class="docutils literal"><span class="pre">&#64;And</span> <span class="pre">...</span></code>, <code class="docutils literal"><span class="pre">&#64;But</span> <span class="pre">...</span></code>, etc.</p>
+</div>
+<p>Your step definitions can also define multiple arguments to pass to its matching
+<code class="docutils literal"><span class="pre">FeatureContext</span></code> method:</p>
+<div class="highlight-php"><div class="highlight"><pre><span class="sd">/**</span>
+<span class="sd"> * @When I do something with :stringArgument and with :numberArgument</span>
+<span class="sd"> */</span>
+<span class="k">public</span> <span class="k">function</span> <span class="nf">someMethod</span><span class="p">(</span><span class="nv">$stringArgument</span><span class="p">,</span> <span class="nv">$numberArgument</span><span class="p">)</span> <span class="p">{}</span>
+</pre></div>
+</div>
+<p>You can also specify alternative words and optional parts of words, like this:</p>
+<div class="highlight-php"><div class="highlight"><pre><span class="sd">/**</span>
+<span class="sd"> * @When there is/are :count monster(s)</span>
+<span class="sd"> */</span>
+<span class="k">public</span> <span class="k">function</span> <span class="nf">thereAreMonsters</span><span class="p">(</span><span class="nv">$count</span><span class="p">)</span> <span class="p">{}</span>
+</pre></div>
+</div>
+<p>If you need to come up with a much more complicated matching algorithm, you can
+always use good old regular expressions:</p>
+<div class="highlight-php"><div class="highlight"><pre><span class="sd">/**</span>
+<span class="sd"> * @When /^there (?:is|are) (\d+) monsters?$/i</span>
+<span class="sd"> */</span>
+<span class="k">public</span> <span class="k">function</span> <span class="nf">thereAreMonsters</span><span class="p">(</span><span class="nv">$count</span><span class="p">)</span> <span class="p">{}</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="definition-snippets">
+<h2>Definition Snippets<a class="headerlink" href="#definition-snippets" title="Permalink to this headline">¶</a></h2>
+<p>You now know how to write step definitions by hand, but writing all these
+method stubs, annotations and patterns by hand is tedious. Behat makes
+this routine task much easier and fun by generating definition snippets for
+you! Let&#8217;s pretend that you have this feature:</p>
+<div class="highlight-gherkin"><div class="highlight"><pre><span class="k">Feature:</span><span class="nf"></span>
+<span class="nf">  </span><span class="k">Scenario:</span><span class="nf"></span>
+<span class="k">    Given </span><span class="nf">some step with &quot;</span><span class="s">string</span><span class="nf">&quot; argument</span>
+<span class="nf">    </span><span class="k">And </span><span class="nf">number step with </span><span class="s">23</span><span class="nf"></span>
+</pre></div>
+</div>
+<p>If your context class implements <code class="docutils literal"><span class="pre">Behat\Behat\Context\SnippetAcceptingContext</span></code>
+interface and you test a feature with missing steps in Behat:</p>
+<div class="highlight-bash"><div class="highlight"><pre><span class="nv">$ </span>vendor/bin/behat features/example.feature
+</pre></div>
+</div>
+<p>Behat will provide auto-generated snippets for your context class.</p>
+<p>It not only generates the proper definition annotation type (<code class="docutils literal"><span class="pre">&#64;Given</span></code>), but
+also a proper pattern with tokens capturing (<code class="docutils literal"><span class="pre">:arg1</span></code>, <code class="docutils literal"><span class="pre">:arg2</span></code>), method
+name (<code class="docutils literal"><span class="pre">someStepWithArgument()</span></code>, <code class="docutils literal"><span class="pre">numberStepWith()</span></code>) and arguments (
+<code class="docutils literal"><span class="pre">$arg1</span></code>, <code class="docutils literal"><span class="pre">$arg2</span></code>), all based just on the text of the step. Isn&#8217;t that cool?</p>
+<p>The only thing left for you to do is to copy these method snippets into your
+<code class="docutils literal"><span class="pre">FeatureContext</span></code> class and provide a useful body for them. Or even better,
+run behat with <code class="docutils literal"><span class="pre">--append-snippets</span></code> option:</p>
+<div class="highlight-bash"><div class="highlight"><pre><span class="nv">$ </span>vendor/bin/behat features/example.feature --dry-run --append-snippets
+</pre></div>
+</div>
+<p><code class="docutils literal"><span class="pre">--append-snippets</span></code> tells Behat to automatically add snippets inside your
+context class.</p>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p>Implementing the <code class="docutils literal"><span class="pre">SnippetAcceptingContext</span></code> interface tells Behat that
+your context is expecting snippets to be generated inside it. Behat will
+generate simple pattern snippets for you, but if regular expressions
+are your thing, Behat can generate them instead if you implement
+<code class="docutils literal"><span class="pre">Behat\Behat\Context\CustomSnippetAcceptingContext</span></code> interface instead
+and add <code class="docutils literal"><span class="pre">getAcceptedSnippetType()</span></code> method returning string <code class="docutils literal"><span class="pre">&quot;regex&quot;</span></code>:</p>
+<div class="last highlight-php"><div class="highlight"><pre><span class="k">public</span> <span class="k">static</span> <span class="k">function</span> <span class="nf">getAcceptedSnippetType</span><span class="p">()</span>
+<span class="p">{</span>
+    <span class="k">return</span> <span class="s1">&#39;regex&#39;</span><span class="p">;</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="section" id="step-execution-result-types">
+<h2>Step Execution Result Types<a class="headerlink" href="#step-execution-result-types" title="Permalink to this headline">¶</a></h2>
+<p>Now you know how to map actual code to PHP code that will be executed. But
+how can you tell what exactly &#8220;failed&#8221; or &#8220;passed&#8221; when executing a step?
+And how does Behat actually check that a step executed properly?</p>
+<p>For that, we have step execution types. Behat differentiates between seven
+types of step execution results: &#8220;<a class="reference internal" href="#successful-steps">Successful Steps</a>&#8221;, &#8220;<a class="reference internal" href="#undefined-steps">Undefined Steps</a>&#8221;,
+&#8220;<a class="reference internal" href="#pending-steps">Pending Steps</a>&#8221;, &#8220;<a class="reference internal" href="#failed-steps">Failed Steps</a>&#8221;, &#8220;<a class="reference internal" href="#skipped-steps">Skipped Steps</a>&#8221;, &#8220;<a class="reference internal" href="#ambiguous-steps">Ambiguous Steps</a>&#8221;
+and &#8220;<a class="reference internal" href="#redundant-step-definitions">Redundant Step Definitions</a>&#8221;.</p>
+<p>Let&#8217;s use our previously introduced feature for all the following examples:</p>
+<div class="highlight-gherkin"><div class="highlight"><pre><span class="c"># features/example.feature</span><span class="nf"></span>
+<span class="k">Feature:</span><span class="nf"></span>
+<span class="nf">  </span><span class="k">Scenario:</span><span class="nf"></span>
+<span class="k">    Given </span><span class="nf">some step with &quot;</span><span class="s">string</span><span class="nf">&quot; argument</span>
+<span class="nf">    </span><span class="k">And </span><span class="nf">number step with </span><span class="s">23</span><span class="nf"></span>
+</pre></div>
+</div>
+<div class="section" id="successful-steps">
+<h3>Successful Steps<a class="headerlink" href="#successful-steps" title="Permalink to this headline">¶</a></h3>
+<p>When Behat finds a matching step definition it will execute it. If the
+definition method does <strong>not</strong> throw any <code class="docutils literal"><span class="pre">Exception</span></code>, the step is marked
+as successful (green). What you return from a definition method has no
+effect on the passing or failing status of the definition itself.</p>
+<p>Let&#8217;s pretend our context class contains the code below:</p>
+<div class="highlight-php"><div class="highlight"><pre><span class="c1">// features/bootstrap/FeatureContext.php</span>
+
+<span class="k">use</span> <span class="nx">Behat\Behat\Context\Context</span><span class="p">;</span>
+
+<span class="k">class</span> <span class="nc">FeatureContext</span> <span class="k">implements</span> <span class="nx">Context</span>
+<span class="p">{</span>
+    <span class="sd">/** @Given some step with :argument1 argument */</span>
+    <span class="k">public</span> <span class="k">function</span> <span class="nf">someStepWithArgument</span><span class="p">(</span><span class="nv">$argument1</span><span class="p">)</span>
+    <span class="p">{</span>
+    <span class="p">}</span>
+
+    <span class="sd">/** @Given number step with :argument1 */</span>
+    <span class="k">public</span> <span class="k">function</span> <span class="nf">numberStepWith</span><span class="p">(</span><span class="nv">$argument1</span><span class="p">)</span>
+    <span class="p">{</span>
+    <span class="p">}</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+<p>When you run your feature, you&#8217;ll see all steps passed and are marked as
+green. That&#8217;s simply because no exceptions were thrown during their
+execution.</p>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p class="last">Passed steps are always marked as <strong>green</strong> if colors are supported by
+your console.</p>
+</div>
+<div class="admonition tip">
+<p class="first admonition-title">Tip</p>
+<p class="last">Enable the &#8220;posix&#8221; PHP extension in order to see colorful Behat output.
+Depending on your Linux, Mac OS or other Unix system it might be part
+of the default PHP installation or a separate <code class="docutils literal"><span class="pre">php5-posix</span></code> package.</p>
+</div>
+</div>
+<div class="section" id="undefined-steps">
+<h3>Undefined Steps<a class="headerlink" href="#undefined-steps" title="Permalink to this headline">¶</a></h3>
+<p>When Behat cannot find a matching definition, the step is marked as
+<strong>undefined</strong>, and all subsequent steps in the scenarios are <strong>skipped</strong>.</p>
+<p>Let&#8217;s pretend we have an empty context class:</p>
+<div class="highlight-php"><div class="highlight"><pre><span class="c1">// features/bootstrap/FeatureContext.php</span>
+
+<span class="k">use</span> <span class="nx">Behat\Behat\Context\Context</span><span class="p">;</span>
+
+<span class="k">class</span> <span class="nc">FeatureContext</span> <span class="k">implements</span> <span class="nx">Context</span>
+<span class="p">{</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+<p>When you run your feature, you&#8217;ll get 2 undefined steps that are marked
+yellow.</p>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p class="last">Undefined steps are always marked as <strong>yellow</strong> if colors are supported by
+your console.</p>
+</div>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p class="last">All steps following an undefined step are not executed, as the
+behavior following it is unpredictable. These steps are marked as
+<strong>skipped</strong> (cyan).</p>
+</div>
+<div class="admonition tip">
+<p class="first admonition-title">Tip</p>
+<p class="last">If you use the <code class="docutils literal"><span class="pre">--strict</span></code> option with Behat, undefined steps will cause
+Behat to exit with <code class="docutils literal"><span class="pre">1</span></code> code.</p>
+</div>
+</div>
+<div class="section" id="pending-steps">
+<h3>Pending Steps<a class="headerlink" href="#pending-steps" title="Permalink to this headline">¶</a></h3>
+<p>When a definition method throws a
+<code class="docutils literal"><span class="pre">Behat\Behat\Tester\Exception\PendingException</span></code> exception, the step is
+marked as <strong>pending</strong>, reminding you that you have work to do.</p>
+<p>Let&#8217;s pretend your <code class="docutils literal"><span class="pre">FeatureContext</span></code> looks like this:</p>
+<div class="highlight-php"><div class="highlight"><pre><span class="c1">// features/bootstrap/FeatureContext.php</span>
+
+<span class="k">use</span> <span class="nx">Behat\Behat\Context\Context</span><span class="p">;</span>
+<span class="k">use</span> <span class="nx">Behat\Behat\Tester\Exception\PendingException</span><span class="p">;</span>
+
+<span class="k">class</span> <span class="nc">FeatureContext</span> <span class="k">implements</span> <span class="nx">Context</span>
+<span class="p">{</span>
+    <span class="sd">/** @Given some step with :argument1 argument */</span>
+    <span class="k">public</span> <span class="k">function</span> <span class="nf">someStepWithArgument</span><span class="p">(</span><span class="nv">$argument1</span><span class="p">)</span>
+    <span class="p">{</span>
+        <span class="k">throw</span> <span class="k">new</span> <span class="nx">PendingException</span><span class="p">(</span><span class="s1">&#39;Do some string work&#39;</span><span class="p">);</span>
+    <span class="p">}</span>
+
+    <span class="sd">/** @Given number step with :argument1 */</span>
+    <span class="k">public</span> <span class="k">function</span> <span class="nf">numberStepWith</span><span class="p">(</span><span class="nv">$argument1</span><span class="p">)</span>
+    <span class="p">{</span>
+        <span class="k">throw</span> <span class="k">new</span> <span class="nx">PendingException</span><span class="p">(</span><span class="s1">&#39;Do some number work&#39;</span><span class="p">);</span>
+    <span class="p">}</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+<p>When you run your feature, you&#8217;ll get 1 pending step that is marked yellow and
+one step following it that is marked cyan.</p>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p class="last">Pending steps are always marked as <strong>yellow</strong> if colors are supported by
+your console, because they are logically similar to <strong>undefined</strong> steps.</p>
+</div>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p class="last">All steps following a pending step are not executed, as the
+behavior following it is unpredictable. These steps are marked as
+<strong>skipped</strong>.</p>
+</div>
+<div class="admonition tip">
+<p class="first admonition-title">Tip</p>
+<p class="last">If you use <code class="docutils literal"><span class="pre">--strict</span></code> option with Behat, pending steps will cause Behat
+to exit with <code class="docutils literal"><span class="pre">1</span></code> code.</p>
+</div>
+</div>
+<div class="section" id="failed-steps">
+<h3>Failed Steps<a class="headerlink" href="#failed-steps" title="Permalink to this headline">¶</a></h3>
+<p>When a definition method throws any <code class="docutils literal"><span class="pre">Exception</span></code> (except <code class="docutils literal"><span class="pre">PendingException</span></code>)
+during execution, the step is marked as <strong>failed</strong>. Again, what you return from a
+definition does not affect the passing or failing of the step. Returning <code class="docutils literal"><span class="pre">null</span></code>
+or <code class="docutils literal"><span class="pre">false</span></code> will not cause a step to fail.</p>
+<p>Let&#8217;s pretend, that your <code class="docutils literal"><span class="pre">FeatureContext</span></code> has following code:</p>
+<div class="highlight-php"><div class="highlight"><pre><span class="c1">// features/bootstrap/FeatureContext.php</span>
+
+<span class="k">use</span> <span class="nx">Behat\Behat\Context\Context</span><span class="p">;</span>
+
+<span class="k">class</span> <span class="nc">FeatureContext</span> <span class="k">implements</span> <span class="nx">Context</span>
+<span class="p">{</span>
+    <span class="sd">/** @Given some step with :argument1 argument */</span>
+    <span class="k">public</span> <span class="k">function</span> <span class="nf">someStepWithArgument</span><span class="p">(</span><span class="nv">$argument1</span><span class="p">)</span>
+    <span class="p">{</span>
+        <span class="k">throw</span> <span class="k">new</span> <span class="nx">Exception</span><span class="p">(</span><span class="s1">&#39;some exception&#39;</span><span class="p">);</span>
+    <span class="p">}</span>
+
+    <span class="sd">/** @Given number step with :argument1 */</span>
+    <span class="k">public</span> <span class="k">function</span> <span class="nf">numberStepWith</span><span class="p">(</span><span class="nv">$argument1</span><span class="p">)</span>
+    <span class="p">{</span>
+    <span class="p">}</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+<p>When you run your feature, you&#8217;ll get 1 failing step that is marked red and
+it will be followed by 1 skipped step that is marked cyan.</p>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p class="last">Failed steps are always marked as <strong>red</strong> if colors are supported by
+your console.</p>
+</div>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p class="last">All steps within a scenario following a failed step are not executed, as the
+behavior following it is unpredictable. These steps are marked as
+<strong>skipped</strong>.</p>
+</div>
+<div class="admonition tip">
+<p class="first admonition-title">Tip</p>
+<p class="last">If Behat finds a failed step during suite execution, it will exit with
+<code class="docutils literal"><span class="pre">1</span></code> code.</p>
+</div>
+<div class="admonition tip">
+<p class="first admonition-title">Tip</p>
+<p>Behat doesn&#8217;t come with its own assertion tool, but you can use any proper assertion
+tool out there. Proper assertion tool is a library, which assertions throw
+exceptions on fail. For example, if you&#8217;re familiar with PHPUnit, you can use
+its assertions in Behat by installing it via composer:</p>
+<div class="highlight-bash"><div class="highlight"><pre><span class="nv">$ </span>php composer.phar require --dev phpunit/phpunit<span class="o">=</span><span class="s1">&#39;~4.1.0&#39;</span>
+</pre></div>
+</div>
+<p>and then by simply using assertions in your steps:</p>
+<div class="last highlight-php"><div class="highlight"><pre><span class="nx">PHPUnit_Framework_Assert</span><span class="o">::</span><span class="na">assertCount</span><span class="p">(</span><span class="nb">intval</span><span class="p">(</span><span class="nv">$count</span><span class="p">),</span> <span class="nv">$this</span><span class="o">-&gt;</span><span class="na">basket</span><span class="p">);</span>
+</pre></div>
+</div>
+</div>
+<div class="admonition tip">
+<p class="first admonition-title">Tip</p>
+<p>You can get exception stack trace with <code class="docutils literal"><span class="pre">-vv</span></code> option provided to Behat:</p>
+<div class="last highlight-bash"><div class="highlight"><pre><span class="nv">$ </span>vendor/bin/behat features/example.feature -vv
+</pre></div>
+</div>
+</div>
+</div>
+<div class="section" id="skipped-steps">
+<h3>Skipped Steps<a class="headerlink" href="#skipped-steps" title="Permalink to this headline">¶</a></h3>
+<p>Steps that follow <strong>undefined</strong>, <strong>pending</strong> or <strong>failed</strong> steps are never
+executed, even if there is a matching definition. These steps are marked
+<strong>skipped</strong>:</p>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p class="last">Skipped steps are always marked as <strong>cyan</strong> if colors are supported by
+your console.</p>
+</div>
+</div>
+<div class="section" id="ambiguous-steps">
+<h3>Ambiguous Steps<a class="headerlink" href="#ambiguous-steps" title="Permalink to this headline">¶</a></h3>
+<p>When Behat finds two or more definitions that match a single step, this step is
+marked as <strong>ambiguous</strong>.</p>
+<p>Consider your <code class="docutils literal"><span class="pre">FeatureContext</span></code> has following code:</p>
+<div class="highlight-php"><div class="highlight"><pre><span class="c1">// features/bootstrap/FeatureContext.php</span>
+
+<span class="k">use</span> <span class="nx">Behat\Behat\Context\Context</span><span class="p">;</span>
+
+<span class="k">class</span> <span class="nc">FeatureContext</span> <span class="k">implements</span> <span class="nx">Context</span>
+<span class="p">{</span>
+    <span class="sd">/** @Given /^.* step with .*$/ */</span>
+    <span class="k">public</span> <span class="k">function</span> <span class="nf">someStepWithArgument</span><span class="p">()</span>
+    <span class="p">{</span>
+    <span class="p">}</span>
+
+    <span class="sd">/** @Given /^number step with (\d+)$/ */</span>
+    <span class="k">public</span> <span class="k">function</span> <span class="nf">numberStepWith</span><span class="p">(</span><span class="nv">$argument1</span><span class="p">)</span>
+    <span class="p">{</span>
+    <span class="p">}</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+<p>Executing Behat with this feature context will result in a <code class="docutils literal"><span class="pre">Ambiguous</span></code>
+exception being thrown.</p>
+<p>Behat will not make a decision about which definition to execute. That&#8217;s your
+job! But as you can see, Behat will provide useful information to help you
+eliminate such problems.</p>
+</div>
+<div class="section" id="redundant-step-definitions">
+<h3>Redundant Step Definitions<a class="headerlink" href="#redundant-step-definitions" title="Permalink to this headline">¶</a></h3>
+<p>Behat will not let you define a step expression&#8217;s corresponding pattern more
+than once. For example, look at the two <code class="docutils literal"><span class="pre">&#64;Given</span></code> patterns defined in this
+feature context:</p>
+<div class="highlight-php"><div class="highlight"><pre><span class="c1">// features/bootstrap/FeatureContext.php</span>
+
+<span class="k">use</span> <span class="nx">Behat\Behat\Context\Context</span><span class="p">;</span>
+
+<span class="k">class</span> <span class="nc">FeatureContext</span> <span class="k">implements</span> <span class="nx">Context</span>
+<span class="p">{</span>
+    <span class="sd">/** @Given /^number step with (\d+)$/ */</span>
+    <span class="k">public</span> <span class="k">function</span> <span class="nf">workWithNumber</span><span class="p">(</span><span class="nv">$number1</span><span class="p">)</span>
+    <span class="p">{</span>
+    <span class="p">}</span>
+
+    <span class="sd">/** @Given /^number step with (\d+)$/ */</span>
+    <span class="k">public</span> <span class="k">function</span> <span class="nf">workDifferentlyWithNumber</span><span class="p">(</span><span class="nv">$number1</span><span class="p">)</span>
+    <span class="p">{</span>
+    <span class="p">}</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+<p>Executing Behat with this feature context will result in a <code class="docutils literal"><span class="pre">Redundant</span></code>
+exception being thrown.</p>
+</div>
+</div>
+<div class="section" id="step-argument-transformations">
+<h2>Step Argument Transformations<a class="headerlink" href="#step-argument-transformations" title="Permalink to this headline">¶</a></h2>
+<p>Step argument transformations allow you to abstract common operations performed
+on step definition arguments into reusable methods. In addition, these methods
+can be used to transform a normal string argument that was going to be used
+as an argument to a step definition method, into a more specific data type
+or an object.</p>
+<p>Each transformation method must return a new value. This value then replaces
+the original string value that was going to be used as an argument to a step
+definition method.</p>
+<p>Transformation methods are defined using the same annotation style as step
+definition methods, but instead use the <code class="docutils literal"><span class="pre">&#64;Transform</span></code> keyword, followed by
+a matching pattern.</p>
+<p>As a basic example, you can automatically cast all numeric arguments to
+integers with the following context class code:</p>
+<div class="highlight-php"><div class="highlight"><pre><span class="c1">// features/bootstrap/FeatureContext.php</span>
+
+<span class="k">use</span> <span class="nx">Behat\Behat\Context\Context</span><span class="p">;</span>
+
+<span class="k">class</span> <span class="nc">FeatureContext</span> <span class="k">implements</span> <span class="nx">Context</span>
+<span class="p">{</span>
+    <span class="sd">/**</span>
+<span class="sd">     * @Transform /^(\d+)$/</span>
+<span class="sd">     */</span>
+    <span class="k">public</span> <span class="k">function</span> <span class="nf">castStringToNumber</span><span class="p">(</span><span class="nv">$string</span><span class="p">)</span>
+    <span class="p">{</span>
+        <span class="k">return</span> <span class="nb">intval</span><span class="p">(</span><span class="nv">$string</span><span class="p">);</span>
+    <span class="p">}</span>
+
+    <span class="sd">/**</span>
+<span class="sd">     * @Then a user :name, should have :count followers</span>
+<span class="sd">     */</span>
+    <span class="k">public</span> <span class="k">function</span> <span class="nf">assertUserHasFollowers</span><span class="p">(</span><span class="nv">$name</span><span class="p">,</span> <span class="nv">$count</span><span class="p">)</span>
+    <span class="p">{</span>
+        <span class="k">if</span> <span class="p">(</span><span class="s1">&#39;integer&#39;</span> <span class="o">!==</span> <span class="nb">gettype</span><span class="p">(</span><span class="nv">$count</span><span class="p">))</span> <span class="p">{</span>
+            <span class="k">throw</span> <span class="k">new</span> <span class="nx">Exception</span><span class="p">(</span><span class="s1">&#39;Integer expected&#39;</span><span class="p">);</span>
+        <span class="p">}</span>
+    <span class="p">}</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p class="last">In the same way as with step definitions, you can use both simple patterns and
+regular expressions.</p>
+</div>
+<p>Let&#8217;s go a step further and create a transformation method that takes an
+incoming string argument and returns a specific object. In the following
+example, our transformation method will be passed a username, and the method
+will create and return a new <code class="docutils literal"><span class="pre">User</span></code> object:</p>
+<div class="highlight-php"><div class="highlight"><pre><span class="c1">// features/bootstrap/FeatureContext.php</span>
+
+<span class="k">use</span> <span class="nx">Behat\Behat\Context\Context</span><span class="p">;</span>
+
+<span class="k">class</span> <span class="nc">FeatureContext</span> <span class="k">implements</span> <span class="nx">Context</span>
+<span class="p">{</span>
+    <span class="sd">/**</span>
+<span class="sd">     * @Transform :user</span>
+<span class="sd">     */</span>
+    <span class="k">public</span> <span class="k">function</span> <span class="nf">castUsernameToUser</span><span class="p">(</span><span class="nv">$user</span><span class="p">)</span>
+    <span class="p">{</span>
+        <span class="k">return</span> <span class="k">new</span> <span class="nx">User</span><span class="p">(</span><span class="nv">$user</span><span class="p">);</span>
+    <span class="p">}</span>
+
+    <span class="sd">/**</span>
+<span class="sd">     * @Then a :user, should have :count followers</span>
+<span class="sd">     */</span>
+    <span class="k">public</span> <span class="k">function</span> <span class="nf">assertUserHasFollowers</span><span class="p">(</span><span class="nx">User</span> <span class="nv">$user</span><span class="p">,</span> <span class="nv">$count</span><span class="p">)</span>
+    <span class="p">{</span>
+        <span class="k">if</span> <span class="p">(</span><span class="s1">&#39;integer&#39;</span> <span class="o">!==</span> <span class="nb">gettype</span><span class="p">(</span><span class="nv">$count</span><span class="p">))</span> <span class="p">{</span>
+            <span class="k">throw</span> <span class="k">new</span> <span class="nx">Exception</span><span class="p">(</span><span class="s1">&#39;Integer expected&#39;</span><span class="p">);</span>
+        <span class="p">}</span>
+    <span class="p">}</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+<div class="section" id="table-transformation">
+<h3>Table Transformation<a class="headerlink" href="#table-transformation" title="Permalink to this headline">¶</a></h3>
+<p>Let&#8217;s pretend we have written the following feature:</p>
+<div class="highlight-gherkin"><div class="highlight"><pre><span class="c"># features/table.feature</span><span class="nf"></span>
+<span class="k">Feature:</span><span class="nf"> Users</span>
+
+<span class="nf">  </span><span class="k">Scenario:</span><span class="nf"> Creating Users</span>
+<span class="k">    Given </span><span class="nf">the following users:</span>
+<span class="k">      |</span><span class="s"> name</span><span class="k">          |</span><span class="s"> followers</span><span class="k"> |</span><span class="nf"></span>
+<span class="k">      |</span><span class="s"> everzet</span><span class="k">       |</span><span class="s"> 147</span><span class="k">       |</span><span class="nf"></span>
+<span class="k">      |</span><span class="s"> avalanche123</span><span class="k">  |</span><span class="s"> 142</span><span class="k">       |</span><span class="nf"></span>
+<span class="k">      |</span><span class="s"> kriswallsmith</span><span class="k"> |</span><span class="s"> 274</span><span class="k">       |</span><span class="nf"></span>
+<span class="k">      |</span><span class="s"> fabpot</span><span class="k">        |</span><span class="s"> 962</span><span class="k">       |</span>
+</pre></div>
+</div>
+<p>And our <code class="docutils literal"><span class="pre">FeatureContext</span></code> class looks like this:</p>
+<div class="highlight-php"><div class="highlight"><pre><span class="c1">// features/bootstrap/FeatureContext.php</span>
+
+<span class="k">use</span> <span class="nx">Behat\Behat\Context\Context</span><span class="p">;</span>
+<span class="k">use</span> <span class="nx">Behat\Gherkin\Node\TableNode</span><span class="p">;</span>
+
+<span class="k">class</span> <span class="nc">FeatureContext</span> <span class="k">implements</span> <span class="nx">Context</span>
+<span class="p">{</span>
+    <span class="sd">/**</span>
+<span class="sd">     * @Given the following users:</span>
+<span class="sd">     */</span>
+    <span class="k">public</span> <span class="k">function</span> <span class="nf">pushUsers</span><span class="p">(</span><span class="nx">TableNode</span> <span class="nv">$usersTable</span><span class="p">)</span>
+    <span class="p">{</span>
+        <span class="nv">$users</span> <span class="o">=</span> <span class="k">array</span><span class="p">();</span>
+        <span class="k">foreach</span> <span class="p">(</span><span class="nv">$usersTable</span> <span class="k">as</span> <span class="nv">$userHash</span><span class="p">)</span> <span class="p">{</span>
+            <span class="nv">$user</span> <span class="o">=</span> <span class="k">new</span> <span class="nx">User</span><span class="p">();</span>
+            <span class="nv">$user</span><span class="o">-&gt;</span><span class="na">setUsername</span><span class="p">(</span><span class="nv">$userHash</span><span class="p">[</span><span class="s1">&#39;name&#39;</span><span class="p">]);</span>
+            <span class="nv">$user</span><span class="o">-&gt;</span><span class="na">setFollowersCount</span><span class="p">(</span><span class="nv">$userHash</span><span class="p">[</span><span class="s1">&#39;followers&#39;</span><span class="p">]);</span>
+            <span class="nv">$users</span><span class="p">[]</span> <span class="o">=</span> <span class="nv">$user</span><span class="p">;</span>
+        <span class="p">}</span>
+
+        <span class="c1">// do something with $users</span>
+    <span class="p">}</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+<p>A table like this may be needed in a step testing the creation of the
+<code class="docutils literal"><span class="pre">User</span></code> objects themselves, and later used again to validate other parts of
+our codebase that depend on multiple <code class="docutils literal"><span class="pre">User</span></code> objects that already exist.
+In both cases, our transformation method can take our table of usernames and
+follower counts and build dummy <code class="docutils literal"><span class="pre">User</span></code> objects. By using a transformation
+method we have eliminated the need to duplicate the code that creates our
+<code class="docutils literal"><span class="pre">User</span></code> objects, and can instead rely on the transformation method each time
+this functionality is needed.</p>
+<p>Transformations can also be used with tables. A table transformation is matched
+via a comma-delimited list of the column headers prefixed with <code class="docutils literal"><span class="pre">table:</span></code>:</p>
+<div class="highlight-php"><div class="highlight"><pre><span class="c1">// features/bootstrap/FeatureContext.php</span>
+
+<span class="k">use</span> <span class="nx">Behat\Behat\Context\Context</span><span class="p">;</span>
+<span class="k">use</span> <span class="nx">Behat\Gherkin\Node\TableNode</span><span class="p">;</span>
+
+<span class="k">class</span> <span class="nc">FeatureContext</span> <span class="k">implements</span> <span class="nx">Context</span>
+<span class="p">{</span>
+    <span class="sd">/**</span>
+<span class="sd">     * @Transform table:name,followers</span>
+<span class="sd">     */</span>
+    <span class="k">public</span> <span class="k">function</span> <span class="nf">castUsersTable</span><span class="p">(</span><span class="nx">TableNode</span> <span class="nv">$usersTable</span><span class="p">)</span>
+    <span class="p">{</span>
+        <span class="nv">$users</span> <span class="o">=</span> <span class="k">array</span><span class="p">();</span>
+        <span class="k">foreach</span> <span class="p">(</span><span class="nv">$usersTable</span><span class="o">-&gt;</span><span class="na">getHash</span><span class="p">()</span> <span class="k">as</span> <span class="nv">$userHash</span><span class="p">)</span> <span class="p">{</span>
+            <span class="nv">$user</span> <span class="o">=</span> <span class="k">new</span> <span class="nx">User</span><span class="p">();</span>
+            <span class="nv">$user</span><span class="o">-&gt;</span><span class="na">setUsername</span><span class="p">(</span><span class="nv">$userHash</span><span class="p">[</span><span class="s1">&#39;name&#39;</span><span class="p">]);</span>
+            <span class="nv">$user</span><span class="o">-&gt;</span><span class="na">setFollowersCount</span><span class="p">(</span><span class="nv">$userHash</span><span class="p">[</span><span class="s1">&#39;followers&#39;</span><span class="p">]);</span>
+            <span class="nv">$users</span><span class="p">[]</span> <span class="o">=</span> <span class="nv">$user</span><span class="p">;</span>
+        <span class="p">}</span>
+
+        <span class="k">return</span> <span class="nv">$users</span><span class="p">;</span>
+    <span class="p">}</span>
+
+    <span class="sd">/**</span>
+<span class="sd">     * @Given the following users:</span>
+<span class="sd">     */</span>
+    <span class="k">public</span> <span class="k">function</span> <span class="nf">pushUsers</span><span class="p">(</span><span class="k">array</span> <span class="nv">$users</span><span class="p">)</span>
+    <span class="p">{</span>
+        <span class="c1">// do something with $users</span>
+    <span class="p">}</span>
+
+    <span class="sd">/**</span>
+<span class="sd">     * @Then I expect the following users:</span>
+<span class="sd">     */</span>
+    <span class="k">public</span> <span class="k">function</span> <span class="nf">assertUsers</span><span class="p">(</span><span class="k">array</span> <span class="nv">$users</span><span class="p">)</span>
+    <span class="p">{</span>
+        <span class="c1">// do something with $users</span>
+    <span class="p">}</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p class="last">Transformations are powerful and it is important to take care how you
+implement them. A mistake can often introduce strange and unexpected
+behavior. Also, they are inherently hard to debug because of their
+highly dynamic nature.</p>
+</div>
+<div class="admonition tip">
+<p class="first admonition-title">Tip</p>
+<p class="last">Behat provides a <a class="reference internal" href="../command_line_tool/informative_output.html#user-guide-comand-line-tool-informative-output-print-definitions"><span>command line
+option</span></a>
+that allows you to easily browse definitions in order to reuse them or adapt
+them.</p>
+</div>
+</div>
+</div>
+</div>
+
+
+        </section>
+
+    </section>
+
+  </body>
+</html>

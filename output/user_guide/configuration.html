@@ -1,0 +1,140 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>Configuration &mdash; Behat 3.0.12 documentation</title>
+    
+    <link rel="stylesheet" href="../_static/basic.css" type="text/css" />
+    <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+    <link rel="stylesheet" href="../_static/css/normalize.css" type="text/css" />
+    <link rel="stylesheet" href="../_static/css/borg.css" type="text/css" />
+    <link rel="stylesheet" href="../_static/css/documentation.css" type="text/css" />
+    <link rel="stylesheet" href="../_static/css/pygments.css" type="text/css" />
+    <link rel="stylesheet" href="http://fonts.googleapis.com/css?family=Comfortaa" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '../',
+        VERSION:     '3.0.12',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="../_static/jquery.js"></script>
+    <script type="text/javascript" src="../_static/underscore.js"></script>
+    <script type="text/javascript" src="../_static/doctools.js"></script>
+    <link rel="top" title="Behat 3.0.12 documentation" href="../index.html" />
+    <link rel="up" title="User Guide" href="../user_guide.html" />
+    <link rel="next" title="Feature, Suite and Scenario Configuration" href="configuration/feature_suite_and_scenario_configuration.html" />
+    <link rel="prev" title="Informative Output" href="command_line_tool/informative_output.html" /> 
+  </head>
+  <body role="document">
+    <header>
+        <a class="logo" href="http://behat.org">behat</a>
+
+        <nav>
+            <ul>
+                <li><a href="http://behat.org">About</a></li>
+                <li class="active"><a href="/">Docs</a></li>
+            </ul>
+        </nav>
+
+        <a class="fork" href="https://github.com/Behat/Behat">Fork us</a>
+    </header>
+
+    <section>
+
+        <nav class="toc">
+            <h3>Chapters</h3>
+            
+            
+                <ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="../intro.html">Introduction</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../quick_start.html">Quick Start</a></li>
+<li class="toctree-l1 current"><a class="reference internal" href="../user_guide.html">User Guide</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="gherkin_language.html">About Gherkin Language</a></li>
+<li class="toctree-l2"><a class="reference internal" href="features_scenarios.html">Features and Scenarios</a></li>
+<li class="toctree-l2"><a class="reference internal" href="initializing_a_new_behat_project.html">Initializing a New Behat Project</a></li>
+<li class="toctree-l2"><a class="reference internal" href="writing_scenarios.html">Writing Scenarios</a></li>
+<li class="toctree-l2"><a class="reference internal" href="organizing_features_and_scenarios.html">Organizing Features and Scenarios</a></li>
+<li class="toctree-l2"><a class="reference internal" href="feature_contexts.html">Feature Contexts</a></li>
+<li class="toctree-l2"><a class="reference internal" href="command_line_tool.html">Command Line Tool</a></li>
+<li class="toctree-l2 current"><a class="current reference internal" href="">Configuration</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../cookbooks.html">Cookbooks</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../useful_resources.html">Useful Resources</a></li>
+</ul>
+
+            
+        </nav>
+        <section class="text">
+            
+  <div class="section" id="configuration">
+<h1>Configuration<a class="headerlink" href="#configuration" title="Permalink to this headline">¶</a></h1>
+<div class="toctree-wrapper compound">
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="configuration/feature_suite_and_scenario_configuration.html">Feature, Suite and Scenario Configuration</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="configuration/feature_suite_and_scenario_configuration.html#suite-paths">Suite Paths</a></li>
+<li class="toctree-l2"><a class="reference internal" href="configuration/feature_suite_and_scenario_configuration.html#suite-filters">Suite Filters</a></li>
+<li class="toctree-l2"><a class="reference internal" href="configuration/feature_suite_and_scenario_configuration.html#extensions">Extensions</a></li>
+<li class="toctree-l2"><a class="reference internal" href="configuration/feature_suite_and_scenario_configuration.html#suite-contexts">Suite Contexts</a></li>
+</ul>
+</li>
+</ul>
+</div>
+<div class="section" id="custom-autoloading">
+<h2>Custom Autoloading<a class="headerlink" href="#custom-autoloading" title="Permalink to this headline">¶</a></h2>
+<p>Sometimes you will need to place your <code class="docutils literal"><span class="pre">features</span></code> folder somewhere other than the
+default location (e.g. <code class="docutils literal"><span class="pre">app/features</span></code>). All you need to do is specify the path
+you want to autoload via <code class="docutils literal"><span class="pre">behat.yml</span></code>:</p>
+<div class="highlight-yaml"><div class="highlight"><pre># behat.yml
+
+default:
+    autoload:
+        &#39;&#39;: %paths.base%/app/features/bootstrap
+</pre></div>
+</div>
+<p>If you wish to namespace your features (for example: to be PSR-1 complaint) you will need to add the namespace to the classes and also tell behat where to load them. Here <code class="docutils literal"><span class="pre">contexts</span></code> is an array of classes:</p>
+<div class="highlight-yaml"><div class="highlight"><pre># behat.yml
+
+default:
+    autoload:
+        &#39;&#39;: %paths.base%/app/features/bootstrap
+    suites:
+        default:
+            contexts: [My\Application\Namespace\Bootstrap\FeatureContext]
+</pre></div>
+</div>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p class="last">Using <code class="docutils literal"><span class="pre">behat.yml</span></code> to autoload will only allow for <code class="docutils literal"><span class="pre">PSR-0</span></code>
+You can also use <code class="docutils literal"><span class="pre">composer.json</span></code> to autoload, which will also
+allow for <code class="docutils literal"><span class="pre">PSR-4</span></code></p>
+</div>
+</div>
+<div class="section" id="formatters">
+<h2>Formatters<a class="headerlink" href="#formatters" title="Permalink to this headline">¶</a></h2>
+<p>Default formatters can be enabled by specifying them in the profile.</p>
+<div class="highlight-yaml"><div class="highlight"><pre><span class="c1"># behat.yml</span>
+
+<span class="l-Scalar-Plain">default</span><span class="p-Indicator">:</span>
+    <span class="l-Scalar-Plain">formatters</span><span class="p-Indicator">:</span>
+        <span class="l-Scalar-Plain">pretty</span><span class="p-Indicator">:</span> <span class="l-Scalar-Plain">true</span>
+</pre></div>
+</div>
+</div>
+</div>
+
+
+        </section>
+
+    </section>
+
+  </body>
+</html>

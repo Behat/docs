@@ -1,0 +1,343 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>Hooking into the Test Process &mdash; Behat 3.0.12 documentation</title>
+    
+    <link rel="stylesheet" href="../../_static/basic.css" type="text/css" />
+    <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
+    <link rel="stylesheet" href="../../_static/css/normalize.css" type="text/css" />
+    <link rel="stylesheet" href="../../_static/css/borg.css" type="text/css" />
+    <link rel="stylesheet" href="../../_static/css/documentation.css" type="text/css" />
+    <link rel="stylesheet" href="../../_static/css/pygments.css" type="text/css" />
+    <link rel="stylesheet" href="http://fonts.googleapis.com/css?family=Comfortaa" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '../../',
+        VERSION:     '3.0.12',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="../../_static/jquery.js"></script>
+    <script type="text/javascript" src="../../_static/underscore.js"></script>
+    <script type="text/javascript" src="../../_static/doctools.js"></script>
+    <link rel="top" title="Behat 3.0.12 documentation" href="../../index.html" />
+    <link rel="up" title="Feature Contexts" href="../feature_contexts.html" />
+    <link rel="next" title="Defining Step Definitions" href="defining_step_definitions.html" />
+    <link rel="prev" title="Feature Contexts" href="../feature_contexts.html" /> 
+  </head>
+  <body role="document">
+    <header>
+        <a class="logo" href="http://behat.org">behat</a>
+
+        <nav>
+            <ul>
+                <li><a href="http://behat.org">About</a></li>
+                <li class="active"><a href="/">Docs</a></li>
+            </ul>
+        </nav>
+
+        <a class="fork" href="https://github.com/Behat/Behat">Fork us</a>
+    </header>
+
+    <section>
+
+        <nav class="toc">
+            <h3>Chapters</h3>
+            
+            
+                <ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="../../intro.html">Introduction</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../quick_start.html">Quick Start</a></li>
+<li class="toctree-l1 current"><a class="reference internal" href="../../user_guide.html">User Guide</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="../gherkin_language.html">About Gherkin Language</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../features_scenarios.html">Features and Scenarios</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../initializing_a_new_behat_project.html">Initializing a New Behat Project</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../writing_scenarios.html">Writing Scenarios</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../organizing_features_and_scenarios.html">Organizing Features and Scenarios</a></li>
+<li class="toctree-l2 current"><a class="reference internal" href="../feature_contexts.html">Feature Contexts</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../command_line_tool.html">Command Line Tool</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../configuration.html">Configuration</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../../cookbooks.html">Cookbooks</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../useful_resources.html">Useful Resources</a></li>
+</ul>
+
+            
+        </nav>
+        <section class="text">
+            
+  <div class="section" id="hooking-into-the-test-process">
+<h1>Hooking into the Test Process<a class="headerlink" href="#hooking-into-the-test-process" title="Permalink to this headline">¶</a></h1>
+<p>You&#8217;ve learned <a class="reference internal" href="defining_step_definitions.html"><em>how to write step definitions</em></a> and
+that with <a class="reference internal" href="../gherkin_language.html"><em>Gherkin</em></a> you can move common steps into a
+background block, making your features DRY. But what if that&#8217;s not enough? What
+if you want to execute some code before the whole test suite or after a
+specific scenario? Hooks to the rescue:</p>
+<div class="highlight-php"><div class="highlight"><pre><span class="c1">// features/bootstrap/FeatureContext.php</span>
+
+<span class="k">use</span> <span class="nx">Behat\Behat\Context\Context</span><span class="p">;</span>
+<span class="k">use</span> <span class="nx">Behat\Testwork\Hook\Scope\BeforeSuiteScope</span><span class="p">;</span>
+<span class="k">use</span> <span class="nx">Behat\Behat\Hook\Scope\AfterScenarioScope</span><span class="p">;</span>
+
+<span class="k">class</span> <span class="nc">FeatureContext</span> <span class="k">implements</span> <span class="nx">Context</span>
+<span class="p">{</span>
+    <span class="sd">/**</span>
+<span class="sd">     * @BeforeSuite</span>
+<span class="sd">     */</span>
+     <span class="k">public</span> <span class="k">static</span> <span class="k">function</span> <span class="nf">prepare</span><span class="p">(</span><span class="nx">BeforeSuiteScope</span> <span class="nv">$scope</span><span class="p">)</span>
+     <span class="p">{</span>
+         <span class="c1">// prepare system for test suite</span>
+         <span class="c1">// before it runs</span>
+     <span class="p">}</span>
+
+     <span class="sd">/**</span>
+<span class="sd">      * @AfterScenario @database</span>
+<span class="sd">      */</span>
+     <span class="k">public</span> <span class="k">function</span> <span class="nf">cleanDB</span><span class="p">(</span><span class="nx">AfterScenarioScope</span> <span class="nv">$scope</span><span class="p">)</span>
+     <span class="p">{</span>
+         <span class="c1">// clean database after scenarios,</span>
+         <span class="c1">// tagged with @database</span>
+     <span class="p">}</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+<div class="section" id="behat-hook-system">
+<h2>Behat Hook System<a class="headerlink" href="#behat-hook-system" title="Permalink to this headline">¶</a></h2>
+<p>Behat provides a number of hook points which allow us to run arbitrary
+logic at various points in the Behat test cycle. Hooks are a lot like
+step definitions or transformations - they are just simple methods
+with special annotations inside your context classes. There is no
+association between where the hook is defined and which node it is run
+for, but you can use tagged or named hooks if you want more fine grained
+control.</p>
+<p>All defined hooks are run whenever the relevant action occurs. The action
+tree looks something like this:</p>
+<div class="highlight-text"><div class="highlight"><pre>├── Suite #1
+│   ├── Feature #1
+│   │   ├── Scenario #1
+│   │   │   ├── Step #1
+│   │   │   └── Step #2
+│   │   └── Scenario #2
+│   │       ├── Step #1
+│   │       └── Step #2
+│   └── Feature #2
+│       └── Scenario #1
+│           └── Step #1
+└── Suite #2
+    └── Feature #1
+        └── Scenario #1
+            └── Step #1
+</pre></div>
+</div>
+<p>This is a basic test cycle in Behat. There are many test suites, each of
+which has many features, which themselves have many scenarios with many
+steps. Note that when Behat actually runs, scenario outline examples are
+interpreted as scenarios - meaning each outline example becomes an actual
+scenario in this action tree.</p>
+</div>
+<div class="section" id="hooks">
+<span id="user-guide-feature-contexts-hooking-into-the-test-process-hooks"></span><h2>Hooks<a class="headerlink" href="#hooks" title="Permalink to this headline">¶</a></h2>
+<p>Hooks allow you to execute your custom code just before or just after each
+of these actions. Behat allows you to use the following hooks:</p>
+<ol class="arabic simple">
+<li>The <code class="docutils literal"><span class="pre">BeforeSuite</span></code> hook is run before any feature in the suite runs. For
+example, you could use this to set up the project you are testing. This
+hook receives an optional argument with an instance of the
+<code class="docutils literal"><span class="pre">Behat\Testwork\Hook\Scope\BeforeSuiteScope</span></code> class.</li>
+<li>The <code class="docutils literal"><span class="pre">AfterSuite</span></code> hook is run after all features in the suite have run.
+This hooks is useful to dump or print some kind of statistics or tear
+down your application after testing. This hook receives an optional
+argument with an instance of the
+<code class="docutils literal"><span class="pre">Behat\Testwork\Hook\Scope\AfterSuiteScope</span></code> class.</li>
+<li>The <code class="docutils literal"><span class="pre">BeforeFeature</span></code> hook is run before a feature runs. This hook receives
+an optional argument with an instance of the
+<code class="docutils literal"><span class="pre">Behat\Behat\Hook\Scope\BeforeFeatureScope</span></code> class.</li>
+<li>The <code class="docutils literal"><span class="pre">AfterFeature</span></code> hook is run after Behat finishes executing a feature.
+This hook receives an optional argument with an instance of the
+<code class="docutils literal"><span class="pre">Behat\Behat\Hook\Scope\AfterFeatureScope</span></code> class.</li>
+<li>The <code class="docutils literal"><span class="pre">BeforeScenario</span></code> hook is run before a specific scenario will run. This
+hook receives an optional argument with an instance of the
+<code class="docutils literal"><span class="pre">Behat\Behat\Hook\Scope\BeforeScenarioScope</span></code> class.</li>
+<li>The <code class="docutils literal"><span class="pre">AfterScenario</span></code> hook is run after Behat finishes executing a scenario.
+This hook receives an optional argument with an instance of the
+<code class="docutils literal"><span class="pre">Behat\Behat\Hook\Scope\AfterScenarioScope</span></code> class.</li>
+<li>The <code class="docutils literal"><span class="pre">BeforeStep</span></code> hook is run before a step runs. This hook receives an
+optional argument with an instance of the
+<code class="docutils literal"><span class="pre">Behat\Behat\Hook\Scope\BeforeStepScope</span></code> class.</li>
+<li>The <code class="docutils literal"><span class="pre">AfterStep</span></code> hook is run after Behat finishes executing a step. This
+hook receives an optional argument  with an instance of the
+<code class="docutils literal"><span class="pre">Behat\Behat\Hook\Scope\AfterStepScope</span></code> class.</li>
+</ol>
+<p>You can use any of these hooks by annotating any of your methods in your context
+class:</p>
+<div class="highlight-php"><div class="highlight"><pre><span class="sd">/**</span>
+<span class="sd"> * @BeforeSuite</span>
+<span class="sd"> */</span>
+<span class="k">public</span> <span class="k">static</span> <span class="k">function</span> <span class="nf">prepare</span><span class="p">(</span><span class="nv">$scope</span><span class="p">)</span>
+<span class="p">{</span>
+    <span class="c1">// prepare system for test suite</span>
+    <span class="c1">// before it runs</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+<p>We use annotations as we did before with <a class="reference internal" href="defining_step_definitions.html"><em>definitions</em></a>.
+Simply use the annotation of the name of the hook you want to use (e.g.
+<code class="docutils literal"><span class="pre">&#64;BeforeSuite</span></code>).</p>
+</div>
+<div class="section" id="suite-hooks">
+<h2>Suite Hooks<a class="headerlink" href="#suite-hooks" title="Permalink to this headline">¶</a></h2>
+<p>Suite hooks are run outside of the scenario context. It means that your context
+class (e.g. <code class="docutils literal"><span class="pre">FeatureContext</span></code>) is not instantiated yet and the only way Behat
+can execute code in it is through the static calls. That is why suite hooks must
+be defined as static methods in the context class:</p>
+<div class="highlight-php"><div class="highlight"><pre><span class="k">use</span> <span class="nx">Behat\Testwork\Hook\Scope\BeforeSuiteScope</span><span class="p">;</span>
+<span class="k">use</span> <span class="nx">Behat\Testwork\Hook\Scope\AfterSuiteScope</span><span class="p">;</span>
+
+<span class="sd">/** @BeforeSuite */</span>
+<span class="k">public</span> <span class="k">static</span> <span class="k">function</span> <span class="nf">setup</span><span class="p">(</span><span class="nx">BeforeSuiteScope</span> <span class="nv">$scope</span><span class="p">)</span>
+<span class="p">{</span>
+<span class="p">}</span>
+
+<span class="sd">/** @AfterSuite */</span>
+<span class="k">public</span> <span class="k">static</span> <span class="k">function</span> <span class="nf">teardown</span><span class="p">(</span><span class="nx">AfterSuiteScope</span> <span class="nv">$scope</span><span class="p">)</span>
+<span class="p">{</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+<p>There are two suite hook types available:</p>
+<ul class="simple">
+<li><code class="docutils literal"><span class="pre">&#64;BeforeSuite</span></code> - executed before any feature runs.</li>
+<li><code class="docutils literal"><span class="pre">&#64;AfterSuite</span></code> - executed after all features have run.</li>
+</ul>
+</div>
+<div class="section" id="tagged-hooks">
+<h2>Tagged Hooks<a class="headerlink" href="#tagged-hooks" title="Permalink to this headline">¶</a></h2>
+<p>Sometimes you may want a certain hook to run only for certain scenarios,
+features or steps. This can be achieved by associating a <code class="docutils literal"><span class="pre">&#64;BeforeFeature</span></code>,
+<code class="docutils literal"><span class="pre">&#64;AfterFeature</span></code>, <code class="docutils literal"><span class="pre">&#64;BeforeScenario</span></code>, <code class="docutils literal"><span class="pre">&#64;AfterScenario</span></code>, <code class="docutils literal"><span class="pre">&#64;BeforeStep</span></code> or
+<code class="docutils literal"><span class="pre">&#64;AfterStep</span></code> hook with one or more tags. You can also use <code class="docutils literal"><span class="pre">OR</span></code> (<code class="docutils literal"><span class="pre">||</span></code>)
+and <code class="docutils literal"><span class="pre">AND</span></code> (<code class="docutils literal"><span class="pre">&amp;&amp;</span></code>) tags:</p>
+<div class="highlight-php"><div class="highlight"><pre><span class="sd">/**</span>
+<span class="sd"> * @BeforeScenario @database,@orm</span>
+<span class="sd"> */</span>
+<span class="k">public</span> <span class="k">function</span> <span class="nf">cleanDatabase</span><span class="p">()</span>
+<span class="p">{</span>
+    <span class="c1">// clean database before</span>
+    <span class="c1">// @database OR @orm scenarios</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+<p>Use the <code class="docutils literal"><span class="pre">&amp;&amp;</span></code> tag to execute a hook only when it has <em>all</em> provided tags:</p>
+<div class="highlight-php"><div class="highlight"><pre><span class="sd">/**</span>
+<span class="sd"> * @BeforeScenario @database&amp;&amp;@fixtures</span>
+<span class="sd"> */</span>
+<span class="k">public</span> <span class="k">function</span> <span class="nf">cleanDatabaseFixtures</span><span class="p">()</span>
+<span class="p">{</span>
+    <span class="c1">// clean database fixtures</span>
+    <span class="c1">// before @database @fixtures</span>
+    <span class="c1">// scenarios</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="scenario-hooks">
+<h2>Scenario Hooks<a class="headerlink" href="#scenario-hooks" title="Permalink to this headline">¶</a></h2>
+<p>Scenario hooks are triggered before or after each scenario runs. These
+hooks are executed inside an initialized context instance, so not only could they
+be simple context instance methods, they will also have access to
+any object properties you set during your scenario:</p>
+<div class="highlight-php"><div class="highlight"><pre><span class="k">use</span> <span class="nx">Behat\Behat\Hook\Scope\BeforeScenarioScope</span><span class="p">;</span>
+<span class="k">use</span> <span class="nx">Behat\Behat\Hook\Scope\AfterScenarioScope</span><span class="p">;</span>
+
+<span class="sd">/** @BeforeScenario */</span>
+<span class="k">public</span> <span class="k">function</span> <span class="nf">before</span><span class="p">(</span><span class="nx">BeforeScenarioScope</span> <span class="nv">$scope</span><span class="p">)</span>
+<span class="p">{</span>
+<span class="p">}</span>
+
+<span class="sd">/** @AfterScenario */</span>
+<span class="k">public</span> <span class="k">function</span> <span class="nf">after</span><span class="p">(</span><span class="nx">AfterScenarioScope</span> <span class="nv">$scope</span><span class="p">)</span>
+<span class="p">{</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+<p>There are two scenario hook types available:</p>
+<ul class="simple">
+<li><code class="docutils literal"><span class="pre">&#64;BeforeScenario</span></code> - executed before every scenario in each feature.</li>
+<li><code class="docutils literal"><span class="pre">&#64;AfterScenario</span></code> - executed after every scenario in each feature.</li>
+</ul>
+<p>Now, the interesting part:</p>
+<p>The <code class="docutils literal"><span class="pre">&#64;BeforeScenario</span></code> hook executes not only
+before each scenario in each feature, but before <strong>each example row</strong> in
+the scenario outline. Yes, each scenario outline example row works almost the
+same as a usual scenario.</p>
+<p><code class="docutils literal"><span class="pre">&#64;AfterScenario</span></code> functions exactly the same way, being executed both after
+usual scenarios and outline examples.</p>
+</div>
+<div class="section" id="feature-hooks">
+<h2>Feature Hooks<a class="headerlink" href="#feature-hooks" title="Permalink to this headline">¶</a></h2>
+<p>Same as suite hooks, feature hooks are ran outside of the scenario context.
+So same as suite hooks, your feature hooks should be defined as static methods
+inside your context:</p>
+<div class="highlight-php"><div class="highlight"><pre><span class="k">use</span> <span class="nx">Behat\Behat\Hook\Scope\BeforeFeatureScope</span><span class="p">;</span>
+<span class="k">use</span> <span class="nx">Behat\Behat\Hook\Scope\AfterFeatureScope</span><span class="p">;</span>
+
+<span class="sd">/** @BeforeFeature */</span>
+<span class="k">public</span> <span class="k">static</span> <span class="k">function</span> <span class="nf">setupFeature</span><span class="p">(</span><span class="nx">BeforeFeatureScope</span> <span class="nv">$scope</span><span class="p">)</span>
+<span class="p">{</span>
+<span class="p">}</span>
+
+<span class="sd">/** @AfterFeature */</span>
+<span class="k">public</span> <span class="k">static</span> <span class="k">function</span> <span class="nf">teardownFeature</span><span class="p">(</span><span class="nx">AfterFeatureScope</span> <span class="nv">$scope</span><span class="p">)</span>
+<span class="p">{</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+<p>There are two feature hook types available:</p>
+<ul class="simple">
+<li><code class="docutils literal"><span class="pre">&#64;BeforeFeature</span></code> - gets executed before every feature in suite.</li>
+<li><code class="docutils literal"><span class="pre">&#64;AfterFeature</span></code> - gets executed after every feature in suite.</li>
+</ul>
+</div>
+<div class="section" id="step-hooks">
+<h2>Step Hooks<a class="headerlink" href="#step-hooks" title="Permalink to this headline">¶</a></h2>
+<p>Step hooks are triggered before or after each step runs. These hooks are
+run inside an initialized context instance, so they are just plain context
+instance methods in the same way as scenario hooks are:</p>
+<div class="highlight-php"><div class="highlight"><pre><span class="k">use</span> <span class="nx">Behat\Behat\Hook\Scope\BeforeStepScope</span><span class="p">;</span>
+<span class="k">use</span> <span class="nx">Behat\Behat\Hook\Scope\AfterStepScope</span><span class="p">;</span>
+
+<span class="sd">/** @BeforeStep */</span>
+<span class="k">public</span> <span class="k">function</span> <span class="nf">beforeStep</span><span class="p">(</span><span class="nx">BeforeStepScope</span> <span class="nv">$scope</span><span class="p">)</span>
+<span class="p">{</span>
+<span class="p">}</span>
+
+<span class="sd">/** @AfterStep */</span>
+<span class="k">public</span> <span class="k">function</span> <span class="nf">after</span><span class="p">(</span><span class="nx">AfterStepScope</span> <span class="nv">$scope</span><span class="p">)</span>
+<span class="p">{</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+<p>There are two step hook types available:</p>
+<ul class="simple">
+<li><code class="docutils literal"><span class="pre">&#64;BeforeStep</span></code> - executed before every step in each scenario.</li>
+<li><code class="docutils literal"><span class="pre">&#64;AfterStep</span></code> - executed after every step in each scenario.</li>
+</ul>
+</div>
+</div>
+
+
+        </section>
+
+    </section>
+
+  </body>
+</html>

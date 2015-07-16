@@ -1,0 +1,111 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>Installation &mdash; Behat 3.0.12 documentation</title>
+    
+    <link rel="stylesheet" href="../_static/basic.css" type="text/css" />
+    <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+    <link rel="stylesheet" href="../_static/css/normalize.css" type="text/css" />
+    <link rel="stylesheet" href="../_static/css/borg.css" type="text/css" />
+    <link rel="stylesheet" href="../_static/css/documentation.css" type="text/css" />
+    <link rel="stylesheet" href="../_static/css/pygments.css" type="text/css" />
+    <link rel="stylesheet" href="http://fonts.googleapis.com/css?family=Comfortaa" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '../',
+        VERSION:     '3.0.12',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="../_static/jquery.js"></script>
+    <script type="text/javascript" src="../_static/underscore.js"></script>
+    <script type="text/javascript" src="../_static/doctools.js"></script>
+    <link rel="top" title="Behat 3.0.12 documentation" href="../index.html" />
+    <link rel="up" title="Quick Start" href="../quick_start.html" />
+    <link rel="next" title="Development" href="development.html" />
+    <link rel="prev" title="Example" href="example.html" /> 
+  </head>
+  <body role="document">
+    <header>
+        <a class="logo" href="http://behat.org">behat</a>
+
+        <nav>
+            <ul>
+                <li><a href="http://behat.org">About</a></li>
+                <li class="active"><a href="/">Docs</a></li>
+            </ul>
+        </nav>
+
+        <a class="fork" href="https://github.com/Behat/Behat">Fork us</a>
+    </header>
+
+    <section>
+
+        <nav class="toc">
+            <h3>Chapters</h3>
+            
+            
+                <ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="../intro.html">Introduction</a></li>
+<li class="toctree-l1 current"><a class="reference internal" href="../quick_start.html">Quick Start</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="example.html">Example</a></li>
+<li class="toctree-l2 current"><a class="current reference internal" href="">Installation</a></li>
+<li class="toctree-l2"><a class="reference internal" href="development.html">Development</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../user_guide.html">User Guide</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../cookbooks.html">Cookbooks</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../useful_resources.html">Useful Resources</a></li>
+</ul>
+
+            
+        </nav>
+        <section class="text">
+            
+  <div class="section" id="installation">
+<h1>Installation<a class="headerlink" href="#installation" title="Permalink to this headline">¶</a></h1>
+<p>Before you begin, ensure that you have at least PHP 5.3.3 installed.</p>
+<div class="section" id="method-1-composer-the-recommended-one">
+<h2>Method #1 - Composer (the recommended one)<a class="headerlink" href="#method-1-composer-the-recommended-one" title="Permalink to this headline">¶</a></h2>
+<p>The official way to install Behat is through Composer. Composer is a package
+manager for PHP. Not only can it install Behat for you right now, it will be
+able to easily update you to the latest version later when one comes out. If
+you don&#8217;t have Composer already, see
+<a class="reference external" href="https://getcomposer.org/download/">the Composer documentation</a> for
+instructions. After that, just go into your project directory (or create a
+new one) and run:</p>
+<div class="highlight-bash"><div class="highlight"><pre><span class="nv">$ </span>php composer.phar require --dev behat/behat<span class="o">=</span>~3.0.4
+</pre></div>
+</div>
+<p>Then you will be able to check installed Behat version using:</p>
+<div class="highlight-bash"><div class="highlight"><pre><span class="nv">$ </span>vendor/bin/behat -V
+</pre></div>
+</div>
+</div>
+<div class="section" id="method-2-phar-an-easy-one">
+<h2>Method #2 - PHAR (an easy one)<a class="headerlink" href="#method-2-phar-an-easy-one" title="Permalink to this headline">¶</a></h2>
+<p>An easier way to install Behat is to grab a latest <code class="docutils literal"><span class="pre">behat.phar</span></code> from
+<a class="reference external" href="https://github.com/Behat/Behat/releases">the download page</a>. Make sure
+that you download a <code class="docutils literal"><span class="pre">3+</span></code> release. After downloading it, just place it in
+your project folder (or create a new one) and check the installed version using:</p>
+<div class="highlight-bash"><div class="highlight"><pre><span class="nv">$ </span>php behat.phar -V
+</pre></div>
+</div>
+</div>
+</div>
+
+
+        </section>
+
+    </section>
+
+  </body>
+</html>

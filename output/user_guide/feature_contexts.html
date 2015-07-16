@@ -1,0 +1,441 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>Feature Contexts &mdash; Behat 3.0.12 documentation</title>
+    
+    <link rel="stylesheet" href="../_static/basic.css" type="text/css" />
+    <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+    <link rel="stylesheet" href="../_static/css/normalize.css" type="text/css" />
+    <link rel="stylesheet" href="../_static/css/borg.css" type="text/css" />
+    <link rel="stylesheet" href="../_static/css/documentation.css" type="text/css" />
+    <link rel="stylesheet" href="../_static/css/pygments.css" type="text/css" />
+    <link rel="stylesheet" href="http://fonts.googleapis.com/css?family=Comfortaa" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '../',
+        VERSION:     '3.0.12',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="../_static/jquery.js"></script>
+    <script type="text/javascript" src="../_static/underscore.js"></script>
+    <script type="text/javascript" src="../_static/doctools.js"></script>
+    <link rel="top" title="Behat 3.0.12 documentation" href="../index.html" />
+    <link rel="up" title="User Guide" href="../user_guide.html" />
+    <link rel="next" title="Hooking into the Test Process" href="feature_contexts/hooking_into_the_test_process.html" />
+    <link rel="prev" title="Organizing Features and Scenarios" href="organizing_features_and_scenarios.html" /> 
+  </head>
+  <body role="document">
+    <header>
+        <a class="logo" href="http://behat.org">behat</a>
+
+        <nav>
+            <ul>
+                <li><a href="http://behat.org">About</a></li>
+                <li class="active"><a href="/">Docs</a></li>
+            </ul>
+        </nav>
+
+        <a class="fork" href="https://github.com/Behat/Behat">Fork us</a>
+    </header>
+
+    <section>
+
+        <nav class="toc">
+            <h3>Chapters</h3>
+            
+            
+                <ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="../intro.html">Introduction</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../quick_start.html">Quick Start</a></li>
+<li class="toctree-l1 current"><a class="reference internal" href="../user_guide.html">User Guide</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="gherkin_language.html">About Gherkin Language</a></li>
+<li class="toctree-l2"><a class="reference internal" href="features_scenarios.html">Features and Scenarios</a></li>
+<li class="toctree-l2"><a class="reference internal" href="initializing_a_new_behat_project.html">Initializing a New Behat Project</a></li>
+<li class="toctree-l2"><a class="reference internal" href="writing_scenarios.html">Writing Scenarios</a></li>
+<li class="toctree-l2"><a class="reference internal" href="organizing_features_and_scenarios.html">Organizing Features and Scenarios</a></li>
+<li class="toctree-l2 current"><a class="current reference internal" href="">Feature Contexts</a></li>
+<li class="toctree-l2"><a class="reference internal" href="command_line_tool.html">Command Line Tool</a></li>
+<li class="toctree-l2"><a class="reference internal" href="configuration.html">Configuration</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../cookbooks.html">Cookbooks</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../useful_resources.html">Useful Resources</a></li>
+</ul>
+
+            
+        </nav>
+        <section class="text">
+            
+  <div class="section" id="feature-contexts">
+<h1>Feature Contexts<a class="headerlink" href="#feature-contexts" title="Permalink to this headline">¶</a></h1>
+<p>We&#8217;ve already used this strange <code class="docutils literal"><span class="pre">FeatureContext</span></code> class as a home for our
+<a class="reference internal" href="feature_contexts/defining_step_definitions.html"><em>step definitions</em></a>
+and <a class="reference internal" href="feature_contexts/hooking_into_the_test_process.html#user-guide-feature-contexts-hooking-into-the-test-process-hooks"><span>Hooks</span></a>,
+but we haven&#8217;t done much to explain what it actually is.</p>
+<p>Context classes are a keystone of testing environment in Behat. The context
+class is a simple POPO (Plain Old PHP Object) that tells Behat how to test
+your features. If <code class="docutils literal"><span class="pre">*.feature</span></code> files are all about describing <em>how</em> your
+application behaves, then the context class is all about how to test it.</p>
+<div class="highlight-php"><div class="highlight"><pre><span class="c1">// features/bootstrap/FeatureContext.php</span>
+
+<span class="k">use</span> <span class="nx">Behat\Behat\Context\Context</span><span class="p">;</span>
+
+<span class="k">class</span> <span class="nc">FeatureContext</span> <span class="k">implements</span> <span class="nx">Context</span>
+<span class="p">{</span>
+    <span class="k">public</span> <span class="k">function</span> <span class="nf">__construct</span><span class="p">(</span><span class="nv">$parameter</span><span class="p">)</span>
+    <span class="p">{</span>
+        <span class="c1">// instantiate context</span>
+    <span class="p">}</span>
+
+    <span class="sd">/** @BeforeFeature */</span>
+    <span class="k">public</span> <span class="k">static</span> <span class="k">function</span> <span class="nf">prepareForTheFeature</span><span class="p">()</span>
+    <span class="p">{</span>
+        <span class="c1">// clean database or do other preparation stuff</span>
+    <span class="p">}</span>
+
+    <span class="sd">/** @Given we have some context */</span>
+    <span class="k">public</span> <span class="k">function</span> <span class="nf">prepareContext</span><span class="p">()</span>
+    <span class="p">{</span>
+        <span class="c1">// do something</span>
+    <span class="p">}</span>
+
+    <span class="sd">/** @When event occurs */</span>
+    <span class="k">public</span> <span class="k">function</span> <span class="nf">doSomeAction</span><span class="p">()</span>
+    <span class="p">{</span>
+        <span class="c1">// do something</span>
+    <span class="p">}</span>
+
+    <span class="sd">/** @Then something should be done */</span>
+    <span class="k">public</span> <span class="k">function</span> <span class="nf">checkOutcomes</span><span class="p">()</span>
+    <span class="p">{</span>
+        <span class="c1">// do something</span>
+    <span class="p">}</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+<p>A simple mnemonic for context classes is &#8220;testing features <em>in a context</em>&#8221;.
+Feature descriptions tend to be very high level. It means there&#8217;s not much
+technical detail exposed in them, so the way you will test those
+features pretty much depends on the context you test them in. That&#8217;s what
+context classes are.</p>
+<div class="admonition tip">
+<p class="first admonition-title">Tip</p>
+<p class="last">This class can be easily created by running
+<a class="reference internal" href="command_line_tool.html"><em>Behat command line tool</em></a> with the
+<code class="docutils literal"><span class="pre">--init</span></code> command from your project&#8217;s directory. Behat is able to support
+you when you are creating a new project. Learn more about
+&#8220;<a class="reference internal" href="initializing_a_new_behat_project.html"><em>Initializing a New Behat Project</em></a>&#8221;.</p>
+</div>
+<div class="toctree-wrapper compound">
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="feature_contexts/hooking_into_the_test_process.html">Hooking into the Test Process</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="feature_contexts/hooking_into_the_test_process.html#behat-hook-system">Behat Hook System</a></li>
+<li class="toctree-l2"><a class="reference internal" href="feature_contexts/hooking_into_the_test_process.html#hooks">Hooks</a></li>
+<li class="toctree-l2"><a class="reference internal" href="feature_contexts/hooking_into_the_test_process.html#suite-hooks">Suite Hooks</a></li>
+<li class="toctree-l2"><a class="reference internal" href="feature_contexts/hooking_into_the_test_process.html#tagged-hooks">Tagged Hooks</a></li>
+<li class="toctree-l2"><a class="reference internal" href="feature_contexts/hooking_into_the_test_process.html#scenario-hooks">Scenario Hooks</a></li>
+<li class="toctree-l2"><a class="reference internal" href="feature_contexts/hooking_into_the_test_process.html#feature-hooks">Feature Hooks</a></li>
+<li class="toctree-l2"><a class="reference internal" href="feature_contexts/hooking_into_the_test_process.html#step-hooks">Step Hooks</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="feature_contexts/defining_step_definitions.html">Defining Step Definitions</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="feature_contexts/defining_step_definitions.html#creating-your-first-step-definition">Creating Your First Step Definition</a></li>
+<li class="toctree-l2"><a class="reference internal" href="feature_contexts/defining_step_definitions.html#definition-snippets">Definition Snippets</a></li>
+<li class="toctree-l2"><a class="reference internal" href="feature_contexts/defining_step_definitions.html#step-execution-result-types">Step Execution Result Types</a></li>
+<li class="toctree-l2"><a class="reference internal" href="feature_contexts/defining_step_definitions.html#step-argument-transformations">Step Argument Transformations</a></li>
+</ul>
+</li>
+</ul>
+</div>
+<div class="section" id="context-class-requirements">
+<h2>Context Class Requirements<a class="headerlink" href="#context-class-requirements" title="Permalink to this headline">¶</a></h2>
+<p>In order to be used by Behat, your context class should follow these rules:</p>
+<ol class="arabic simple">
+<li>The context class should implement the <code class="docutils literal"><span class="pre">Behat\Behat\Context\Context</span></code> interface.</li>
+<li>The context class should be called <code class="docutils literal"><span class="pre">FeatureContext</span></code>. It&#8217;s a simple convention
+inside the Behat infrastructure. <code class="docutils literal"><span class="pre">FeatureContext</span></code> is the name of the
+context class for the default suite. This can easily be changed through
+suite configuration inside <code class="docutils literal"><span class="pre">behat.yml</span></code>.</li>
+<li>The context class should be discoverable and loadable by Behat. That means you
+should somehow tell Behat about your class file. Behat comes with a PSR-0
+autoloader out of the box and the default autoloading directory is
+<code class="docutils literal"><span class="pre">features/bootstrap</span></code>. That&#8217;s why the default <code class="docutils literal"><span class="pre">FeatureContext</span></code> is loaded so
+easily by Behat. You can place your own classes under <code class="docutils literal"><span class="pre">features/bootstrap</span></code>
+by following the PSR-0 convention or you can even define your own custom
+autoloading folder via <code class="docutils literal"><span class="pre">behat.yml</span></code>.</li>
+</ol>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p class="last"><code class="docutils literal"><span class="pre">Behat\Behat\Context\SnippetAcceptingContext</span></code> and
+<code class="docutils literal"><span class="pre">Behat\Behat\Context\CustomSnippetAcceptingContext</span></code> are special
+versions of the <code class="docutils literal"><span class="pre">Behat\Behat\Context\Context</span></code> interface that tell
+Behat this context expects snippets to be generated for it.</p>
+</div>
+<div class="admonition tip">
+<p class="first admonition-title">Tip</p>
+<p class="last">The <a class="reference internal" href="command_line_tool.html"><em>Behat command line tool</em></a>
+has an <code class="docutils literal"><span class="pre">--init</span></code> option that will initialize a new Behat project in your
+directory. Learn more about
+<a class="reference internal" href="initializing_a_new_behat_project.html"><em>Initializing a New Behat Project</em></a>.</p>
+</div>
+</div>
+<div class="section" id="contexts-lifetime">
+<h2>Contexts Lifetime<a class="headerlink" href="#contexts-lifetime" title="Permalink to this headline">¶</a></h2>
+<p>Your context class is initialized before each scenario is run, and every scenario
+has its very own context instance. This means 2 things:</p>
+<ol class="arabic simple">
+<li>Every scenario is isolated from each other scenario&#8217;s context. You can do
+almost anything inside your scenario context instance without the fear of
+affecting other scenarios - every scenario gets its own context instance.</li>
+<li>Every step in a single scenario is executed inside a common context
+instance. This means you can set <code class="docutils literal"><span class="pre">private</span></code> instance variables inside
+your <code class="docutils literal"><span class="pre">&#64;Given</span></code> steps and you&#8217;ll be able to read their new values inside
+your <code class="docutils literal"><span class="pre">&#64;When</span></code> and <code class="docutils literal"><span class="pre">&#64;Then</span></code> steps.</li>
+</ol>
+</div>
+<div class="section" id="multiple-contexts">
+<h2>Multiple Contexts<a class="headerlink" href="#multiple-contexts" title="Permalink to this headline">¶</a></h2>
+<p>At some point, it could become very hard to maintain all your
+<a class="reference internal" href="feature_contexts/defining_step_definitions.html"><em>step definitions</em></a>
+and <a class="reference internal" href="feature_contexts/hooking_into_the_test_process.html#user-guide-feature-contexts-hooking-into-the-test-process-hooks"><span>Hooks</span></a>
+inside a single class. You could use class inheritance and split definitions
+into multiple classes, but doing so could cause your code to become more
+difficult to follow and use.</p>
+<p>In light of these issues, Behat provides a more flexible way of helping make
+your code more structured by allowing you to use multiple contexts in a single test
+suite.</p>
+<p>In order to customise the list of contexts your test suite requires, you need
+to fine-tune the suite configuration inside <code class="docutils literal"><span class="pre">behat.yml</span></code>:</p>
+<div class="highlight-yaml"><div class="highlight"><pre><span class="c1"># behat.yml</span>
+
+<span class="l-Scalar-Plain">default</span><span class="p-Indicator">:</span>
+    <span class="l-Scalar-Plain">suites</span><span class="p-Indicator">:</span>
+        <span class="l-Scalar-Plain">default</span><span class="p-Indicator">:</span>
+            <span class="l-Scalar-Plain">contexts</span><span class="p-Indicator">:</span>
+                <span class="p-Indicator">-</span> <span class="l-Scalar-Plain">FeatureContext</span>
+                <span class="p-Indicator">-</span> <span class="l-Scalar-Plain">SecondContext</span>
+                <span class="p-Indicator">-</span> <span class="l-Scalar-Plain">ThirdContext</span>
+</pre></div>
+</div>
+<p>The first <code class="docutils literal"><span class="pre">default</span></code> in this configuration is a name of the profile. We
+will discuss profiles a little bit later. Under
+the specific profile, we have a special <code class="docutils literal"><span class="pre">suites</span></code> section, which
+configures suites inside profile. We will talk about test suites in more
+detail in the <a class="reference internal" href="configuration.html"><em>next chapter</em></a>, for now just keep in mind
+that a suite is a way to tell Behat where to find your features and
+how to test them. The interesting part for us now is the <code class="docutils literal"><span class="pre">contexts</span></code>
+section - this is an array of context class names. Behat will use the classes
+specified there as your feature contexts. This means that every time
+Behat sees a scenario in your test suite, it will:</p>
+<ol class="arabic simple">
+<li>Get list of all context classes from this <code class="docutils literal"><span class="pre">contexts</span></code> option.</li>
+<li>Will try to initialize all these context classes into objects.</li>
+<li>Will search for <a class="reference internal" href="feature_contexts/defining_step_definitions.html"><em>step definitions</em></a> and
+<a class="reference internal" href="feature_contexts/hooking_into_the_test_process.html#user-guide-feature-contexts-hooking-into-the-test-process-hooks"><span>Hooks</span></a> in all of them.</li>
+</ol>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p class="last">Do not forget that each of these context classes should follow all
+context class requirements. Specifically - they all should implement
+<code class="docutils literal"><span class="pre">Behat\Behat\Context\Context</span></code> interface and be autoloadable by
+Behat.</p>
+</div>
+<p>Basically, all contexts under <code class="docutils literal"><span class="pre">contexts</span></code> section of your <code class="docutils literal"><span class="pre">behat.yml</span></code>
+are the same for Behat. It will find and use the methods in them the same way
+it does in the default <code class="docutils literal"><span class="pre">FeatureContext</span></code>. And if you&#8217;re happy with a single
+context class, but you don&#8217;t like the name <code class="docutils literal"><span class="pre">FeatureContext</span></code>, here&#8217;s
+how you change it:</p>
+<div class="highlight-yaml"><div class="highlight"><pre><span class="c1"># behat.yml</span>
+
+<span class="l-Scalar-Plain">default</span><span class="p-Indicator">:</span>
+    <span class="l-Scalar-Plain">suites</span><span class="p-Indicator">:</span>
+        <span class="l-Scalar-Plain">default</span><span class="p-Indicator">:</span>
+            <span class="l-Scalar-Plain">contexts</span><span class="p-Indicator">:</span>
+                <span class="p-Indicator">-</span> <span class="l-Scalar-Plain">MyAwesomeContext</span>
+</pre></div>
+</div>
+<p>This configuration will tell Behat to look for <code class="docutils literal"><span class="pre">MyAwesomeContext</span></code>
+instead of the default <code class="docutils literal"><span class="pre">FeatureContext</span></code>.</p>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p>Unlike profiles, Behat will not inherit any configuration of your
+<code class="docutils literal"><span class="pre">default</span></code> suite. The name <code class="docutils literal"><span class="pre">default</span></code> is only used for demonstration
+purpose in this guide. If you have multiple suites that all should use the
+same context, you will have to define that specific context for every
+specific suite:</p>
+<div class="highlight-yaml"><div class="highlight"><pre><span class="c1"># behat.yml</span>
+
+<span class="l-Scalar-Plain">default</span><span class="p-Indicator">:</span>
+    <span class="l-Scalar-Plain">suites</span><span class="p-Indicator">:</span>
+        <span class="l-Scalar-Plain">default</span><span class="p-Indicator">:</span>
+            <span class="l-Scalar-Plain">contexts</span><span class="p-Indicator">:</span>
+                <span class="p-Indicator">-</span> <span class="l-Scalar-Plain">MyAwesomeContext</span>
+                <span class="p-Indicator">-</span> <span class="l-Scalar-Plain">MyWickedContext</span>
+        <span class="l-Scalar-Plain">suite_a</span><span class="p-Indicator">:</span>
+            <span class="l-Scalar-Plain">contexts</span><span class="p-Indicator">:</span>
+                <span class="p-Indicator">-</span> <span class="l-Scalar-Plain">MyAwesomeContext</span>
+                <span class="p-Indicator">-</span> <span class="l-Scalar-Plain">MyWickedContext</span>
+        <span class="l-Scalar-Plain">suite_b</span><span class="p-Indicator">:</span>
+            <span class="l-Scalar-Plain">contexts</span><span class="p-Indicator">:</span>
+                <span class="p-Indicator">-</span> <span class="l-Scalar-Plain">MyAwesomeContext</span>
+</pre></div>
+</div>
+<p class="last">This configuration will tell Behat to look for <code class="docutils literal"><span class="pre">MyAwesomeContext</span></code> and
+<code class="docutils literal"><span class="pre">MyWickedContext</span></code> when testing <code class="docutils literal"><span class="pre">suite_a</span></code> and <code class="docutils literal"><span class="pre">MyAwesomeContext</span></code> when
+testing <code class="docutils literal"><span class="pre">suite_b</span></code>. In this example, <code class="docutils literal"><span class="pre">suite_b</span></code> will not be able to call
+steps that are defined in the <code class="docutils literal"><span class="pre">MyWickedContext</span></code>. As you can see, even if
+you are using the name <code class="docutils literal"><span class="pre">default</span></code> as the name of the suite, Behat will not
+inherit any configuration from this suite.</p>
+</div>
+</div>
+<div class="section" id="context-parameters">
+<h2>Context Parameters<a class="headerlink" href="#context-parameters" title="Permalink to this headline">¶</a></h2>
+<p>Context classes can be very flexible depending on how far you want
+to go in making them dynamic. Most of us will want to make our contexts
+environment-independent; where should we put temporary files, which URLs
+will be used to access the application? These are
+context configuration options highly dependent on the environment you
+will test your features in.</p>
+<p>We already said that context classes are just plain old PHP classes.
+How would you incorporate environment-dependent parameters into your
+PHP classes? Use <em>constructor arguments</em>:</p>
+<div class="highlight-php"><div class="highlight"><pre><span class="c1">// features/bootstrap/MyAwesomeContext.php</span>
+
+<span class="k">use</span> <span class="nx">Behat\Behat\Context\Context</span><span class="p">;</span>
+
+<span class="k">class</span> <span class="nc">MyAwesomeContext</span> <span class="k">implements</span> <span class="nx">Context</span>
+<span class="p">{</span>
+    <span class="k">public</span> <span class="k">function</span> <span class="nf">__construct</span><span class="p">(</span><span class="nv">$baseUrl</span><span class="p">,</span> <span class="nv">$tempPath</span><span class="p">)</span>
+    <span class="p">{</span>
+        <span class="nv">$this</span><span class="o">-&gt;</span><span class="na">baseUrl</span> <span class="o">=</span> <span class="nv">$baseUrl</span><span class="p">;</span>
+        <span class="nv">$this</span><span class="o">-&gt;</span><span class="na">tempPath</span> <span class="o">=</span> <span class="nv">$tempPath</span><span class="p">;</span>
+    <span class="p">}</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+<p>As a matter of fact, Behat gives you ability to do just that. You can
+specify arguments required to instantiate your context classes through
+same <code class="docutils literal"><span class="pre">contexts</span></code> setting inside your <code class="docutils literal"><span class="pre">behat.yml</span></code>:</p>
+<div class="highlight-yaml"><div class="highlight"><pre><span class="c1"># behat.yml</span>
+
+<span class="l-Scalar-Plain">default</span><span class="p-Indicator">:</span>
+    <span class="l-Scalar-Plain">suites</span><span class="p-Indicator">:</span>
+        <span class="l-Scalar-Plain">default</span><span class="p-Indicator">:</span>
+            <span class="l-Scalar-Plain">contexts</span><span class="p-Indicator">:</span>
+                <span class="p-Indicator">-</span> <span class="l-Scalar-Plain">MyAwesomeContext</span><span class="p-Indicator">:</span>
+                    <span class="p-Indicator">-</span> <span class="l-Scalar-Plain">http://localhost:8080</span>
+                    <span class="p-Indicator">-</span> <span class="l-Scalar-Plain">/var/tmp</span>
+</pre></div>
+</div>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p>Note an indentation for parameters. It is significant:</p>
+<div class="highlight-yaml"><div class="highlight"><pre><span class="l-Scalar-Plain">contexts</span><span class="p-Indicator">:</span>
+    <span class="p-Indicator">-</span> <span class="l-Scalar-Plain">MyAwesomeContext</span><span class="p-Indicator">:</span>
+        <span class="p-Indicator">-</span> <span class="l-Scalar-Plain">http://localhost:8080</span>
+        <span class="p-Indicator">-</span> <span class="l-Scalar-Plain">/var/tmp</span>
+</pre></div>
+</div>
+<p class="last">Aligned four spaces from the context class itself.</p>
+</div>
+<p>Arguments would be passed to the <code class="docutils literal"><span class="pre">MyAwesomeContext</span></code> constructor in
+the order they were specified here. If you are not happy with the idea
+of keeping an order of arguments in your head, you can use argument
+names instead:</p>
+<div class="highlight-yaml"><div class="highlight"><pre><span class="c1"># behat.yml</span>
+
+<span class="l-Scalar-Plain">default</span><span class="p-Indicator">:</span>
+    <span class="l-Scalar-Plain">suites</span><span class="p-Indicator">:</span>
+        <span class="l-Scalar-Plain">default</span><span class="p-Indicator">:</span>
+            <span class="l-Scalar-Plain">contexts</span><span class="p-Indicator">:</span>
+                <span class="p-Indicator">-</span> <span class="l-Scalar-Plain">MyAwesomeContext</span><span class="p-Indicator">:</span>
+                    <span class="l-Scalar-Plain">baseUrl</span><span class="p-Indicator">:</span> <span class="l-Scalar-Plain">http://localhost:8080</span>
+                    <span class="l-Scalar-Plain">tempPath</span><span class="p-Indicator">:</span> <span class="l-Scalar-Plain">/var/tmp</span>
+</pre></div>
+</div>
+<p>As a matter of fact, if you do, the order in which you specify these
+arguments becomes irrelevant:</p>
+<div class="highlight-yaml"><div class="highlight"><pre><span class="c1"># behat.yml</span>
+
+<span class="l-Scalar-Plain">default</span><span class="p-Indicator">:</span>
+    <span class="l-Scalar-Plain">suites</span><span class="p-Indicator">:</span>
+        <span class="l-Scalar-Plain">default</span><span class="p-Indicator">:</span>
+            <span class="l-Scalar-Plain">contexts</span><span class="p-Indicator">:</span>
+                <span class="p-Indicator">-</span> <span class="l-Scalar-Plain">MyAwesomeContext</span><span class="p-Indicator">:</span>
+                    <span class="l-Scalar-Plain">tempPath</span><span class="p-Indicator">:</span> <span class="l-Scalar-Plain">/var/tmp</span>
+                    <span class="l-Scalar-Plain">baseUrl</span><span class="p-Indicator">:</span> <span class="l-Scalar-Plain">http://localhost:8080</span>
+</pre></div>
+</div>
+<p>Taking this a step further, if your context constructor arguments are
+optional:</p>
+<div class="highlight-php"><div class="highlight"><pre><span class="k">public</span> <span class="k">function</span> <span class="nf">__construct</span><span class="p">(</span><span class="nv">$baseUrl</span> <span class="o">=</span> <span class="s1">&#39;http://localhost&#39;</span><span class="p">,</span> <span class="nv">$tempPath</span> <span class="o">=</span> <span class="s1">&#39;/var/tmp&#39;</span><span class="p">)</span>
+<span class="p">{</span>
+    <span class="nv">$this</span><span class="o">-&gt;</span><span class="na">baseUrl</span> <span class="o">=</span> <span class="nv">$baseUrl</span><span class="p">;</span>
+    <span class="nv">$this</span><span class="o">-&gt;</span><span class="na">tempPath</span> <span class="o">=</span> <span class="nv">$tempPath</span><span class="p">;</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+<p>You then can specify only the parameter that you actually need to change:</p>
+<div class="highlight-yaml"><div class="highlight"><pre><span class="c1"># behat.yml</span>
+
+<span class="l-Scalar-Plain">default</span><span class="p-Indicator">:</span>
+    <span class="l-Scalar-Plain">suites</span><span class="p-Indicator">:</span>
+        <span class="l-Scalar-Plain">default</span><span class="p-Indicator">:</span>
+            <span class="l-Scalar-Plain">contexts</span><span class="p-Indicator">:</span>
+                <span class="p-Indicator">-</span> <span class="l-Scalar-Plain">MyAwesomeContext</span><span class="p-Indicator">:</span>
+                    <span class="l-Scalar-Plain">tempPath</span><span class="p-Indicator">:</span> <span class="l-Scalar-Plain">/var/tmp</span>
+</pre></div>
+</div>
+<p>In this case, the default values would be used for other parameters.</p>
+</div>
+<div class="section" id="context-traits">
+<h2>Context Traits<a class="headerlink" href="#context-traits" title="Permalink to this headline">¶</a></h2>
+<p>PHP 5.4 have brought an interesting feature to the language - traits.
+Traits are a mechanism for code reuse in single inheritance languages
+like PHP. Traits are implemented as a compile-time copy-paste in PHP.
+That means if you put some step definitions or hooks inside a trait:</p>
+<div class="highlight-php"><div class="highlight"><pre><span class="c1">// features/bootstrap/ProductsDictionary.php</span>
+
+<span class="k">trait</span> <span class="nx">ProductsDictionary</span>
+<span class="p">{</span>
+    <span class="sd">/**</span>
+<span class="sd">     * @Given there is a(n) :arg1, which costs £:arg2</span>
+<span class="sd">     */</span>
+    <span class="k">public</span> <span class="k">function</span> <span class="nf">thereIsAWhichCostsPs</span><span class="p">(</span><span class="nv">$arg1</span><span class="p">,</span> <span class="nv">$arg2</span><span class="p">)</span>
+    <span class="p">{</span>
+        <span class="k">throw</span> <span class="k">new</span> <span class="nx">PendingException</span><span class="p">();</span>
+    <span class="p">}</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+<p>And then use it in your context:</p>
+<div class="highlight-php"><div class="highlight"><pre><span class="c1">// features/bootstrap/MyAwesomeContext.php</span>
+
+<span class="k">use</span> <span class="nx">Behat\Behat\Context\Context</span><span class="p">;</span>
+
+<span class="k">class</span> <span class="nc">MyAwesomeContext</span> <span class="k">implements</span> <span class="nx">Context</span>
+<span class="p">{</span>
+    <span class="k">use</span> <span class="nx">ProductsDictionary</span><span class="p">;</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+<p>It will just work as you expect it to.</p>
+</div>
+</div>
+
+
+        </section>
+
+    </section>
+
+  </body>
+</html>

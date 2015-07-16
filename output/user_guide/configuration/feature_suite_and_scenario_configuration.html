@@ -1,0 +1,297 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>Feature, Suite and Scenario Configuration &mdash; Behat 3.0.12 documentation</title>
+    
+    <link rel="stylesheet" href="../../_static/basic.css" type="text/css" />
+    <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
+    <link rel="stylesheet" href="../../_static/css/normalize.css" type="text/css" />
+    <link rel="stylesheet" href="../../_static/css/borg.css" type="text/css" />
+    <link rel="stylesheet" href="../../_static/css/documentation.css" type="text/css" />
+    <link rel="stylesheet" href="../../_static/css/pygments.css" type="text/css" />
+    <link rel="stylesheet" href="http://fonts.googleapis.com/css?family=Comfortaa" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '../../',
+        VERSION:     '3.0.12',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="../../_static/jquery.js"></script>
+    <script type="text/javascript" src="../../_static/underscore.js"></script>
+    <script type="text/javascript" src="../../_static/doctools.js"></script>
+    <link rel="top" title="Behat 3.0.12 documentation" href="../../index.html" />
+    <link rel="up" title="Configuration" href="../configuration.html" />
+    <link rel="next" title="Cookbooks" href="../../cookbooks.html" />
+    <link rel="prev" title="Configuration" href="../configuration.html" /> 
+  </head>
+  <body role="document">
+    <header>
+        <a class="logo" href="http://behat.org">behat</a>
+
+        <nav>
+            <ul>
+                <li><a href="http://behat.org">About</a></li>
+                <li class="active"><a href="/">Docs</a></li>
+            </ul>
+        </nav>
+
+        <a class="fork" href="https://github.com/Behat/Behat">Fork us</a>
+    </header>
+
+    <section>
+
+        <nav class="toc">
+            <h3>Chapters</h3>
+            
+            
+                <ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="../../intro.html">Introduction</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../quick_start.html">Quick Start</a></li>
+<li class="toctree-l1 current"><a class="reference internal" href="../../user_guide.html">User Guide</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="../gherkin_language.html">About Gherkin Language</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../features_scenarios.html">Features and Scenarios</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../initializing_a_new_behat_project.html">Initializing a New Behat Project</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../writing_scenarios.html">Writing Scenarios</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../organizing_features_and_scenarios.html">Organizing Features and Scenarios</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../feature_contexts.html">Feature Contexts</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../command_line_tool.html">Command Line Tool</a></li>
+<li class="toctree-l2 current"><a class="reference internal" href="../configuration.html">Configuration</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../../cookbooks.html">Cookbooks</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../useful_resources.html">Useful Resources</a></li>
+</ul>
+
+            
+        </nav>
+        <section class="text">
+            
+  <div class="section" id="feature-suite-and-scenario-configuration">
+<h1>Feature, Suite and Scenario Configuration<a class="headerlink" href="#feature-suite-and-scenario-configuration" title="Permalink to this headline">¶</a></h1>
+<p>We already talked about configuring multiple contexts for a single test
+suite in a <a class="reference internal" href="../feature_contexts.html"><em>previous chapter</em></a>. Now it is
+time to talk about test suites themselves. A test suite represents a group of
+concrete features together with the information on how to test them.</p>
+<p>With suites you can configure Behat to test different kinds of features
+using different kinds of contexts and doing so in one run. Test suites are
+really powerful and <code class="docutils literal"><span class="pre">behat.yml</span></code> makes them that much more powerful:</p>
+<div class="highlight-yaml"><div class="highlight"><pre># behat.yml
+
+default:
+    suites:
+        core_features:
+            paths:    [ %paths.base%/features/core ]
+            contexts: [ CoreDomainContext ]
+        user_features:
+            paths:    [ %paths.base%/features/web ]
+            filters:  { role: user }
+            contexts: [ UserContext ]
+        admin_features:
+            paths:    [ %paths.base%/features/web ]
+            filters:  { role: admin }
+            contexts: [ AdminContext ]
+</pre></div>
+</div>
+<div class="section" id="suite-paths">
+<h2>Suite Paths<a class="headerlink" href="#suite-paths" title="Permalink to this headline">¶</a></h2>
+<p>One of the most obvious settings of the suites is the <code class="docutils literal"><span class="pre">paths</span></code>
+configuration:</p>
+<div class="highlight-yaml"><div class="highlight"><pre># behat.yml
+
+default:
+    suites:
+        core_features:
+            paths:
+                - %paths.base%/features
+                - %paths.base%/test/features
+                - %paths.base%/vendor/.../features
+</pre></div>
+</div>
+<p>As you might imagine, this option tells Behat where to search for test features.
+You could, for example, tell Behat to look into the
+<code class="docutils literal"><span class="pre">features/web</span></code> folder for features and test them with <code class="docutils literal"><span class="pre">WebContext</span></code>:</p>
+<div class="highlight-yaml"><div class="highlight"><pre># behat.yml
+
+default:
+    suites:
+        web_features:
+            paths:    [ %paths.base%/features/web ]
+            contexts: [ WebContext ]
+</pre></div>
+</div>
+<p>You then might want to also describe some API-specific features in
+<code class="docutils literal"><span class="pre">features/api</span></code> and test them with an API-specific <code class="docutils literal"><span class="pre">ApiContext</span></code>. Easy:</p>
+<div class="highlight-yaml"><div class="highlight"><pre># behat.yml
+
+default:
+    suites:
+        web_features:
+            paths:    [ %paths.base%/features/web ]
+            contexts: [ WebContext ]
+        api_features:
+            paths:    [ %paths.base%/features/api ]
+            contexts: [ ApiContext ]
+</pre></div>
+</div>
+<p>This will cause Behat to:</p>
+<ol class="arabic simple">
+<li>Find all features inside <code class="docutils literal"><span class="pre">features/web</span></code> and test them using your
+<code class="docutils literal"><span class="pre">WebContext</span></code>.</li>
+<li>Find all features inside <code class="docutils literal"><span class="pre">features/api</span></code> and test them using your
+<code class="docutils literal"><span class="pre">ApiContext</span></code>.</li>
+</ol>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p class="last"><code class="docutils literal"><span class="pre">%paths.base%</span></code> is a special variable in <code class="docutils literal"><span class="pre">behat.yml</span></code> that refers
+to the folder in which <code class="docutils literal"><span class="pre">behat.yml</span></code> is stored.</p>
+</div>
+<p>Path-based suites are an easy way to test highly-modular applications
+where features are delivered by highly decoupled components. With suites
+you can test all of them together.</p>
+</div>
+<div class="section" id="suite-filters">
+<h2>Suite Filters<a class="headerlink" href="#suite-filters" title="Permalink to this headline">¶</a></h2>
+<p>In addition to being able to run features from different directories,
+we can run scenarios from the same directory, but filtered by specific
+criteria. The Gherkin parser comes bundled with a set of cool filters
+such as <em>tags</em> and <em>name</em> filters. You can use these filters to run
+features with specific tag (or name) in specific contexts:</p>
+<div class="highlight-yaml"><div class="highlight"><pre># behat.yml
+
+default:
+    suites:
+        web_features:
+            paths:    [ %paths.base%/features ]
+            contexts: [ WebContext ]
+            filters:
+                tags: @web
+        api_features:
+            paths:    [ %paths.base%/features ]
+            contexts: [ ApiContext ]
+            filters:
+                tags: @api
+</pre></div>
+</div>
+<p>This configuration will tell Behat to run features and scenarios
+tagged as <code class="docutils literal"><span class="pre">&#64;web</span></code> in <code class="docutils literal"><span class="pre">WebContext</span></code> and features and scenarios
+tagged as <code class="docutils literal"><span class="pre">&#64;api</span></code> in <code class="docutils literal"><span class="pre">ApiContext</span></code>. Even if they all are stored
+in the same folder. How cool is that? But it gets even better,
+because Gherkin 4+ (used in Behat 3+) added a very special <em>role</em>
+filter. That means, you can now have nice actor-based suites:</p>
+<div class="highlight-yaml"><div class="highlight"><pre># behat.yml
+
+default:
+    suites:
+        user_features:
+            paths:    [ %paths.base%/features ]
+            contexts: [ UserContext ]
+            filters:
+                role: user
+        admin_features:
+            paths:    [ %paths.base%/features ]
+            contexts: [ AdminContext ]
+            filters:
+                role: admin
+</pre></div>
+</div>
+<p>A Role filter takes a look into the feature description block:</p>
+<div class="highlight-gherkin"><div class="highlight"><pre><span class="k">Feature:</span><span class="nf"> Registering users</span>
+<span class="nf">  In order to help more people use our system</span>
+<span class="nf">  As an admin</span>
+<span class="nf">  I need to be able to register more users</span>
+</pre></div>
+</div>
+<p>It looks for a <code class="docutils literal"><span class="pre">As</span> <span class="pre">a</span> <span class="pre">...</span></code> or <code class="docutils literal"><span class="pre">As</span> <span class="pre">an</span> <span class="pre">...</span></code> pattern and guesses its
+actor from it. It then filters features that do not have the expected
+actor from the set. In the case of our example, it basically means that
+features described from the perspective of the <em>user</em> actor will
+be tested in <code class="docutils literal"><span class="pre">UserContext</span></code> and features described from the
+perspective of the <em>admin</em> actor will be tested in <code class="docutils literal"><span class="pre">AdminContext</span></code>.
+Even if they are in the same folder.</p>
+<p>While it is possible to specify filters as part of suite configuration,
+sometimes you will want to exclude certain scenarios across the suite, with the
+option to override the filters at the command line.</p>
+<p>This is achieved by specifying the filter in the gherkin configuration:</p>
+<div class="highlight-yaml"><div class="highlight"><pre><span class="c1"># behat.yml</span>
+
+<span class="l-Scalar-Plain">default</span><span class="p-Indicator">:</span>
+    <span class="l-Scalar-Plain">gherkin</span><span class="p-Indicator">:</span>
+      <span class="l-Scalar-Plain">filters</span><span class="p-Indicator">:</span>
+        <span class="l-Scalar-Plain">tags</span><span class="p-Indicator">:</span> <span class="l-Scalar-Plain">~@wip</span>
+</pre></div>
+</div>
+<p>In this instance, scenarios tagged as &#64;wip will be ignored unless the CLI
+command is run with a custom filter, e.g.:</p>
+<div class="highlight-bash"><div class="highlight"><pre>vendor/bin/behat --tags<span class="o">=</span>wip
+</pre></div>
+</div>
+<div class="admonition tip">
+<p class="first admonition-title">Tip</p>
+<p class="last">More details on identifying tests can be found in the chapter
+<a class="reference internal" href="../command_line_tool/identifying_tests.html"><em>Identifying Tests</em></a>.</p>
+</div>
+</div>
+<div class="section" id="extensions">
+<h2>Extensions<a class="headerlink" href="#extensions" title="Permalink to this headline">¶</a></h2>
+<p>Extensions can be configured like this:</p>
+<div class="highlight-yaml"><div class="highlight"><pre><span class="c1"># behat.yml</span>
+
+<span class="l-Scalar-Plain">default</span><span class="p-Indicator">:</span>
+    <span class="l-Scalar-Plain">extensions</span><span class="p-Indicator">:</span>
+        <span class="l-Scalar-Plain">Behat\MinkExtension</span><span class="p-Indicator">:</span>
+            <span class="l-Scalar-Plain">base_url</span><span class="p-Indicator">:</span> <span class="l-Scalar-Plain">http://www.example.com</span>
+            <span class="l-Scalar-Plain">selenium2</span><span class="p-Indicator">:</span> <span class="l-Scalar-Plain">~</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="suite-contexts">
+<h2>Suite Contexts<a class="headerlink" href="#suite-contexts" title="Permalink to this headline">¶</a></h2>
+<p>Being able to specify a set of features with a set of contexts for
+these features inside the suite has a very interesting side-effect.
+You can specify the same features in two different suites being tested
+against different contexts <em>or</em> the same contexts configured differently.
+This basically means that you can use the same subset of features to
+develop different layers of your application with Behat:</p>
+<div class="highlight-yaml"><div class="highlight"><pre># behat.yml
+
+default:
+    suites:
+        domain_features:
+            paths:    [ %paths.base%/features ]
+            contexts: [ DomainContext ]
+        web_features:
+            paths:    [ %paths.base%/features ]
+            contexts: [ WebContext ]
+            filters:
+                tags: @web
+</pre></div>
+</div>
+<p>In this case, Behat will first run all the features from the <code class="docutils literal"><span class="pre">features/</span></code>
+folder in <code class="docutils literal"><span class="pre">DomainContext</span></code> and then only those tagged with <code class="docutils literal"><span class="pre">&#64;web</span></code> in
+<code class="docutils literal"><span class="pre">WebContext</span></code>.</p>
+<div class="admonition tip">
+<p class="first admonition-title">Tip</p>
+<p class="last">It might be worth reading how to <a class="reference internal" href="../command_line_tool/identifying_tests.html#user-guide-command-line-tool-identifying-tests-by-suite"><span>execute a specific
+suite</span></a> or
+<a class="reference internal" href="../initializing_a_new_behat_project.html#user-guide-initializing-a-new-behat-project-suite-initialisation"><span>initializing a new
+suite</span></a></p>
+</div>
+</div>
+</div>
+
+
+        </section>
+
+    </section>
+
+  </body>
+</html>

@@ -1,0 +1,185 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>Integrating Symfony2 with Behat &mdash; Behat 3.0.12 documentation</title>
+    
+    <link rel="stylesheet" href="../_static/basic.css" type="text/css" />
+    <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+    <link rel="stylesheet" href="../_static/css/normalize.css" type="text/css" />
+    <link rel="stylesheet" href="../_static/css/borg.css" type="text/css" />
+    <link rel="stylesheet" href="../_static/css/documentation.css" type="text/css" />
+    <link rel="stylesheet" href="../_static/css/pygments.css" type="text/css" />
+    <link rel="stylesheet" href="http://fonts.googleapis.com/css?family=Comfortaa" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '../',
+        VERSION:     '3.0.12',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="../_static/jquery.js"></script>
+    <script type="text/javascript" src="../_static/underscore.js"></script>
+    <script type="text/javascript" src="../_static/doctools.js"></script>
+    <link rel="top" title="Behat 3.0.12 documentation" href="../index.html" />
+    <link rel="up" title="Cookbooks" href="../cookbooks.html" />
+    <link rel="next" title="Gathering Contexts when using Multiple Contexts" href="gathering_contexts_when_using_multiple_contexts.html" />
+    <link rel="prev" title="Cookbooks" href="../cookbooks.html" /> 
+  </head>
+  <body role="document">
+    <header>
+        <a class="logo" href="http://behat.org">behat</a>
+
+        <nav>
+            <ul>
+                <li><a href="http://behat.org">About</a></li>
+                <li class="active"><a href="/">Docs</a></li>
+            </ul>
+        </nav>
+
+        <a class="fork" href="https://github.com/Behat/Behat">Fork us</a>
+    </header>
+
+    <section>
+
+        <nav class="toc">
+            <h3>Chapters</h3>
+            
+            
+                <ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="../intro.html">Introduction</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../quick_start.html">Quick Start</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../user_guide.html">User Guide</a></li>
+<li class="toctree-l1 current"><a class="reference internal" href="../cookbooks.html">Cookbooks</a><ul class="current">
+<li class="toctree-l2 current"><a class="current reference internal" href="">Integrating Symfony2 with Behat</a></li>
+<li class="toctree-l2"><a class="reference internal" href="gathering_contexts_when_using_multiple_contexts.html">Gathering Contexts when using Multiple Contexts</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../useful_resources.html">Useful Resources</a></li>
+</ul>
+
+            
+        </nav>
+        <section class="text">
+            
+  <div class="section" id="integrating-symfony2-with-behat">
+<h1>Integrating Symfony2 with Behat<a class="headerlink" href="#integrating-symfony2-with-behat" title="Permalink to this headline">¶</a></h1>
+<p>Symfony2 is a <a class="reference external" href="http://symfony.com/">Web Application Framework</a> that can be easily integrated and used seamlessly with Behat 3.
+As a prerequisite for this cookbook you need to have working Symfony2 application.</p>
+<p>In this cookbook we will cover:</p>
+<ol class="arabic simple">
+<li>Installing Behat dependency with Composer.</li>
+<li>Initialising Behat suite.</li>
+<li>Installing and enabling Symfony2 extension.</li>
+<li>Accessing application services in contexts.</li>
+<li>Using Symfony2 test client as a Mink driver.</li>
+</ol>
+<div class="section" id="installing-behat-in-your-symfony2-project">
+<h2>Installing Behat in your Symfony2 Project<a class="headerlink" href="#installing-behat-in-your-symfony2-project" title="Permalink to this headline">¶</a></h2>
+<p>Recommended way of managing Behat dependency in your project is to use <a class="reference external" href="https://getcomposer.org/)">Composer</a>.
+Assuming that you already have <code class="docutils literal"><span class="pre">composer.json</span></code> file in your project you only need to add one new entry to it and install.
+It can be done automatically for you with this command:</p>
+<div class="highlight-bash"><div class="highlight"><pre><span class="nv">$ </span>php composer.phar require --dev behat/behat
+</pre></div>
+</div>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p class="last">Note that we have used <code class="docutils literal"><span class="pre">--dev</span></code> switch for Composer.
+It means that Behat will be installed as as <code class="docutils literal"><span class="pre">require-dev</span></code> dependency in your project, and will not be present in production.
+For further information please check <a class="reference external" href="https://getcomposer.org/doc/04-schema.md#require-dev">Composer documentation</a>.</p>
+</div>
+</div>
+<div class="section" id="initialising-behat">
+<h2>Initialising Behat<a class="headerlink" href="#initialising-behat" title="Permalink to this headline">¶</a></h2>
+<p>After execution of this command you should see information about files initialised in your project,
+and you should be able to write your first scenario.
+In order to verify Behat initialisation you can just run following command:</p>
+<div class="highlight-bash"><div class="highlight"><pre><span class="nv">$ </span>bin/behat
+</pre></div>
+</div>
+<div class="admonition tip">
+<p class="first admonition-title">Tip</p>
+<p class="last">If you don&#8217;t feel familiar with Behat enough please read <a class="reference internal" href="../quick_start.html"><em>Quick Start</em></a>
+first.</p>
+</div>
+</div>
+<div class="section" id="installing-and-enabling-symfony2-extension">
+<h2>Installing and Enabling Symfony2 Extension<a class="headerlink" href="#installing-and-enabling-symfony2-extension" title="Permalink to this headline">¶</a></h2>
+<p>Great, you have a Behat suite working in your project, now it&#8217;s time to install <a class="reference external" href="https://github.com/Behat/Symfony2Extension">Symfony2Extension</a>.
+To do this you need to add another dependency, but in the same way we did it a while ago:</p>
+<div class="highlight-bash"><div class="highlight"><pre><span class="nv">$ </span>php composer.phar require --dev behat/symfony2-extension
+</pre></div>
+</div>
+<p>Now it&#8217;s time to enable extension in your <code class="docutils literal"><span class="pre">behat.yml</span></code> file.
+If it doesn&#8217;t exist just create such file in your project root and fill it with following content:</p>
+<div class="highlight-yaml"><div class="highlight"><pre><span class="l-Scalar-Plain">default</span><span class="p-Indicator">:</span>
+  <span class="l-Scalar-Plain">extensions</span><span class="p-Indicator">:</span>
+    <span class="l-Scalar-Plain">Behat\Symfony2Extension</span><span class="p-Indicator">:</span> <span class="l-Scalar-Plain">~</span>
+</pre></div>
+</div>
+<p>If this file already exists just change its contents accordingly.
+From that point you should be able to run Behat and Symfony2 extension will be loaded and ready to work with.</p>
+</div>
+<div class="section" id="accessing-application-services-in-contexts">
+<h2>Accessing Application Services in Contexts<a class="headerlink" href="#accessing-application-services-in-contexts" title="Permalink to this headline">¶</a></h2>
+<p>The extension we have just installed detects the default Symfony configuration and allows
+to use your application services in context classes. To make a service available in a context you need
+to change your <code class="docutils literal"><span class="pre">behat.yml</span></code> configuration and tell the extension which services to inject:</p>
+<div class="highlight-yaml"><div class="highlight"><pre><span class="l-Scalar-Plain">default</span><span class="p-Indicator">:</span>
+  <span class="l-Scalar-Plain">suites</span><span class="p-Indicator">:</span>
+    <span class="l-Scalar-Plain">default</span><span class="p-Indicator">:</span>
+        <span class="l-Scalar-Plain">contexts</span><span class="p-Indicator">:</span>
+            <span class="p-Indicator">-</span> <span class="l-Scalar-Plain">FeatureContext</span><span class="p-Indicator">:</span>
+                <span class="l-Scalar-Plain">session</span><span class="p-Indicator">:</span>   <span class="s">&#39;@session&#39;</span>
+  <span class="l-Scalar-Plain">extensions</span><span class="p-Indicator">:</span>
+    <span class="l-Scalar-Plain">Behat\Symfony2Extension</span><span class="p-Indicator">:</span> <span class="l-Scalar-Plain">~</span>
+</pre></div>
+</div>
+<p>This configuration will try to to match the <code class="docutils literal"><span class="pre">$session</span></code> dependency of your <code class="docutils literal"><span class="pre">FeatureContext</span></code> constructor by injecting the <code class="docutils literal"><span class="pre">session</span></code> service into the context.
+Be careful because if such a service does not exist or its name does not match, it will not work and you will end up with a Behat exception.</p>
+</div>
+<div class="section" id="using-kerneldriver-with-your-behat-suite">
+<h2>Using KernelDriver with your Behat Suite<a class="headerlink" href="#using-kerneldriver-with-your-behat-suite" title="Permalink to this headline">¶</a></h2>
+<p>Symfony2 has a build-in Test Client, which can help you with web acceptance testing, why not make use of it?
+Especially because Behat has a <a class="reference external" href="http://mink.behat.org">Mink Extension</a> that makes those kind of testing even easier.</p>
+<p>The advantage of using KernelDriver instead of standard Mink driver is that you don&#8217;t need to run web server in order to access a page.
+Also you can even use <a class="reference external" href="http://symfony.com/doc/current/cookbook/testing/profiling.html">Symfony Profiler</a> and inspect your application directly!.
+You can read more about test client in <a class="reference external" href="http://symfony.com/doc/current/book/testing.html#your-first-functional-test">Symfony Documentation</a>.</p>
+<p>If you don&#8217;t have Mink and MinkExtension yet, you can install those two with:</p>
+<div class="highlight-bash"><div class="highlight"><pre><span class="nv">$ </span>php composer.phar require --dev behat/mink
+<span class="nv">$ </span>php composer.phar require --dev behat/mink-extension
+</pre></div>
+</div>
+<p>In order to install BrowserKit Driver you need to execute following command:</p>
+<div class="highlight-bash"><div class="highlight"><pre><span class="nv">$ </span>php composer.phar require --dev behat/mink-browserkit-driver
+</pre></div>
+</div>
+<p>Now you are only one step from being ready to make full use of Symfony2 extension in your project.
+You need to enable extension in your <code class="docutils literal"><span class="pre">behat.yml</span></code> file as follows:</p>
+<div class="highlight-yaml"><div class="highlight"><pre><span class="l-Scalar-Plain">default</span><span class="p-Indicator">:</span>
+  <span class="l-Scalar-Plain">extensions</span><span class="p-Indicator">:</span>
+    <span class="l-Scalar-Plain">Behat\Symfony2Extension</span><span class="p-Indicator">:</span> <span class="l-Scalar-Plain">~</span>
+    <span class="l-Scalar-Plain">Behat\MinkExtension</span><span class="p-Indicator">:</span>
+      <span class="l-Scalar-Plain">sessions</span><span class="p-Indicator">:</span>
+        <span class="l-Scalar-Plain">default</span><span class="p-Indicator">:</span>
+          <span class="l-Scalar-Plain">symfony2</span><span class="p-Indicator">:</span> <span class="l-Scalar-Plain">~</span>
+</pre></div>
+</div>
+<p>Et voilà! Now you are ready to drive your Symfony2 app development with Behat3!</p>
+</div>
+</div>
+
+
+        </section>
+
+    </section>
+
+  </body>
+</html>
