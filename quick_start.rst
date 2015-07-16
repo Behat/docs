@@ -16,8 +16,10 @@ To become a *Behat'er* in 30 minutes, just dive into the quick-start guide and
 enjoy!
 
 .. toctree::
+   :hidden:
    :maxdepth: 2
 
+   quick_start/example
    quick_start/installation
    quick_start/development
    quick_start/executing_behat
