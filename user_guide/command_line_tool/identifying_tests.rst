@@ -1,24 +1,15 @@
-Identifying tests
+Identifying Tests
 =================
 
-By profile
-----------
+.. _user-guide--command-line-tool--identifying-tests--by-suite:
 
-By suite
+By Suite
 --------
 
-By tags
--------
+By default, when you run Behat it will execute all registered suites
+one-by-one. If you want to run a single suite instead, use the ``--suite``
+option:
 
-By path
--------
+.. code-block:: bash
 
-By name
--------
-
-By role
--------
-
-By language
------------
-
+    $ vendor/bin/behat --suite=web_features

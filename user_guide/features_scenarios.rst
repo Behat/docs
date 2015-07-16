@@ -1,6 +1,8 @@
 Features and Scenarios
 ======================
 
+.. _user-guide--features-scenarios--features:
+
 Features
 --------
 
@@ -9,10 +11,11 @@ starting with the keyword ``Feature:`` (or its localized equivalent) followed
 by three indented lines starts a feature. A feature usually contains a list of
 scenarios. You can write whatever you want up until the first scenario, which
 starts with ``Scenario:`` (or localized equivalent) on a new line. You can use
-:doc:`tags </user_guide/identifying_features_and_scenarios>` to group features and scenarios together, independent of your file and
-directory structure.
+:ref:`user-guide--organizing-features-and-scenarios--tags` to group features
+and scenarios together, independent of your file and directory structure.
 
-Every scenario consists of a list of :doc:`steps </user_guide/writing_scenarios>`, which must start with one of the
+Every scenario consists of a list of
+:ref:`user-guide--writing-scenarios--steps`, which must start with one of the
 keywords ``Given``, ``When``, ``Then``, ``But`` or ``And`` (or a localized
 version of one of these). Behat treats them all the same, but you shouldn't.
 Here is an example:
@@ -30,8 +33,11 @@ Here is an example:
         When I press the coffee button
         Then I should be served a coffee
 
-In addition to basic `scenarios`_, feature may contain :doc:`scenario outlines </user_guide/writing_scenarios>`
-and :doc:`backgrounds </user_guide/writing_scenarios>`.
+In addition to basic :ref:`user-guide--features-scenarios--scenarios`,
+features may contain :ref:`user-guide--writing-scenarios--scenario-outlines` and
+:ref:`user-guide--writing-scenarios--backgrounds`.
+
+.. _user-guide--features-scenarios--scenarios:
 
 Scenarios
 ---------
@@ -39,7 +45,7 @@ Scenarios
 Scenarios are one of the core Gherkin structures. Every scenario starts with
 the ``Scenario:`` keyword (or localized keyword), followed by an optional scenario
 title. Each feature can have one or more scenarios and every scenario consists
-of one or more :doc:`steps </user_guide/writing_scenarios>`.
+of one or more :ref:`user-guide--writing-scenarios--steps`.
 
 The following scenarios each have 3 steps:
 
