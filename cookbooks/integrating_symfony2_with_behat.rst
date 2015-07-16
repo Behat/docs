@@ -46,7 +46,8 @@ In order to verify Behat initialisation you can just run following command:
 
 .. tip::
 
-    If you don't feel familiar with Behat enough please read :doc:`/quick_intro_pt1` first.
+    If you don't feel familiar with Behat enough please read :doc:`/quick_start`
+    first.
 
 Installing and enabling Symfony2 extension
 ------------------------------------------
