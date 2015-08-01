@@ -33,7 +33,7 @@ the features with this step to avoid misuses) and that the profiler is enabled:
 
     use Behat\Mink\Exception\UnsupportedDriverActionException,
         Behat\Mink\Exception\ExpectationException;
-    use Behat\Symfony2Extension\Driver\KernelDriver;;
+    use Behat\Symfony2Extension\Driver\KernelDriver;
 
     use PHPUnit_Framework_ExpectationFailedException as AssertException;
 
