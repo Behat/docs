@@ -248,7 +248,15 @@ Gherkin Filters
 ---------------
 
 If you want to run only part of your suite, or some scenarios, you
-can do it with name or tags filters:
+can do it with name or tags filters.
+
+Tag filters supports three logical operators:
+
+- Tags separated by commas will be combined using the ``OR`` operation
+- Tags separated by ``&&`` will be combined using the ``AND`` operation
+- Tags preceded by ``~`` will be excluded using the ``NOT`` operation
+
+For example:
 
 .. code-block:: bash
 
@@ -258,17 +266,17 @@ can do it with name or tags filters:
     $ behat --tags '~@javascript'
     $ behat --name 'number has'
 
-The first command will run only features or scenarios which have either the
-``@orm`` or the ``@database`` tag.
+The first command will run only features or scenarios which have the
+``@orm`` OR ``@database`` tag (or both).
 
-The second command will run only features or scenarios which have either the
-``@ticket`` or the ``@723`` tag.
+The second command will run only features or scenarios which have the
+``@ticket`` OR ``@723`` tag (or both).
 
 The third command will run only features or scenarios with both the ``@orm``
-and the ``@fixtures`` tags.
+AND  ``@fixtures`` tags (must have both).
 
-The forth command will run all features or scenarios except those, that marked
-with ``@javascript`` tag. In other terms, ``~`` means **excluding**.
+The fourth command will run all features or scenarios NOT tagged
+with ``@javascript``.  (All except those tagged ``@javascript``) 
 
 The fifth command will run only features and scenarios that contain ``number has``
 in their title.
