@@ -76,22 +76,59 @@ In this instance, scenarios tagged as @wip will be ignored unless the CLI comman
 
     vendor/bin/behat --tags=wip
 
-Custom Autoloading
-------------------
+Relocating Autoloaded Files and Feature Descriptions
+----------------------------------------------------
 
-Sometimes you will need to place your ``features`` folder somewhere other than the
-default location (e.g. ``app/features``). All you need to do is specify the path
-you want to autoload via ``behat.yml``:
+Generally web frameworks have a conventional place for test-related
+files. When starting a new project or incorporating Behat into an
+existing one, putting the ``features`` folder into the expected place
+makes it easier for everyone to find and maintain tests.  Since
+feature descriptions and their associated context classes are closely
+related, it makes sense to store them together. To do so, Behat needs
+to be told where to find things. The following behat.yml snippet is
+taken from a Laravel project:
 
 .. code-block:: yaml
 
-    # behat.yml
 
     default:
-        autoload:
-            '': %paths.base%/app/features/bootstrap
+	autoload:
+		'': %paths.base%/app/tests/features/bootstrap
+	suites:
+	    cart:
+		paths: [ %paths.base%/app/tests/features/cart ]
+		contexts: [ CartContext ]
 
-If you wish to namespace your features (for example: to be PSR-1 complaint) you will need to add the namespace to the classes and also tell behat where to load them. Here ``contexts`` is an array of classes:
+**Notes**
+
+- The "autoload" section instructs Behat where to look for the context
+  PHP class files.
+
+  
+- The "suites" section instructs behat where to look for feature
+  descriptions related to the "cart" feature of the website. The
+  "paths" directive defines the directory location where individual
+  feature files can be found. The contexts" directive names the actual
+  PHP classes to load for this test suite. These classes are the ones
+  discovered via the "autoload" section above.
+
+  
+- Suites are explained in :doc:`previous chapter </guides/5.suites>`,
+  but, briefly, they are a way of organizing related tests into
+  subdirectories so that a large set of tests does not become
+  unwieldy. Here, we're focusing on the "cart" feature, but to expand
+  on the idea, the complete project might have "checkout" and
+  "knowledgebase" suites, each located in a separate subdirectory,
+  with a corresponding class in the autoload directory.
+
+
+PHP Namespaces
+--------------
+
+If you wish to namespace your features (for example: to be PSR-1
+complaint) you will need to add the namespace to the classes and also
+tell behat where to load them. Here ``contexts`` is an array of
+classes:
 
 .. code-block:: yaml
 
