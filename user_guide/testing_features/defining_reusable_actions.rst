@@ -1,7 +1,7 @@
 Defining Reusable Actions
 =========================
 
-:doc:`Gherkin language</user_guide/gherkin_language>` provides a way to describe your
+:doc:`Gherkin language</user_guide/the_gherkin_language>` provides a way to describe your
 application behavior in business understandable language. But how do you test
 that the described behavior is actually implemented? Or that the application
 satisfies your business expectations as described in the feature scenarios?

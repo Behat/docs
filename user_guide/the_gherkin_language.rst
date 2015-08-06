@@ -1,5 +1,5 @@
-About Gherkin Language
-======================
+The Gherkin Language
+====================
 
 Behat is a tool to test the behavior of your application, described in a special
 language called Gherkin. Gherkin is a

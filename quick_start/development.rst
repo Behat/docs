@@ -497,5 +497,5 @@ What's Next?
 
 Congratulations! You now know everything you need in order to get started
 with behavior driven development and Behat. From here, you can learn more
-about the :doc:`Gherkin </user_guide/gherkin_language>` syntax or learn how to
+about the :doc:`Gherkin </user_guide/the_gherkin_language>` syntax or learn how to
 test your web applications by using Behat with Mink.

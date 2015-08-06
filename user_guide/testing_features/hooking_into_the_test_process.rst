@@ -2,7 +2,7 @@ Hooking into the Test Process
 =============================
 
 You've learned :doc:`how to write step definitions </user_guide/testing_features/defining_reusable_actions>` and
-that with :doc:`Gherkin </user_guide/gherkin_language>` you can move common steps into a
+that with :doc:`Gherkin </user_guide/the_gherkin_language>` you can move common steps into a
 background block, making your features DRY. But what if that's not enough? What
 if you want to execute some code before the whole test suite or after a
 specific scenario? Hooks to the rescue:
