@@ -137,6 +137,7 @@ Simply use the annotation of the name of the hook you want to use (e.g.
 
 Suite Hooks
 -----------
+
 Suite hooks are run outside of the scenario context. It means that your context
 class (e.g. ``FeatureContext``) is not instantiated yet and the only way Behat
 can execute code in it is through the static calls. That is why suite hooks must
