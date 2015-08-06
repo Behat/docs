@@ -172,7 +172,7 @@ Backgrounds allows you to add some context to all scenarios in a single
 feature. A Background is like an untitled scenario, containing a number of
 steps. The difference is when it is run: the background is run *before each* of
 your scenarios, but after your ``BeforeScenario``
-:ref:`user-guide--feature-contexts--hooking-into-the-test-process--hooks`.
+:ref:`user-guide--testing-features--hooking-into-the-test-process--hooks`.
 
 .. code-block:: gherkin
 

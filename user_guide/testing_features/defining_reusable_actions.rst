@@ -1,4 +1,4 @@
-Defining Step Definitions
+Defining Reusable Actions
 =========================
 
 :doc:`Gherkin language</user_guide/gherkin_language>` provides a way to describe your

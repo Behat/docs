@@ -2,8 +2,8 @@ Testing Features
 ================
 
 We've already used this strange ``FeatureContext`` class as a home for our
-:doc:`step definitions </user_guide/testing_features/defining_step_definitions>`
-and :ref:`user-guide--feature-contexts--hooking-into-the-test-process--hooks`,
+:doc:`step definitions </user_guide/testing_features/defining_reusable_actions>`
+and :ref:`user-guide--testing-features--hooking-into-the-test-process--hooks`,
 but we haven't done much to explain what it actually is.
 
 Context classes are a keystone of testing environment in Behat. The context
@@ -68,7 +68,7 @@ context classes are.
    :maxdepth: 2
 
    testing_features/hooking_into_the_test_process
-   testing_features/defining_step_definitions
+   testing_features/defining_reusable_actions
 
 
 Context Class Requirements
@@ -124,8 +124,8 @@ Multiple Contexts
 -----------------
 
 At some point, it could become very hard to maintain all your
-:doc:`step definitions </user_guide/testing_features/defining_step_definitions>`
-and :ref:`user-guide--feature-contexts--hooking-into-the-test-process--hooks`
+:doc:`step definitions </user_guide/testing_features/defining_reusable_actions>`
+and :ref:`user-guide--testing-features--hooking-into-the-test-process--hooks`
 inside a single class. You could use class inheritance and split definitions
 into multiple classes, but doing so could cause your code to become more
 difficult to follow and use.
@@ -164,8 +164,8 @@ Behat sees a scenario in your test suite, it will:
 
 #. Will try to initialize all these context classes into objects.
 
-#. Will search for :doc:`step definitions </user_guide/testing_features/defining_step_definitions>` and
-   :ref:`user-guide--feature-contexts--hooking-into-the-test-process--hooks` in all of them.
+#. Will search for :doc:`step definitions </user_guide/testing_features/defining_reusable_actions>` and
+   :ref:`user-guide--testing-features--hooking-into-the-test-process--hooks` in all of them.
 
 .. note::
 
@@ -389,7 +389,7 @@ both context classes.
 .. note::
 
     Given that step definitions :doc:`cannot be duplicated within a Suite
-    </user_guide/testing_features/defining_step_definitions>`, this will only work
+    </user_guide/testing_features/defining_reusable_actions>`, this will only work
     for contexts used in separate suites.
 
     In other words, if your Suite uses at least two different Contexts, and
