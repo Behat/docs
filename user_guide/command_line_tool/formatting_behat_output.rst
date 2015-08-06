@@ -1,8 +1,5 @@
-Running Tests
-=============
-
 Format Options
---------------
+==============
 
 Behat supports different ways of printing output information. Output printers
 in ``behat`` are called *formats* or *formatters*. You can tell ``behat`` to

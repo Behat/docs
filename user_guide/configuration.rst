@@ -1,8 +1,13 @@
-Configuration - ``behat.yml``
-=============================
+Configuration
+=============
 
 Behat has a very powerful configuration system based on ``YAML`` configuration files and
 profiles.
+
+.. toctree::
+   :maxdepth: 2
+
+   configuration/feature_suite_and_scenario_configuration
 
 ``behat.yml``
 -------------
@@ -52,11 +57,10 @@ You can always override them with the settings in the project ``behat.yml`` file
 
     NOTE: In Behat 2.x this variable was in *URL* format.  It has been changed to use *JSON* format.
 
-
 Global Filters
 --------------
 
-While it is possible to specify filters as part of suite configuration, sometimes you will want to 
+While it is possible to specify filters as part of suite configuration, sometimes you will want to
 exclude certain scenarios across the suite, with the option to override the filters at the command line.
 
 This is achieved by specifying the filter in the gherkin configuration:
@@ -69,7 +73,7 @@ This is achieved by specifying the filter in the gherkin configuration:
         gherkin:
           filters:
             tags: ~@wip
-            
+
 In this instance, scenarios tagged as @wip will be ignored unless the CLI command is run with a custom filter, e.g.:
 
 .. code-block:: bash
@@ -110,7 +114,7 @@ If you wish to namespace your features (for example: to be PSR-1 complaint) you 
     Using ``behat.yml`` to autoload will only allow for ``PSR-0``
     You can also use ``composer.json`` to autoload, which will also
     allow for ``PSR-4``
-    
+
 Formatters
 ----------
 
@@ -123,19 +127,3 @@ Default formatters can be enabled by specifying them in the profile.
     default:
         formatters:
             pretty: true
-
-Extensions
-----------
-
-Extensions can be configured like this:
-
-.. code-block:: yaml
-
-    # behat.yml
-    
-    default:
-    	extensions:
-            Behat\MinkExtension:
-                base_url: http://www.example.com
-            	selenium2: ~
-

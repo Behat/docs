@@ -52,53 +52,14 @@ learn, quick to use, and will put the fun back into your testing.
     Behat is considered an official Cucumber implementation in PHP and is part
     of one big family of BDD tools.
 
-Quick Intro
------------
-
-To become a *Behat'er* in 30 minutes, just dive into the quick-start guide and
-enjoy!
-
 .. toctree::
-    :maxdepth: 1
+   :hidden:
+   :maxdepth: 2
 
-    quick_intro_pt1
-
-Guides
-------
-
-Learn Behat with the topical guides:
-
-.. toctree::
-    :maxdepth: 1
-
-    guides/1.gherkin
-    guides/2.definitions
-    guides/3.hooks
-    guides/4.contexts
-    guides/5.suites
-    guides/6.profiles
-    guides/7.run
-
-Cookbook
---------
-
-Learn specific solutions for specific needs:
-
-.. toctree::
-    :maxdepth: 1
-
-    cookbooks/1.symfony2_integration
-    cookbooks/context_communication
-
-More about Behaviour Driven Development
----------------------------------------
-
-Once you're up and running with Behat, you can learn more about behaviour
-driven development via the following links. Though both tutorials are specific
-to Cucumber, Behat shares a lot with Cucumber and the philosophies are one
-and the same.
-
-* `Dan North's "What's in a Story?" <http://dannorth.net/whats-in-a-story/>`_
-* `Cucumber's "Backgrounder" <https://github.com/cucumber/cucumber/wiki/Cucumber-Backgrounder>`_
+   intro
+   quick_start
+   user_guide
+   cookbooks
+   useful_resources
 
 .. _`Cucumber`: http://cukes.info/
