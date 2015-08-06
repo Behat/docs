@@ -1,12 +1,12 @@
-Gathering Contexts when using Multiple Contexts
-===============================================
+Accessing Contexts from each other
+==================================
 
 When splitting the definitions in multiple contexts, it might be useful to
 access a context from another one. This is particularly useful when migrating
 from Behat 2.x to replace subcontexts.
 
 Behat allows to access the environment in
-:ref:`user-guide--feature-contexts--hooking-into-the-test-process--hooks`,
+:doc:`hooks </user_guide/feature_contexts/hooking_into_the_test_process>`,
 so other contexts can be retrieved using a ``BeforeScenario`` hook:
 
 .. code-block:: php

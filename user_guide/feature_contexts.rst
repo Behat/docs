@@ -394,4 +394,4 @@ both context classes.
 
     In other words, if your Suite uses at least two different Contexts, and
     those context classes ``use`` the same Trait, this will result in a duplicate
-    step definition and behat will complain by throwing a ``Redundant`` exception.
+    step definition and Behat will complain by throwing a ``Redundant`` exception.
