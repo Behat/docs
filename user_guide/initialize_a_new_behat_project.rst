@@ -33,7 +33,7 @@ an initial context class to get you started:
     }
 
 All
-:doc:`step definitions</user_guide/feature_contexts/defining_step_definitions>`
+:doc:`step definitions</user_guide/testing_features/defining_step_definitions>`
 and :ref:`user-guide--feature-contexts--hooking-into-the-test-process--hooks`
 necessary for testing your project against your features will be represented as
 methods inside this class.

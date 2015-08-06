@@ -21,7 +21,7 @@ PHP code called step definitions:
 .. note::
 
    Step definitions are just normal PHP methods. They are instance methods in
-   a special class called :doc:`FeatureContext</user_guide/feature_contexts>`.
+   a special class called :doc:`FeatureContext</user_guide/testing_features>`.
 
 Creating Your First Step Definition
 -----------------------------------

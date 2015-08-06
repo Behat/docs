@@ -1,8 +1,8 @@
-Feature Contexts
+Testing Features
 ================
 
 We've already used this strange ``FeatureContext`` class as a home for our
-:doc:`step definitions </user_guide/feature_contexts/defining_step_definitions>`
+:doc:`step definitions </user_guide/testing_features/defining_step_definitions>`
 and :ref:`user-guide--feature-contexts--hooking-into-the-test-process--hooks`,
 but we haven't done much to explain what it actually is.
 
@@ -61,14 +61,14 @@ context classes are.
   :doc:`Behat command line tool</user_guide/command_line_tool>` with the
   ``--init`` command from your project's directory. Behat is able to support
   you when you are creating a new project. Learn more about
-  ":doc:`/user_guide/initializing_a_new_behat_project`".
+  ":doc:`/user_guide/initialize_a_new_behat_project`".
 
 
 .. toctree::
    :maxdepth: 2
 
-   feature_contexts/hooking_into_the_test_process
-   feature_contexts/defining_step_definitions
+   testing_features/hooking_into_the_test_process
+   testing_features/defining_step_definitions
 
 
 Context Class Requirements
@@ -103,7 +103,7 @@ In order to be used by Behat, your context class should follow these rules:
    The :doc:`Behat command line tool</user_guide/command_line_tool>`
    has an ``--init`` option that will initialize a new Behat project in your
    directory. Learn more about
-   :doc:`/user_guide/initializing_a_new_behat_project`.
+   :doc:`/user_guide/initialize_a_new_behat_project`.
 
 Contexts Lifetime
 -----------------
@@ -124,7 +124,7 @@ Multiple Contexts
 -----------------
 
 At some point, it could become very hard to maintain all your
-:doc:`step definitions </user_guide/feature_contexts/defining_step_definitions>`
+:doc:`step definitions </user_guide/testing_features/defining_step_definitions>`
 and :ref:`user-guide--feature-contexts--hooking-into-the-test-process--hooks`
 inside a single class. You could use class inheritance and split definitions
 into multiple classes, but doing so could cause your code to become more
@@ -164,7 +164,7 @@ Behat sees a scenario in your test suite, it will:
 
 #. Will try to initialize all these context classes into objects.
 
-#. Will search for :doc:`step definitions </user_guide/feature_contexts/defining_step_definitions>` and
+#. Will search for :doc:`step definitions </user_guide/testing_features/defining_step_definitions>` and
    :ref:`user-guide--feature-contexts--hooking-into-the-test-process--hooks` in all of them.
 
 .. note::
@@ -389,7 +389,7 @@ both context classes.
 .. note::
 
     Given that step definitions :doc:`cannot be duplicated within a Suite
-    </user_guide/feature_contexts/defining_step_definitions>`, this will only work
+    </user_guide/testing_features/defining_step_definitions>`, this will only work
     for contexts used in separate suites.
 
     In other words, if your Suite uses at least two different Contexts, and
