@@ -163,39 +163,33 @@ There are two suite hook types available:
 * ``@BeforeSuite`` - executed before any feature runs.
 * ``@AfterSuite`` - executed after all features have run.
 
-Tagged Hooks
-------------
+Feature Hooks
+-------------
 
-Sometimes you may want a certain hook to run only for certain scenarios,
-features or steps. This can be achieved by associating a ``@BeforeFeature``,
-``@AfterFeature``, ``@BeforeScenario``, ``@AfterScenario``, ``@BeforeStep`` or
-``@AfterStep`` hook with one or more tags. You can also use ``OR`` (``||``)
-and ``AND`` (``&&``) tags:
+Same as suite hooks, feature hooks are ran outside of the scenario context.
+So same as suite hooks, your feature hooks should be defined as static methods
+inside your context:
 
 .. code-block:: php
 
-    /**
-     * @BeforeScenario @database,@orm
-     */
-    public function cleanDatabase()
+    use Behat\Behat\Hook\Scope\BeforeFeatureScope;
+    use Behat\Behat\Hook\Scope\AfterFeatureScope;
+
+    /** @BeforeFeature */
+    public static function setupFeature(BeforeFeatureScope $scope)
     {
-        // clean database before
-        // @database OR @orm scenarios
     }
 
-Use the ``&&`` tag to execute a hook only when it has *all* provided tags:
-
-.. code-block:: php
-
-    /**
-     * @BeforeScenario @database&&@fixtures
-     */
-    public function cleanDatabaseFixtures()
+    /** @AfterFeature */
+    public static function teardownFeature(AfterFeatureScope $scope)
     {
-        // clean database fixtures
-        // before @database @fixtures
-        // scenarios
     }
+
+
+There are two feature hook types available:
+
+* ``@BeforeFeature`` - gets executed before every feature in suite.
+* ``@AfterFeature`` - gets executed after every feature in suite.
 
 Scenario Hooks
 --------------
@@ -235,34 +229,6 @@ same as a usual scenario.
 ``@AfterScenario`` functions exactly the same way, being executed both after
 usual scenarios and outline examples.
 
-Feature Hooks
--------------
-
-Same as suite hooks, feature hooks are ran outside of the scenario context.
-So same as suite hooks, your feature hooks should be defined as static methods
-inside your context:
-
-.. code-block:: php
-
-    use Behat\Behat\Hook\Scope\BeforeFeatureScope;
-    use Behat\Behat\Hook\Scope\AfterFeatureScope;
-
-    /** @BeforeFeature */
-    public static function setupFeature(BeforeFeatureScope $scope)
-    {
-    }
-
-    /** @AfterFeature */
-    public static function teardownFeature(AfterFeatureScope $scope)
-    {
-    }
-
-
-There are two feature hook types available:
-
-* ``@BeforeFeature`` - gets executed before every feature in suite.
-* ``@AfterFeature`` - gets executed after every feature in suite.
-
 Step Hooks
 ----------
 
@@ -290,3 +256,37 @@ There are two step hook types available:
 
 * ``@BeforeStep`` - executed before every step in each scenario.
 * ``@AfterStep`` - executed after every step in each scenario.
+
+Tagged Hooks
+------------
+
+Sometimes you may want a certain hook to run only for certain scenarios,
+features or steps. This can be achieved by associating a ``@BeforeFeature``,
+``@AfterFeature``, ``@BeforeScenario``, ``@AfterScenario``, ``@BeforeStep`` or
+``@AfterStep`` hook with one or more tags. You can also use ``OR`` (``||``)
+and ``AND`` (``&&``) tags:
+
+.. code-block:: php
+
+    /**
+     * @BeforeScenario @database,@orm
+     */
+    public function cleanDatabase()
+    {
+        // clean database before
+        // @database OR @orm scenarios
+    }
+
+Use the ``&&`` tag to execute a hook only when it has *all* provided tags:
+
+.. code-block:: php
+
+    /**
+     * @BeforeScenario @database&&@fixtures
+     */
+    public function cleanDatabaseFixtures()
+    {
+        // clean database fixtures
+        // before @database @fixtures
+        // scenarios
+    }
