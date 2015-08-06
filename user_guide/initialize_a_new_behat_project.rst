@@ -1,5 +1,5 @@
-Initializing a New Behat Project
-================================
+Initialize a New Behat Project
+==============================
 
 The easiest way to start using Behat in your project is to call ``behat``
 with the ``--init`` option inside your project directory:
@@ -38,7 +38,7 @@ and :ref:`user-guide--feature-contexts--hooking-into-the-test-process--hooks`
 necessary for testing your project against your features will be represented as
 methods inside this class.
 
-.. _user-guide--initializing-a-new-behat-project--suite-initialisation:
+.. _user-guide--initialize-a-new-behat-project--suite-initialisation:
 
 Suite Initialisation
 --------------------

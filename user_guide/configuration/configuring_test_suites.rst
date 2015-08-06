@@ -220,5 +220,5 @@ folder in ``DomainContext`` and then only those tagged with ``@web`` in
 
    It might be worth reading how to :ref:`execute a specific
    suite<user-guide--command-line-tool--identifying-tests--by-suite>` or
-   :ref:`initializing a new
-   suite<user-guide--initializing-a-new-behat-project--suite-initialisation>`
+   :ref:`initialize a new
+   suite<user-guide--initialize-a-new-behat-project--suite-initialisation>`
