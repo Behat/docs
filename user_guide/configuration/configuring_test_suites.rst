@@ -187,21 +187,6 @@ command is run with a custom filter, e.g.:
    More details on identifying tests can be found in the chapter
    :doc:`/user_guide/command_line_tool/identifying_tests`.
 
-Extensions
-----------
-
-Extensions can be configured like this:
-
-.. code-block:: yaml
-
-    # behat.yml
-
-    default:
-    	extensions:
-            Behat\MinkExtension:
-                base_url: http://www.example.com
-            	selenium2: ~
-
 Suite Contexts
 --------------
 

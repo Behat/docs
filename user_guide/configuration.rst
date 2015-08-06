@@ -127,3 +127,18 @@ Default formatters can be enabled by specifying them in the profile.
     default:
         formatters:
             pretty: true
+
+Extensions
+----------
+
+Extensions can be configured like this:
+
+.. code-block:: yaml
+
+    # behat.yml
+
+    default:
+    	extensions:
+            Behat\MinkExtension:
+                base_url: http://www.example.com
+            	selenium2: ~
