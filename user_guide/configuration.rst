@@ -7,7 +7,7 @@ profiles.
 .. toctree::
    :maxdepth: 2
 
-   configuration/feature_suite_and_scenario_configuration
+   configuration/configuring_test_suites.rst
 
 ``behat.yml``
 -------------

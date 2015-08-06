@@ -1,5 +1,5 @@
-Feature, Suite and Scenario Configuration
-=========================================
+Configuring Test Suites
+=======================
 
 We already talked about configuring multiple contexts for a single test
 suite in a :doc:`previous chapter </user_guide/feature_contexts>`. Now it is
