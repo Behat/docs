@@ -57,10 +57,10 @@ context classes are.
 
 .. tip::
 
-  This class can be easily created by running
+  Behat can automatically generate this class by using the
   :doc:`Behat command line tool</user_guide/command_line_tool>` with the
-  ``--init`` command from your project's directory. Behat is able to support
-  you when you are creating a new project. Learn more about
+  ``--init`` option from your project's directory. Behat has several built-in
+  tools that can help you when creating a new project. Learn more about
   ":doc:`/user_guide/initialize_a_new_behat_project`".
 
 
