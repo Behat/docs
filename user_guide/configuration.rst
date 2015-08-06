@@ -1,10 +1,84 @@
 Configuration
 =============
 
+Behat has a very powerful configuration system based on ``YAML`` configuration files and
+profiles.
+
 .. toctree::
    :maxdepth: 2
 
    configuration/feature_suite_and_scenario_configuration
+
+``behat.yml``
+-------------
+
+All configuration happens inside a single configuration file in the ``YAML``
+format. Behat tries to load ``behat.yml`` or ``config/behat.yml`` by default,
+or you can tell Behat where your config file is with the ``--config`` option:
+
+.. code-block:: bash
+
+    $ behat --config custom-config.yml
+
+All configuration parameters in that file are defined under a profile name root
+(``default:`` for example). A profile is just a custom name you can use to
+quickly switch testing configuration by using the ``--profile`` option when
+executing your feature suite.
+
+The default profile is always ``default``. All other profiles inherit
+parameters from the ``default`` profile. If you only need one profile, define
+all of your parameters under the ``default:`` root:
+
+.. code-block:: yaml
+
+    # behat.yml
+    default:
+        #...
+
+Environment Variable - BEHAT_PARAMS
+-----------------------------------
+
+If you want to set up configurable Behat settings, use the ``BEHAT_PARAMS``
+environment variable:
+
+.. code-block:: bash
+
+    export BEHAT_PARAMS='{"extensions" : {"Behat\\MinkExtension" : {"base_url" : "https://www.example.com/"}}}'
+
+You can set any value for any option that is available in a ``behat.yml`` file.
+Just provide options in *JSON* format.  Behat will use those options as defaults.
+You can always override them with the settings in the project ``behat.yml`` file (it has higher priority).
+
+.. tip::
+
+    In order to specify a parameter in an environment variable, the value *must not* exist in your ``behat.yml``
+
+.. tip::
+
+    NOTE: In Behat 2.x this variable was in *URL* format.  It has been changed to use *JSON* format.
+
+Global Filters
+--------------
+
+While it is possible to specify filters as part of suite configuration, sometimes you will want to
+exclude certain scenarios across the suite, with the option to override the filters at the command line.
+
+This is achieved by specifying the filter in the gherkin configuration:
+
+.. code-block:: yaml
+
+    # behat.yml
+
+    default:
+        gherkin:
+          filters:
+            tags: ~@wip
+
+In this instance, scenarios tagged as @wip will be ignored unless the CLI command is run with a custom filter, e.g.:
+
+.. code-block:: bash
+
+    vendor/bin/behat --tags=wip
 
 Custom Autoloading
 ------------------

@@ -49,7 +49,7 @@ application behaves, then the context class is all about how to test it.
         }
     }
 
-A simple mnemonic for context classes is "testing features *in a context*".
+A simple mnemonic for context classes is: "testing features *in a context*".
 Feature descriptions tend to be very high level. It means there's not much
 technical detail exposed in them, so the way you will test those
 features pretty much depends on the context you test them in. That's what
@@ -152,7 +152,7 @@ to fine-tune the suite configuration inside ``behat.yml``:
 The first ``default`` in this configuration is a name of the profile. We
 will discuss profiles a little bit later. Under
 the specific profile, we have a special ``suites`` section, which
-configures suites inside profile. We will talk about test suites in more
+configures suites inside this profile. We will talk about test suites in more
 detail in the :doc:`next chapter </user_guide/configuration>`, for now just keep in mind
 that a suite is a way to tell Behat where to find your features and
 how to test them. The interesting part for us now is the ``contexts``
@@ -174,7 +174,7 @@ Behat sees a scenario in your test suite, it will:
     ``Behat\Behat\Context\Context`` interface and be autoloadable by
     Behat.
 
-Basically, all contexts under ``contexts`` section of your ``behat.yml``
+Basically, all contexts under the ``contexts`` section of your ``behat.yml``
 are the same for Behat. It will find and use the methods in them the same way
 it does in the default ``FeatureContext``. And if you're happy with a single
 context class, but you don't like the name ``FeatureContext``, here's
@@ -380,3 +380,18 @@ And then use it in your context:
 
 It will just work as you expect it to.
 
+Context traits come in handy if you'd like to have separate contexts,
+but still need use the very same step definition in both of them. Instead of
+having the same code in both context classes – and having to maintain it
+in both – you should create a single Trait that you would then ``use`` in
+both context classes.
+
+.. note::
+
+    Given that step definitions :doc:`cannot be duplicated within a Suite
+    </user_guide/feature_contexts/defining_step_definitions>`, this will only work
+    for contexts used in separate suites.
+
+    In other words, if your Suite uses at least two different Contexts, and
+    those context classes ``use`` the same Trait, this will result in a duplicate
+    step definition and behat will complain by throwing a ``Redundant`` exception.
