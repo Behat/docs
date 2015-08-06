@@ -1,8 +1,8 @@
 Hooking into the Test Process
 =============================
 
-You've learned :doc:`how to write step definitions </user_guide/testing_features/defining_reusable_actions>` and
-that with :doc:`Gherkin </user_guide/the_gherkin_language>` you can move common steps into a
+You've learned :doc:`how to write step definitions </user_guide/context/definitions>` and
+that with :doc:`Gherkin </user_guide/gherkin>` you can move common steps into a
 background block, making your features DRY. But what if that's not enough? What
 if you want to execute some code before the whole test suite or after a
 specific scenario? Hooks to the rescue:
@@ -131,7 +131,7 @@ class:
         // before it runs
     }
 
-We use annotations as we did before with :doc:`definitions </user_guide/testing_features/defining_reusable_actions>`.
+We use annotations as we did before with :doc:`definitions </user_guide/context/definitions>`.
 Simply use the annotation of the name of the hook you want to use (e.g.
 ``@BeforeSuite``).
 

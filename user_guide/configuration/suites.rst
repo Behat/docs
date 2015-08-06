@@ -2,7 +2,7 @@ Configuring Test Suites
 =======================
 
 We already talked about configuring multiple contexts for a single test
-suite in a :doc:`previous chapter </user_guide/testing_features>`. Now it is
+suite in a :doc:`previous chapter </user_guide/context>`. Now it is
 time to talk about test suites themselves. A test suite represents a group of
 concrete features together with the information on how to test them.
 
@@ -185,7 +185,7 @@ command is run with a custom filter, e.g.:
 .. tip::
 
    More details on identifying tests can be found in the chapter
-   :doc:`/user_guide/command_line_tool/identifying_tests`.
+   :doc:`/user_guide/command_line_tool/identifying`.
 
 Suite Contexts
 --------------

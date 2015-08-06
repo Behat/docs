@@ -2,7 +2,7 @@ Testing Features
 ================
 
 We've already used this strange ``FeatureContext`` class as a home for our
-:doc:`step definitions </user_guide/testing_features/defining_reusable_actions>`
+:doc:`step definitions </user_guide/context/definitions>`
 and :ref:`user-guide--testing-features--hooking-into-the-test-process--hooks`,
 but we haven't done much to explain what it actually is.
 
@@ -61,14 +61,14 @@ context classes are.
   :doc:`Behat command line tool</user_guide/command_line_tool>` with the
   ``--init`` option from your project's directory. Behat has several built-in
   tools that can help you when creating a new project. Learn more about
-  ":doc:`/user_guide/initialize_a_new_behat_project`".
+  ":doc:`/user_guide/initialize`".
 
 
 .. toctree::
    :maxdepth: 2
 
-   testing_features/hooking_into_the_test_process
-   testing_features/defining_reusable_actions
+   context/hooks
+   context/definitions
 
 
 Context Class Requirements
@@ -103,7 +103,7 @@ In order to be used by Behat, your context class should follow these rules:
    The :doc:`Behat command line tool</user_guide/command_line_tool>`
    has an ``--init`` option that will initialize a new Behat project in your
    directory. Learn more about
-   :doc:`/user_guide/initialize_a_new_behat_project`.
+   :doc:`/user_guide/initialize`.
 
 Contexts Lifetime
 -----------------
@@ -124,7 +124,7 @@ Multiple Contexts
 -----------------
 
 At some point, it could become very hard to maintain all your
-:doc:`step definitions </user_guide/testing_features/defining_reusable_actions>`
+:doc:`step definitions </user_guide/context/definitions>`
 and :ref:`user-guide--testing-features--hooking-into-the-test-process--hooks`
 inside a single class. You could use class inheritance and split definitions
 into multiple classes, but doing so could cause your code to become more
@@ -164,7 +164,7 @@ Behat sees a scenario in your test suite, it will:
 
 #. Will try to initialize all these context classes into objects.
 
-#. Will search for :doc:`step definitions </user_guide/testing_features/defining_reusable_actions>` and
+#. Will search for :doc:`step definitions </user_guide/context/definitions>` and
    :ref:`user-guide--testing-features--hooking-into-the-test-process--hooks` in all of them.
 
 .. note::
@@ -389,7 +389,7 @@ both context classes.
 .. note::
 
     Given that step definitions :doc:`cannot be duplicated within a Suite
-    </user_guide/testing_features/defining_reusable_actions>`, this will only work
+    </user_guide/context/definitions>`, this will only work
     for contexts used in separate suites.
 
     In other words, if your Suite uses at least two different Contexts, and

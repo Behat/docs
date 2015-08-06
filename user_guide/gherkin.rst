@@ -70,7 +70,7 @@ through the above example:
 When you're executing the feature, the trailing portion of each step (after
 keywords like ``Given``, ``And``, ``When``, etc) is matched to
 a pattern, which executes a PHP callback function. You can read more about
-steps matching and execution in ":doc:`/user_guide/testing_features/defining_reusable_actions`".
+steps matching and execution in ":doc:`/user_guide/context/definitions`".
 
 Gherkin in Many Languages
 -------------------------
