@@ -59,7 +59,7 @@ Create ``composer.json`` file in the project root:
 .. code-block:: js
 
     {
-        "require": {
+        "require-dev": {
             "behat/behat": "~2.5"
         },
         "config": {
