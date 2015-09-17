@@ -29,8 +29,6 @@ run with a specific formatter by providing the ``--format`` option:
       :align: center
 
 * ``junit`` - generates a report similar to Ant+JUnit.
-In Behat v3+ formatter ``junit`` is not registered yet.
-Without extension this formatter is not available.
 
 If you don't want to print output to the console, you can tell ``behat``
 to print output to a file instead of ``STDOUT`` with the ``--out`` option:
@@ -44,6 +42,11 @@ to print output to a file instead of ``STDOUT`` with the ``--out`` option:
     Some formatters, like ``junit``, always require the ``--out`` option to be
     specified. The ``junit`` formatter generates ``*.xml`` files for every
     suite, so it needs a destination directory to put these XML files into.
+    
+.. note::
+
+    In Behat v3+ formatter ``junit`` is not registered yet.
+    Without extension this formatter is not available.
 
 Also, you can specify multiple formats to be used by Behat using multiple --format options:
 
