@@ -71,17 +71,14 @@ Just some of the benefits:
 Installing Mink
 ---------------
 
-Mink is a PHP 5.3 library that you'll use inside your test and feature suites.
+Mink is a PHP 5.3+ library that you'll use inside your test and feature suites.
 Before you begin, ensure that you have at least PHP 5.3.1 installed.
 
 Mink integration into Behat happens thanks to MinkExtension. The extension takes
 care of all configuration and initialization of the Mink, leaving only the fun
 parts to you.
 
-Method #1 (Composer)
-~~~~~~~~~~~~~~~~~~~~
-
-The simplest way to install Behat with Mink is through Composer.
+Mink should be installed through Composer.
 
 Create ``composer.json`` file in the project root:
 
@@ -89,13 +86,11 @@ Create ``composer.json`` file in the project root:
 
     {
         "require": {
-            "behat/behat": "2.4.*@stable",
-            "behat/mink": "1.4.*@stable",
-            "behat/mink-extension": "*",
-            "behat/mink-goutte-driver": "*",
-            "behat/mink-selenium2-driver": "*"
+            "behat/behat": "~2.5",
+            "behat/mink-extension": "~1.3",
+            "behat/mink-goutte-driver": "~1.2",
+            "behat/mink-selenium2-driver": "~1.2"
         },
-        "minimum-stability": "dev",
         "config": {
             "bin-dir": "bin/"
         }
@@ -113,12 +108,12 @@ Create ``composer.json`` file in the project root:
     drivers available for Mink - read about them in Mink
     documentation.
 
-Then download ``composer.phar`` and run ``install`` command:
+Then download ``composer.phar`` and run ``update`` command:
 
 .. code-block:: bash
 
-    $ curl http://getcomposer.org/installer | php
-    $ php composer.phar install
+    $ curl -sS https://getcomposer.org/installer | php
+    $ php composer.phar update
 
 After that, you will be able to run Behat with:
 
@@ -148,65 +143,6 @@ You could check that extension is properly loaded by calling:
 
 It should show you all the predefined web steps as MinkExtension will
 automatically use the bundled ``MinkContext`` if no user-defined context class is found.
-
-Method #2 (PHAR)
-~~~~~~~~~~~~~~~~
-
-Alternatively, you can use Behat, Mink and MinkExtension as PHAR packages.
-
-Download Behat:
-
-.. code-block:: bash
-
-    $ wget https://github.com/downloads/Behat/Behat/behat.phar
-
-Download Mink:
-
-.. code-block:: bash
-
-    $ wget https://github.com/downloads/Behat/Mink/mink.phar
-
-Download MinkExtension:
-
-.. code-block:: bash
-
-    $ wget https://github.com/downloads/Behat/MinkExtension/mink_extension.phar
-
-Put them all in the same folder.
-After that, you will be able to run Behat with:
-
-.. code-block:: bash
-
-    $ php behat.phar -h
-
-Now let's activate MinkExtension:
-
-.. code-block:: yaml
-
-    # behat.yml
-    default:
-        extensions:
-            mink_extension.phar:
-                mink_loader: mink.phar
-                goutte: ~
-                selenium2: ~
-
-.. note::
-
-    Behat extension name could be either of 3:
-
-    1. Class name (if class is autoloaded) - best way in Composer installation
-    2. PHAR file name
-    3. Relative path to script, that will return new extension instance
-
-You could check that the extension is properly loaded by calling:
-
-.. code-block:: bash
-
-    $ php behat.phar -dl
-
-It should show you all the predefined web steps as MinkExtension will
-automatically use the bundled ``MinkContext`` if no user-defined context class found.
 
 ``MinkContext`` for Behat requirements
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -262,17 +198,11 @@ As you might see, URLs in scenarios are relative, so we should provide the corre
                 goutte: ~
                 selenium2: ~
 
-Now, run your feature (if installed through Composer):
+Now, run your feature:
 
 .. code-block:: bash
 
     $ bin/behat features/search.feature
-
-Or phar version:
-
-.. code-block:: bash
-
-    $ php behat.phar features/search.feature
 
 You'll see output like this:
 
