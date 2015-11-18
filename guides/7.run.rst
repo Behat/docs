@@ -16,7 +16,7 @@ run with a specific formatter by providing the ``--format`` option:
 
     The default formatter is ``pretty``.
 
-``behat`` supports 6 formatters out of the box:
+``behat`` supports 3 formatters out of the box:
 
 * ``pretty`` - prints the feature as is:
 
