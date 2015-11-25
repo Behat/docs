@@ -16,7 +16,7 @@ run with a specific formatter by providing the ``--format`` option:
 
     The default formatter is ``pretty``.
 
-``behat`` supports 6 formatters out of the box:
+``behat`` supports 2 formatters out of the box:
 
 * ``pretty`` - prints the feature as is:
 
@@ -28,7 +28,6 @@ run with a specific formatter by providing the ``--format`` option:
    .. image:: /images/formatter-progress.png
       :align: center
 
-* ``junit`` - generates a report similar to Ant+JUnit.
 
 If you don't want to print output to the console, you can tell ``behat``
 to print output to a file instead of ``STDOUT`` with the ``--out`` option:
