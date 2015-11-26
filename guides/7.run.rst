@@ -53,7 +53,9 @@ them to use different ones - specify them with ``--out``:
 
 .. code-block:: bash
 
-    $ behat -f pretty -o ~/pretty.out -f progress -o STDOUT -f junit -o xml
+    $ behat -f pretty -o ~/pretty.out -f progress -o false -f junit -o xml
+
+Setting false as the output will use STDOUT.
 
 In this case, output of pretty formatter will be written to ``~/pretty.out`` file, output of junit
 formatter will be written to ``xml`` folder and progress formatter will just print to console.
