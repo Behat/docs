@@ -13,7 +13,7 @@ run with a specific formatter by providing the ``--format`` option:
 
     The default formatter is ``pretty``.
 
-``behat`` supports 6 formatters out of the box:
+``behat`` supports 2 formatters out of the box:
 
 * ``pretty`` - prints the feature as is:
 
@@ -25,7 +25,6 @@ run with a specific formatter by providing the ``--format`` option:
    .. image:: /images/formatter-progress.png
       :align: center
 
-* ``junit`` - generates a report similar to Ant+JUnit.
 
 If you don't want to print output to the console, you can tell ``behat``
 to print output to a file instead of ``STDOUT`` with the ``--out`` option:
@@ -51,7 +50,7 @@ them to use different ones - specify them with ``--out``:
 
 .. code-block:: bash
 
-    $ behat -f pretty -o ~/pretty.out -f progress -o STDOUT -f junit -o xml
+    $ behat -f pretty -o ~/pretty.out -f progress -o std -f junit -o xml
 
 In this case, output of pretty formatter will be written to ``~/pretty.out`` file, output of junit
 formatter will be written to ``xml`` folder and progress formatter will just print to console.
