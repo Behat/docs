@@ -181,7 +181,7 @@ new one) and run:
 
 .. code-block:: bash
 
-    $ php composer.phar require --dev behat/behat=~3.0.4
+    $ php composer.phar require --dev behat/behat=~3.0.15
 
 Then you will be able to check installed Behat version using:
 
