@@ -366,7 +366,7 @@ interface, message, command output) and not something deeply buried inside it
 
 .. caution::
 
-    While it might be tempting to implement Then steps to just look in the
+    While it might be tempting to implement `Then` steps to just look in the
     database – resist the temptation. You should only verify output that is
     observable by the user (or external system). Database data itself is
     only visible internally to your application, but is then finally exposed
@@ -376,7 +376,7 @@ interface, message, command output) and not something deeply buried inside it
 And, But
 ~~~~~~~~
 
-If you have several Given, When or Then steps you can write:
+If you have several `Given`, `When` or `Then` steps you can write:
 
 .. code-block:: gherkin
 
@@ -401,7 +401,7 @@ fluently:
       Then I see something
       But I don't see something else
 
-Behat interprets steps beginning with And or But exactly the same as all other
+Behat interprets steps beginning with `And` or `But` exactly the same as all other
 steps; it doesn't differentiate between them - you should!
 
 Multiline Arguments
@@ -421,7 +421,7 @@ Tables
 ~~~~~~
 
 Tables as arguments to steps are handy for specifying a larger data set -
-usually as input to a Given or as expected output from a Then.
+usually as input to a `Given` or as expected output from a `Then`:
 
 .. code-block:: gherkin
 
