@@ -59,7 +59,7 @@ Global Filters
 While it is possible to specify filters as part of suite configuration, sometimes you will want to 
 exclude certain scenarios across the suite, with the option to override the filters at the command line.
 
-This is achieved by specifying the filter in the gherkin configuration:
+This is achieved by specifying the filter in the `gherkin` configuration:
 
 .. code-block:: yaml
 
@@ -67,10 +67,10 @@ This is achieved by specifying the filter in the gherkin configuration:
 
     default:
         gherkin:
-          filters:
-            tags: ~@wip
+            filters:
+                tags: ~@wip
             
-In this instance, scenarios tagged as @wip will be ignored unless the CLI command is run with a custom filter, e.g.:
+In this instance, scenarios tagged as `@wip` will be ignored unless the CLI command is run with a custom filter, e.g.:
 
 .. code-block:: bash
 
@@ -91,7 +91,7 @@ you want to autoload via ``behat.yml``:
         autoload:
             '': %paths.base%/app/features/bootstrap
 
-If you wish to namespace your features (for example: to be PSR-1 complaint) you will need to add the namespace to the classes and also tell behat where to load them. Here ``contexts`` is an array of classes:
+If you wish to namespace your features (for example: to be PSR-1 compliant) you will need to add the namespace to the classes and also tell behat where to load them. Here ``contexts`` is an array of classes:
 
 .. code-block:: yaml
 
@@ -107,7 +107,7 @@ If you wish to namespace your features (for example: to be PSR-1 complaint) you 
 
 .. note::
 
-    Using ``behat.yml`` to autoload will only allow for ``PSR-0``
+    Using ``behat.yml`` to autoload will only allow for ``PSR-0``.
     You can also use ``composer.json`` to autoload, which will also
     allow for ``PSR-4``
     
