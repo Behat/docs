@@ -361,9 +361,9 @@ That means if you put some step definitions or hooks inside a trait:
     trait ProductsDictionary
     {
         /**
-         * @Given there is a(n) :arg1, which costs £:arg2
+         * @Given there is a(n) :product, which costs £:price
          */
-        public function thereIsAWhichCostsPs($arg1, $arg2)
+        public function thereIsAWhichCostsPs($product, $price)
         {
             throw new PendingException();
         }
@@ -385,7 +385,7 @@ And then use it in your context:
 It will just work as you expect it to.
 
 Context traits come in handy if you'd like to have separate contexts,
-but still need use the very same step definition in both of them. Instead of
+but still need to use the very same step definition in both of them. Instead of
 having the same code in both context classes – and having to maintain it
 in both – you should create a single Trait that you would then ``use`` in
 both context classes.
