@@ -30,7 +30,7 @@ It can be done automatically for you with this command:
 .. note::
 
     Note that we have used ``--dev`` switch for Composer.
-    It means that Behat will be installed as as ``require-dev`` dependency in your project, and will not be present in production.
+    It means that Behat will be installed as a ``require-dev`` dependency in your project, and will not be present in production.
     For further information please check `Composer documentation <https://getcomposer.org/doc/04-schema.md#require-dev>`_.
 
 Initialising Behat
@@ -64,8 +64,8 @@ If it doesn't exist just create such file in your project root and fill it with 
 .. code-block:: yaml
 
     default:
-      extensions:
-        Behat\Symfony2Extension: ~
+        extensions:
+            Behat\Symfony2Extension: ~
 
 If this file already exists just change its contents accordingly.
 From that point you should be able to run Behat and Symfony2 extension will be loaded and ready to work with.
@@ -80,13 +80,13 @@ to change your ``behat.yml`` configuration and tell the extension which services
 .. code-block:: yaml
 
     default:
-      suites:
-        default:
-            contexts:
-                - FeatureContext:
-                    session:   '@session'
-      extensions:
-        Behat\Symfony2Extension: ~
+        suites:
+            default:
+                contexts:
+                    - FeatureContext:
+                        session:   '@session'
+        extensions:
+            Behat\Symfony2Extension: ~
 
 This configuration will try to to match the ``$session`` dependency of your ``FeatureContext`` constructor by injecting the ``session`` service into the context.
 Be careful because if such a service does not exist or its name does not match, it will not work and you will end up with a Behat exception.
@@ -120,11 +120,11 @@ You need to enable extension in your ``behat.yml`` file as follows:
 .. code-block:: yaml
 
     default:
-      extensions:
-        Behat\Symfony2Extension: ~
-        Behat\MinkExtension:
-          sessions:
-            default:
-              symfony2: ~
+        extensions:
+            Behat\Symfony2Extension: ~
+            Behat\MinkExtension:
+                sessions:
+                    default:
+                        symfony2: ~
 
 Et voilà! Now you are ready to drive your Symfony2 app development with Behat3!
