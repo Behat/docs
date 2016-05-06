@@ -38,7 +38,7 @@ Então, como um desenvolvedor seu trabalho estará terminado tão logo você fa�
 Você provavelmente já ouviu sobre a prática moderna de desenvolvimento chamada TDD, onde você escreve testes para o seu
 código antes, não depois, do código. Bem, BDD é parecido, exceto pelo fato de que você não precisa começar com um teste - seus *cenários* são seus testes. Isto é exatamente o que o Behat faz! Como você vai ver, Behat é fácil de aprender, rápido de usar e vai trazer a diversão de volta para os seus testes.
 
-.. note::
+.. nota::
 
     Behat foi fortemente inspirado no projeto em Ruby `Cucumber`. Desde v3.0,
     Behat é considerada uma implementação oficial de Cucumber em PHP e é parte
@@ -54,10 +54,10 @@ Para começar a ser um *Behat'er* em 30 minutos, basta apenas mergulhar no guia 
 
     quick_intro_pt1
 
-Guides
-------
+Guias
+-----
 
-Learn Behat with the topical guides:
+Aprenda Behat com os seguintes guias:
 
 .. toctree::
     :maxdepth: 1
@@ -73,7 +73,7 @@ Learn Behat with the topical guides:
 Cookbook
 --------
 
-Learn specific solutions for specific needs:
+Aprenda soluções específicas para necessidades específicas:
 
 .. toctree::
     :maxdepth: 1
@@ -81,13 +81,11 @@ Learn specific solutions for specific needs:
     cookbooks/1.symfony2_integration
     cookbooks/context_communication
 
-More about Behaviour Driven Development
----------------------------------------
+Mais sobre BDD
+--------------
 
-Once you're up and running with Behat, you can learn more about behaviour
-driven development via the following links. Though both tutorials are specific
-to Cucumber, Behat shares a lot with Cucumber and the philosophies are one
-and the same.
+Quando estiver com o Behat instalado e funcionando, você pode aprender mais sobre o BDD através dos seguintes links (em inglês). Embora ambos os tutoriais sejão específicos do Cucumber, Behat
+Though both tutorials are specific to Cucumber, Behat compartilha muito com Cucumber e as filosofias são as mesmas.
 
 * `Dan North's "What's in a Story?" <http://dannorth.net/whats-in-a-story/>`_
 * `Cucumber's "Backgrounder" <https://github.com/cucumber/cucumber/wiki/Cucumber-Backgrounder>`_
