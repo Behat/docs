@@ -1,40 +1,41 @@
 Building Domain Model
 =====================
 
-Welcome to Behat! Behat is a tool to close the `Behavior Driven Development`_
-(BDD) communication loop. BDD is a methodology for developing software through
-continuous example-based communication between developers and a business,
-which this application supports. This communication happens in a form that
-both the business and developers can clearly understand - examples. Examples are
-structured around the ``Context-Action-Outcome`` pattern and are written in a
-special format called *Gherkin*. The fact that Gherkin is very structural
-makes it very easy to automate and autotest your behaviour examples against
-a developing application. Automated examples are then actually used to drive
-this application development TDD-style.
+Bem vindo ao Behat! Behat é uma ferramenta para fechar o laço de comunicação do 
+`Desenvolvimento Dirigido por Comportamento`_(BDD). BDD é uma metodologia de 
+desenvolvimento de software por meio de comunicação baseado em exemplo contínuo 
+entre desenvolvedores e a área de negócios, que esta aplicação suporta. Esta 
+comunicação acontece em uma forma que a área de negócios e os desenvolvedores 
+podem claramente entender - exemplos. Exemplos são estruturados entorno do padrão
+``Contexto-Ação-Resultado`` e são escritos em um formato especial chamado *Gherkin*.
+O fato do Guerkin ser muito estrutural torna muito fácil automatizar e automatizar 
+seus testes de comportamento contra uma aplicação em desenvolvimento. Exemplos 
+automatizados são utilizados atualmente para guiar o desenvolvimento de aplicações TDD-style.
 
-Example
+Exemplo
 -------
 
-Let's imagine that you are building a completely new e-commerce platform.
-One of the key features of any online shopping platform is the ability to buy
-products. But before buying anything, customers should be able to tell the
-system which products they are interested in buying. You need a basket.
-So let's write our first user-story:
+Vamos imaginar que você está construindo uma plataforma totalmente nova de e-commerce.
+Uma das características fundamentais de qualquer plataforma de compras online é a habilidade
+de comprar produtos. Mas antes de comprar algo, os clientes devem poder informar ao sistema
+quais produtos eles têm interesse em comprar. Vocẽ precisa de uma cesta.
+Então vamos escrever sua primeira user-story:
 
 .. code-block:: gherkin
 
-    Feature: Product basket
-      In order to buy products
-      As a customer
-      I need to be able to put interesting products into a basket
+    # language: pt
+    Funcionalidade: Cesta de produtos
+      A fim de comprar produtos
+      Como um cliente
+      Eu preciso colocar produtos do meu interesse na cesta
 
 .. note::
 
-    This is a basic Gherkin feature and it is a simple description of
-    this feature's story. Every feature starts with this same format: a
-    line with the title of the feature, followed by three lines that
-    describe the benefit, the role and the feature itself with any
-    amount of additional description lines following after.
+    Esta é uma feature básica em Gherkin e está é uma simples descrição 
+    desta história. Cada feature inicia com este mesmo formato: uma
+    linha com o título da feature, seguida por três linhas que descrevem
+    os benefícios, o papel e o próprio recurso com qualquer quantidade de 
+    linhas de descrição adicionais seguem depois.
 
 Before we begin to work on this feature, we must fulfil a promise of any
 user-story and have a real conversation with our business stakeholders.
