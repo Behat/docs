@@ -2,14 +2,14 @@ Building Domain Model
 =====================
 
 Bem vindo ao Behat! Behat é uma ferramenta para fechar o laço de comunicação do 
-`Desenvolvimento Dirigido por Comportamento`_(BDD). BDD é uma metodologia de 
-desenvolvimento de software por meio de comunicação baseado em exemplo contínuo 
-entre desenvolvedores e a área de negócios, que esta aplicação suporta. Esta 
-comunicação acontece em uma forma que a área de negócios e os desenvolvedores 
+`Desenvolvimento Dirigido por Comportamento-BDD`. BDD é uma metodologia de 
+desenvolvimento de software baseado em exemplo por meio da comunicação contínua 
+entre desenvolvedores e a área de negócios que esta aplicação suporta. Esta 
+comunicação acontece de uma forma que a área de negócios e os desenvolvedores 
 podem claramente entender - exemplos. Exemplos são estruturados entorno do padrão
 ``Contexto-Ação-Resultado`` e são escritos em um formato especial chamado *Gherkin*.
-O fato do Guerkin ser muito estrutural torna muito fácil automatizar e automatizar 
-seus testes de comportamento contra uma aplicação em desenvolvimento. Exemplos 
+O fato do Guerkin ser muito estrutural torna muito fácil automatizar testes de 
+comportamento contra uma aplicação em desenvolvimento. Exemplos 
 automatizados são utilizados atualmente para guiar o desenvolvimento de aplicações TDD-style.
 
 Exemplo
@@ -18,77 +18,79 @@ Exemplo
 Vamos imaginar que você está construindo uma plataforma totalmente nova de e-commerce.
 Uma das características fundamentais de qualquer plataforma de compras online é a habilidade
 de comprar produtos. Mas antes de comprar algo, os clientes devem poder informar ao sistema
-quais produtos eles têm interesse em comprar. Vocẽ precisa de uma cesta.
+quais produtos eles têm interesse de comprar. Vocẽ precisa de um carrinho de produtos.
 Então vamos escrever sua primeira user-story:
 
 .. code-block:: gherkin
 
     # language: pt
-    Funcionalidade: Cesta de produtos
+    Funcionalidade: Carrinho de produtos
       A fim de comprar produtos
       Como um cliente
-      Eu preciso colocar produtos do meu interesse na cesta
+      Eu preciso colocar produtos do meu interesse no carrinho
 
 .. note::
 
-    Esta é uma feature básica em Gherkin e está é uma simples descrição 
+    Esta é uma feature básica em Gherkin e esta é uma simples descrição 
     desta história. Cada feature inicia com este mesmo formato: uma
     linha com o título da feature, seguida por três linhas que descrevem
     os benefícios, o papel e o próprio recurso com qualquer quantidade de 
     linhas de descrição adicionais seguem depois.
 
-Before we begin to work on this feature, we must fulfil a promise of any
-user-story and have a real conversation with our business stakeholders.
-They might say that they want customers to see not only the combined
-price of the products in the basket, but the price reflecting both the
-VAT (20%) and the delivery cost (which depends on the total price of
-the products):
+Antes de nós começarmos a trabalhar nesta feature, nós precisamos preencher 
+uma promessa de user-story e ter uma conversa de verdade com nossos stakeholders 
+da área de negócios. Eles podem dizer que eles querem que os clientes vejam 
+o preço combinado do produto no carrinho, mas que o preço reflita o imposto (20%) 
+e o valor do frete (que depende da soma total dos produtos):
 
 .. code-block:: gherkin
 
-    Feature: Product basket
-      In order to buy products
-      As a customer
-      I need to be able to put interesting products into a basket
+    # language: pt
+    Funcionalidade: Carrinho de produtos
+      A fim de comprar produtos
+      Como um cliente
+      Eu preciso colocar produtos do meu interesse no carrinho
 
-      Rules:
-      - VAT is 20%
-      - Delivery for basket under £10 is £3
-      - Delivery for basket over £10 is £2
+      Regras:
+      - O imposto é de 20%
+      - O frete para um carrinho de compras menor que R$10 é R$3
+      - O frete para um carrinho de compras mario que R$10 é R$2
 
-So as you can see, it already becomes tricky (ambiguous at least) to talk
-about this feature in terms of *rules*. What does it mean to add VAT? What
-happens when we have two products, one of which is less than £10 and another
-that is more? Instead you proceed with having a back-and-forth chat with
-stakeholders in form of actual examples of a *customer* adding products to
-the basket. After some time, you will come up with your first behaviour
-examples (in BDD these are called *scenarios*):
+Então como você pode ver, está ficando complicado (ambíguo, pelo menos)
+falar sobre está feature, em termos de *regras*. O que você entende por 
+adicionar imposto? O que acontece quando nós tivermos dois produtos, 
+um com valor menor que R$10 e outro de maior valor? Ao invés de você
+prosseguir em ter um leva e traz de conversas entre os stakeholders na forma
+dos exemplos atuais de um *cliente* adicionando produtos ao carrinho. Depois
+de algum tempo, você vai levantar seus primeiros exemplos de comportamentos (no BDD 
+isto é chamado de *Cenários*):
 
 .. code-block:: gherkin
 
-    Feature: Product basket
-      In order to buy products
-      As a customer
-      I need to be able to put interesting products into a basket
+    # language: pt
+    Funcionalidade: Carrinho de produtos
+      A fim de comprar produtos
+      Como um cliente
+      Eu preciso colocar produtos do meu interesse no carrinho
 
-      Rules:
-      - VAT is 20%
-      - Delivery for basket under £10 is £3
-      - Delivery for basket over £10 is £2
+      Regras:
+      - O imposto é de 20%
+      - O frete para um carrinho de compras menor que R$10 é R$3
+      - O frete para um carrinho de compras mario que R$10 é R$2
 
-      Scenario: Buying a single product under £10
-        Given there is a "Sith Lord Lightsaber", which costs £5
-        When I add the "Sith Lord Lightsaber" to the basket
-        Then I should have 1 product in the basket
-        And the overall basket price should be £9
+      Cenário: Buying a single product under £10
+        Dado there is a "Sith Lord Lightsaber", which costs £5
+        Quando I add the "Sith Lord Lightsaber" to the basket
+        Então I should have 1 product in the basket
+        E the overall basket price should be £9
 
-      Scenario: Buying a single product over £10
+      Cenário: Buying a single product over £10
         Given there is a "Sith Lord Lightsaber", which costs £15
         When I add the "Sith Lord Lightsaber" to the basket
         Then I should have 1 product in the basket
         And the overall basket price should be £20
 
-      Scenario: Buying two products over £10
+      Cenário: Buying two products over £10
         Given there is a "Sith Lord Lightsaber", which costs £10
         And there is a "Jedi Lightsaber", which costs £5
         When I add the "Sith Lord Lightsaber" to the basket
