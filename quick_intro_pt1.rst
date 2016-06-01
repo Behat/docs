@@ -75,125 +75,128 @@ isto é chamado de *Cenários*):
 
       Regras:
       - O imposto é de 20%
-      - O frete para um carrinho de compras menor que R$10 é R$3
-      - O frete para um carrinho de compras mario que R$10 é R$2
+      - O frete para um carrinho de compras até R$10 é R$3
+      - O frete para um carrinho de compras maior que R$10 é R$2
 
-      Cenário: Buying a single product under £10
-        Dado there is a "Sith Lord Lightsaber", which costs £5
-        Quando I add the "Sith Lord Lightsaber" to the basket
-        Então I should have 1 product in the basket
-        E the overall basket price should be £9
+      Cenário: Comprando um único produto que custe menos que R$10
+        Dado que exista um "Sabre de luz do Lorde Sith", que custe R$5
+        Quando Eu adicionar o "Sabre de luz do Lorde Sith" ao carrinho
+        Então Eu devo ter 1 produto no carrinho
+        E o valor total do carrinho deve ser de R$9
 
-      Cenário: Buying a single product over £10
-        Given there is a "Sith Lord Lightsaber", which costs £15
-        When I add the "Sith Lord Lightsaber" to the basket
-        Then I should have 1 product in the basket
-        And the overall basket price should be £20
+      Cenário: Comprando um único produto que custe mais que R$10
+        Dado que exista um "Sabre de luz do Lorde Sith", que custe R$15
+        Quando Eu adicionar o "Sabre de luz do Lorde Sith" ao carrinho
+        Então Eu devo ter 1 produto no carrinho
+        E o valor total do carrinho deve ser de R$20
 
-      Cenário: Buying two products over £10
-        Given there is a "Sith Lord Lightsaber", which costs £10
-        And there is a "Jedi Lightsaber", which costs £5
-        When I add the "Sith Lord Lightsaber" to the basket
-        And I add the "Jedi Lightsaber" to the basket
-        Then I should have 2 products in the basket
-        And the overall basket price should be £20
+      Cenário: Comprando dois produtos que custem mais que R$10
+        Dado que exista um "Sabre de luz do Lorde Sith", que custe R$10
+        E que exista um "Sabre de luz Jedi", que custe R$5
+        Quando Eu adicionar o "Sabre de luz do Lorde Sith" ao carrinho
+        E Eu adicionar o "Sabre de luz Jedi" ao carrinho
+        Então Eu devo ter 2 products no carrinho
+        E o valor total do carrinho deve ser de R$20
 
 .. note::
 
-    Each scenario always follows the same basic format:
+    Cada cenário sempre segue o mesmo formato básico:
 
     .. code-block:: gherkin
 
-        Scenario: Some description of the scenario
-          Given some context
-          When some event
-          Then outcome
+        Cenário: Alguma descrição do cenário
+          Dado algum contexto
+          Quando algum evento
+          Então resultado
 
-    Each part of the scenario - the *context*, the *event*,  and the
-    *outcome* - can be extended by adding the ``And`` or ``But`` keyword:
+    Cada parte do cenário - o *contexto*, o *evento*,  e o
+    *resultado* - pode ser extendido pelo adicional da palavra chave``E`` ou ``Mas``:
 
     .. code-block:: gherkin
 
-        Scenario: Some description of the scenario
-          Given some context
-          And more context
-          When some event
-          And second event occurs
-          Then outcome
-          And another outcome
-          But another outcome
+        Cenário: Alguma descrição do cenário
+          Dado algum contexto
+          E mais outro contexto
+          Quando algum evento
+          E um segundo evento ocorra
+          Então o resultado
+          E outro resultado
+          Mas outro resultado
 
-    There's no actual difference between, ``Then``, ``And`` ``But`` or any
-    of the other words that start each line. These keywords are all made
-    available so that your scenarios are natural and readable.
+    Não há uma real diferença entre, ``Então``, ``E`` ``Mas`` ou qualquer 
+    outra palavra que inicie cada linha. Estas palavras chave são disponíveis
+    para que os cenários sejam naturais e legíveis.
+    
+Isto é seu e seus stakeholders compartilham da mesma escrita do projeto em um
+formato estruturado. Tudo é baseado em uma clara e construtiva conversa que vocês
+tiveram juntos. Agora você pode colocar este texto em um arquivo simples - 
+``features/carrinho.feature`` - dentro do diretório do seu projeto e começar 
+a implementar a funcionalidade checando manualmente se se encaixa no cenário definido.
+Não é necessário nenhuma ferramenta (Behat em seu caso). Isto é, na essência, 
+o que o BDD é.
 
-This is your and your stakeholders' shared understanding of the project written
-in a structured format. It is all based on the clear and constructive
-conversation you have had together. Now you can put this text in a simple file -
-``features/basket.feature`` - under your project directory and start
-implementing the feature by manually checking if it fits the defined scenarios.
-No tools (Behat in our case) needed. That, in essence, is what BDD is.
+Se você ainda está lendo,  significa que você ainda espera mais. Ótimo! 
+Porque  apesar das ferramentas não serem a peça central do quebra-cabeça do BDD, 
+elas melhoram todo o processo e adicionam muitos benefícios ao topo disto.
+Para isso, ferramentas como o Behat atualmente fecham o ciclo de comunicação da história.
+Isto significa que não somente você e seu stakeholder podem juntos definir como sua 
+feature deveria trabalhar após ser implementada, ferramentas de BDD permitem a você
+automatizar a checagem do comportamento após a funcionalidade ser implementada. Então
+todo mundo sabe quando isto está feito e quando o time pode parar de escrever código.
+Isto, na essência, é oque o Behat é.
 
-If you are still reading, it means you are expecting more. Good! Because
-even though tools are not the central piece of BDD puzzle, they do improve
-the entire process and add a lot of benefits on top of it. For one, tools
-like Behat actually do close the communication loop of the story. It means
-that not only you and your stakeholder can together define how your
-feature should work before going to implement it, BDD tools allow you to
-automate that behaviour check after this feature is implemented. So everybody
-knows when it is done and when the team can stop writing code. That, in
-essence, is what Behat is.
+Behat é um executável que quando você o executa da linha de comando ele irá testar como 
+a sua aplicação se comporta exatamente como você descreveu nos seus ``*.feature`` cenários.
 
-Behat is an executable that you'll run from the command line to test that your
-application behaves exactly as you described in your ``*.feature`` scenarios.
+Indo adiante, nós vamos mostrar a você como o Behat pode ser usado para automatizar em 
+particular esta feature do carrinho de compras como um teste verificando se aquela 
+aplicação (existindo ou não) trabalha como você e seus stakeholders esperam (de acordo 
+com a conversa de vocês) também.
 
-Going forward, we'll show you how Behat can be used to automate this particular
-basket feature as a test verifying that the application (existing or not)
-works as you and your stakeholders expect (according to your conversation) it
-to.
-
-That's it! Behat can be used to automate anything, including web-related
-functionality via the `Mink`_ library.
-
-.. note::
-
-    If you want to learn more about the philosophy of "Behaviour Driven
-    Development" of your application, see `What's in a Story?`_
+É isso ai! O Behat pode ser usado para automatizar qualquer coisa, inclusive relacionado a
+funcionalidades web via `Mink`_ library.
 
 .. note::
 
-    Behat was heavily inspired by Ruby's `Cucumber`_ project. Since v3.0,
-    Behat is considered an official Cucumber implementation in PHP and is part
-    of one big family of BDD tools.
+    Se você quer aprender mais sobre a filosofia do "Desenvolvimento 
+    Dirigido por comportamento" sobre a sua aplicação, veja `What's in a Story?`_
 
-Installation
-------------
+.. note::
 
-Before you begin, ensure that you have at least PHP 5.3.3 installed.
+    Behat estava profundamente inspirado pelo projeto em Ruby `Cucumber`_. Desde a v3.0,
+    Behat é considerado uma implementação oficial do Cucumber em PHP e faz parte da grande
+    família de ferramentas BDD.
 
-Method #1 - Composer (the recommended one)
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+Instalação
+----------
 
-The official way to install Behat is through Composer. Composer is a package
-manager for PHP. Not only can it install Behat for you right now, it will be
-able to easily update you to the latest version later when one comes out. If
-you don't have Composer already, see
-`the Composer documentation <https://getcomposer.org/download/>`_ for
-instructions. After that, just go into your project directory (or create a
-new one) and run:
+Antes de você começar, garanta que você tem uma versão superior a 5.3.3 do PHP instalada.
+
+Método #1 - Composer (o recomendado)
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+O caminho oficial para instalar o Behat é através do Composer. Composer é um
+gerenciador de pacotes para PHP. Não somente para instalar o Behat para você agora, 
+ele será capaz de atualizar facilmente para a última versão mais tarde, quando for lançada.
+Se você ainda não tem o Composer, veja `a documentação do Composer <https://getcomposer.org/download/>`_ 
+para instruções. Depois disto, basta ir ao diretório do projeto (ou criar uma novo) e rodar:
 
 .. code-block:: bash
 
     $ php composer.phar require --dev behat/behat=~3.0.4
 
-Then you will be able to check installed Behat version using:
+então vocẽ estará apto a checar a versão instalada do Behat:
 
 .. code-block:: bash
 
     $ vendor/bin/behat -V
     
-Method #2 - PHAR (an easy one)
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+Método #2 - PHAR (um caminho fácil)
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+Um caminho fácil para instalar o Behat é pegar a última ``behat.phar`` na 
+`página de download <https://github.com/Behat/Behat/releases>`_. Certifique-se
+de fazer o download de uma versão ``3+``. Depois de baixar isto, basta colocá-lo
 
 An easier way to install Behat is to grab a latest ``behat.phar`` from
 `the download page <https://github.com/Behat/Behat/releases>`_. Make sure
