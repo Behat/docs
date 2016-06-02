@@ -29,7 +29,7 @@ Então vamos escrever sua primeira user-story:
       Como um cliente
       Eu preciso colocar produtos do meu interesse no carrinho
 
-.. note::
+.. nota::
 
     Esta é uma feature básica em Gherkin e esta é uma simples descrição 
     desta história. Cada feature inicia com este mesmo formato: uma
@@ -98,7 +98,7 @@ isto é chamado de *Cenários*):
         Então Eu devo ter 2 products no carrinho
         E o valor total do carrinho deve ser de R$20
 
-.. note::
+.. nota::
 
     Cada cenário sempre segue o mesmo formato básico:
 
@@ -157,12 +157,12 @@ com a conversa de vocês) também.
 É isso ai! O Behat pode ser usado para automatizar qualquer coisa, inclusive relacionadas a
 funcionalidades web via `Mink`_ library.
 
-.. note::
+.. nota::
 
     Se você quer aprender mais sobre a filosofia do "Desenvolvimento 
     Dirigido por comportamento" sobre a sua aplicação, veja `What's in a Story?`_
 
-.. note::
+.. nota::
 
     Behat estava profundamente inspirado pelo projeto em Ruby `Cucumber`_. Desde a v3.0,
     Behat é considerado uma implementação oficial do Cucumber em PHP e faz parte da grande
@@ -221,7 +221,7 @@ Vamos inicializar esta suite:
 
     $ vendor/bin/behat --init
 
-.. note::
+.. nota::
 
     Se você instalou o Behat via PHAR, use ``php behat.phar`` ao invés de
     ``vendor/bin/behat`` no resto deste artigo.
@@ -283,7 +283,7 @@ no seu caso) e diz ao Behat que este código representa um passo específico do 
     }
 
 
-.. note::
+.. nota::
 
     ``/** ... */`` é uma sintaxe especial em PHP chamada de doc-block.
     Isto é detectável em tempo de execução e usado por diferentes frameworks 
@@ -318,7 +318,7 @@ por exemplo ``:arg1``) a partir do step e passar seu valor para o método como a
     // Mas que exista um "Sabre de luz", que custe R$25
     $context->queExistaUmQueCusteR('Sabre de luz', '25');
 
-.. note::
+.. nota::
 
     Se você precisa definir algoritmos de correspondência mais complexos, 
     você também pode usar expressões regulares:
@@ -405,7 +405,7 @@ Se vocẽ executou `--append-snippets``, sua ``FeatureContext`` deve se parecer 
         }
     }
 
-.. note::
+.. nota::
 
     Nós removemos o construtor e agrupamos ``Eu devo ter :arg1 produto no carrinho`` e
     ``Eu devo ter :arg1 produtos no carrinho`` em um ``Eu devo ter :arg1 produto(s) no carrinho``
@@ -489,7 +489,7 @@ o segundo é responsável pela representação do carrinho do nosso cliente. Atr
 apropriado nós declaramos produtos' preços e adicionamos ao carrinho. Nós então comparamos o estado 
 de nosso objeto ``Carrinho`` com a nossa expectativa usando asserções do PHPUnit.
 
-.. note::
+.. nota::
 
     O Behat não vem com uma ferramenta própria de asserção, mas você pode usar qualquer 
     outra ferramenta correta de asserção. Uma ferramenta de asserção correta é uma biblioteca 
@@ -561,7 +561,7 @@ Agora nosso trabalho é reinterpretar esta frase em uma instrução executável.
     {
     }
 
-.. note::
+.. nota::
 
     Nós colocamos a classe ``Prateleira`` em ``features/bootstrap/Prateleira.php`` pois 
     ``features/bootstrap`` é um diretório de carregamento automático para o Behat. O Behat
@@ -672,41 +672,41 @@ Todos os cenários devem passar agora! Parabéns, você quase terminou a sua pri
 O último passo é *refatorar*. Olhe para as classes ``Carrinho`` e ``Prateleira`` e tente 
 achar um caminho para fazer um código mais limpo, fácil de ler e conciso.
 
-.. tip::
+.. dica::
+    
+    Eu recomendaria iniciar pelo método ``Carrinho::pegarValorTotal()`` e
+    extrair o calculo do imposto e do frete para métodos privados.
 
-    I would recommend starting from ``Basket::getTotalPrice()`` method and
-    extracting VAT and delivery cost calculation in private methods.
+Depois da refatoração pronta, vocẽ terá:
 
-After refactoring is done, you will have:
+#. Um código óbvio e claramente concebido que faz exatamente o que deveria fazer 
+   sem funcionalidades que não foram solicitadas pelos usuários.
 
-#. Clearly designed and obvious code that does exactly the thing it should do
-   without any gold plating.
+#. Um conjunto de testes de regressão que irá ajudá-lo a ter confiança em seu código daqui para frente.
 
-#. A regression test suite that will help you to be confident in your code going
-   forward.
+#. Uma documentação viva do comportaento do seu código, 
 
-#. Living documentation for the behaviour of your code that will live, evolve and
-   die together with your code.
+#. Documentação viva do comportamento do seu código que vai viver, evoluir e morrer em conjunto com o seu código.
 
-#. An incredible level of confidence in your code. Not only are you confident now
-   that it does exactly what it's supposed to do, you are confident that it does
-   so by delivering value to the final users (customers in our case).
+#. Um incrível nível de confiança em seu código. Não só você está confiante agora que ele faz exatamente o que é 
+   suposto fazer, você está confiante de que ele faz isso por entregar valor para os usuários finais (clientes, 
+   no nosso caso).
 
-There are many more benefits to BDD but those are the key reasons why most BDD
-practitioners do BDD in Ruby, .Net, Java, Python and JS. Welcome to the family!
+Existem muitos outros beneficios no BDD, mas estes são as razões chaves porque 
+a maioria dos praticantes de BDD fazem BDD em Ruby, .Net, Java, Python e JS.
+Bem vindo a família!
 
 What's Next?
 ------------
 
-Congratulations! You now know everything you need in order to get started
-with behavior driven development and Behat. From here, you can learn more
-about the :doc:`Gherkin </guides/1.gherkin>` syntax or learn how to test your
-web applications by using Behat with Mink.
+Parabéns! Você agora conhece tudo o que precisa para começar com o desenvolvimento
+dirigido por testes e Behat. Daqui, vocẽ pode aprender mais sobre a sintaxe :doc: `Gherkin </guides/1.gherkin>`
+ou aprender como testar suas aplicações web usando Behat com Mink.
 
-.. _`Behavior Driven Development`: http://en.wikipedia.org/wiki/Behavior_Driven_Development
+.. _`Behavior Driven Development`: https://pt.wikipedia.org/wiki/Behavior_Driven_Development
 .. _`Mink`: https://github.com/behat/mink
 .. _`What's in a Story?`: http://blog.dannorth.net/whats-in-a-story/
 .. _`Cucumber`: http://cukes.info/
 .. _`Goutte`: https://github.com/fabpot/goutte
 .. _`PHPUnit`: http://phpunit.de
-.. _`Testing Web Applications with Mink`: https://github.com/behat/mink
+.. _`Testando Aplicações Web com Mink`: https://github.com/behat/mink
