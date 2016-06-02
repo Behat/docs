@@ -413,15 +413,16 @@ Se vocẽ executou `--append-snippets``, sua ``FeatureContext`` deve se parecer 
 Automating Steps
 ~~~~~~~~~~~~~~~~
 
-Now it is finally time to start implementing our basket feature. The approach when
-you use tests to drive your application development is called a Test-Driven Development
-(or simply TDD). With TDD you start by defining test cases for the functionality you
-develop, then you fill these test cases with the best-looking application code you could
-come up with (use your design skills and imagination).
+Agora finalmente é o tempo de começar a implementar nossa feature do carrinho de compras.
+A abordagem quando você usa testes para dirigir o desenvolvimento da sua aplicação é chamada 
+de Test-Driven Development (ou simplesmente TDD). Com o TDD você inicia definindo casos de 
+testes para a funcionalidade que você vai desenvolver, em seguida você preenche estes casos 
+de teste com o melhor código da aplicação que você poderia chegar (use suas habilidades 
+de design e imaginação).
 
-In the case of Behat, you already have defined test cases (step definitions in your
-``FeatureContext``) and the only thing that is missing is that best-looking application
-code we could come up with to fulfil our scenario. Something like this:
+No caso do Behat, você já tem casos de teste definidos (step definitions em sua ``FeatureContext``) 
+e a unica coisa que está faltando é o melhor código da aplicação que poderíamos chegar para cumprir 
+o nosso cenário. Algo assim:
 
 .. code-block:: php
 
@@ -434,242 +435,242 @@ code we could come up with to fulfil our scenario. Something like this:
 
     class FeatureContext implements SnippetAcceptingContext
     {
-        private $shelf;
-        private $basket;
+        private $prateleira;
+        private $carrinho;
 
         public function __construct()
         {
-            $this->shelf = new Shelf();
-            $this->basket = new Basket($this->shelf);
+            $this->prateleira = new Prateleira();
+            $this->carrinho = new Carrinho($this->prateleira);
         }
 
         /**
-         * @Given there is a :product, which costs £:price
+         * @Given que exista um :produto, que custe R$:valor
          */
-        public function thereIsAWhichCostsPs($product, $price)
+        public function queExistaUmQueCuste($produto, $valor)
         {
-            $this->shelf->setProductPrice($product, floatval($price));
+            $this->prateleira->colocaValorProduto($produto, floatval($valor));
         }
 
         /**
-         * @When I add the :product to the basket
+         * @When Eu adicionar o :produto ao carrinho
          */
-        public function iAddTheToTheBasket($product)
+        public function euAdicionarOAoCarrinho($produto)
         {
-            $this->basket->addProduct($product);
+            $this->carrinho->adicionaProduto($produto);
         }
 
         /**
-         * @Then I should have :count product(s) in the basket
+         * @Then Eu devo ter :quantidade produto(s) no carrinho
          */
-        public function iShouldHaveProductInTheBasket($count)
+        public function euDevoTerProdutoNoCarrinho($quantidade)
         {
             PHPUnit_Framework_Assert::assertCount(
-                intval($count),
-                $this->basket
+                intval($quantidade),
+                $this->carrinho
             );
         }
 
         /**
-         * @Then the overall basket price should be £:price
+         * @Then o valor total do carrinho deve ser de R$:valor
          */
-        public function theOverallBasketPriceShouldBePs($price)
+        public function oValorTotalDoCarrinhoDeveSerDeR($valor)
         {
             PHPUnit_Framework_Assert::assertSame(
-                floatval($price),
-                $this->basket->getTotalPrice()
+                floatval($valor),
+                $this->carrinho->pegaValorTotal()
             );
         }
     }
 
-As you can see, in order to test and implement our application, we introduced 2 objects -
-``Shelf`` and ``Basket``. The first is responsible for storing products and their prices,
-the second is responsible for the representation of our customer basket. Through appropriate step
-definitions we declare products' prices and add products to the basket. We then compare the
-state of our ``Basket`` object with our expectations using PHPUnit assertions.
+Como você pode ver, afim de implementar e testar nossa aplicação, nós introduzimos 2 objetos - 
+``Prateleira`` and ``Carrinho``. O primeiro responsavel por armazenar produtos e seus preços, 
+o segundo é responsável pela representação do carrinho do nosso cliente. Através do step definitions
+apropriado nós declaramos produtos' preços e adicionamos ao carrinho. Nós então comparamos o estado 
+de nosso objeto ``Carrinho`` com a nossa expectativa usando asserções do PHPUnit.
 
 .. note::
 
-    Behat doesn't come with its own assertion tool, but you can use any proper assertion
-    tool out there. A proper assertion tool is a library whose assertions throw
-    exceptions on failure. For example, if you're familiar with PHPUnit you can use
-    its assertions in Behat by installing it via composer:
+    O Behat não vem com uma ferramenta própria de asserção, mas você pode usar qualquer 
+    outra ferramenta correta de asserção. Uma ferramenta de asserção correta é uma biblioteca 
+    cujas afirmações lançam excessões em caso de falha. Por exemplo, se você está familiarizado 
+    com o PHPUnit você pode usar as asserções dele no Behat instalando via composer:
 
     .. code-block:: bash
 
         $ php composer.phar require --dev phpunit/phpunit='~4.1.0'
 
-    and then by simply using assertions in your steps:
+    E então simplesmente usar as asserções em seus steps:
 
     .. code-block:: php
 
         PHPUnit_Framework_Assert::assertCount(
             intval($count),
-            $this->basket
+            $this->carrinho
         );
 
-Now try to execute your feature tests:
+Agora vamos tentar executar seu teste funcional:
 
 .. code-block:: bash
 
     $ vendor/bin/behat
 
-You should see a beginning of the feature and then an error saying that class ``Shelf``
-does not exist. It means we're ready to start writing actual application code!
+Você deve ver o início da feature e em seguida um erro dizendo que a classe 
+``Prateleira`` não existe. Isso significa que estamos prontos para começar a 
+efetivamente escrever código da aplicação!
 
-Implementing the Feature
-~~~~~~~~~~~~~~~~~~~~~~~~
+Implementando a Feature
+~~~~~~~~~~~~~~~~~~~~~~~
 
-So now we have 2 very important things:
+Então agora nós temos 2 coisas muito importantes:
 
-1. A concrete user-aimed description of functionality we're trying to deliver.
-2. Set of failing tests that tell us what to do next.
+1. Uma concreta descrição da funcionalidade que estamos tentando entregar.
+2. Ao falhar, o teste nos diz o que fazer a seguir.
 
-Now is the easiest part of application development - feature implementation. Yes, with
-TDD and BDD implementation becomes a routine task, because you already did most of the
-job in the previous phases - you wrote tests, you came up with an elegant solution (as far
-as you could go in current context) and you chose the actors (objects) and actions
-(methods) that are involved. Now it's time to write a bunch of PHP keywords to glue it
-all together. Tools like Behat, when used in the right way, will help you to write this
-phase by giving you a simple set of instructions that you need to follow. You
-did your thinking and design, now it's time to sit back, run the tool and follow its
-instructions in order to write your production code.
+Agora a parte mais fácil do desenvolvimento da aplicação - implementação da feature.
+Sim, com TDD e BDD a implementação se torna uma rotina, devido você já ter a maioria 
+do trabalho nas fases anteriores - você escreveu os testes, vocẽ veio com uma solução
+elegante (tanto quanto você poderia dar no contexto atual) e você escolhe os atores (objetos) 
+e ações (métodos) que estão envolvidos. Agora é a hora de escrever um punhado de palavras 
+chave em PHP para colar tudo junto. Ferramentas como o Behat, quando usadas da forma correta, 
+vão ajudar vocẽ a escrever esta fase, lhe dando um simples conjunto de instruções que você
+precisa para seguir. Você fez seu pensamento e projeto,agora está na hora de sentar, rodar 
+a ferramenta e seguir as instruções na ordem para escrever seu código de produção.
 
-Lets start! Run:
+Vamos começar! Rode:
 
 .. code-block:: bash
 
     $ vendor/bin/behat
 
-Behat will try to test your application with ``FeatureContext`` but will fail soon,
-producing something like this onto your screen:
+O Behat vai tentar testar a sua aplicação com o ``FeatureContext`` mas vai falhar 
+logo, exibindo algum evento como este em sua tela:
 
 .. code-block:: text
 
-    Fatal error: Class 'Shelf' not found
+    Fatal error: Class 'Prateleira' not found
 
-Now our job is to reinterpret this phrase into an actionable instruction. Like
-"Create the ``Shelf`` class". Let's go and create it inside ``features/bootstrap``:
+Agora nosso trabalho é reinterpretar esta frase em uma instrução executável. Como 
+"Criar a classe ``Prateleira``". Vamos criar isto em ``features/bootstrap``:
 
 .. code-block:: php
 
     // features/bootstrap/Shelf.php
 
-    final class Shelf
+    final class Prateleira
     {
     }
 
 .. note::
 
-    We put the ``Shelf`` class into ``features/bootstrap/Shelf.php`` because
-    ``features/bootstrap`` is an autoloading folder for Behat. Behat has a built-in
-    PSR-0 autoloader, which looks into ``features/bootstrap``. If you're developing
-    your own application, you probably would want to put classes into a place
-    appropriate for your app.
+    Nós colocamos a classe ``Prateleira`` em ``features/bootstrap/Prateleira.php`` pois 
+    ``features/bootstrap`` é um diretório de carregamento automático para o Behat. O Behat
+    tem um carregador automário em PSR-0, que olha para ``features/bootstrap``. Se você
+    está desenvolvendo sua própria aplicação, vocẽ provavelmente vai precisar colocar 
+    classes dentro da pasta apropriada para a sua aplicação.
 
-Let's run Behat again:
+Vamos executar o Behat novamente:
 
 .. code-block:: bash
 
     $ vendor/bin/behat
 
-We will get different message on our screen:
+Nós vamos ter uma mensagem diferente em nossa tela:
 
 .. code-block:: text
 
-    Fatal error: Class 'Basket' not found
+    Fatal error: Class 'Carrinho' not found
 
-Good, we are progressing! Reinterpreting the message as, "Create the ``Basket`` class".
-Let's follow our new instruction:
+Ótimo, nós estamos progredindo! Reinterpretando a mensagem como "Criar a classe ``Carrinho``".
+Vamos seguir nossa nova instrução:
 
 .. code-block:: php
 
-    // features/bootstrap/Basket.php
+    // features/bootstrap/Carrinho.php
 
-    final class Basket
+    final class Carrinho
     {
     }
 
-Run Behat again:
+Rode o Behat novamente:
 
 .. code-block:: bash
 
     $> vendor/bin/behat
 
-Great! Another "instruction":
+Maravilha! Outra "instrução":
 
 .. code-block:: text
 
-    Call to undefined method Shelf::setProductPrice()
+    Call to undefined method Prateleira::colocaValorProduto()
 
-Follow these instructions step-by-step and you will end up with ``Shelf``
-class looking like this:
-
-.. code-block:: php
-
-    // features/bootstrap/Shelf.php
-
-    final class Shelf
-    {
-        private $priceMap = array();
-
-        public function setProductPrice($product, $price)
-        {
-            $this->priceMap[$product] = $price;
-        }
-
-        public function getProductPrice($product)
-        {
-            return $this->priceMap[$product];
-        }
-    }
-
-and ``Basket`` class looking like this:
+Seguindo estas instruções passo-a-passo você vai terminar com uma classe ``Prateleira`` 
+parecida com esta:
 
 .. code-block:: php
 
-    // features/bootstrap/Basket.php
+    // features/bootstrap/Prateleira.php
 
-    final class Basket implements \Countable
+    final class Prateleira
     {
-        private $shelf;
-        private $products;
-        private $productsPrice = 0.0;
+        private $valores = array();
 
-        public function __construct(Shelf $shelf)
+        public function colocaValorProduto($produto, $valor)
         {
-            $this->shelf = $shelf;
+            $this->valores[$produto] = $valor;
         }
 
-        public function addProduct($product)
+        public function pegaValorProduto($produto)
         {
-            $this->products[] = $product;
-            $this->productsPrice += $this->shelf->getProductPrice($product);
-        }
-
-        public function getTotalPrice()
-        {
-            return $this->productsPrice
-                + ($this->productsPrice * 0.2)
-                + ($this->productsPrice > 10 ? 2.0 : 3.0);
-        }
-
-        public function count()
-        {
-            return count($this->products);
+            return $this->valores[$produto];
         }
     }
 
-Run Behat again:
+E uma classe ``Carrinho`` parecida com esta:
+
+.. code-block:: php
+
+    // features/bootstrap/Carrinho.php
+
+    final class Carrinho implements \Countable
+    {
+        private $prateleira;
+        private $produtos;
+        private $valoresProdutos = 0.0;
+
+        public function __construct(Prateleira $prateleira)
+        {
+            $this->prateleira = $prateleira;
+        }
+
+        public function adicionaProduto($produto)
+        {
+            $this->produtos[] = $produto;
+            $this->valoresProdutos += $this->prateleira->pegaValorProduto($produto);
+        }
+
+        public function pegaValorTotal()
+        {
+            return $this->valoresProdutos
+                + ($this->valoresProdutos * 0.2)
+                + ($this->valoresProdutos > 10 ? 2.0 : 3.0);
+        }
+
+        public function contador()
+        {
+            return contador($this->produtos);
+        }
+    }
+
+Execute o Behat novamente:
 
 .. code-block:: bash
 
     $ vendor/bin/behat
 
-All scenarios should pass now! Congratulations, you almost finished your first
-feature. The last step is to *refactor*. Look at the ``Basket`` and ``Shelf``
-classes and try to find a way to make their code even more cleaner, easier to
-read and concise.
+Todos os cenários devem passar agora! Parabéns, você quase terminou a sua primeira feature. 
+O último passo é *refatorar*. Olhe para as classes ``Carrinho`` e ``Prateleira`` e tente 
+achar um caminho para fazer um código mais limpo, fácil de ler e conciso.
 
 .. tip::
 
