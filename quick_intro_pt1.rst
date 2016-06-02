@@ -110,7 +110,8 @@ isto é chamado de *Cenários*):
           Então resultado
 
     Cada parte do cenário - o *contexto*, o *evento*,  e o
-    *resultado* - pode ser extendido pelo adicional da palavra chave``E`` ou ``Mas``:
+    *resultado* - pode ser extendido pelo adicional da palavra chave ``E`` 
+    ou ``Mas``:
 
     .. code-block:: gherkin
 
@@ -123,17 +124,17 @@ isto é chamado de *Cenários*):
           E outro resultado
           Mas outro resultado
 
-    Não há uma real diferença entre, ``Então``, ``E`` ``Mas`` ou qualquer 
-    outra palavra que inicie cada linha. Estas palavras chave são disponíveis
-    para que os cenários sejam naturais e legíveis.
+    Não há uma real diferença entre ``Então``, ``E`` ``Mas`` ou qualquer 
+    outra palavra que inicie cada linha. Estas palavras chave são 
+    disponibilizadas para que os cenários sejam naturais e legíveis.
     
-Isto é seu e seus stakeholders compartilham da mesma escrita do projeto em um
-formato estruturado. Tudo é baseado em uma clara e construtiva conversa que vocês
-tiveram juntos. Agora você pode colocar este texto em um arquivo simples - 
-``features/carrinho.feature`` - dentro do diretório do seu projeto e começar 
-a implementar a funcionalidade checando manualmente se se encaixa no cenário definido.
-Não é necessário nenhuma ferramenta (Behat em seu caso). Isto é, na essência, 
-o que o BDD é.
+Isto é seu e seus stakeholders compartilham da mesma escrita em um formato 
+estruturado do projeto. Tudo é baseado na clara e construtiva conversa que 
+vocês tiveram juntos. Agora você pode colocar este texto em um arquivo 
+simples - ``features/carrinho.feature`` - dentro do diretório do seu projeto e 
+começar a implementar a funcionalidade checando manualmente se se encaixa no 
+cenário definido. Não é necessário nenhuma ferramenta (Behat em seu caso). 
+Isto é, na essência, o que o BDD é.
 
 Se você ainda está lendo,  significa que você ainda espera mais. Ótimo! 
 Porque  apesar das ferramentas não serem a peça central do quebra-cabeça do BDD, 
@@ -145,15 +146,15 @@ automatizar a checagem do comportamento após a funcionalidade ser implementada.
 todo mundo sabe quando isto está feito e quando o time pode parar de escrever código.
 Isto, na essência, é oque o Behat é.
 
-Behat é um executável que quando você o executa da linha de comando ele irá testar como 
-a sua aplicação se comporta exatamente como você descreveu nos seus ``*.feature`` cenários.
+*Behat é um executável que quando você o executa da linha de comando ele irá testar como 
+a sua aplicação se comporta exatamente como você descreveu nos seus ``*.feature`` cenários.*
 
 Indo adiante, nós vamos mostrar a você como o Behat pode ser usado para automatizar em 
 particular esta feature do carrinho de compras como um teste verificando se aquela 
 aplicação (existindo ou não) trabalha como você e seus stakeholders esperam (de acordo 
 com a conversa de vocês) também.
 
-É isso ai! O Behat pode ser usado para automatizar qualquer coisa, inclusive relacionado a
+É isso ai! O Behat pode ser usado para automatizar qualquer coisa, inclusive relacionadas a
 funcionalidades web via `Mink`_ library.
 
 .. note::
@@ -176,16 +177,16 @@ Método #1 - Composer (o recomendado)
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 O caminho oficial para instalar o Behat é através do Composer. Composer é um
-gerenciador de pacotes para PHP. Não somente para instalar o Behat para você agora, 
-ele será capaz de atualizar facilmente para a última versão mais tarde, quando for lançada.
-Se você ainda não tem o Composer, veja `a documentação do Composer <https://getcomposer.org/download/>`_ 
+gerenciador de pacotes para PHP. Ele não irá lhe ser útil somente para instalar o Behat para 
+você agora, ele será capaz de atualizar facilmente para a última versão mais tarde, quando 
+for lançada. Se você ainda não tem o Composer, veja `a documentação do Composer <https://getcomposer.org/download/>`_ 
 para instruções. Depois disto, basta ir ao diretório do projeto (ou criar um novo) e rodar:
 
 .. code-block:: bash
 
     $ php composer.phar require --dev behat/behat=~3.0.4
 
-então vocẽ estará apto a checar a versão instalada do Behat:
+Então vocẽ estará apto a checar a versão instalada do Behat:
 
 .. code-block:: bash
 
@@ -211,8 +212,8 @@ anteriormente em ``features/carrinho.feature``.
 
 Nosso primeiro passo após descrever a feature e instalar o Behat é configurar a suite 
 de teste. Uma suite de teste é um conceito chave em Behat. Suites são uma forma do Behat 
-conhecer onde achar e como testar sua aplicação com as suas features.
-Por padrão, Behat vem com uma suite ``default``, que diz para Behat para procurar por 
+saber onde achar e como testar sua aplicação com as suas features.
+Por padrão, Behat vem com uma suite ``default``, que diz ao Behat para procurar por 
 features no diretório ``features/`` e os teste usando a classe ``FeatureContext``.
 Vamos inicializar esta suite:
 
@@ -239,10 +240,10 @@ Eu acho que nós estamos prontos para ver o Behat em ação! Vamos rodar isto:
     $ vendor/bin/behat
 
 Vocẽ deve ver que o Behat reconheceu que você tem 3 cenários. o Behat deve também
-contar a você que sua classe ``FeatureContext`` perdeu steps e propõe step snippets para 
-você. ``FeatureContext`` é seu ambiente de teste. É um objeto através do qual você 
-descreve como você deve testar sua aplicação através de suas features. Isso foi gerado 
-através do comando ``--init`` e agora se parece com isso:
+contar a você que na sua classe ``FeatureContext`` faltam passos e propor trechos 
+para etapas para você. ``FeatureContext`` é seu ambiente de teste. É um objeto 
+através do qual você descreve como você deve testar sua aplicação através de suas 
+features. Isso foi gerado através do comando ``--init`` e agora se parece com isso:
 
 .. code-block:: php
 
@@ -288,7 +289,7 @@ no seu caso) e diz ao Behat que este código representa um passo específico do 
     Isto é detectável em tempo de execução e usado por diferentes frameworks 
     de PHP como um caminho para prover meta-informação adicionais para as 
     classes, métodos e funções. Behat usa doc-blocks para step definitions, 
-    step transformations and hooks.
+    step transformations e hooks.
 
 ``@Given que exista um :arg1, que custe R$:arg2`` sobre o método diz ao Behat
 que este método em particular deve ser executado sempre que o Behat ver um step 
@@ -332,35 +333,33 @@ por exemplo ``:arg1``) a partir do step e passar seu valor para o método como a
             throw new PendingException();
         }
 
-Those patterns could be quite powerful, but at the same time, writing them for all
-possible steps manually could become extremely tedious and boring. That's why Behat
-does it for you. Remember when you previously executed ``vendor/bin/behat`` you
-got:
+Estes padrões podem ser muito poderosos, mas ao mesmo tempo, escreve-los por todos steps 
+possíveis manualmente pode ser extremamente tedioso e chato. É por isso que o Behat faz
+isto para você. Relembre quando você executou anteriormente ``vendor/bin/behat`` você teve:
 
 .. code-block:: text
 
     --- FeatureContext has missing steps. Define them with these snippets:
 
         /**
-         * @Given there is a :arg1, which costs £:arg2
+         * @Given que exista um :arg1, que custe R$:arg2
          */
-        public function thereIsAWhichCostsPs($arg1, $arg2)
+        public function queExistaUmQueCusteR($arg1, $arg2)
         {
             throw new PendingException();
         }
 
-Behat automatically generates snippets for missing steps and all that you need to
-do is copy and paste them into your context classes. Or there is an even easier
-way - just run:
+O Behat gera automaticamente trechos para etapas que faltam e tudo que você precisa 
+para os copiar e colar em sua classe context. Ou há ainda um caminho mais fácil - pasta rodar:
 
 .. code-block:: bash
 
     $ vendor/bin/behat --dry-run --append-snippets
 
-And Behat will automatically append all the missing step methods into your
-``FeatureContext`` class. How cool is that?
+E o Behat vai automaticamente acrescentar todos os métodos das etapas que faltam em
+sua classe ``FeatureContext``. Como isso é legal?
 
-If you executed ``--append-snippets``, your ``FeatureContext`` should look like:
+Se vocẽ executou `--append-snippets``, sua ``FeatureContext`` deve se parecer com:
 
 .. code-block:: php
 
@@ -374,33 +373,33 @@ If you executed ``--append-snippets``, your ``FeatureContext`` should look like:
     class FeatureContext implements SnippetAcceptingContext
     {
         /**
-         * @Given there is a :arg1, which costs £:arg2
+         * @Given que exista um :arg1, que custe R$:arg2
          */
-        public function thereIsAWhichCostsPs($arg1, $arg2)
+        public function queExistaUmQueCusteR($arg1, $arg2)
         {
             throw new PendingException();
         }
 
         /**
-         * @When I add the :arg1 to the basket
+         * @When Eu adicionar o :arg1 ao carrinho
          */
-        public function iAddTheToTheBasket($arg1)
+        public function euAdicionarOAoCarrinho($arg1)
         {
             throw new PendingException();
         }
 
         /**
-         * @Then I should have :arg1 product(s) in the basket
+         * @Then Eu devo ter :arg1 produto(s) no carrinho
          */
-        public function iShouldHaveProductInTheBasket($arg1)
+        public function euDevoTerProdutoNoCarrinho($arg1)
         {
             throw new PendingException();
         }
 
         /**
-         * @Then the overall basket price should be £:arg1
+         * @Then o valor total do carrinho deve ser de R$:arg1
          */
-        public function theOverallBasketPriceShouldBePs($arg1)
+        public function oValorTotalDoCarrinhoDeveSerDeR($arg1)
         {
             throw new PendingException();
         }
@@ -408,9 +407,8 @@ If you executed ``--append-snippets``, your ``FeatureContext`` should look like:
 
 .. note::
 
-    We have removed the constructor and grouped ``I should have :arg1 product in the basket``
-    and ``I should have :arg1 products in the basket`` into one
-    ``I should have :arg1 product(s) in the basket``.
+    Nós removemos o construtor e agrupamos ``Eu devo ter :arg1 produto no carrinho`` e
+    ``Eu devo ter :arg1 produtos no carrinho`` em um ``Eu devo ter :arg1 produto(s) no carrinho``
 
 Automating Steps
 ~~~~~~~~~~~~~~~~
