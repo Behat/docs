@@ -79,94 +79,99 @@ etapas de coincidencias e execução em :doc:`/guides/2.definitions`.
 Funcionalidades
 ---------------
 
-Every ``*.feature`` file conventionally consists of a single feature. Lines
-starting with the keyword ``Feature:`` (or its localized equivalent) followed
-by three indented lines starts a feature. A feature usually contains a list of
-scenarios. You can write whatever you want up until the first scenario, which
-starts with ``Scenario:`` (or localized equivalent) on a new line. You can use
-`tags`_ to group features and scenarios together, independent of your file and
-directory structure.
+Todos arquivos ``*.feature`` convencionalmente consistem em uma funcionalidade 
+única. Linhas iniciando com a palavra chave ``Funcionalidade:`` (ou o seu 
+equivalente) seguido de três linhas identadas iniciam uma funcionalidade. 
+Usualmente uma feature contém uma lista de cenários. Você pode escrever 
+qualquer coisa que você precise até o primeiro cenário, que inicia com 
+``Cenário:`` (ou o seu equivalente) em uma nova linha. Você pode usar
+`tags`_ para agrupar funcionalidades e cenários, independente da estrutura
+do seu arquivo e diretório.
 
-Every scenario consists of a list of `steps`_, which must start with one of the
-keywords ``Given``, ``When``, ``Then``, ``But`` or ``And`` (or a localized
-version of one of these). Behat treats them all the same, but you shouldn't.
-Here is an example:
-
-.. code-block:: gherkin
-
-    Feature: Serve coffee
-      In order to earn money
-      Customers should be able to
-      buy coffee at all times
-
-      Scenario: Buy last coffee
-        Given there are 1 coffees left in the machine
-        And I have deposited 1 dollar
-        When I press the coffee button
-        Then I should be served a coffee
-
-In addition to basic `scenarios`_, feature may contain `scenario outlines`_
-and `backgrounds`_.
-
-Scenarios
----------
-
-Scenarios are one of the core Gherkin structures. Every scenario starts with
-the ``Scenario:`` keyword (or localized keyword), followed by an optional scenario
-title. Each feature can have one or more scenarios and every scenario consists
-of one or more `steps`_.
-
-The following scenarios each have 3 steps:
+Todos cenários consistem em uma lista de `etapas`_, que devem iniciar com
+uma das palvras chaves ``Dado``, ``Quando``, ``Então``, ``Mas`` ou ``E``
+(ou o equivalente de um destes). O Behat trata eles do mesmo modo, mas
+você não deve fazer isto.
+Aqui temos um exemplo:
 
 .. code-block:: gherkin
 
-    Scenario: Wilson posts to his own blog
-      Given I am logged in as Wilson
-      When I try to post to "Expensive Therapy"
-      Then I should see "Your article was published."
+    # language: pt
+    Funcionalidade: Servir café
+        A fim de ganhar dinheiro
+        Os clientes devem ser capazes de
+        comprar café a todo momento
 
-    Scenario: Wilson fails to post to somebody else's blog
-      Given I am logged in as Wilson
-      When I try to post to "Greg's anti-tax rants"
-      Then I should see "Hey! That's not your blog!"
+      Cenário: Compra último café
+        Dado que tenha 1 café sobrando na máuqina
+        E eu tenha depositado 1 real
+        Quando eu pressionar o botão de café
+        Então eu deveria ser servido de um café
 
-    Scenario: Greg posts to a client's blog
-      Given I am logged in as Greg
-      When I try to post to "Expensive Therapy"
-      Then I should see "Your article was published."
+Além do básico `Cenário`_, uma feature pode conter `Esquema do Cenário`_
+e `Contexto`_.
 
-Scenario Outlines
------------------
+Cenário
+-------
 
-Copying and pasting scenarios to use different values can quickly become
-tedious and repetitive:
+Cenários são uma das principais estruturas do Gherkin. Todo cenário deve 
+iniciar com a palavra chave ``Cenário:`` (ou palavra chave equivalente),
+opcionalmente seguido de um título de cenário. Cada funcionalidade pode 
+ter um ou mais cenários e todo cenário consiste em um ou mais `etapa`_.
 
-.. code-block:: gherkin
-
-    Scenario: Eat 5 out of 12
-      Given there are 12 cucumbers
-      When I eat 5 cucumbers
-      Then I should have 7 cucumbers
-
-    Scenario: Eat 5 out of 20
-      Given there are 20 cucumbers
-      When I eat 5 cucumbers
-      Then I should have 15 cucumbers
-
-Scenario Outlines allow us to more concisely express these examples through the
-use of a template with placeholders:
+Os cenários seguintes tem cada um 3 etapas:
 
 .. code-block:: gherkin
 
-    Scenario Outline: Eating
-      Given there are <start> cucumbers
-      When I eat <eat> cucumbers
-      Then I should have <left> cucumbers
+    Cenário: Wilson posta em seu blog
+      Dado que eu estou logado como Wilson
+      Quando eu tento postar "A terapia cara"
+      Então eu devo ver "Seu artigo foi publicado."
 
-      Examples:
-        | start | eat | left |
-        |  12   |  5  |  7   |
-        |  20   |  5  |  15  |
+    Cenário: Wilson falha ao postar algo no blog de outra pessoa
+      Dado que eu estou logado como Wilson
+      Quando eu tento postar "Greg esbraveja contra impostos"
+      Então eu devo ver "Hey! Este não é o seu blog!"
+
+    Cenário: Greg posta em blog cliente
+      Dado que eu estou logado como Greg
+      Quando eu tento postar "Terapia Cara"
+      Então eu devo ver "Seu artigo foi publicado."
+
+Esquema do Cenário
+------------------
+
+Copiar e colar cenários para usar diferentes valores pode ser muito 
+tedioso e repetitivo:
+
+.. code-block:: gherkin
+
+    Cenário: Comer 5 em cada 12
+      Dado que tenho 12 pepinos
+      Quando eu comer 5 peninos
+      Então eu devo ter 7 pepinos
+
+    Cenário: Comer 5 em cada 20
+      Dado que tenho 20 pepinos
+      Quando eu comer 5 peninos
+      Então eu devo ter 15 pepinos    
+
+Os `Esquema de Cenários` nos permitem formular estes exemplos com maior precisão 
+através da utilização de um modelo com espaços reservados:
+
+.. code-block:: gherkin
+
+    Esquema do Cenário: Comendo
+      Dado que tenho <antes> pepinos
+      Quando eu comer <come> pepinos
+      Então eu devo ter <depois> pepinos
+
+      Exemplos:
+        | antes | come | depois |
+        |  12   |  5   |   7    |
+        |  20   |  5   |   15   |
+
+
 
 The Scenario Outline steps provide a template which is never directly run. A
 Scenario Outline is run once for each row in the Examples section beneath it
@@ -576,7 +581,7 @@ run:
     .. code-block:: gherkin
 
         # language: fr
-        Fonctionnalité: ...
+        Fonctionnalité: ...ta
           ...
 
     This way your features will hold all the information about its content
