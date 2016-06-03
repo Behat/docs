@@ -171,61 +171,63 @@ através da utilização de um modelo com espaços reservados:
         |  12   |  5   |   7    |
         |  20   |  5   |   15   |
 
+As etapas do Esquema do Cenário fornecem um modelo que nunca é executado
+diretamente. Um Esquema do Cenário é executado uma vez para cada linha 
+na seção de exemplos abaixo dela (exceto para a primeira linha 
+que é o cabeçalho).
 
-
-The Scenario Outline steps provide a template which is never directly run. A
-Scenario Outline is run once for each row in the Examples section beneath it
-(except for the first header row).
-
-The Scenario Outline uses placeholders, which are contained within
-``< >`` in the Scenario Outline's steps. For example:
+O Esquema do Cenário utiliza espaços reservados, que estão
+contidos ``< >`` nas etapas de saída do Cenário. Por exemplo:
 
 .. code-block:: gherkin
 
-    Given <I'm a placeholder and I'm ok>
+    Dado <Eu sou um espaço reservado e estou ok>
 
-Think of a placeholder like a variable. It is replaced with a real value from
-the ``Examples:`` table row, where the text between the placeholder angle
-brackets matches that of the table column header. The value substituted for
-the placeholder changes with each subsequent run of the Scenario Outline,
-until the end of the ``Examples`` table is reached.
+Pense em um espaço reservado como uma variável. Isto pode ser substituido
+por um valor real das linhas da tabela de ``Exemplos:``, onde o texto 
+entre o ângulo de espaço em reservado corresponde ao que o cabeçalho da
+coluna da tabela. O valor substituido pelo espaço reservado muda a cada 
+execução subsequente do Esquema do Cenário, até que o fim da tabela de
+``Exemplos`` seja alcançado.
 
 .. tip::
 
-    You can also use placeholders in `Multiline Arguments`_.
+    Vocẽ também pode usar os espaços reservados em `Argumentos 
+    múltilinhas`_.
 
 .. note::
 
-    Your step definitions will never have to match the placeholder text itself,
-    but rather the values replacing the placeholder.
+    Sua etapa de definições nunca terá que coincidir com o próprio texto 
+    do espaço reservado, mas sim os valores terão que substituir o 
+    espaço reservado.
 
-So when running the first row of our example:
-
-.. code-block:: gherkin
-
-    Scenario Outline: Eating
-      Given there are <start> cucumbers
-      When I eat <eat> cucumbers
-      Then I should have <left> cucumbers
-
-      Examples:
-        | start | eat | left |
-        |  12   |  5  |  7   |
-
-The scenario that is actually run is:
+Então quando executamos a primeira linha do nosso exemplo:
 
 .. code-block:: gherkin
 
-    Scenario: Eating
-      # <start> replaced with 12:
-      Given there are 12 cucumbers
-      # <eat> replaced with 5:
-      When I eat 5 cucumbers
-      # <left> replaced with 7:
-      Then I should have 7 cucumbers
+    Esquema do Cenário: Comer
+      Dado que temos <antes> pepinos
+      Quando eu comer <come> pepino
+      Então teremos <depois> pepinos
 
-Backgrounds
------------
+      Exemplos:
+        | antes | come | depois |
+        |  12   |   5  |   7    |
+
+O cenário que realmente é executado é:
+
+.. code-block:: gherkin
+
+    Cenário: Comer
+      # <antes> é substituido por 12:
+      Dado que temos 12 pepinos
+      # <come> é substituido por 5:
+      Quando eu comer 5 pepino
+      # <depois> é substituido por 7:
+      Então teremos 7 pepinos
+
+Contexto
+--------
 
 Backgrounds allows you to add some context to all scenarios in a single
 feature. A Background is like an untitled scenario, containing a number of
