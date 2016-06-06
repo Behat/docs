@@ -156,7 +156,7 @@ tedioso e repetitivo:
       Quando eu comer 5 peninos
       Então eu devo ter 15 pepinos    
 
-Os `Esquema de Cenários` nos permitem formular estes exemplos com maior precisão 
+Os `Esquemas do Cenários` nos permitem formular estes exemplos com maior precisão 
 através da utilização de um modelo com espaços reservados:
 
 .. code-block:: gherkin
@@ -193,7 +193,7 @@ execução subsequente do Esquema do Cenário, até que o fim da tabela de
 .. tip::
 
     Vocẽ também pode usar os espaços reservados em `Argumentos 
-    múltilinhas`_.
+    Multilineos`_.
 
 .. note::
 
@@ -326,141 +326,147 @@ com casos de uso, Dado é a sua pré condição.
 Quando
 ~~~~~~
 
-The purpose of **When** steps is to **describe the key action** the user
-performs (or, using Robert C. Martin's metaphor, the state transition).
+O propósito da etapa **Quando** é **descrever a ação chave** que o 
+usuário executa (ou, usando a metáfora de Robert C. Martin, a transição
+de estado).
 
-.. sidebar:: When Examples
+.. sidebar:: Exemplos de Quando
 
-    Two good examples of using **Whens** are:
-
-    * Interact with a web page (the Mink library gives you many web-friendly
-      ``When`` steps out of the box):
-
-      .. code-block:: gherkin
-
-          When I am on "/some/page"
-          When I fill "username" with "everzet"
-          When I fill "password" with "123456"
-          When I press "login"
-
-    * Interact with some CLI library (call commands and record output):
+    Dois bons exemplos do uso de **Quando** são:
+    
+    * Interagir com uma página web (a biblioteca Mink lhe dá muitas etapas
+    ``Quando`` web-amigáveis fora da caixa):
 
       .. code-block:: gherkin
 
-          When I call "ls -la"
+          Quando eu estiver em "/alguma/pagina"
+          Quando eu preencho o campo "username" com "everzet"
+          Quando eu preencho o campo "password" com "123456"
+          Quando eu clico em "login"
 
-Thens
+    * Interagir com alguma biblioteca CLI (chama comandos e grava saída):
+
+      .. code-block:: gherkin
+
+          Quando eu chamo "ls -la"
+
+Então
 ~~~~~
 
-The purpose of **Then** steps is to **observe outcomes**. The observations
-should be related to the business value/benefit in your feature description.
-The observations should inspect the output of the system (a report, user
-interface, message, command output) and not something deeply buried inside it
-(that has no business value and is instead part of the implementation).
+O propósito da etapa **Então** é **observar saídas**. As observações 
+devem estar relacionadas com o valor/benefício de negócios na sua 
+descrição da funcionalidade. As observações devem inspecionar a saída 
+do sistema (um relatório, interface de usuário, mensagem, saída de 
+comando) e não alguma coisa profundamente enterrado dentro dela 
+(que não tem valor de negócios e ao invés disso faz parte da 
+implementação).
 
-.. sidebar:: Then Examples
+.. sidebar:: Exemplos de Então
 
-    Two good examples of using **Thens** are:
+    Dois bons exemplos do uso de **Então** são:
 
-    * Verify that something related to the Given + When is (or is not) in the
-      output:
-
-      .. code-block:: gherkin
-
-          When I call "echo hello"
-          Then the output should be "hello"
-
-    * Check that some external system has received the expected message:
+    * Verificar algo relacionado ao Dado + Quando está (ou não) na saída:
 
       .. code-block:: gherkin
 
-          When I send an email with:
+          Quando eu chamo "echo hello"
+          Então a saída deve ser "hello"
+
+    * Checar se algum sistema externo recebeu a mensagem esperada:
+
+      .. code-block:: gherkin
+
+          Quando eu enviar um email com:
             """
             ...
             """
-          Then the client should receive the email with:
+          Então o cliente deve receber um email com:
             """
             ...
             """
 
 .. caution::
 
-    While it might be tempting to implement Then steps to just look in the
-    database – resist the temptation. You should only verify output that is
-    observable by the user (or external system). Database data itself is
-    only visible internally to your application, but is then finally exposed
-    by the output of your system in a web browser, on the command-line or an
-    email message.
+    Embora possa ser tentador implementar etapas Então para apenas 
+    olhar no banco de dados - resista à tentação. Você deve verificar
+    somente saídas que podem ser observadas pelo usuário (ou sistema 
+    externo). Se a base de dados somente é visível internamente por 
+    sua aplicação, mas é finalmente exposta pela saída do seu sistema
+    em um navegador web, na linha de comando ou uma mensagem de email.
 
-And, But
-~~~~~~~~
-
-If you have several Given, When or Then steps you can write:
-
-.. code-block:: gherkin
-
-    Scenario: Multiple Givens
-      Given one thing
-      Given another thing
-      Given yet another thing
-      When I open my eyes
-      Then I see something
-      Then I don't see something else
-
-Or you can use **And** or **But** steps, allowing your Scenario to read more
-fluently:
-
-.. code-block:: gherkin
-
-    Scenario: Multiple Givens
-      Given one thing
-      And another thing
-      And yet another thing
-      When I open my eyes
-      Then I see something
-      But I don't see something else
-
-Behat interprets steps beginning with And or But exactly the same as all other
-steps; it doesn't differentiate between them - you should!
-
-Multiline Arguments
--------------------
-
-The one line `steps`_ let Behat extract small strings from your steps
-and receive them in your step definitions. However, there are times when you
-want to pass a richer data structure from a step to a step definition.
-
-This is what multiline step arguments are designed for. They are written on
-lines immediately following a step and are passed to the step definition
-method as the last argument.
-
-Multiline step arguments come in two flavours: `tables`_ or `pystrings`_.
-
-Tables
+E, Mas
 ~~~~~~
 
-Tables as arguments to steps are handy for specifying a larger data set -
-usually as input to a Given or as expected output from a Then.
+Se você tem várias etapas Dado, Quando ou Então vocẽ pode escrever:
 
 .. code-block:: gherkin
 
-    Scenario:
-      Given the following people exist:
-        | name  | email           | phone |
+    Cenário: Múltiplos Dado
+      Dado uma coisa
+      Dado outra coisa
+      Dado mais outra coisa
+      Quando eu abrir meus olhos
+      Então eu verei qualquer coisa
+      Então eu não verei qualquer outra coisa
+
+Ou você pode usar etapas **E** ou **Mas**, permitindo uma leitura mais 
+fluente do seu Cenário:
+
+.. code-block:: gherkin
+
+    Cenário: Múltiplos Dado
+      Dado uma coisa
+      E outra coisa
+      E mais outra coisa
+      Quando eu abrir meus olhos
+      Então eu verei qualquer coisa
+      Mas eu não verei qualquer outra coisa
+
+O Behat interpreta as etapas iniciando com E ou Mas exatamente como 
+as outras etapas; que não faz distinção entre eles - Mas você deve!
+
+Argumentos Multilineos
+----------------------
+
+A linha um `etapa`_
+
+A única linha `etapas`_ permite ao Behat extrair pequenas strings de 
+suas etapas e recebê-los em suas step definitions. No entanto, há 
+momentos em que você quer passar uma estrutura de dados mais rica a 
+partir de uma step definition.
+
+Para isto foram porjetados os Argumentos Multilineos. Eles são 
+escritos nas linhas que seguem imediatamente uma etapa e são passadas 
+para o método step definition como um último argumento.
+
+Etapas de Argumentos Multilineos vem em dois modos: `tabelas`_ ou `pystrings`_.
+
+Tabelas
+~~~~~~~
+
+As tabelas são etapas de argumentos são úteis para a especificação de
+um grande conjunto de dados - normalmente como entrada para uma saída 
+de Dado ou como espera de um Então.
+
+.. code-block:: gherkin
+
+    Cenário:
+      Dado que as seguintes pessoas existem:
+        | nome  | email           | fone  |
         | Aslak | aslak@email.com | 123   |
         | Joe   | joe@email.com   | 234   |
         | Bryan | bryan@email.org | 456   |
 
 .. attention::
 
-    Don't confuse tables with `scenario outlines`_ - syntactically
-    they are identical, but they have a different purpose. Outlines declare
-    multiple different values for the same scenario, while tables are used to
-    expect a set of data.
+    Não confunda tabelas com `Esquemas do cenário`_  - sintaticamente 
+    eles são identicos, mas eles tem propósitos diferentes. Esquemas
+    declaram diferentes valores múltiplos ao mesmo cenário, enquanto
+    tabelas são usadas para esperar um conjunto de dados.
 
-.. sidebar:: Matching Tables in your Step Definition
+.. sidebar:: Tabelas correspondentes em sua Step Definition
 
-    A matching definition for this step looks like this:
+    Uma definição correspondente para esta etapa se parece com isso:
 
     .. code-block:: php
 
@@ -469,49 +475,52 @@ usually as input to a Given or as expected output from a Then.
         // ...
 
         /**
-         * @Given the following people exist:
+         * @Given as seguintes pessoas existem:
          */
-        public function thePeopleExist(TableNode $table)
+        public function asSeguintesPessoasExistem(TableNode $tabela)
         {
-            foreach ($table as $row) {
-                // $row['name'], $row['email'], $row['phone']
+            foreach ($tabela as $linha) {
+                // $linha['nome'], $linha['email'], $linha['fone']
             }
         }
 
-    A table is injected into a definition as a ``TableNode`` object, from
-    which you can get hash by columns (``TableNode::getHash()`` method) or by
-    rows (``TableNode::getRowsHash()``).
+    Uma tabela é injetada na definição do objeto ``TableNode``, com 
+    o qual vocẽ pode obter um hash de colunas (método 
+    ``TableNode::getHast()``) ou por linhas 
+    (``TableNode::getRowsHash()``).
 
 PyStrings
 ~~~~~~~~~
 
-Multiline Strings (also known as PyStrings) are useful for specifying a
-larger piece of text. The text should be offset by delimiters consisting of
-three double-quote marks (``"""``), placed on their own line:
+Strings multilineas (também conhecidas como PyStrings) são úteis 
+para a especificação de um grande pedaço de texto. O texto deve 
+ser compensado por delimitadores que consistem em três marcas de 
+aspas duplas (`` """ ``), colocadas em linha:
 
 .. code-block:: gherkin
 
-    Scenario:
-      Given a blog post named "Random" with:
+    Cenário:
+      Dado uma postagem em um blog chamado "Random" com:
         """
-        Some Title, Eh?
-        ===============
-        Here is the first paragraph of my blog post.
+        Algum título, Eh?
+        =================
+        Aqui está o primeiro parágrafo do meu post.
         Lorem ipsum dolor sit amet, consectetur adipiscing
         elit.
         """
 
 .. note::
 
-    The inspiration for PyString comes from Python where ``"""`` is used to
-    delineate docstrings, much in the way ``/** ... */`` is used for multiline
-    docblocks in PHP.
+    A inspiração para o PyString vem do Python onde ``"""`` é
+    usado para delimitar docstrings, mais ou menos como 
+    ``/** ... */`` é usado para docblocks em PHP.
 
-.. sidebar:: Matching PyStrings in your Step Definition
+.. sidebar:: PyStrings correspondentes em sua step definitions
 
-    In your step definition, there's no need to find this text and match it in
-    your pattern. The text will automatically be passed as the last
-    argument into the step definition method. For example:
+    Em sua step definition, não precisa procurar por este texto 
+    e corresponder com o seu padrão. O texto vai automaticamente 
+    passar pelo último argumento no método step definition. 
+    Por exemplo:
 
     .. code-block:: php
 
@@ -520,64 +529,65 @@ three double-quote marks (``"""``), placed on their own line:
         // ...
 
         /**
-         * @Given a blog post named :title with:
+         * @Given um post em um blog chamado :titulo com:
          */
-        public function blogPost($title, PyStringNode $markdown)
+        public function umPostEmUmBlogChamado($titulo, PyStringNode $texto)
         {
-            $this->createPost($title, $markdown->getRaw());
+            $this->criarPost($titulo, $texto->getRaw());
         }
 
-    PyStrings are stored in a ``PyStringNode`` instance, which you can simply
-    convert to a string with ``(string) $pystring`` or ``$pystring->getRaw()``
-    as in the example above.
+    PyStrings são armazenadas em uma instancia ``PyStringNode``, que você 
+    pode simplesmente converter a uma string com ``(string) $pystring``
+    ou ``$pystring->getRaw()`` como no exemplo acima.
 
 .. note::
 
-    Indentation of the opening ``"""`` is not important, although common practice
-    is two spaces in from the enclosing step. The indentation inside the triple
-    quotes, however, is significant. Each line of the string passed to the step
-    definition's callback will be de-indented according to the opening ``"""``.
-    Indentation beyond the column of the opening ``"""`` will therefore be
-    preserved.
+    A identação para abrir ``"""`` não é importante, apesar de ser uma 
+    prática comum deixar dois espaços da etapa de fechamento. A identação
+    dentro das aspas triplas, entretanto, é significante. Cada linha da
+    string passa pela chamada da step definition será re-identada de 
+    acordo com a abertura ``"""``. A identação além da coluna de abertura 
+    ``"""`` por conseguinte, será preservada.
 
 Tags
 ----
 
-Tags are a great way to organize your features and scenarios. Consider this
-example:
+Tags são uma ótima forma de organizar suas funcionalidades e cenários. 
+Considere este exemplo:
 
 .. code-block:: gherkin
 
-    @billing
-    Feature: Verify billing
+    @faturamento
+    Feature: Verifica o faturamento
 
-      @important
-      Scenario: Missing product description
+      @importante
+      Cenário: Falta da descrição do produto
 
-      Scenario: Several products
+      Cenário: Vários produtos
 
-A Scenario or Feature can have as many tags as you like, just separate them
-with spaces:
+Um Cenário ou Funcionalidade pode ter quantas tags você quiser, basta 
+apenas separá-los com espaços:
 
 .. code-block:: gherkin
 
-    @billing @bicker @annoy
-    Feature: Verify billing
+    @faturamento @brigar @incomodar
+    Funcionalidade: Verificar o faturamento
 
 .. note::
 
-    If a tag exists on a ``Feature``, Behat will assign that tag to all
-    child ``Scenarios`` and ``Scenario Outlines`` too.
+    Se uma tag existe em uma ``Funcionalidade``, o Behat irá atribuir essa 
+    tag para todos os ``Cenários`` filhos e ``Esquemas do Cenário`` também.
 
-Gherkin in Many Languages
--------------------------
+Gherkin em Muitas Linguagens
+----------------------------
 
-Gherkin is available in many languages, allowing you to write stories
-using localized keywords from your language. In other words, if you
-speak French, you can use the word ``Fonctionnalité`` instead of ``Feature``.
+O Gherkin está disponível em muitas linguagens, permitindo você escrever 
+histórias usando as palavras chave de sua linguagem. Em outras palavras, 
+se você fala Francês, você pode usar a palavra ``Fonctionnalité`` ao invés 
+de ``Funcionalidade``.
 
-To check if Behat and Gherkin support your language (for example, French),
-run:
+Para checar se o Behat e o Gherkin suportam a sua lingua (Francês, por exemplo),
+execute:
 
 .. code-block:: bash
 
@@ -585,9 +595,9 @@ run:
 
 .. note::
 
-    Keep in mind that any language different from ``en`` should be explicitly
-    marked with a ``# language: ...`` comment at the beginning of your
-    ``*.feature`` file:
+    Guarde em sua mente que qualquer linguagem diferente de ``en`` precisa 
+    ser explicitada com um comentário ``#language: ...`` no início de seu 
+    arquivo ``*.feature``:
 
     .. code-block:: gherkin
 
@@ -595,7 +605,7 @@ run:
         Fonctionnalité: ...ta
           ...
 
-    This way your features will hold all the information about its content
-    type, which is very important for methodologies like BDD and also gives
-    Behat the ability to have multilanguage features in one suite.
-
+    Desta forma, suas funcionalidades vão realizar todas as informações sobre 
+    seu tipo de conteúdo, o que é muito importante para metodologias como BDD 
+    e também dá ao Behat a capacidade de ter recursos de vários idiomas em 
+    uma suíte.    
