@@ -229,93 +229,102 @@ O cenário que realmente é executado é:
 Contexto
 --------
 
-Backgrounds allows you to add some context to all scenarios in a single
-feature. A Background is like an untitled scenario, containing a number of
-steps. The difference is when it is run: the background is run *before each* of
-your scenarios, but after your ``BeforeScenario`` hooks (:doc:`/guides/3.hooks`).
+Contexto permite a você adicionar algum contexto a todos os cenários em 
+um único recurso. Um Contexto é como um Cenário sem título, que contém
+uma série de etapas. A diferença ocorre quando ele é executado: o 
+contexto está executando *antes de cada* um de seus cenários, mas depois 
+dos seus hooks ``BeforeScenario`` (:doc:`/guides/3.hooks`).
 
 .. code-block:: gherkin
 
-    Feature: Multiple site support
+    # language: pt
+    Funcionalidade: Suporte a múltiplos sites
+    
+    Contexto: 
+        Dado um administrador global chamado "Greg"
+        E um blog chamado "Greg esbraveja contra impostos"
+        E um cliente chamado "Wilson"
+        E um blog chamado "Terapia Cara" de própriedade de "Wilson"
+    
+    Cenário: Wilson posta em seu próprio blog
+        Dado que eu esteja logado como Wilson
+        Quando eu tentar postar em "Terapia Cara"
+        Então eu devo ver "Seu artigo foi publicado."
 
-      Background:
-        Given a global administrator named "Greg"
-        And a blog named "Greg's anti-tax rants"
-        And a customer named "Wilson"
-        And a blog named "Expensive Therapy" owned by "Wilson"
+    Cenário: Greg posta no blog de um cliente
+        Dado que eu esteja logado como Greg
+        Quando eu tentar postar em "Terapia Cara"
+        Então eu devo ver "Seu artigo foi publicado"
 
-      Scenario: Wilson posts to his own blog
-        Given I am logged in as Wilson
-        When I try to post to "Expensive Therapy"
-        Then I should see "Your article was published."
 
-      Scenario: Greg posts to a client's blog
-        Given I am logged in as Greg
-        When I try to post to "Expensive Therapy"
-        Then I should see "Your article was published."
+Etapas
+------
 
-Steps
------
+`Funcionalidades`_ consiste em etapas, também conhecido como `Dado`_, 
+`Quando`_ e ``Então_.
 
-`Features`_ consist of steps, also known as `Givens`_, `Whens`_ and `Thens`_.
+O Behat não tem uma distinção técnica entre estes três tipos de etapas.
+Contudo, nós recomendamos fortemente que você faça! Estas palavras
+foram cuidadosamente selecionadas para o seus propósito e você deve
+saber que o objetivo é entrar na mentalidade BDD.
 
-Behat doesn't technically distinguish between these three kind of steps.
-However, we strongly recommend that you do! These words have been carefully
-selected for their purpose and you should know what the purpose is to get into
-the BDD mindset.
+Robert C. Martin escreveu um 
+`ótimo post <https://sites.google.com/site/unclebobconsultingllc/the-truth-about-bdd>`_ 
+sobre o conceito de BDD Dado-Quando-Então onde ele pensa neles como uma 
+máquina de estados finitos.
 
-Robert C. Martin has written a
-`great post <https://sites.google.com/site/unclebobconsultingllc/the-truth-about-bdd>`_
-about BDD's Given-When-Then concept where he thinks of them as a finite state
-machine.
+Dado
+~~~~
 
-Givens
-~~~~~~
+O propósito da etapa **Dado** é **colocar o sistema em um estado conhecido** 
+antes do usuário (ou sistema externo) iniciar a interalção com o sistema
+(na etapa Quando). Evite falar sobre a interação em Dado. Se você trabalhou
+com casos de uso, Dado é a sua pré condição.
 
-The purpose of the **Given** steps is to **put the system in a known state** before
-the user (or external system) starts interacting with the system (in the When
-steps). Avoid talking about user interaction in givens. If you have worked with
-use cases, givens are your preconditions.
+.. sidebar:: Exemplos de Dado
 
-.. sidebar:: Given Examples
+    Dois bons exemplos do uso de **Dado** são:
 
-    Two good examples of using **Givens** are:
+    * Crear 
 
-    * To create records (model instances) or set up the database:
-
-      .. code-block:: gherkin
-
-          Given there are no users on site
-          Given the database is clean
-
-    * Authenticate a user (an exception to the no-interaction recommendation.
-      Things that "happened earlier" are ok):
+    * Para criar registros (instâncias de modelo) ou de configuração do 
+    banco de dados:
 
       .. code-block:: gherkin
 
-          Given I am logged in as "Everzet"
+          Dado que não tenha usuários no site
+          Dado que o banco de dados esteja limpo
+
+    * Autenticar um usuário (uma exceção para )
+
+    * Autenticar um usuário (uma exceção a recomendação não-interação 
+    Coisas que "aconteceram antes" estão ok.):
+
+      .. code-block:: gherkin
+
+          Dado que eu esteja logado como "Everzet"
 
 .. tip::
 
-    It's OK to call into the layer "inside" the UI layer here (in Symfony: talk
-    to the models).
+    Tudo bem chamar a camada de "dentro" da camada de interface do 
+    usuário aqui (em Symfony: falar com os modelos).
 
-.. sidebar:: Using Givens as Data Fixtures
+.. sidebar:: Usando Dado como massa de dados:
 
-    If you use ORMs like Doctrine or Propel, we recommend using a Given step
-    with a `tables`_ argument to set up records instead of fixtures. This
-    way you can read the scenario all in one place and make sense out of it
-    without having to jump between files:
+    Se você usa ORMs como Doctrine ou Propel, nós recomendamos a utilização
+    de uma etapa Dado com o argumento `tabela`_ para configurar registros 
+    em vez de objetos. Neste caminho você pode ler todos os cenários em um
+    único lugar e fazer sentido fora dele sem ter que saltar entre arquivos: 
 
     .. code-block:: gherkin
 
-        Given there are users:
+        Dado estes usuários:
         | username | password | email               |
         | everzet  | 123456   | everzet@knplabs.com |
         | fabpot   | 22@222   | fabpot@symfony.com  |
 
-Whens
-~~~~~
+Quando
+~~~~~~
 
 The purpose of **When** steps is to **describe the key action** the user
 performs (or, using Robert C. Martin's metaphor, the state transition).
