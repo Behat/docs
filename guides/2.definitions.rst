@@ -98,38 +98,42 @@ Vamos dar uma olhada neste código:
    capturados e passados ao método argumento com o mesmo nome (``$argumentoDoMetodo``).
 
 .. note::
+    
+    Note que o bloco de comentário inicia com ``/**``, e não o usual ``/*``.
+    Isto é importante para o Behat ser capaz de analisar tais comentários como anotações!
 
-    Notice the comment block starts with ``/**``, and not the usual ``/*``.
-    This is important for Behat to be able to parse such comments as annotations!
-
-As you have probably noticed, this pattern is quite general and its corresponding
-method will be called for steps that contain ``... I do something with ...``,
-including:
+Como você já deve ter notado, este padrão é bastante geral e seu método 
+correspondente será chamado pelas etapas que contenham 
+``...eu fizer algo com...``, incluindo:
 
 .. code-block:: gherkin
 
-    Given I do something with "string1"
-    When I do something with 'some other string'
-    Then I do something with 25
+    Given eu fizer algo com "string1"
+    When eu fizer algo com 'alguma outra string'
+    Then eu fizer algo com 25
 
-The only real difference between those steps in the eyes of Behat is the
-captured token text. This text will be passed to the step's corresponding
-method as an argument value. In the example above,
-``FeatureContext::someMethod()`` will be called three times, each time with
-a different argument:
+A única diferença real entre essa etapa aos olhos do Behat é o 
+texto token capturado. Este texto será passado para as etapas 
+do método ao correspondente valor de argumento. No exemplo acima, 
+``FeatureContext::algumMetodo()`` vai ser chamado três vezes,
+em cada vez com um argumento diferente:
 
-#. ``$context->someMethod($methodArgument = 'string1');``.
+#. ``$context->algumMetodo($argumentoDoMetodo = 'string1');``.
 
-#. ``$context->someMethod($methodArgument = 'some other string');``.
+#. ``$context->algumMetodo($argumentoDoMetodo = 'alguma outra string');``.
 
-#. ``$context->someMethod($methodArgument = '25');``.
+#. ``$context->algumMetodo($argumentoDoMetodo = '25');``.
 
 .. note::
 
-    A pattern can't automatically determine the datatype of its matches, so
-    all method arguments coming from step definitions are passed as strings.
-    Even if your pattern matches "500", which could be considered an integer,
-    '500' will be passed as a string argument to the step definition's method.
+    Um padrão não pode determinar automaticamente o tipo de dados de 
+    suas correspondências, então todos os argumentos dos métodos vem
+    para o step definitions passados como strings. Até mesmo que seu 
+    padrão corresponda a "500", que pode ser considerado como um 
+    inteiro, '500' será passado como um argumento string para o 
+    método step definitions.
+
+
 
     This is not a feature or limitation of Behat, but rather the inherent way
     string matching works. It is your responsibility to cast string arguments
