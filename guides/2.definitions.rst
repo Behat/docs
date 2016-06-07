@@ -1,40 +1,40 @@
-Defining Reusable Actions
-=========================
+Definindo Ações Reutilizáveis
+=============================
 
-:doc:`Gherkin language</guides/1.gherkin>` provides a way to describe your
-application behavior in business understandable language. But how do you test
-that the described behavior is actually implemented? Or that the application
-satisfies your business expectations as described in the feature scenarios?
-Behat provides a way to map your scenario steps (actions) 1-to-1 with actual
-PHP code called step definitions:
+:doc:`Gherkin language</guides/1.gherkin>` fornece uma maneira para descrever
+o comportamento da sua aplicação em uma linguagem de negócios compreensível.
+Mas como você testa se o comportamento descrito realmente é implementado?
+Ou se esta aplicação satisfaz as expectativas de negócios descritas nos
+cenários da funcionalidade? O Behat provê uma maneira para mapear suas
+etapas de cenário (ações) 1-a-1 com o código PHP chamado na step definitions:
 
 .. code-block:: php
 
     /**
-     * @When I do something with :argument
+     * @When eu fizer algo com :argumento
      */
-    public function iDoSomethingWith($argument)
+    public function euFizerAlgoCom($argumento)
     {
-        // do something with $argument
+        // fazer algo com o $argumento
     }
 
-Definitions Home - ``FeatureContext`` Class
--------------------------------------------
+A Casa das Definições - A Classe ``FeatureContext``
+---------------------------------------------------
 
-Step definitions are just normal PHP methods. They are instance methods in
-a special class called :doc:`FeatureContext</guides/4.contexts>`. This class
-can be easily created by running ``behat`` with the ``--init`` command from
-your project's directory:
+As step definitions são apenas métodos normais de PHP. Eles são métodos 
+de instâncias de em uma classe especial chamada :doc:`FeatureContext</guides/4.contexts>`.
+Esta classe pode ser facilmente criada executando ``behat`` com o comando 
+``--init`` do diretório do seu projeto:
 
 .. code-block:: bash
 
     $ vendor/bin/behat --init
 
-After you run this command, Behat will set up a ``features`` directory
-inside your project:
+Depois de você executar este comando, o Behat vai configurar um diretório
+``features`` dentro do seu projeto:
 
-The newly created ``features/bootstrap/FeatureContext.php`` will have
-an initial context class to get you started:
+A recentemente criara ``features/bootstrap/FeatureContext.php`` terá
+uma classe contexto inicial para você começar:
 
 .. code-block:: php
 
@@ -54,45 +54,48 @@ an initial context class to get you started:
         }
     }
 
-All step definitions and :doc:`hooks</guides/3.hooks>` necessary for
-testing your project against your features will be represented as methods inside
-this class.
+Todas step definitions e :doc:`hooks</guides/3.hooks>` necessárias 
+para testar seu projeto contra suas funcionalidades serão 
+representadas por métodos dentro desta classe.
 
-Creating Your First Step Definition
------------------------------------
+Criando Sua Primeira Step Definition
+------------------------------------
 
-The main goal for a step definition is to be executed when Behat sees its matching
-step in executed scenario. However, just because a method exists within ``FeatureContext``
-doesn't mean Behat can find it. Behat needs a way to check that a concrete class
-method is suitable for a concrete step in a scenario. Behat matches
-``FeatureContext`` methods to step definitions using pattern matching.
+O principal objetivo da step definition é ser executada quando o 
+Behat vê a sua etapa correspondente no cenário de execução. Contudo, 
+não é apenas porque um método existe em ``FeatureContext`` que o Behat
+irá encontrá-lo. O Behat precisa de uma forma de verificar se um 
+método de classe concreta é adequado para uma etapa concreta em um 
+cenário. O Behat corresponde os métodos do ``FeatureContext`` com a 
+step definitions utilizando correspondência padrão.
 
-When Behat runs, it compares lines of Gherkin steps from each scenario to the
-patterns bound to each method in your ``FeatureContext``. If the line of Gherkin
-satisfies a bound pattern, its corresponding step definition is executed. It's
-that simple!
+Quando o Behat é executado, ele compara as linhas de etapas do Gherkin 
+de cada cenário com os padrões vinculados a cada método em seu 
+`` FeatureContext``. Se a linha do Gherkin satisfaz o padrão vinculado, 
+a sua step definition correspondente é executada. Simples assim!
 
-Behat uses php-doc annotations to bind patterns to ``FeatureContext`` methods:
+O Behat utiliza anotações php-doc para vincular padrões com os métodos
+do ``FeatureContext``:
 
 .. code-block:: php
 
     /**
-     * @When I do something with :methodArgument
+     * @When eu fizer algo com :argumentoDoMetodo
      */
-    public function someMethod($methodArgument) {}
+    public function algumMetodo($argumentoDoMetodo) {}
 
-Let's take a closer look at this code:
+Vamos dar uma olhada neste código:
 
-#. ``@When`` is a definition keyword. There are 3 supported keywords in
-   annotations: ``@Given``/``@When``/``@Then``. These three definition keywords
-   are actually equivalent, but all three are available so that your step
-   definition remains readable.
+#. ``@When`` é uma palavra chave definida. Há 3 palavras-chave suportadas
+   em anotações: ``@Given``/``@When``/``@Then``. Estas três palavras-chave 
+   de definição atualmente são equivalentes, mas todas as três permanecem
+   disponíveis para que a sua step definition permaneça legível.
 
-#. The text after the keyword is the step text pattern (e.g.
-   ``I do something with :methodArgument``).
+#. O texto depois da palavra-chave é a etapa texto padrão(por exemplo:
+   ``eu fizer algo com :argumentoDoMetodo``).
 
-#. All token values of the pattern (e.g. ``:methodArgument``) will be captured
-   and passed to the method argument with the same name (``$methodArgument``).
+#. Todos os valores token do padrão (por exemplo ``:argumentoDoMetodo``) são 
+   capturados e passados ao método argumento com o mesmo nome (``$argumentoDoMetodo``).
 
 .. note::
 
