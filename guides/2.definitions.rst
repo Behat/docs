@@ -133,99 +133,105 @@ em cada vez com um argumento diferente:
     inteiro, '500' será passado como um argumento string para o 
     método step definitions.
 
+    Isto não é uma funcionalidade ou limitação do Behat, mas sim
+    uma forma inerente da string corresponder. É sua responsabilidade
+    converter os arumentos string para inteiro, ponto flutuante ou 
+    booleano onde for aplicável dado o código que você está testando. 
 
-
-    This is not a feature or limitation of Behat, but rather the inherent way
-    string matching works. It is your responsibility to cast string arguments
-    to integers, floats or booleans where applicable given the code you are
-    testing.
-
-    Casting arguments to specific types can be accomplished using
-    `step argument transformations`_.
+    A conversão de argumentos para tipos específicos pode ser
+    feita usando `step argument transformations`_.
 
 .. note::
 
-    Behat does not differentiate between step keywords when matching patterns
-    to methods. So a step defined with ``@When`` could also be matched to
-    ``@Given ...``, ``@Then ...``, ``@And ...``, ``@But ...``, etc.
+    O Behat não diferencia palavras-chave da etapa quando corresponde 
+    padrões para métodos. Assim uma etapa definida com ``@When``
+    também poderia ser correspondida com ``@Given ...``, ``@Then ...``, 
+    ``@And ...``, ``@But ...``, etc.
 
-Your step definitions can also define multiple arguments to pass to its matching
-``FeatureContext`` method:
-
-.. code-block:: php
-
-    /**
-     * @When I do something with :stringArgument and with :numberArgument
-     */
-    public function someMethod($stringArgument, $numberArgument) {}
-
-You can also specify alternative words and optional parts of words, like this:
+Sua step definitions também pode definir argumentos múltiplos argumentos 
+para passar para o método ``FeatureContext`` correspondente:
 
 .. code-block:: php
 
     /**
-     * @When there is/are :count monster(s)
+     * @When eu fizer algo com :argumentoString e com :argumentoNumero
      */
-    public function thereAreMonsters($count) {}
+    public function algumMetodo($argumentoString, $argumentoNumero) {}
 
-If you need to come up with a much more complicated matching algorithm, you can
-always use good old regular expressions:
+Você também pode especificar palavras alternativas e partes opcionais 
+de palavras, como esta:
 
 .. code-block:: php
 
     /**
-     * @When /^there (?:is|are) (\d+) monsters?$/i
+     * @When aqui esta/estao :contador monstro(s)
      */
-    public function thereAreMonsters($count) {}
+    public function aquiEstaoMonstros($contador) {}
 
-Definition Snippets
--------------------
+Se você precisa de um algoritimo de correspondência muito mais 
+complicado, você sempre pode usar a boa e velha expressão regular:
 
-You now know how to write step definitions by hand, but writing all these
-method stubs, annotations and patterns by hand is tedious. Behat makes
-this routine task much easier and fun by generating definition snippets for
-you! Let's pretend that you have this feature:
+.. code-block:: php
+
+    /**
+     * @When /^aqui (?:esta|estao) (\d+) monstros?$/i
+     */
+    public function aquiEstaoMonstros($contador) {}
+
+Definição de Fragmentos
+-----------------------
+
+Agora você sabe como escrever step definitions à mão, mas escrever
+todos estes métodos raiz, anotações e padrões à mão é tedioso. O
+Behat faz esta tarefa rotineira muito fácil e divertido com a 
+geração de Definição de Fragmentos para você! Vamos fingir que 
+você tenha esta funcionalidade:
 
 .. code-block:: gherkin
 
-    Feature:
-      Scenario:
-        Given some step with "string" argument
-        And number step with 23
+    Funcionalidade:
+      Cenário:
+        Dado alguma etapa com um argumento "string"
+        E uma etapa com número 23
 
-If your context class implements ``Behat\Behat\Context\SnippetAcceptingContext``
-interface and you test a feature with missing steps in Behat:
-
-.. code-block:: bash
-
-    $ vendor/bin/behat features/example.feature
-
-Behat will provide auto-generated snippets for your context class.
-
-It not only generates the proper definition annotation type (``@Given``), but
-also a proper pattern with tokens capturing (``:arg1``, ``:arg2``), method
-name (``someStepWithArgument()``, ``numberStepWith()``) and arguments (
-``$arg1``, ``$arg2``), all based just on the text of the step. Isn't that cool?
-
-The only thing left for you to do is to copy these method snippets into your
-``FeatureContext`` class and provide a useful body for them. Or even better,
-run behat with ``--append-snippets`` option:
+Se a sua classe contexto implementa a interface 
+``Behat\Behat\Context\SnippetAcceptingContext`` e você testa uma 
+funcionalidade com etapas em falta no Behat:
 
 .. code-block:: bash
 
-    $ vendor/bin/behat features/example.feature --dry-run --append-snippets
+    $ vendor/bin/behat features/exemplo.feature
 
-``--append-snippets`` tells Behat to automatically add snippets inside your
-context class.
+O Behat vai providenciar fragmentos gerados automaticamente para 
+sua classe contexto.
+
+Ele não somente gera o tipo de definição adequada (``@Given``), 
+mas também propõe um padrão com o token capturado (``:arg1``, 
+``:arg2``), nome do método (``algumaEtapaComUmArgumento()``, 
+``umaEtapaComNumero()``) e argumentos (``$arg1``, ``$arg2``), 
+todos baseados no texto da etapa. não é legal?
+
+A única coisa que falta para você fazer é copiar estes fragmentos 
+de métodos para a sua classe ``FeatureContext`` e fornecer um 
+corpo útil para eles. Ou melhor ainda, executar o behat com a
+opção ``--append-snippets``:
+
+.. code-block:: bash
+
+    $ vendor/bin/behat features/exemplo.feature --dry-run --append-snippets
+
+``--append-snippets`` diz ao behat para automaticamente adicionar
+fragmentos dentro de sua classe contexto.
 
 .. note::
 
-    Implementing the ``SnippetAcceptingContext`` interface tells Behat that
-    your context is expecting snippets to be generated inside it. Behat will
-    generate simple pattern snippets for you, but if regular expressions
-    are your thing, Behat can generate them instead if you implement
-    ``Behat\Behat\Context\CustomSnippetAcceptingContext`` interface instead
-    and add ``getAcceptedSnippetType()`` method returning string ``"regex"``:
+    A implementação da interface ``SnippetAcceptingContext`` diz 
+    ao Behat que seu contexto espera fragmentos a serem gerados 
+    no seu interior. O Behat vai gerar padrões simples de fragmentos 
+    para você, mas se a sua for uma expressão regular, o Behat pode
+    gerar ao invés de você, se você implementar a interface 
+    ``Behat\Behat\Context\CustomSnippetAcceptingContext`` e adicionar
+    o método ``getAcceptedSnippetType()`` irá retornar a string ``"regex"``:
 
     .. code-block:: php
 
@@ -234,79 +240,41 @@ context class.
             return 'regex';
         }
 
-Step Execution Result Types
----------------------------
+Tipos de resultado da execução da etapa
+---------------------------------------
 
-Now you know how to map actual code to PHP code that will be executed. But
-how can you tell what exactly "failed" or "passed" when executing a step?
-And how does Behat actually check that a step executed properly?
+Agora você sabe como mapear o código atual do PHP que vai ser 
+executado. Mas como você pode falar exatamente o que "falhou" 
+ou "passou" quando executou uma etapa? E como atualmente o 
+Behat verifica se um passo é executado corretamente?
 
-For that, we have step execution types. Behat differentiates between seven
-types of step execution results: "`Successful Steps`_", "`Undefined Steps`_",
-"`Pending Steps`_", "`Failed Steps`_", "`Skipped Steps`_", "`Ambiguous Steps`_"
-and "`Redundant Step Definitions`_".
+Para isto, nós temos tipos de execução de etapa . O Behat 
+diferencia sete tipos de resultados de execuções de etapa: 
+"`Successful Steps`_", "`Undefined Steps`_",
+"`Pending Steps`_", "`Failed Steps`_", "`Skipped Steps`_", 
+"`Ambiguous Steps`_" e "`Redundant Step Definitions`_".
 
-Let's use our previously introduced feature for all the following examples:
+Vamos usar nossa funcionalidade introduzida anteriormente 
+para todos os exemplos a seguir:
 
 .. code-block:: gherkin
 
-    # features/example.feature
-    Feature:
-      Scenario:
-        Given some step with "string" argument
-        And number step with 23
+    # features/exemplo.feature
+    Funcionalidade:
+      Cenário:
+        Dado alguma etapa com um argumento "string"
+        E uma etapa com número 23
 
 Successful Steps
 ~~~~~~~~~~~~~~~~
 
-When Behat finds a matching step definition it will execute it. If the
-definition method does **not** throw any ``Exception``, the step is marked
-as successful (green). What you return from a definition method has no
-effect on the passing or failing status of the definition itself.
+Quando o Behat encontra uma step definition correspondente 
+ele vai executá-la. Se o método definido **not** joga nenhuma 
+``Exceção``, a etapa é marcada como bem sucedida (verde). 
+O que você retornar de um método de definição não tem efeito 
+sobre o status de aprovação ou reprovação do próprio.
 
-Let's pretend our context class contains the code below:
-
-.. code-block:: php
-
-    // features/bootstrap/FeatureContext.php
-
-    use Behat\Behat\Context\Context;
-
-    class FeatureContext implements Context
-    {
-        /** @Given some step with :argument1 argument */
-        public function someStepWithArgument($argument1)
-        {
-        }
-
-        /** @Given number step with :argument1 */
-        public function numberStepWith($argument1)
-        {
-        }
-    }
-
-When you run your feature, you'll see all steps passed and are marked as
-green. That's simply because no exceptions were thrown during their
-execution.
-
-.. note::
-
-    Passed steps are always marked as **green** if colors are supported by
-    your console.
-
-.. tip::
-
-    Enable the "posix" PHP extension in order to see colorful Behat output.
-    Depending on your Linux, Mac OS or other Unix system it might be part
-    of the default PHP installation or a separate ``php5-posix`` package.
-
-Undefined Steps
-~~~~~~~~~~~~~~~
-
-When Behat cannot find a matching definition, the step is marked as
-**undefined**, and all subsequent steps in the scenarios are **skipped**.
-
-Let's pretend we have an empty context class:
+Vamos simular que nossa classe contexto contenha o código abaixo:
 
 .. code-block:: php
 
@@ -316,26 +284,70 @@ Let's pretend we have an empty context class:
 
     class FeatureContext implements Context
     {
+        /** @Given alguma etapa com um argumento :argumento1 */
+        public function algumaEtapaComUmArgumento($argumento1)
+        {
+        }
+
+        /** @Given uma etapa com numero :argumento1 */
+        public function umaEtapaComNumero($argumento1)
+        {
+        }
     }
 
-When you run your feature, you'll get 2 undefined steps that are marked
-yellow.
+Quando você executar sua funcionalidade, você vai ver todas as 
+etapas passadas serem marcadas de verde. Isso simplesmente porque
+não foram lançadas exceções durante a sua execução.
 
 .. note::
 
-    Undefined steps are always marked as **yellow** if colors are supported by
-    your console.
+    Etapas passadas sempre são marcadas de **verde** se o seu console
+    suportar cores.
 
-.. note::
-
-    All steps following an undefined step are not executed, as the
-    behavior following it is unpredictable. These steps are marked as
-    **skipped** (cyan).
 
 .. tip::
 
-    If you use the ``--strict`` option with Behat, undefined steps will cause
-    Behat to exit with ``1`` code.
+    Habilite a extensão PHP "posix" para ver a saída colorida do Behat.
+    Dependendo do seu Linux, Mac OS ou outro sistema Unix pode fazer 
+    parte da instalação padrão do PHP ou um pacote ``php5-posix`` a parte.
+
+Etapas Indefinidas
+~~~~~~~~~~~~~~~~~~
+
+Quando o Behat não pode achar uma definição correspondente, a etapa
+é marcada como **indefinida**, e todas as etapas subsequentes do cenário
+são **ignoradas**.
+
+Vamos supor que temos uma classe contexto vaiza:
+
+.. code-block:: php
+
+    // features/bootstrap/FeatureContext.php
+
+    use Behat\Behat\Context\Context;
+
+    class FeatureContext implements Context
+    {
+    }
+
+Quando você executar a sua funcionalidade, você terá 2 etapas 
+indefinidas marcadas de amarelo.
+
+.. note::
+
+    Etapas indefinidas sempre são marcadas de **amarelo** se 
+    o seu console suportar cores.
+
+.. note::
+
+    Todas as etapas seguintes de uma etapa indefinida não são 
+    executadas, como o seguinte comportamento é imprevisível. 
+    Estas etapas são marcadas como **ignoradas** (ciano).
+
+.. tip::
+
+    Se você usar a opção ``--strict`` com o Behat, etapas não 
+    definidas vão fazer o Behat sair o código ``1``.
 
 Pending Steps
 ~~~~~~~~~~~~~
