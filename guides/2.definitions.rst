@@ -349,14 +349,14 @@ indefinidas marcadas de amarelo.
     Se você usar a opção ``--strict`` com o Behat, etapas não 
     definidas vão fazer o Behat sair o código ``1``.
 
-Pending Steps
-~~~~~~~~~~~~~
+Etapas Pendentes
+~~~~~~~~~~~~~~~~
 
-When a definition method throws a
-``Behat\Behat\Tester\Exception\PendingException`` exception, the step is
-marked as **pending**, reminding you that you have work to do.
+Quando uma definição de um método lança uma exceção 
+``Behat\Behat\Tester\Exception\PendingException``, a etapa
+é marcada como **pendente**, lembrando que você tem trabalho a fazer.
 
-Let's pretend your ``FeatureContext`` looks like this:
+Vamos supor que sua ``FeatureContext`` se pareça com isto:
 
 .. code-block:: php
 
@@ -367,47 +367,50 @@ Let's pretend your ``FeatureContext`` looks like this:
 
     class FeatureContext implements Context
     {
-        /** @Given some step with :argument1 argument */
-        public function someStepWithArgument($argument1)
+        /** @Given alguma etapa com um argumento :argumento1 */
+        public function algumaEtapaComUmArgumento($argumento1)
         {
-            throw new PendingException('Do some string work');
+            throw new PendingException('Fazer algum trabalho de string');
         }
 
-        /** @Given number step with :argument1 */
-        public function numberStepWith($argument1)
+        /** @Given uma etapa com numero :argumento1 */
+        public function umaEtapaComNumero($argumento1)
         {
-            throw new PendingException('Do some number work');
+            throw new PendingException('Fazer algum trabalho de numero');
         }
     }
 
-When you run your feature, you'll get 1 pending step that is marked yellow and
-one step following it that is marked cyan.
+Quando você executar sua funcionalidade, você terá 1 etapa 
+pendente marcada de amarelo e uma etapa seguinte que é marcada
+de ciano.
 
 .. note::
 
-    Pending steps are always marked as **yellow** if colors are supported by
-    your console, because they are logically similar to **undefined** steps.
+    Etapas pendentes sempre são marcadas de **amarelo** se o
+    seu console suportar cores, porque são logicamente semelhante 
+    aos passos **indefinidos**
 
 .. note::
 
-    All steps following a pending step are not executed, as the
-    behavior following it is unpredictable. These steps are marked as
-    **skipped**.
+    Todas as etapas seguintes a uma etapa pendente não são 
+    executadas, como o comportamento seguinte é imprevisível.
+    Essas etapas são marcadas como **ignoradas**
 
 .. tip::
 
-    If you use ``--strict`` option with Behat, pending steps will cause Behat
-    to exit with ``1`` code.
+    Se você usar a opção ``--strict`` com o Behat, etapas não 
+    definidas vão fazer o Behat sair o código ``1``.
 
-Failed Steps
-~~~~~~~~~~~~
+Etapas Falhas
+~~~~~~~~~~~~~
 
-When a definition method throws any ``Exception`` (except ``PendingException``)
-during execution, the step is marked as **failed**. Again, what you return from a
-definition does not affect the passing or failing of the step. Returning ``null``
-or ``false`` will not cause a step to fail.
+Quando uma definição de um método lança uma ``Exceção`` (exceto 
+``PendingException``) durante a execução, a etapa é marcada como
+**falha**. Novamente, o que você retornar de uma definição não 
+afeta a passagem ou falha da etapa. Retornando ``null`` ou 
+``false`` não vai causar a falha da etapa.
 
-Let's pretend, that your ``FeatureContext`` has following code:
+Vamos supor, que sua ``FeatureContext`` possua o seguinte código:
 
 .. code-block:: php
 
@@ -417,114 +420,84 @@ Let's pretend, that your ``FeatureContext`` has following code:
 
     class FeatureContext implements Context
     {
-        /** @Given some step with :argument1 argument */
-        public function someStepWithArgument($argument1)
+        /** @Given alguma etapa com um argumento :argumento1 */
+        public function algumaEtapaComUmArgumento($argumento1)
         {
-            throw new Exception('some exception');
+            throw new Exception('alguma exceção');
         }
 
-        /** @Given number step with :argument1 */
-        public function numberStepWith($argument1)
+        /** @Given uma etapa com numero :argumento1 */
+        public function umaEtapaComNumero($argumento1)
         {
         }
     }
 
-When you run your feature, you'll get 1 failing step that is marked red and
-it will be followed by 1 skipped step that is marked cyan.
+Quando você executar sua funcionalidade, você terá 1 etapa falha
+marcada de vermelho e será seguida de uma etapa ignorada marcada
+de ciano.
 
 .. note::
 
-    Failed steps are always marked as **red** if colors are supported by
-    your console.
+    Etapas falhas são marcadas de **vermelho** se o seu console suportar cores.
 
 .. note::
 
-    All steps within a scenario following a failed step are not executed, as the
-    behavior following it is unpredictable. These steps are marked as
-    **skipped**.
+    Todas as etapas seguintes a uma etapa pendente não são 
+    executadas, como o comportamento seguinte é imprevisível.
+    Essas etapas são marcadas como **ignoradas**
 
 .. tip::
 
-    If Behat finds a failed step during suite execution, it will exit with
-    ``1`` code.
+    Se você usar a opção ``--strict`` com o Behat, etapas não 
+    definidas vão fazer o Behat sair o código ``1``.
 
 .. tip::
 
-    Behat doesn't come with its own assertion tool, but you can use any proper assertion
-    tool out there. Proper assertion tool is a library, which assertions throw
-    exceptions on fail. For example, if you're familiar with PHPUnit, you can use
-    its assertions in Behat by installing it via composer:
+    O Behat não vem com uma ferramenta própria de asserção, 
+    mas você pode usar qualquer ferramenta de asserção externa.
+    Uma ferramenta própria para asserção é uma biblioteca, na
+    qual asserções lancem exceções em caso de falha. Por exemplo, 
+    se você está familiarizado com o PHPUnit, você pode utilizar 
+    suas asserções no Behat o instalando via composer:
 
     .. code-block:: bash
 
         $ php composer.phar require --dev phpunit/phpunit='~4.1.0'
 
-    and then by simply using assertions in your steps:
+    e então simplesmente utilizar asserções em suas etapas:
 
     .. code-block:: php
 
-        PHPUnit_Framework_Assert::assertCount(intval($count), $this->basket);
+        PHPUnit_Framework_Assert::assertCount(valorInteiro($contador), $this->cesta);
 
 .. tip::
 
-    You can get exception stack trace with ``-vv`` option provided to Behat:
+    Você pode ter uma exceção stack trace com a opção ``-vv`` 
+    fornecido pelo Behat:
 
     .. code-block:: bash
 
-        $ vendor/bin/behat features/example.feature -vv
+        $ vendor/bin/behat features/exemplo.feature -vv
 
-Skipped Steps
-~~~~~~~~~~~~~
+Etapas Ignoradas
+~~~~~~~~~~~~~~~~
 
-Steps that follow **undefined**, **pending** or **failed** steps are never
-executed, even if there is a matching definition. These steps are marked
-**skipped**:
+Etapas que seguem etapas **indefinidas**, **pendentes** ou **falhas** 
+nunca são executadas, mesmo que tenham correspondência definida. 
+Essas etapas são marcadas como **ignoradas**:
 
 .. note::
 
-    Skipped steps are always marked as **cyan** if colors are supported by
-    your console.
+    Etapas ignoradas são marcadas de **ciano** se o seu console 
+    suportar cores.
 
-Ambiguous Steps
+Etapas Ambiguas
 ~~~~~~~~~~~~~~~
 
-When Behat finds two or more definitions that match a single step, this step is
-marked as **ambiguous**.
+Quando o Behat encontra duas ou mais definições correspondentes a 
+uma única etapa, esta etapa é marcada como **ambigua**.
 
-Consider your ``FeatureContext`` has following code:
-
-.. code-block:: php
-
-    // features/bootstrap/FeatureContext.php
-
-    use Behat\Behat\Context\Context;
-
-    class FeatureContext implements Context
-    {
-        /** @Given /^.* step with .*$/ */
-        public function someStepWithArgument()
-        {
-        }
-
-        /** @Given /^number step with (\d+)$/ */
-        public function numberStepWith($argument1)
-        {
-        }
-    }
-
-Executing Behat with this feature context will result in a ``Ambiguous``
-exception being thrown.
-
-Behat will not make a decision about which definition to execute. That's your
-job! But as you can see, Behat will provide useful information to help you
-eliminate such problems.
-
-Redundant Step Definitions
-~~~~~~~~~~~~~~~~~~~~~~~~~~
-
-Behat will not let you define a step expression's corresponding pattern more
-than once. For example, look at the two ``@Given`` patterns defined in this
-feature context:
+Considere que sua ``FeatureContext`` tenha o seguinte código:
 
 .. code-block:: php
 
@@ -534,39 +507,71 @@ feature context:
 
     class FeatureContext implements Context
     {
-        /** @Given /^number step with (\d+)$/ */
-        public function workWithNumber($number1)
+
+        /** @Given /^.* etapa com .*$/ */
+        public function algumaEtapaComUmArgumento()
         {
         }
 
-        /** @Given /^number step with (\d+)$/ */
-        public function workDifferentlyWithNumber($number1)
+        /** @Given /^uma etapa com .*$/ */
+        public function umaEtapaComNumero($argument1)
         {
         }
     }
 
-Executing Behat with this feature context will result in a ``Redundant``
-exception being thrown.
+A execução do Behat com este contexto da funcionalidade irá 
+resultar no lançamento de uma exceção ``Ambigua``.
 
-Step Argument Transformations
------------------------------
+O Behat não vai tomar uma decisão sobre qual definição irá executar. 
+Este é o seu trabalho! Mas como você pode ver, o Behat vai fornecer 
+informações para ajudar você a eliminar o tais problemas.
 
-Step argument transformations allow you to abstract common operations performed
-on step definition arguments into reusable methods. In addition, these methods
-can be used to transform a normal string argument that was going to be used
-as an argument to a step definition method, into a more specific data type
-or an object.
+Step Definitions Redundante
+~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-Each transformation method must return a new value. This value then replaces
-the original string value that was going to be used as an argument to a step
-definition method.
+O Behat não vai deixar você definir uma expressão de etapa correspondente 
+a um padrão mais de uma vez. Por exemplo, olhe para dois padrões definidos 
+``@Given`` em seu contexto de funcionalidade:
 
-Transformation methods are defined using the same annotation style as step
-definition methods, but instead use the ``@Transform`` keyword, followed by
-a matching pattern.
+.. code-block:: php
 
-As a basic example, you can automatically cast all numeric arguments to
-integers with the following context class code:
+    // features/bootstrap/FeatureContext.php
+
+    use Behat\Behat\Context\Context;
+
+    class FeatureContext implements Context
+    {
+        /** @Given /^etapa com numero (\d+)$/ */
+        public function trabalhandoComUmNumero($numero1)
+        {
+        }
+
+        /** @Given /^etapa com numero (\d+)$/ */
+        public function trabalhandoComUmNumeroDiferente($numero1)
+        {
+        }
+    }
+
+Executando o Behat com este contexto de funcionalidade irá resultar no 
+lançamento de uma exceção ``Redundante``.
+
+Transformações da Etapa Argumento
+---------------------------------
+
+Transformações da etapa argumento permite você abstrair operações comuns
+executadas em argumentos no método de definição da etapa, em um dado mais 
+específico ou em um objeto.
+
+Cada método de transformação deve retornar um valor novo. Este valor, em 
+seguida, substitui o valor original da string ele estava sendo utilizado 
+como um argumento para um método de definição da etapa.
+
+Métodos de transformação são definidos utilizando a mesmo estilo de 
+anotação como métodos de definição, mas sim usar a palavra-chave ``@Transform``, 
+seguido de um padrão correspondente.
+
+Como um exemplo básico, você pode automaticamente converter todos os 
+argumentos numericos para inteiro com o seguinte código na classe de contexto:
 
 .. code-block:: php
 
