@@ -1,11 +1,12 @@
-Hooking into the Test Process
-=============================
+Hooking no Processo de Teste
+============================
 
-You've learned :doc:`how to write step definitions </guides/2.definitions>` and
-that with :doc:`Gherkin </guides/1.gherkin>` you can move common steps into a
-background block, making your features DRY. But what if that's not enough? What
-if you want to execute some code before the whole test suite or after a
-specific scenario? Hooks to the rescue:
+Você aprendeu :doc:`como escrever definições de etapas </guides/2.definitions>`
+e que com :doc:`Gherkin </guides/1.gherkin>` você pode mover etapas comuns 
+em um bloco de fundo, e fazer suas funcionalidades DRY - Don't repeat 
+yourself (livre de ambiguidades). Mas e se isso não é suficiente? E se 
+você precisar executar algum código antes de toda a suite de teste ou 
+depois de um cenário específico? Hooks é a salvação:
 
 .. code-block:: php
 
@@ -20,32 +21,33 @@ specific scenario? Hooks to the rescue:
         /**
          * @BeforeSuite
          */
-         public static function prepare(BeforeSuiteScope $scope)
+         public static function preparar(BeforeSuiteScope $scope)
          {
-             // prepare system for test suite
-             // before it runs
+             // preparar o sistema para a suite de teste
+             // antes de executar isto
          }
 
          /**
           * @AfterScenario @database
           */
-         public function cleanDB(AfterScenarioScope $scope)
+         public function limparDB(AfterScenarioScope $scope)
          {
-             // clean database after scenarios,
-             // tagged with @database
+             // limpa a database depois dos cenários,
+             // marcados com @database
          }
     }
 
-Behat Hook System
------------------
+Sistema de Hook Behat
+---------------------
 
-Behat provides a number of hook points which allow us to run arbitrary
-logic at various points in the Behat test cycle. Hooks are a lot like
-step definitions or transformations - they are just simple methods
-with special annotations inside your context classes. There is no
-association between where the hook is defined and which node it is run
-for, but you can use tagged or named hooks if you want more fine grained
-control.
+O Behat fornece um número de pontos de hook que nos permitem executar 
+a lógica arbitrária em vários pontos no ciclo de teste Behat. Hooks 
+são muito parecidos com definições de etapas ou transformações - eles 
+são métodos simples com anotações especiais dentro de suas classes de 
+contexto. Não há associação entre o local onde o hook é definido e qual 
+nó é executado, mas você pode usar tags ou hooks nomeados se você quiser 
+um controle mais refinado.
+
 
 All defined hooks are run whenever the relevant action occurs. The action
 tree looks something like this:
