@@ -584,31 +584,31 @@ argumentos numericos para inteiro com o seguinte código na classe de contexto:
         /**
          * @Transform /^(\d+)$/
          */
-        public function castStringToNumber($string)
+        public function converteStringParaNumero($string)
         {
             return intval($string);
         }
 
         /**
-         * @Then a user :name, should have :count followers
+         * @Then um usuario :nome, deve ter :contador seguidores
          */
-        public function assertUserHasFollowers($name, $count)
+        public function confirmaUsuarioTemSeguidores($nome, $contador)
         {
-            if ('integer' !== gettype($count)) {
-                throw new Exception('Integer expected');
+            if ('inteiro' !== gettype($contador)) {
+                throw new Exception('Um número inteiro é esperado');
             }
         }
     }
 
 .. note::
 
-    In the same way as with step definitions, you can use both simple patterns and
-    regular expressions.
+    Assim como em definições de etapa, você também pode usar ambos 
+    os simples padrões e expressões regulares.
 
-Let's go a step further and create a transformation method that takes an
-incoming string argument and returns a specific object. In the following
-example, our transformation method will be passed a username, and the method
-will create and return a new ``User`` object:
+Vamos a uma etapa mais distante e criar um método de transformação 
+que pegue um argumento string de entrada e retorne um objeto específico. 
+No exemplo a seguir, nosso método de transformação vai passar um nome 
+de usuário e o método vai criar e retornar um novo objeto ``Usuario``:
 
 .. code-block:: php
 
@@ -619,43 +619,43 @@ will create and return a new ``User`` object:
     class FeatureContext implements Context
     {
         /**
-         * @Transform :user
+         * @Transform :usuario
          */
-        public function castUsernameToUser($user)
+        public function converteNomeDeUsuarioEmUmUsuario($usuario)
         {
-            return new User($user);
+            return new Usuario($usuario);
         }
 
         /**
-         * @Then a :user, should have :count followers
+         * @Then um :usuario, deve ter :contador seguidores
          */
-        public function assertUserHasFollowers(User $user, $count)
+        public function confirmaUsuarioTemSeguidores(Usuario $usuario, $contador)
         {
-            if ('integer' !== gettype($count)) {
-                throw new Exception('Integer expected');
+            if ('integer' !== gettype($contador)) {
+                throw new Exception('Um número inteiro é esperado');
             }
         }
     }
 
-Transforming Tables
-~~~~~~~~~~~~~~~~~~~
+Transformando Tabelas
+~~~~~~~~~~~~~~~~~~~~~
 
-Let's pretend we have written the following feature:
+Vamos supor que nós escrevemos a seguinte funcionalidade:
 
 .. code-block:: gherkin
 
     # features/table.feature
-    Feature: Users
+    Funcionalidade: Usuários
 
-      Scenario: Creating Users
-        Given the following users:
-          | name          | followers |
-          | everzet       | 147       |
-          | avalanche123  | 142       |
-          | kriswallsmith | 274       |
-          | fabpot        | 962       |
+      Cenário: Criando Usuários
+        Dado os seguintes usuários:
+          | nome          | seguidores |
+          | everzet       | 147        |
+          | avalanche123  | 142        |
+          | kriswallsmith | 274        |
+          | dgosantos89   | 962        |
 
-And our ``FeatureContext`` class looks like this:
+E nossa classe ``FeatureContext`` parecida com esta:
 
 .. code-block:: php
 
@@ -667,33 +667,35 @@ And our ``FeatureContext`` class looks like this:
     class FeatureContext implements Context
     {
         /**
-         * @Given the following users:
+         * @Given os seguintes usuarios:
          */
-        public function pushUsers(TableNode $usersTable)
+        public function incluiUsuarios(TableNode $tabelaUsuarios)
         {
             $users = array();
-            foreach ($usersTable as $userHash) {
-                $user = new User();
-                $user->setUsername($userHash['name']);
-                $user->setFollowersCount($userHash['followers']);
-                $users[] = $user;
+            foreach ($tabelaUsuarios as $hashUsuario) {
+                $usuario = new Usuario();
+                $usuario->colocaNomeUsuario($hashUsuario['nome']);
+                $usuario->colocaContadorDeSeguidores($hashUsuario['seguidores']);
+                $usuarios[] = $usuario;
             }
 
-            // do something with $users
+            // fazer a mesma coisa com $usuarios
         }
     }
 
-A table like this may be needed in a step testing the creation of the
-``User`` objects themselves, and later used again to validate other parts of
-our codebase that depend on multiple ``User`` objects that already exist.
-In both cases, our transformation method can take our table of usernames and
-follower counts and build dummy ``User`` objects. By using a transformation
-method we have eliminated the need to duplicate the code that creates our
-``User`` objects, and can instead rely on the transformation method each time
-this functionality is needed.
+Uma tabela como esta pode ser necessária em uma etapa que teste a criação 
+dos próprios objetos ``Usuario``, e mais tarde usada novamente para validar 
+outras partes de nosso código que dependa de múltiplos objetos ``Usuario`` 
+que já existam. Em ambos os casos, nosso método de transformação pode usar 
+nossa tabela de nomes de usuarios e contador de seguidores e construir os 
+usuários fictícios. Ao usar um método de transformação nós eliminamos a 
+necessidade de duplicar o código que cria nossos objetos ``Usuario``, e 
+ao invés disso podemos contar com o método de transformação em cada 
+momento que esta funcionalidade for necessária.
 
-Transformations can also be used with tables. A table transformation is matched
-via a comma-delimited list of the column headers prefixed with ``table:``:
+Transformações também podem ser usadas com tabelas. Uma transformação 
+de tabela é correspondida por vírguas que delimitam a lista de 
+cabeçalho das colunas prefixadas com ``table:``:
 
 .. code-block:: php
 
@@ -705,56 +707,59 @@ via a comma-delimited list of the column headers prefixed with ``table:``:
     class FeatureContext implements Context
     {
         /**
-         * @Transform table:name,followers
+         * @Transform table:nome,seguidores
          */
-        public function castUsersTable(TableNode $usersTable)
+        public function converteTabelaUsuarios(TableNode $tabelaUsuarios)
         {
-            $users = array();
-            foreach ($usersTable->getHash() as $userHash) {
-                $user = new User();
-                $user->setUsername($userHash['name']);
-                $user->setFollowersCount($userHash['followers']);
-                $users[] = $user;
+            $usuarios = array();
+            foreach ($tabelaUsuarios->getHash() as $hashUsuario) {
+                $usuario = new Usuario();
+                $usuario->colocaNomeUsuario($hashUsuario['nome']);
+                $usuario->colocaContadorDeSeguidores($hashUsuario['seguidores']);
+                $usuarios[] = $usuario;
             }
 
-            return $users;
+            return $usuarios;
         }
 
         /**
-         * @Given the following users:
+         * @Given os seguintes usuarios:
          */
-        public function pushUsers(array $users)
+        public function incluiUsuarios(array $usuarios)
         {
-            // do something with $users
+            // faça alguma coisa com $usuarios
         }
 
         /**
-         * @Then I expect the following users:
+         * @Then eu espero que os seguintes usuarios:
          */
-        public function assertUsers(array $users)
+        public function confirmaUsuarios(array $usuarios)
         {
-            // do something with $users
+            // faça alguma coisa com $usuarios
         }
     }
 
 .. note::
 
-    Transformations are powerful and it is important to take care how you
-    implement them. A mistake can often introduce strange and unexpected
-    behavior. Also, they are inherently hard to debug because of their
-    highly dynamic nature.
+    Transformações são poderosas e é importante ter cuidado como você 
+    as implementa. Um erro pode frequentemente introduzir um estranho 
+    e inesperado comportamento. Também, eles são por natureza difíceis 
+    de serem depurados devido a sua natureza altamente dinâmica.
 
-Browse your steps dictionary
-----------------------------
+Procure no seu dicionário de etapas
+-----------------------------------
 
-As your set of features will grow, there's a good chance that the amount of
-different steps that you'll have at your disposal to describe new scenarios will also grow.
+Tal como o seu conjunto de cenários irá crescer, há uma boa chance de 
+que a quantidade de etapas diferentes que você terá à sua disposição 
+para escrever novos cenários também irá crescer.
 
-Behat provides a command line option ``--definitions`` or simply ``-d`` to easily browse definitions
-in order to reuse them or adapt them (introducing new placeholders for example).
+O Behat provem uma opção de linha de comando ``--definitions`` ou 
+simplesmente ``-d`` para navegar facilmente nas definições, a fim de 
+reutilizá-los ou adaptá-los (introdução de novos espaços reservados 
+por exemplo).
 
-For example, when using the Mink context provided by the Mink extension, you'll have access to its
-step dictionary by running:
+Por exemplo, quando utilizamos o contexto Mink provido pela extensão 
+Mink, você terá acesso a este dicionário de etapas executando:
 
 .. code-block:: console
 
@@ -773,7 +778,7 @@ step dictionary by running:
 
     # ...
 
-or, for a shorter output:
+ou, pela saída curta:
 
 .. code-block:: console
 
@@ -787,11 +792,11 @@ or, for a shorter output:
     web_features |  When /^(?:|I )move forward one page$/
     # ...
 
-You can also search for a specific pattern by running:
+Você também pode procurar por um padrão específico executando:
 
 .. code-block:: console
 
-    $ behat --definitions="field" (or simply behat -dfield)
+    $ behat --definitions="field" (ou simplesmente behat -dfield)
     web_features | When /^(?:|I )fill in "(?P<field>(?:[^"]|\\")*)" with "(?P<value>(?:[^"]|\\")*)"$/
                  | Fills in form field with specified id|name|label|value.
                  | at `Behat\MinkExtension\Context\MinkContext::fillField()`
@@ -802,4 +807,4 @@ You can also search for a specific pattern by running:
 
     #...
 
-That's it, you can now search and browse your whole step dictionary.
+É isso aí, agora você pode procurar e navegar pelo seu dicionário de etapas inteiro.
