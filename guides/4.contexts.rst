@@ -1,14 +1,15 @@
-Testing Features
-================
+Funcionalidades de teste
+========================
 
-We've already used this strange ``FeatureContext`` class as a home for our
-:doc:`step definitions </guides/2.definitions>` and :doc:`hooks </guides/3.hooks>`,
-but we haven't done much to explain what it actually is.
+Nós já usamos esta estranha classe ``FeatureContext`` como uma casa para nossa 
+:doc:`definição de etapas </guides/2.definitions>` e :doc:`hooks </guides/3.hooks>`,
+mas nós não temos feito muito para explicar o que realmente é.
 
-Context classes are a keystone of testing environment in Behat. The context
-class is a simple POPO (Plain Old PHP Object) that tells Behat how to test
-your features. If ``*.feature`` files are all about describing *how* your
-application behaves, then the context class is all about how to test it.
+Classes de contexto são uma pedra angular do meio ambiente de testes em Behat. 
+A classe de contexto é uma simples POPO - Plain Old PHP Object (Ou traduzido 
+literalmente: Objeto PHP Simples Velho) que diz ao Behat como testar as suas 
+funcionalidades. Se todos arquivos ``*.feature`` descrevem *como* sua 
+aplicação se comporta, então a classe de contexto é sobre como testar isso.
 
 .. code-block:: php
 
@@ -18,78 +19,79 @@ application behaves, then the context class is all about how to test it.
 
     class FeatureContext implements Context
     {
-        public function __construct($parameter)
+        public function __construct($parametro)
         {
-            // instantiate context
+            // instanciar contexto
         }
 
         /** @BeforeFeature */
-        public static function prepareForTheFeature()
+        public static function prepararParaAFuncionalidade()
         {
-            // clean database or do other preparation stuff
+            // limpar o banco de dados ou fazer outras preparações
         }
 
-        /** @Given we have some context */
-        public function prepareContext()
+        /** @Given nós temos algum contexto */
+        public function prepararContexto()
         {
-            // do something
+            // fazer algo
         }
 
-        /** @When event occurs */
-        public function doSomeAction()
+        /** @When ocorrer um evento */
+        public function fazerAlgumaAcao()
         {
-            // do something
+            // fazer algo
         }
 
-        /** @Then something should be done */
-        public function checkOutcomes()
+        /** @Then algo deve ser feito */
+        public function checar()
         {
-            // do something
+            // fazer algo
         }
     }
 
-A simple mnemonic for context classes is: "testing features *in a context*".
-Feature descriptions tend to be very high level. It means there's not much
-technical detail exposed in them, so the way you will test those
-features pretty much depends on the context you test them in. That's what
-context classes are.
+Um mnemônico simples para classes de contexto é "testar funcionalidades *em um contexto*".
+Descrições de funcionalidades tendem ser muito alto nível. Isto siginifca que 
+não há muito detalhe técnico exposto neles, então o caminho para você testar 
+essa linda funcionalidade depende do contexto em que seu teste está contido. 
+Isso é o que as classes de contexto são.
 
-Context Class Requirements
---------------------------
+Requerimentos de Classe de Contexto
+-----------------------------------
 
-In order to be used by Behat, your context class should follow these rules:
+A fim de ser usado pelo Behat, sua classe de contexto deve seguir as seguintes regras:
 
-#. The context class should implement the ``Behat\Behat\Context\Context`` interface.
+#. A classe de contexto deve implementar a interface ``Behat\Behat\Context\Context``.
 
-#. The context class should be called ``FeatureContext``. It's a simple convention
-   inside the Behat infrastructure. ``FeatureContext`` is the name of the
-   context class for the default suite. This can easily be changed through
-   suite configuration inside ``behat.yml``.
+#. A classe de contexto deve ser chamada ``FeatureContext``. É uma simples 
+   convenção dentro da infraestrutura do Behat. ``FeatureContext`` é o nome da 
+   sua classe de contexto para uma suite padrão. Isto pode ser facilmente 
+   alterado através da configuração da suite dentro de ``behat.yml``.
 
-#. The context class should be discoverable and loadable by Behat. That means you
-   should somehow tell Behat about your class file. Behat comes with a PSR-0
-   autoloader out of the box and the default autoloading directory is
-   ``features/bootstrap``. That's why the default ``FeatureContext`` is loaded so
-   easily by Behat. You can place your own classes under ``features/bootstrap``
-   by following the PSR-0 convention or you can even define your own custom
-   autoloading folder via ``behat.yml``.
+#. A classe de contexto deve ser detectável e carregável pelo Behat. Isso 
+   significa que você deve de alguma forma dizer ao Behat sobre o arquivo 
+   de classe. O Behat vem com uma PSR-0 carregamento automático fora e o 
+   carregamento automático de diretório padrão é ``features/bootstrap``. 
+   É por isso que é carregado o padrão ``FeatureContext`` tão fácil pelo Behat. 
+   Você pode colocar suas próprias classes sob ``features/bootstrap`` seguindo 
+   a convenção PSR-0 ou você pode até definir seu próprio arquivo auto 
+   carregável em ``behat.yml``.
 
 .. note::
 
-    ``Behat\Behat\Context\SnippetAcceptingContext`` and
-    ``Behat\Behat\Context\CustomSnippetAcceptingContext`` are special
-    versions of the ``Behat\Behat\Context\Context`` interface that tell
-    Behat this context expects snippets to be generated for it.
+    ``Behat\Behat\Context\SnippetAcceptingContext`` e 
+    ``Behat\Behat\Context\CustomSnippetAcceptingContext`` são versões
+    especiais da interface ``Behat\Behat\Context\Context`` que dizem 
+    ao Behat neste contexto, espera fragmentos a ser gerado por ele.
 
-The easiest way to start using Behat in your project is to call ``behat``
-with the ``--init`` option inside your project directory:
+A forma mais fácil de começar a utilizar o Behat em seu projeto é chamar 
+o ``behat`` com a opção ``--init`` dentro do diretório do seu projeto:
 
 .. code-block:: bash
 
     $ vendor/bin/behat --init
 
-Behat will create a few directories and a skeleton ``FeatureContext`` class
-inside your project.
+O Behat irá criar um alguns diretórios e uma classe esqueleto ``FeatureContext``
+dentro do seu projeto.
 
 .. code-block:: php
 
