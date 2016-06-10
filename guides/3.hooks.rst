@@ -256,36 +256,35 @@ Aqui estão dois tipos disponíveis de hook de etapa:
 * ``@BeforeStep`` - executado antes de cada etapa em cada cenário.
 * ``@AfterStep`` - executado depois de cada etapa em cada cenário.
 
-Tagged Hooks
-------------
+Hooks Tagueadas
+---------------
 
-Sometimes you may want a certain hook to run only for certain scenarios,
-features or steps. This can be achieved by associating a ``@BeforeFeature``,
-``@AfterFeature``, ``@BeforeScenario``, ``@AfterScenario``, ``@BeforeStep`` or
-``@AfterStep`` hook with one or more tags. You can also use ``OR`` (``||``)
-and ``AND`` (``&&``) tags:
+Talvez as vezes você queira executar somente um certo hook para certos cenários, 
+funcionalidades ou etapas. Isto pode ser obtido através da associação da hook
+``@BeforeFeature``, ``@AfterFeature``, ``@BeforeScenario``, ``@AfterScenario``, 
+``@BeforeStep`` ou ``@AfterStep`` com uma ou mais tags. Você pode também usar 
+tags ``OR`` (``||``) e ``AND`` (``&&``):
 
 .. code-block:: php
 
     /**
      * @BeforeScenario @database,@orm
      */
-    public function cleanDatabase()
+    public function limparBancoDeDados()
     {
-        // clean database before
-        // @database OR @orm scenarios
+        // limpar banco de dados antes
+        // do cenario @database ou @orm
     }
 
-Use the ``&&`` tag to execute a hook only when it has *all* provided tags:
+Utilize a tag ``&&`` para executar somente uma hook quando tem a tag *all*:
 
 .. code-block:: php
 
     /**
-     * @BeforeScenario @database&&@fixtures
+     * @BeforeScenario @database&&@acessorios
      */
-    public function cleanDatabaseFixtures()
+    public function limparBancoDeDadosAcessorios()
     {
-        // clean database fixtures
-        // before @database @fixtures
-        // scenarios
+        // limpar banco de dados acessorios
+        // antes dos cenários @database @acessorios
     }
