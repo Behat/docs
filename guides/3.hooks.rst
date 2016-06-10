@@ -48,99 +48,100 @@ contexto. Não há associação entre o local onde o hook é definido e qual
 nó é executado, mas você pode usar tags ou hooks nomeados se você quiser 
 um controle mais refinado.
 
-
-All defined hooks are run whenever the relevant action occurs. The action
-tree looks something like this:
+Todos os hooks definidos são executados sempre que ações relevantes ocorram. 
+A árvore de ações deve ser algo como isto:
 
 .. code-block:: text
 
     ├── Suite #1
-    │   ├── Feature #1
-    │   │   ├── Scenario #1
-    │   │   │   ├── Step #1
-    │   │   │   └── Step #2
-    │   │   └── Scenario #2
-    │   │       ├── Step #1
-    │   │       └── Step #2
-    │   └── Feature #2
-    │       └── Scenario #1
-    │           └── Step #1
+    │   ├── Funcionalidade #1
+    │   │   ├── Cenário #1
+    │   │   │   ├── Etapa #1
+    │   │   │   └── Etapa #2
+    │   │   └── Cenário #2
+    │   │       ├── Etapa #1
+    │   │       └── Etapa #2
+    │   └── Funcionalidade #2
+    │       └── Cenário #1
+    │           └── Etapa #1
     └── Suite #2
-        └── Feature #1
-            └── Scenario #1
-                └── Step #1
+        └── Funcionalidade #1
+            └── Cenário #1
+                └── Etapa #1
 
-This is a basic test cycle in Behat. There are many test suites, each of
-which has many features, which themselves have many scenarios with many
-steps. Note that when Behat actually runs, scenario outline examples are
-interpreted as scenarios - meaning each outline example becomes an actual
-scenario in this action tree.
+Este é o ciclo básico do teste no Behat. Há muitas suites de testes, 
+cada uma das quais tem muitas funcionalidades, que tem muitos cenários 
+com muitas etapas. Note que quando o Behat realmente é executado, 
+exemplos de esquemas de cenário são interpretados como cenários - ou 
+seja, cada exemplo torna-se um cenário real nesta árvore ação.
 
 Hooks
 -----
-Hooks allow you to execute your custom code just before or just after each
-of these actions. Behat allows you to use the following hooks:
+Os Hooks permitem você executar seu código customizado pouco antes ou 
+pouco depois de cada uma destas ações. O Behat permite vocẽ utilizar os 
+seguintes hooks:
 
-#. The ``BeforeSuite`` hook is run before any feature in the suite runs. For
-   example, you could use this to set up the project you are testing. This
-   hook receives an optional argument with an instance of the
-   ``Behat\Testwork\Hook\Scope\BeforeSuiteScope`` class.
+#. O hook ``BeforeSuite`` é executado antes que qualquer funcionalidade 
+   em sua suite rode. Por exemplo, você pode usar isto para configurar o 
+   projeto que você está testando. Este hook recebe um argumento opcional 
+   com uma instância da classe ``Behat\Testwork\Hook\Scope\BeforeSuiteScope``.
 
-#. The ``AfterSuite`` hook is run after all features in the suite have run.
-   This hooks is useful to dump or print some kind of statistics or tear
-   down your application after testing. This hook receives an optional
-   argument with an instance of the
-   ``Behat\Testwork\Hook\Scope\AfterSuiteScope`` class.
+#. O hook ``AfterSuite`` é executado depois que todas as funcionalidades da 
+   sua suite tenham sido executadas. Este hook é útil para despejar ou 
+   imprimir algum tipo de estatística ou derrubar a sua aplicação após o 
+   teste. Este hook recebe um argumento opcional com uma instância da 
+   classe ``Behat\Testwork\Hook\Scope\AfterSuiteScope``.
 
-#. The ``BeforeFeature`` hook is run before a feature runs. This hook receives
-   an optional argument with an instance of the
-   ``Behat\Behat\Hook\Scope\BeforeFeatureScope`` class.
+#. O hook ``BeforeFeature`` é executado antes que a funcionalidade seja 
+   executada. Este hook recebe um argumento opcional com uma instância 
+   da classe ``Behat\Behat\Hook\Scope\BeforeFeatureScope``.
 
-#. The ``AfterFeature`` hook is run after Behat finishes executing a feature.
-   This hook receives an optional argument with an instance of the
-   ``Behat\Behat\Hook\Scope\AfterFeatureScope`` class.
+#. O hook ``AfterFeature`` é executado após o Behat finalizar a execução 
+   da funcionalidade. Este hook recebe um argumento opcional com uma 
+   instância da classe ``Behat\Behat\Hook\Scope\AfterFeatureScope``.
 
-#. The ``BeforeScenario`` hook is run before a specific scenario will run. This
-   hook receives an optional argument with an instance of the
-   ``Behat\Behat\Hook\Scope\BeforeScenarioScope`` class.
+#. O hook ``BeforeScenario`` é executado antes que um cenário específico 
+   seja executado. Este hook recebe um argumento opcional com uma instância 
+   da classe ``Behat\Behat\Hook\Scope\BeforeScenarioScope``.
 
-#. The ``AfterScenario`` hook is run after Behat finishes executing a scenario.
-   This hook receives an optional argument with an instance of the
-   ``Behat\Behat\Hook\Scope\AfterScenarioScope`` class.
+#. O hook ``AfterScenario`` é executado depois que o Behat termina a execução 
+   de um cenário. Este hook recebe um argumento com uma instância da classe
+   ``Behat\Behat\Hook\Scope\AfterScenarioScope``.
 
-#. The ``BeforeStep`` hook is run before a step runs. This hook receives an
-   optional argument with an instance of the
-   ``Behat\Behat\Hook\Scope\BeforeStepScope`` class.
+#. O hook ``BeforeStep`` é executado antes que uma etapa é executada. Este 
+   hook recebe um argumento opcional com uma instância da classe 
+   ``Behat\Behat\Hook\Scope\BeforeStepScope``.
 
-#. The ``AfterStep`` hook is run after Behat finishes executing a step. This
-   hook receives an optional argument  with an instance of the
-   ``Behat\Behat\Hook\Scope\AfterStepScope`` class.
+#. O hook ``AfterStep`` é executado depois que o Behat termina de executar 
+   uma etapa. Este hook recebe um argumento opcional com uma instância da 
+   classe ``Behat\Behat\Hook\Scope\AfterStepScope``.
 
-You can use any of these hooks by annotating any of your methods in your context
-class:
+Você pode utilizar qualquer um destes hooks colocando como anotação em 
+qualquer um dos seus métodos na classe contexto:
 
 .. code-block:: php
 
     /**
      * @BeforeSuite
      */
-    public static function prepare($scope)
+    public static function preparar($scope)
     {
-        // prepare system for test suite
-        // before it runs
+        // preparar o sistema para suite de testes
+        // antes de executar isto
     }
 
-We use annotations as we did before with :doc:`definitions </guides/2.definitions>`.
-Simply use the annotation of the name of the hook you want to use (e.g.
+Nós utilizamos anotações como fizemos antes com :doc:`definitions </guides/2.definitions>`.
+Simplesmente utilizando a anotação do nome da hook que você deseja usar (por exemplo 
 ``@BeforeSuite``).
 
-Suite Hooks
------------
+Hooks de Suite
+--------------
 
-Suite hooks are run outside of the scenario context. It means that your context
-class (e.g. ``FeatureContext``) is not instantiated yet and the only way Behat
-can execute code in it is through the static calls. That is why suite hooks must
-be defined as static methods in the context class:
+Suite hooks são executadas fora do contexto do cenário. Isso significa que sua 
+classe de contexto (por exemplo ``FeatureContext``) ainda não foi instanciada 
+e a única maneira que o Behat pode executar o código é através de chamadas 
+estáticas. Este é o motivo das suite hooks precisarem ser definidas com 
+métodos estáticos na classe de contexto:
 
 .. code-block:: php
 
@@ -148,26 +149,26 @@ be defined as static methods in the context class:
     use Behat\Testwork\Hook\Scope\AfterSuiteScope;
 
     /** @BeforeSuite */
-    public static function setup(BeforeSuiteScope $scope)
+    public static function configurar(BeforeSuiteScope $scope)
     {
     }
 
     /** @AfterSuite */
-    public static function teardown(AfterSuiteScope $scope)
+    public static function destruir(AfterSuiteScope $scope)
     {
     }
 
-There are two suite hook types available:
+Aqui estão dois tipos de suite hook disponíveis:
 
-* ``@BeforeSuite`` - executed before any feature runs.
-* ``@AfterSuite`` - executed after all features have run.
+* ``@BeforeSuite`` - executado antes de qualquer funcionalidade.
+* ``@AfterSuite`` - executado após a execução de todas as funcionalidades.
 
-Feature Hooks
--------------
+Hooks de Funcionalidade
+-----------------------
 
-Same as suite hooks, feature hooks are ran outside of the scenario context.
-So same as suite hooks, your feature hooks should be defined as static methods
-inside your context:
+Como as hooks de suite, hooks de funcionalide também são executadas fora 
+do contexto de cenário. Então como uma hook de suite, sua hook de 
+funcionalidade precisa ser definida como método estático em seu contexto:
 
 .. code-block:: php
 
@@ -175,28 +176,29 @@ inside your context:
     use Behat\Behat\Hook\Scope\AfterFeatureScope;
 
     /** @BeforeFeature */
-    public static function setupFeature(BeforeFeatureScope $scope)
+    public static function configurarFuncionalidade(BeforeFeatureScope $scope)
     {
     }
 
     /** @AfterFeature */
-    public static function teardownFeature(AfterFeatureScope $scope)
+    public static function destruirFuncionalidade(AfterFeatureScope $scope)
     {
     }
 
 
-There are two feature hook types available:
+Aqui estão dois tipos de hook de funcionalidade disponíveis:
 
-* ``@BeforeFeature`` - gets executed before every feature in suite.
-* ``@AfterFeature`` - gets executed after every feature in suite.
+* ``@BeforeFeature`` - é executado antes de cada funcionalidade na suite.
+* ``@AfterFeature`` - é executado depois de cada funcionalidade na suite.
 
-Scenario Hooks
---------------
+Hooks de Cenário
+----------------
 
-Scenario hooks are triggered before or after each scenario runs. These
-hooks are executed inside an initialized context instance, so not only could they
-be simple context instance methods, they will also have access to
-any object properties you set during your scenario:
+Hooks de cenário são disparadas antes ou depois que cada cenário é executado. 
+Estes hooks são executados dentro da inicialização da instância do contexto, 
+assim eles não só poderiam ser instância de métodos de contexto, eles também 
+terão acesso a qualquer propriedade do objeto que você definiu durante o seu 
+cenário:
 
 .. code-block:: php
 
@@ -204,36 +206,35 @@ any object properties you set during your scenario:
     use Behat\Behat\Hook\Scope\AfterScenarioScope;
 
     /** @BeforeScenario */
-    public function before(BeforeScenarioScope $scope)
+    public function antes(BeforeScenarioScope $scope)
     {
     }
 
     /** @AfterScenario */
-    public function after(AfterScenarioScope $scope)
+    public function depois(AfterScenarioScope $scope)
     {
     }
 
-There are two scenario hook types available:
+Aqui estão dois tipos de hook de cenário disponíveis:
 
-* ``@BeforeScenario`` - executed before every scenario in each feature.
-* ``@AfterScenario`` - executed after every scenario in each feature.
+* ``@BeforeScenario`` - executado antes da execução de todos os cenário em cada funcionalidade.
+* ``@AfterScenario`` - executado após a execução de todos os cenário em cada funcionalidade.
 
-Now, the interesting part:
+Agora, a parte interessante:
 
-The ``@BeforeScenario`` hook executes not only
-before each scenario in each feature, but before **each example row** in
-the scenario outline. Yes, each scenario outline example row works almost the
-same as a usual scenario.
+O hook ``@BeforeScenario`` executa não só antes de cada cenário em cada funcionalidade, 
+mas antes de **cada linha de exemplo** no esquemas do cenário. Sim, cada linha de exemplo 
+do esquema do cenário trabalha quase do mesmo modo que um cenário comum.
 
-``@AfterScenario`` functions exactly the same way, being executed both after
-usual scenarios and outline examples.
+``@AfterScenario`` funcionam exatamente do mesmo modo, sendo executado tanto após 
+cenários habituais e exemplos de saída.
 
-Step Hooks
-----------
+Hooks de Etapas
+---------------
 
-Step hooks are triggered before or after each step runs. These hooks are
-run inside an initialized context instance, so they are just plain context
-instance methods in the same way as scenario hooks are:
+Hooks de etapas são disparadas antes ou depois que cada etapa é executada. Estes hooks 
+são executados dentro da inicialização da instância do contexto, por isso eles são 
+métodos de instância do mesmo modo que os hooks de cenário são:
 
 .. code-block:: php
 
@@ -241,20 +242,19 @@ instance methods in the same way as scenario hooks are:
     use Behat\Behat\Hook\Scope\AfterStepScope;
 
     /** @BeforeStep */
-    public function beforeStep(BeforeStepScope $scope)
+    public function antesDaEtapa(BeforeStepScope $scope)
     {
     }
 
     /** @AfterStep */
-    public function afterStep(AfterStepScope $scope)
+    public function depoisDaEtapa(AfterStepScope $scope)
     {
     }
 
+Aqui estão dois tipos disponíveis de hook de etapa:
 
-There are two step hook types available:
-
-* ``@BeforeStep`` - executed before every step in each scenario.
-* ``@AfterStep`` - executed after every step in each scenario.
+* ``@BeforeStep`` - executado antes de cada etapa em cada cenário.
+* ``@AfterStep`` - executado depois de cada etapa em cada cenário.
 
 Tagged Hooks
 ------------
@@ -289,4 +289,3 @@ Use the ``&&`` tag to execute a hook only when it has *all* provided tags:
         // before @database @fixtures
         // scenarios
     }
-
