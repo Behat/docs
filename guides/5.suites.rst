@@ -1,38 +1,14 @@
-Configuring Test Suites
-=======================
+Configurando Suite de Testes
+============================
 
-We already talked about configuring multiple contexts for a single test
-suite in a :doc:`previous chapter </guides/4.contexts>`. Now it is time to talk
-about test suites themselves. A test suite represents a group of concrete
-features together with the information on how to test them.
+Nós já falamos sobre a configuração de contextos múltiplos para uma única suite 
+de testes em um :doc:`capítulo anterior </guides/4.contexts>`. Agora é a hora de 
+falarmos sobre suite de testes mesmo. Uma suite de teste representa um grupo de 
+funcionalidades concretas juntas com a informação de como as testar.
 
-With suites you can configure Behat to test different kinds of features
-using different kinds of contexts and doing so in one run. Test suites are
-really powerful and ``behat.yml`` makes them that much more powerful:
-
-.. code-block:: yaml
-
-    # behat.yml
-
-    default:
-        suites:
-            core_features:
-                paths:    [ %paths.base%/features/core ]
-                contexts: [ CoreDomainContext ]
-            user_features:
-                paths:    [ %paths.base%/features/web ]
-                filters:  { role: user }
-                contexts: [ UserContext ]
-            admin_features:
-                paths:    [ %paths.base%/features/web ]
-                filters:  { role: admin }
-                contexts: [ AdminContext ]
-
-Suite Paths
------------
-
-One of the most obvious settings of the suites is the ``paths``
-configuration:
+Com suites você pode configurar o Behat para testar diferentes tipos de funcionalidades 
+utilizando diferentes tipos de contextos e fazendo-o em uma única execução. Suites de 
+Testes são realmente poderosas e o ``behat.yml`` faz delas muito mais poderosas:
 
 .. code-block:: yaml
 
@@ -40,15 +16,39 @@ configuration:
 
     default:
         suites:
-            core_features:
+            principal_features:
+                paths:    [ %paths.base%/features/principal ]
+                contexts: [ PrincipalContext ]
+            usario_features:
+                paths:    [ %paths.base%/features/web ]
+                filters:  { role: usuario }
+                contexts: [ UsuarioContext ]
+            administrador_features:
+                paths:    [ %paths.base%/features/web ]
+                filters:  { role: administrador }
+                contexts: [ AdministradorContext ]
+
+Caminhos de Suite
+-----------------
+
+Uma das configurações mais óbvias das suites é a configuração 
+de ``caminhos``:
+
+.. code-block:: yaml
+
+    # behat.yml
+
+    default:
+        suites:
+            principal_features:
                 paths:
                     - %paths.base%/features
                     - %paths.base%/test/features
                     - %paths.base%/vendor/.../features
 
-As you might imagine, this option tells Behat where to search for test features. 
-You could, for example, tell Behat to look into the
-``features/web`` folder for features and test them with ``WebContext``:
+Como vocẽ pode imaginar, esta opção diz ao Behat onde é para buscar as funcionalidades 
+de teste. Você poderia, por exemplo, dizer ao Behat para procurar no arquivo ``features/web`` 
+por funcionalidades e testá-los com ``WebContext``:
 
 .. code-block:: yaml
 
