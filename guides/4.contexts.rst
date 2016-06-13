@@ -112,36 +112,37 @@ dentro do seu projeto.
     }
 
 
-Contexts Lifetime
------------------
+Tempo de vida do Contexto
+-------------------------
 
-Your context class is initialized before each scenario is run, and every scenario
-has its very own context instance. This means 2 things:
+Sua classe de contexto é inicializada antes de cada cenário ser executado, e 
+todos os cenários tem a sua própria instância do contexto. Isto significa 2 
+coisas:
 
-#. Every scenario is isolated from each other scenario's context. You can do
-   almost anything inside your scenario context instance without the fear of
-   affecting other scenarios - every scenario gets its own context instance.
+#. Todos os cenários são isolados de cada um dos outros cenários de contexto. 
+   Você pode fazer quase qualquer coisa dentro da instância do seu cenário de 
+   contexto sem medo de afetar outros cenários - todos os cenários tem a sua 
+   própria instância do contexto.
 
-#. Every step in a single scenario is executed inside a common context
-   instance. This means you can set ``private`` instance variables inside
-   your ``@Given`` steps and you'll be able to read their new values inside
-   your ``@When`` and ``@Then`` steps.
+#. Todas as etapas em um único cenário são executados dentro de uma instância
+   de contexto comum . Isto significa que você pode colocar instâncias ``privadas`` 
+   variáveis dentro de sua etapa ``@Given`` e você será capaz de ler seus novos 
+   valores dentro de suas etapas ``@When`` e ``@Then``.
 
-Multiple Contexts
------------------
+Contextos Multiplos
+-------------------
 
-At some point, it could become very hard to maintain all your
-:doc:`step definitions </guides/2.definitions>` and :doc:`hooks </guides/3.hooks>`
-inside a single class. You could use class inheritance and split definitions
-into multiple classes, but doing so could cause your code to become more
-difficult to follow and use.
+Em algum momento, manter tudo em uma única classe :doc:`step definitions </guides/2.definitions>`
+e :doc:`hooks </guides/3.hooks>` poderia se tornar muito difícil. Você poderia 
+utilizar herança de classes e dividir as definições em múltiplas classes, mas 
+fazer isto poderia tornar muito difícil de seguir o seu código e utilizá-lo.
 
-In light of these issues, Behat provides a more flexible way of helping make
-your code more structured by allowing you to use multiple contexts in a single test
-suite.
+À luz destas questões, o Behat provê um caminho mais flexivel para ajudar a 
+fazer um código mais estruturado, permitindo que você utilize múltiplos 
+contextos em uma única suite de teste.
 
-In order to customise the list of contexts your test suite requires, you need
-to fine-tune the suite configuration inside ``behat.yml``:
+A fim de personalizar a lista de contextos que sua suíte de teste requer, 
+você precisa ajustar a configuração da suite dentro de `` behat.yml``:
 
 .. code-block:: yaml
 
@@ -155,36 +156,37 @@ to fine-tune the suite configuration inside ``behat.yml``:
                     - SecondContext
                     - ThirdContext
 
-The first ``default`` in this configuration is a name of the profile. We
-will discuss :doc:`profiles </guides/6.profiles>` a little bit later. Under
-the specific profile, we have a special ``suites`` section, which
-configures suites inside this profile. We will talk about test suites in more
-detail in the :doc:`next chapter </guides/5.suites>`, for now just keep in mind
-that a suite is a way to tell Behat where to find your features and
-how to test them. The interesting part for us now is the ``contexts``
-section - this is an array of context class names. Behat will use the classes
-specified there as your feature contexts. This means that every time
-Behat sees a scenario in your test suite, it will:
+A primeira ``default`` nesta configuração é um nome do perfil. Nós vamos 
+discutir em :doc:`profiles </guides/6.profiles>` um pouco mais tarde. 
+Sobre o perfil específico, nós temos uma seção especial ``suites``, 
+que configura suites dentro deste perfil. Nós vamos falar sobre suites 
+de teste com mais detalhes no :doc:`próximo capítulo </guides/5.suites>`, 
+por hora basta tem em sua mente que uma suite é uma forma de dizer ao Behat 
+onde encontrar suas funcionalidades e como as testar. A parte interessante 
+para nós agora é a seção ``contextos`` - esta é uma matriz de nomes de 
+classes de contexto. O Behat utilizará as classes especificadas em 
+seu contexto de funcionalidades. Isto significa que a cada vez que o 
+Behat ver um cenário em sua suite de testes, ele irá:
 
-#. Get list of all context classes from this ``contexts`` option.
+#. Pegar a lista de todas as classes de contexto da opção ``contexts``.
 
-#. Will try to initialize all these context classes into objects.
+#. Tentará inicializar todas estas classes de contexto em Objetos.
 
-#. Will search for :doc:`step definitions </guides/2.definitions>` and
-   :doc:`hooks </guides/3.hooks>` in all of them.
+#. Buscará por :doc:`step definitions </guides/2.definitions>` e 
+   :doc:`hooks </guides/3.hooks>` em todos eles.
 
 .. note::
 
-    Do not forget that each of these context classes should follow all
-    context class requirements. Specifically - they all should implement
-    ``Behat\Behat\Context\Context`` interface and be autoloadable by
-    Behat.
+    Não se esqueça que cada uma destas classes de contexto deve seguir 
+    todos os requerimentos de uma classe de contexto. Especificamente - 
+    todos eles devem implementar a interface ``Behat\Behat\Context\Context`` 
+    e ser autocarregadas pelo Behat.
 
-Basically, all contexts under the ``contexts`` section of your ``behat.yml``
-are the same for Behat. It will find and use the methods in them the same way
-it does in the default ``FeatureContext``. And if you're happy with a single
-context class, but you don't like the name ``FeatureContext``, here's
-how you change it:
+Basicamente, todos os contextos sob a seção ``contexts`` em seu ``behat.yml`` 
+são os mesmos para o Behat. Ele vai encontrar e utilizar os métodos da 
+mesma forma que faz na ``FeatureContext`` padrão. E se você estiver feliz 
+com uma única classe de contexto, mas você não gosta do nome ``FeatureContext``,
+aqui está como você muda isto:
 
 .. code-block:: yaml
 
@@ -196,16 +198,16 @@ how you change it:
                 contexts:
                     - MyAwesomeContext
 
-This configuration will tell Behat to look for ``MyAwesomeContext``
-instead of the default ``FeatureContext``.
+Esta configuração irá dizer ao Behat para olhar para ``MyAwesomeContext`` 
+ao invés da padrão ``FeatureContext``.
 
 .. note::
 
-    Unlike :doc:`profiles </guides/6.profiles>`, Behat will not inherit any
-    configuration of your ``default`` suite. The name ``default`` is only used
-    for demonstration purpose in this guide. If you have multiple suites that
-    all should use the same context, you will have to define that specific
-    context for every specific suite:
+    Ao contrário de :doc:`profiles </guides/6.profiles>`, o Behat não irá 
+    herdar qualquer configuração de sua suite ``default``. O nome ``default`` 
+    é utilizado somente para demonstração neste guia. Se você tem múltiplas 
+    suites que todas devem utilizar o mesmo contexto, você deverá definir este 
+    contexto específico para cada suite específica:
 
     .. code-block:: yaml
 
@@ -225,26 +227,26 @@ instead of the default ``FeatureContext``.
                     contexts:
                         - MyAwesomeContext
 
-    This configuration will tell Behat to look for ``MyAwesomeContext`` and
-    ``MyWickedContext`` when testing ``suite_a`` and ``MyAwesomeContext`` when
-    testing ``suite_b``. In this example, ``suite_b`` will not be able to call
-    steps that are defined in the ``MyWickedContext``. As you can see, even if
-    you are using the name ``default`` as the name of the suite, Behat will not
-    inherit any configuration from this suite.
+    Esta configuração irá dizer ao Behat para olhar para ``MyAwesomeContext`` 
+    e ``MyWickedContext`` quando testar ``suite_a`` e ``MyAwesomeContext`` 
+    quando testar ``suite_b``. Neste exemplo, ``suite_b`` não será capaz de 
+    chamar etapas estão definidas em ``MyWickedContext``. Como você pode ver, 
+    mesmo se você utilizar o nome ``defaukt`` como o nome de uma suite, o Behat 
+    não irá herdar qualquer configuração desta suite.
 
-Context Parameters
-------------------
+Parâmetros de Contexto
+----------------------
 
-Context classes can be very flexible depending on how far you want
-to go in making them dynamic. Most of us will want to make our contexts 
-environment-independent; where should we put temporary files, which URLs 
-will be used to access the application? These are
-context configuration options highly dependent on the environment you
-will test your features in.
+Classes de contexto podem ser muito flexiveis dependendo de quão longe 
+você quer ir em fazê-los dinâmicos. A maioria de vai querer fazer 
+nossas contextos ambiente-independente; onde deve nós colocaremos 
+arquivos temporários, como URLs que serão utilizadas para acessar a 
+aplicação? Estas são as opções de configuração de contexto altamente 
+dependentes do ambiente que você irá testar as suas funcionalidades.
 
-We already said that context classes are just plain old PHP classes.
-How would you incorporate environment-dependent parameters into your
-PHP classes? Use *constructor arguments*:
+Já dissemos que classes de contexto são simplesmente velhas classes PHP.
+Como você incorporaria parâmetros ambiente-dependentes em sua classe 
+PHP? Utilize *argumentos no construtor*:
 
 .. code-block:: php
 
@@ -261,9 +263,9 @@ PHP classes? Use *constructor arguments*:
         }
     }
 
-As a matter of fact, Behat gives you ability to do just that. You can
-specify arguments required to instantiate your context classes through
-same ``contexts`` setting inside your ``behat.yml``:
+Na realidade, o Behat lhe dá a habilidade de fazer exatamente isto. 
+Você pode especificar argumentos requiridos para instanciar sua classe 
+de contexto através de alguma configuração ``contexts`` em seu ``behat.yml``:
 
 .. code-block:: yaml
 
@@ -279,7 +281,7 @@ same ``contexts`` setting inside your ``behat.yml``:
 
 .. note::
 
-    Note an indentation for parameters. It is significant:
+    Nota sobre identação para parâmetros. É significativo:
 
     .. code-block:: yaml
 
@@ -288,12 +290,12 @@ same ``contexts`` setting inside your ``behat.yml``:
                 - http://localhost:8080
                 - /var/tmp
 
-    Aligned four spaces from the context class itself.
+    Alinhado a quatro espaços da própria classe de contexto.
 
-Arguments would be passed to the ``MyAwesomeContext`` constructor in
-the order they were specified here. If you are not happy with the idea
-of keeping an order of arguments in your head, you can use argument
-names instead:
+Argumentos seriam passados ao construtor ``MyAwesomeContext`` na 
+ordem especificada aqui. Se você não está feliz com a ideia de 
+manter uma ordem de argumentos em sua cabeça, você pode utilizar 
+nomes de argumentos em vez disso:
 
 .. code-block:: yaml
 
@@ -307,8 +309,8 @@ names instead:
                         baseUrl: http://localhost:8080
                         tempPath: /var/tmp
 
-As a matter of fact, if you do, the order in which you specify these
-arguments becomes irrelevant:
+Na realidade, se você o fizer, a ordem em que você especificar estes 
+argumentos se torna irrelevante:
 
 .. code-block:: yaml
 
@@ -322,8 +324,8 @@ arguments becomes irrelevant:
                         tempPath: /var/tmp
                         baseUrl: http://localhost:8080
 
-Taking this a step further, if your context constructor arguments are
-optional:
+Levando isso um passo adiante, se os seus argumentos de construtor 
+de contexto são opcionais:
 
 .. code-block:: php
 
@@ -333,7 +335,7 @@ optional:
         $this->tempPath = $tempPath;
     }
 
-You then can specify only the parameter that you actually need to change:
+Você então pode especificar somente o parâmetro que você precisa mudar atualmente:
 
 .. code-block:: yaml
 
@@ -346,15 +348,16 @@ You then can specify only the parameter that you actually need to change:
                     - MyAwesomeContext:
                         tempPath: /var/tmp
 
-In this case, the default values would be used for other parameters.
+Neste caso, o valor padrão seria utilizado para outros parâmetros.
 
-Context Traits
---------------
+Traços de Contexto
+------------------
 
-PHP 5.4 have brought an interesting feature to the language - traits.
-Traits are a mechanism for code reuse in single inheritance languages
-like PHP. Traits are implemented as a compile-time copy-paste in PHP.
-That means if you put some step definitions or hooks inside a trait:
+O PHP 5.4 trouxe uma funcionalidade interessante para a linguagem - traços.
+Traços são um mecanismo para reutilização de código em linguagens de 
+herança simples como o PHP. Traços são implementados em PHP como um 
+copia-cola em tempo de compilação. Que significa se você colocar alguma 
+definição de etapa ou hooks dentro de um traço:
 
 .. code-block:: php
 
