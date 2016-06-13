@@ -60,8 +60,8 @@ por funcionalidades e testá-los com ``WebContext``:
                 paths:    [ %paths.base%/features/web ]
                 contexts: [ WebContext ]
 
-You then might want to also describe some API-specific features in
-``features/api`` and test them with an API-specific ``ApiContext``. Easy:
+Você então pode precisar também descrever alguma funcionalidade para uma API-específica 
+em ``features/api`` e testá-las com um ``ApiContext``. Fácil:
 
 .. code-block:: yaml
 
@@ -76,31 +76,29 @@ You then might want to also describe some API-specific features in
                 paths:    [ %paths.base%/features/api ]
                 contexts: [ ApiContext ]
 
-This will cause Behat to:
+Isto fará com que o Behat:
 
-#. Find all features inside ``features/web`` and test them using your
-   ``WebContext``.
+#. Encontre todas as funcionalidades em ``features/web`` e testá-las usando sua ``WebContext``.
 
-#. Find all features inside ``features/api`` and test them using your
-   ``ApiContext``.
+#. Encontre todas as funcionalidades em ``features/api`` e testá-las usando sua ``ApiContext``.
 
 .. note::
 
-    ``%paths.base%`` is a special variable in ``behat.yml`` that refers
-    to the folder in which ``behat.yml`` is stored.
+    ``%paths.base%`` é uma variável especial em ``behat.yml`` que se refere ao arquivo em que 
+    o ``behat.yml`` está armazenado.
 
-Path-based suites are an easy way to test highly-modular applications
-where features are delivered by highly decoupled components. With suites
-you can test all of them together.
+As suites Path-Based são um fácil modo de testar aplicações altamente modulares onde as 
+funcionalidades são entregues por componentes altamente desacoplados. Com suites você pode 
+testar todos eles juntos.
 
-Suite Filters
--------------
+Filtros de Suite
+----------------
 
-In addition to being able to run features from different directories,
-we can run scenarios from the same directory, but filtered by specific
-criteria. The Gherkin parser comes bundled with a set of cool filters
-such as *tags* and *name* filters. You can use these filters to run
-features with specific tag (or name) in specific contexts:
+Além de ser capaz de executar funcionalidades de diretórios diferentes, nós podemos executar 
+cenários do mesmo diretório, mas filtrado por critério específico. O analisador do Gherkin 
+vem empacotado com uma coleção de filtros legais tal como filtros de *tags* e *nome*. Você 
+pode utilizar estes filtros ao executar funcionalidades com uma tag (ou nome) específicas em 
+contextos específicos:
 
 .. code-block:: yaml
 
@@ -119,12 +117,11 @@ features with specific tag (or name) in specific contexts:
                 filters:
                     tags: @api
 
-This configuration will tell Behat to run features and scenarios
-tagged as ``@web`` in ``WebContext`` and features and scenarios
-tagged as ``@api`` in ``ApiContext``. Even if they all are stored
-in the same folder. How cool is that? But it gets even better,
-because Gherkin 4+ (used in Behat 3+) added a very special *role*
-filter. That means, you can now have nice actor-based suites:
+Esta configuração irá dizer ao Behat para executar funcionalidades e cenários com a tag 
+``@web`` em ``WebContext`` e funcionalidades e cenários com a tag ``@api`` em ``ApiContext``. 
+Mesmo se todos eles estão armazenados no mesmo arquivo. Como isso é legal? Mas fica ainda mais, 
+por que o Gherkin 4+ (usado no Behat 3+) adicionado um filtro muito especial *role*. Que 
+significa, que você agora pode ter uma boa suite baseada em ator:
 
 .. code-block:: yaml
 
@@ -132,16 +129,18 @@ filter. That means, you can now have nice actor-based suites:
 
     default:
         suites:
-            user_features:
+            usuario_features:
                 paths:    [ %paths.base%/features ]
-                contexts: [ UserContext ]
+                contexts: [ UsuarioContext ]
                 filters:
-                    role: user
-            admin_features:
+                    role: usuario
+            administrador_features:
                 paths:    [ %paths.base%/features ]
-                contexts: [ AdminContext ]
+                contexts: [ AdministradorContext ]
                 filters:
-                    role: admin
+                    role: administrador
+
+Uma Função filtro 
 
 A Role filter takes a look into the feature description block:
 
@@ -206,4 +205,3 @@ Suites are a core part of Behat. Any feature of Behat knows about
 them and can give you a hand with them. For example, if you defined
 your suites in ``behat.yml`` before running ``--init``, it will actually
 create the folders and suites you configured, instead of the default ones.
-
