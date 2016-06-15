@@ -260,8 +260,7 @@ dos seus hooks ``BeforeScenario`` (:doc:`/guides/3.hooks`).
 Etapas
 ------
 
-`Funcionalidades`_ consiste em etapas, também conhecido como `Dado`_, 
-`Quando`_ e ``Então_.
+`Funcionalidades`_ consiste em etapas, também conhecido como `Dado`_, `Quando`_ e `Então`_.
 
 O Behat não tem uma distinção técnica entre estes três tipos de etapas.
 Contudo, nós recomendamos fortemente que você faça! Estas palavras
@@ -285,7 +284,7 @@ com casos de uso, Dado é a sua pré condição.
 
     Dois bons exemplos do uso de **Dado** são:
 
-    * Crear 
+    * Criar 
 
     * Para criar registros (instâncias de modelo) ou de configuração do 
     banco de dados:
