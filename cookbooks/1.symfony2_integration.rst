@@ -1,27 +1,31 @@
-Integrating Symfony2 with Behat
+Integrando Symfony2 com o Behat
 ===============================
 
-Symfony2 is a `Web Application Framework <http://symfony.com/>`_ that can be easily integrated and used seamlessly with Behat 3.
-As a prerequisite for this cookbook you need to have working Symfony2 application.
+Symfony2 é um `Framework para Aplicações Web <http://symfony.com/>`_ que pode ser 
+facilmente integrado e perfeitamente utilizado com Behat 3.
+Como um pré-requisito para este livro de receitas você precisa ter a aplicação 
+Symfony2 funcionando.
 
-In this cookbook we will cover:
+Neste livro de receitas nós cobriremos:
 
-#. Installing Behat dependency with Composer.
+#. Instalando a dependência do Behat com Composer.
 
-#. Initialising Behat suite.
+#. Inicializando uma suite Behat.
 
-#. Installing and enabling Symfony2 extension.
+#. Instalando e habilitando a extensão Symfony2.
 
-#. Accessing application services in contexts.
+#. Acesso aos serviços de aplicação em Contextos.
 
-#. Using Symfony2 test client as a Mink driver.
+#. Utilizando o cliente de teste Symfony2 como um driver Mink.
 
-Installing Behat in your Symfony2 project
------------------------------------------
+Instalando o Behat em seu projeto Symfony2
+------------------------------------------
 
-Recommended way of managing Behat dependency in your project is to use `Composer <https://getcomposer.org/)>`_.
-Assuming that you already have ``composer.json`` file in your project you only need to add one new entry to it and install.
-It can be done automatically for you with this command:
+A forma recomendada de gerir a dependência do Behat em seu projeto é usar 
+o `Composer <https://getcomposer.org/)>`_.  
+Presumindo que você já tenha o arquivo ``composer.json`` em seu projeto você 
+precisa somente adicionar uma nova entrada para ele e instalar. 
+Isto pode ser feito automaticamente para você com este comando:
 
 .. code-block:: bash
 
@@ -29,16 +33,19 @@ It can be done automatically for you with this command:
 
 .. note::
 
-    Note that we have used ``--dev`` switch for Composer.
-    It means that Behat will be installed as a ``require-dev`` dependency in your project, and will not be present in production.
-    For further information please check `Composer documentation <https://getcomposer.org/doc/04-schema.md#require-dev>`_.
+    Note que nós utilizamos a switch ``--dev`` para o Composer.
+    Isto significa que o Behat será instalado como uma dependência em seu projeto, 
+    e não estará presente em produção. 
+    Para mais informações, por favor verifique a `documentação do Composer <https://getcomposer.org/doc/04-schema.md#require-dev>`_.
 
-Initialising Behat
-------------------
+Inicializando o Behat
+---------------------
 
-After execution of this command you should see information about files initialised in your project,
-and you should be able to write your first scenario.
-In order to verify Behat initialisation you can just run following command:
+Depois de executar este comando você deve ver informações sobre arquivos 
+inicializados em seu projeto, e você deve ser capaz de escrever o seu 
+primeiro cenário. 
+A fim de verificar a inicialização do Behat você pode simplesmente 
+executar o seguinte comando:
 
 .. code-block:: bash
 
@@ -46,20 +53,23 @@ In order to verify Behat initialisation you can just run following command:
 
 .. tip::
 
-    If you don't feel familiar with Behat enough please read :doc:`/quick_intro_pt1` first.
+    Se você não está familiarizado o suficiente com o Behat, por favor leia :doc:`/quick_intro_pt1` primeiro.
 
-Installing and enabling Symfony2 extension
-------------------------------------------
+Instalando e habilitando a extensão Symfony2
+--------------------------------------------
 
-Great, you have a Behat suite working in your project, now it's time to install `Symfony2Extension <https://github.com/Behat/Symfony2Extension>`_.
-To do this you need to add another dependency, but in the same way we did it a while ago:
+Ótimo, você tem uma suite Behat trabalhando em seu projeto, agora é a hora de 
+instalar a `Extensão Symfony2 <https://github.com/Behat/Symfony2Extension>`_. 
+Para fazer isto você precisa adicionar outra dependência, mas da mesma forma 
+que nós o fizemos há algum tempo atrás:
 
 .. code-block:: bash
 
     $ php composer.phar require --dev behat/symfony2-extension
 
-Now it's time to enable extension in your ``behat.yml`` file.
-If it doesn't exist just create such file in your project root and fill it with following content:
+Agora é a hora de habilitar a extensão em seu arquivo ``behat.yml``.
+Se ele não existe, apenas crie este arquivo na raiz do seu projeto e preenchê-lo 
+com o seguinte conteúdo:
 
 .. code-block:: yaml
 
@@ -67,15 +77,17 @@ If it doesn't exist just create such file in your project root and fill it with 
         extensions:
             Behat\Symfony2Extension: ~
 
-If this file already exists just change its contents accordingly.
-From that point you should be able to run Behat and Symfony2 extension will be loaded and ready to work with.
+Se este arquivo já existe, simplesmente mude o conteúdo adequadamente.
+A partir deste ponto você deve ser capaz de executar o Behat e a extensão Symfony2 
+irá ser carregada e pronta para trabalhar.
 
-Accessing application services in contexts
-------------------------------------------
+Acessando serviços de aplicações em contextos
+---------------------------------------------
 
-The extension we have just installed detects the default Symfony configuration and allows
-to use your application services in context classes. To make a service available in a context you need
-to change your ``behat.yml`` configuration and tell the extension which services to inject:
+A extensão que acabou de ser instalada detecta a configuração padrão do Symfony e 
+permite utilizar seu serviço de aplicação em classes de contexto. Para disponibilizar 
+um serviço em uma contexto você precisa mudar sua configuração ``behat.yml`` 
+e dizer a extensão que os serviços injetar:
 
 .. code-block:: yaml
 
@@ -88,34 +100,41 @@ to change your ``behat.yml`` configuration and tell the extension which services
         extensions:
             Behat\Symfony2Extension: ~
 
-This configuration will try to to match the ``$session`` dependency of your ``FeatureContext`` constructor by injecting the ``session`` service into the context.
-Be careful because if such a service does not exist or its name does not match, it will not work and you will end up with a Behat exception.
+Está configuração irá tentar corresponder a ``$session`` dependência de seu 
+construtor ``FeatureContext`` pela injeção do serviço ``session`` no contexto.
+Seja cuidadoso porque se tal serviço não existir ou seu nome não corresponder, 
+ele não irá funcionar e você terminará com uma exceção.
 
-Using KernelDriver with your Behat suite
-----------------------------------------
+Utilizando kernelDriver com sua suite Behat
+-------------------------------------------
 
-Symfony2 has a build-in Test Client, which can help you with web acceptance testing, why not make use of it?
-Especially because Behat has a `Mink Extension <http://mink.behat.org>`_ that makes those kind of testing even easier.
+Symfony2 te, uma compilação interna de Cliente de Teste, que pode ajudar você com 
+o teste de aceite web, porque não o utilizar? 
+Especialmente devido ao Behat tem uma `Extensão Mink <http://mink.behat.org>`_ que 
+faz este tipo de teste ainda mais fácil.
 
-The advantage of using KernelDriver instead of standard Mink driver is that you don't need to run web server in order to access a page.
-Also you can even use `Symfony Profiler <http://symfony.com/doc/current/cookbook/testing/profiling.html>`_ and inspect your application directly!.
-You can read more about test client in `Symfony Documentation <http://symfony.com/doc/current/book/testing.html#your-first-functional-test>`_.
+A vantagem de utilizar o KernelDriver ao invés do Mink driver padrão é que você 
+não precisa executar um servidor web a fim de acessar uma página.
+Você também sempre pode utilizar o `Symfony Profiler <http://symfony.com/doc/current/cookbook/testing/profiling.html>`_ 
+e inspecionar sua aplicação diretamente.
+Você pode ler mais sobre cliente de teste na `Documentação do Symfony <http://symfony.com/doc/current/book/testing.html#your-first-functional-test>`_. 
 
-If you don't have Mink and MinkExtension yet, you can install those two with:
+Se você não tem o Mink e a MinkExtension ainda, você pode instalá-los de duas formas:
 
 .. code-block:: bash
 
     $ php composer.phar require --dev behat/mink
     $ php composer.phar require --dev behat/mink-extension
 
-In order to install BrowserKit Driver you need to execute following command:
+Para instalar o Driver BrowserKit você precisa executar o seguinte comando:
 
 .. code-block:: bash
 
     $ php composer.phar require --dev behat/mink-browserkit-driver
 
-Now you are only one step from being ready to make full use of Symfony2 extension in your project.
-You need to enable extension in your ``behat.yml`` file as follows:
+Agora você está há somente uma etapa para estar pronto para fazer uso completo 
+da extensão Symfony2 em seu projeto.
+Você precisa habilitar a extensão em seu arquivo ``behat.yml`` como a seguir:
 
 .. code-block:: yaml
 
@@ -127,4 +146,4 @@ You need to enable extension in your ``behat.yml`` file as follows:
                     default:
                         symfony2: ~
 
-Et voilà! Now you are ready to drive your Symfony2 app development with Behat3!
+Et voilà! Agora você está pronto para você conduzir o seu desenvolvimento de aplicativo Symfony2 com o Behat3!

@@ -1,12 +1,13 @@
-Running Tests
-=============
+Executando Testes
+=================
 
-Format Options
---------------
+Opções de formato
+-----------------
 
-Behat supports different ways of printing output information. Output printers
-in ``behat`` are called *formats* or *formatters*. You can tell ``behat`` to
-run with a specific formatter by providing the ``--format`` option:
+O Behat suporta diferentes formas de saídas de informações. As saídas no 
+``behat`` são chamadas *formatos* ou *formatadores*. Você pode dizer ao 
+``behat`` para executar com um formatador específico pelo fornecimento 
+da opção ``--format``:
 
 .. code-block:: bash
 
@@ -14,54 +15,56 @@ run with a specific formatter by providing the ``--format`` option:
 
 .. note::
 
-    The default formatter is ``pretty``.
+    O formatador padrão é o ``pretty``.
 
-``behat`` supports 2 formatters out of the box:
+O ``behat`` suporta 2 formatadores de saída:
 
-* ``pretty`` - prints the feature as is:
+* ``pretty`` - imprime a funcionalidade como é:
 
     .. image:: /images/formatter-pretty.png
        :align: center
 
-* ``progress`` - prints one character per step:
+* ``progress`` - imprime um caractere por etapa:
 
    .. image:: /images/formatter-progress.png
       :align: center
 
-
-If you don't want to print output to the console, you can tell ``behat``
-to print output to a file instead of ``STDOUT`` with the ``--out`` option:
+Se você não quer imprimir a saída no console, você pode dizer ao ``behat`` 
+para imprimir a saída em um arquivo ao invés de ``STDOUT`` com a opção 
+``--out``:
 
 .. code-block:: bash
 
-    $ behat --format pretty --out report.txt
+    $ behat --format pretty --out relatorio.txt
 
 .. note::
 
-    Some formatters, like ``junit``, always require the ``--out`` option to be
-    specified. The ``junit`` formatter generates ``*.xml`` files for every
-    suite, so it needs a destination directory to put these XML files into.
-
-Also, you can specify multiple formats to be used by Behat using multiple --format options:
+    Alguns formatadores, como ``junit``, sempre requerem a opção especificar 
+    a opção ``--out``. O formatador ``junit`` gera um arquivo ``*.xml`` para 
+    cada suite, então precisa de um diretório de destino para colocar estes 
+    arquivos XML.
+    
+Você também pode especificar múltiplos formatos para serem usados pelo Behat 
+utilizando múltiplas opções --format:
 
 .. code-block:: bash
 
     $ behat --format pretty --format progress
 
-In this case, default output will be used as output for both formatters. But if you want
-them to use different ones - specify them with ``--out``:
+Neste caso, a saída padrão irá ser utilizada como saída para cada formato. 
+Mas se você quiser que eles usem diferentes - especifique com ``--out``:
 
 .. code-block:: bash
 
     $ behat -f pretty -o ~/pretty.out -f progress -o std -f junit -o xml
 
-In this case, output of pretty formatter will be written to ``~/pretty.out`` file, output of junit
-formatter will be written to ``xml`` folder and progress formatter will just print to console.
+Neste caso, a saída do formatador pretty escreverá no arquivo ``~/pretty.out``, 
+a saída do formatador junit escrever´a no arquivo ``xml`` e o formatador progress 
+somente imprimira no console.
 
-Behat tries hard to identify if your terminal supports colors or not, but
-sometimes it still fails. In such cases, you can force ``behat`` to
-use colors (or not) with the options ``--colors`` or ``--no-colors``,
-respectively:
+O Behat tentará identificar arduamente se o seu terminal suporta cores ou não, 
+mas as vezes ele ainda falhará. Nestes casos, você pode forçar o ``behat`` a 
+utilizar cores (ou não) com as opções ``--colors`` ou ``--no-colors``, respectivamente:
 
 .. code-block:: bash
 

@@ -1,28 +1,30 @@
-Configuration - ``behat.yml``
-=============================
+Configuração - ``behat.yml``
+============================
 
-Behat has a very powerful configuration system based on ``YAML`` configuration files and
-profiles.
+O Behat tem um sistema de configuração muito poderoso baseado na configuração de 
+arquivos ``YAML`` e perfis.
 
 ``behat.yml``
 -------------
 
-All configuration happens inside a single configuration file in the ``YAML``
-format. Behat tries to load ``behat.yml`` or ``config/behat.yml`` by default,
-or you can tell Behat where your config file is with the ``--config`` option:
+Todas as configurações acontecem dentro de um único arquivo de configuração 
+no formato ``YAML``. O Behat tenta carregar ``behat.yml`` ou ``config/behat.yml`` 
+por padrão, ou você pode dizer ao Behat onde está o seu arquivo de configuração 
+com a opção ``--config``:
 
 .. code-block:: bash
 
     $ behat --config custom-config.yml
 
-All configuration parameters in that file are defined under a profile name root
-(``default:`` for example). A profile is just a custom name you can use to
-quickly switch testing configuration by using the ``--profile`` option when
-executing your feature suite.
+Todos os parâmetros de configuração neste arquivo são definidos sob um perfil 
+com nome root (``default:`` for example). Um perfil é justamente um nome 
+customizado que você pode usar para mudar rapidamente as configurações de 
+teste utilizando a opção ``--profile`` quando executar a sua suite de 
+funcionalidade.
 
-The default profile is always ``default``. All other profiles inherit
-parameters from the ``default`` profile. If you only need one profile, define
-all of your parameters under the ``default:`` root:
+O perfil padrão sempre é ``default``. Todos os outros perfis herdam parâmetros 
+do perfil ``default``. Se você só precisa de um perfil, defina todos os seus 
+parâmetros sob o ``default:`` root:
 
 .. code-block:: yaml
 
@@ -30,36 +32,40 @@ all of your parameters under the ``default:`` root:
     default:
         #...
 
-Environment Variable - BEHAT_PARAMS
+Variável de Ambiente - BEHAT_PARAMS
 -----------------------------------
 
-If you want to set up configurable Behat settings, use the ``BEHAT_PARAMS``
-environment variable:
+Se você quiser definir configurações do Behat, utilize a váriavel de 
+ambiente ``BEHAT_PARAMS``:
 
 .. code-block:: bash
 
-    export BEHAT_PARAMS='{"extensions" : {"Behat\\MinkExtension" : {"base_url" : "https://www.example.com/"}}}'
+    export BEHAT_PARAMS='{"extensions" : {"Behat\\MinkExtension" : {"base_url" : "https://www.exemplo.com/"}}}'
 
-You can set any value for any option that is available in a ``behat.yml`` file.
-Just provide options in *JSON* format.  Behat will use those options as defaults.
-You can always override them with the settings in the project ``behat.yml`` file (it has higher priority).
-
-.. tip::
-
-    In order to specify a parameter in an environment variable, the value *must not* exist in your ``behat.yml``
+Você pode configurar qualquer valor para qualquer opção que esteja disponível 
+no arquivo ``behat.yml``. 
+Basta fornecer opções no formato *JSON*. O Behat utilizará essa opção como padrão. 
+Você sempre pode sobrepô-las com as configurações no arquivo ``behat.yml`` do 
+projeto (este tem maior prioridade). 
 
 .. tip::
 
-    NOTE: In Behat 2.x this variable was in *URL* format.  It has been changed to use *JSON* format.
+    A fim de especificar um parâmetro em uma variável de desenvolvimento, o 
+    valor *não deve* existir em seu ``behat.yml``
 
+.. tip::
 
-Global Filters
---------------
+    NOTA: No Behat 2.x está variável estava no formato *URL*. Ele foi modificado 
+    para utilizar o formato *JSON*.
 
-While it is possible to specify filters as part of suite configuration, sometimes you will want to 
-exclude certain scenarios across the suite, with the option to override the filters at the command line.
+Filtros Globais
+---------------
 
-This is achieved by specifying the filter in the `gherkin` configuration:
+Enquanto é possível especificar filtros em uma parte da configuração da suite, 
+por vezes você irá querer excluir certos cenários através da suite, com a opção 
+de sobrepor os filtros pela linha de comando.
+
+Isto é conseguido através da especificação de filtros na configuração do `gherkin`:
 
 .. code-block:: yaml
 
@@ -68,20 +74,22 @@ This is achieved by specifying the filter in the `gherkin` configuration:
     default:
         gherkin:
             filters:
-                tags: ~@wip
-            
-In this instance, scenarios tagged as `@wip` will be ignored unless the CLI command is run with a custom filter, e.g.:
+                tags: ~@fazendo
+
+Nesta instância, cenários com a tag `@fazendo` serão ignorados a menos que o comando 
+seja executado com um filtro personalizado, por exemplo:
 
 .. code-block:: bash
 
-    vendor/bin/behat --tags=wip
+    vendor/bin/behat --tags=fazendo
 
-Custom Autoloading
-------------------
+Autoloading Personalizado
+-------------------------
 
-Sometimes you will need to place your ``features`` folder somewhere other than the
-default location (e.g. ``app/features``). All you need to do is specify the path
-you want to autoload via ``behat.yml``:
+Algumas vezes você irá precisar colocar a sua pasta de ``funcionalidades`` em 
+outro lugar que não seja o padrão (por exemplo ``app/features``). Tudo que você 
+precisa fazer é especificar o caminho que você precisa carregar automaticamente 
+pelo ``behat.yml``:
 
 .. code-block:: yaml
 
@@ -91,10 +99,12 @@ you want to autoload via ``behat.yml``:
         autoload:
             '': %paths.base%/app/features/bootstrap
 
-If you wish to namespace your features (for example: to be PSR-1 compliant) you will need to add the namespace to the classes and also tell behat where to load them. Here ``contexts`` is an array of classes:
+Se você deseja o namespace de suas funcionalidades (por exemplo: para ser 
+compatível com a PSR-1) você irá precisar adicionar o namespace às classes 
+e também dizer ao behat onde carregá-las. Aqui ``contextos`` são um array 
+de classes:
 
 .. code-block:: yaml
-
 
     # behat.yml
 
@@ -107,14 +117,15 @@ If you wish to namespace your features (for example: to be PSR-1 compliant) you 
 
 .. note::
 
-    Using ``behat.yml`` to autoload will only allow for ``PSR-0``.
-    You can also use ``composer.json`` to autoload, which will also
-    allow for ``PSR-4``
-    
-Formatters
-----------
+    A utilização do ``behat.yml`` para auto carregar somente é permitida 
+    pela ``PSR-0``.
+    Você pode também utilizar o ``composer.json`` para auto carregar, 
+    que será também permitido pela ``PSR-4``
 
-Default formatters can be enabled by specifying them in the profile.
+Formatadores
+------------
+
+Formatadores padrão podem ser habilitados especificando-os no perfil.
 
 .. code-block:: yaml
 
@@ -124,10 +135,10 @@ Default formatters can be enabled by specifying them in the profile.
         formatters:
             pretty: true
 
-Extensions
-----------
+Extensões
+---------
 
-Extensions can be configured like this:
+Extensões podem ser configuradas como esta:
 
 .. code-block:: yaml
 
@@ -138,4 +149,3 @@ Extensions can be configured like this:
             Behat\MinkExtension:
                 base_url: http://www.example.com
             	selenium2: ~
-

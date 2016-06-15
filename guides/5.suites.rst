@@ -1,38 +1,14 @@
-Configuring Test Suites
-=======================
+Configurando Suite de Testes
+============================
 
-We already talked about configuring multiple contexts for a single test
-suite in a :doc:`previous chapter </guides/4.contexts>`. Now it is time to talk
-about test suites themselves. A test suite represents a group of concrete
-features together with the information on how to test them.
+Nós já falamos sobre a configuração de contextos múltiplos para uma única suite 
+de testes em um :doc:`capítulo anterior </guides/4.contexts>`. Agora é a hora de 
+falarmos sobre suite de testes mesmo. Uma suite de teste representa um grupo de 
+funcionalidades concretas juntas com a informação de como as testar.
 
-With suites you can configure Behat to test different kinds of features
-using different kinds of contexts and doing so in one run. Test suites are
-really powerful and ``behat.yml`` makes them that much more powerful:
-
-.. code-block:: yaml
-
-    # behat.yml
-
-    default:
-        suites:
-            core_features:
-                paths:    [ %paths.base%/features/core ]
-                contexts: [ CoreDomainContext ]
-            user_features:
-                paths:    [ %paths.base%/features/web ]
-                filters:  { role: user }
-                contexts: [ UserContext ]
-            admin_features:
-                paths:    [ %paths.base%/features/web ]
-                filters:  { role: admin }
-                contexts: [ AdminContext ]
-
-Suite Paths
------------
-
-One of the most obvious settings of the suites is the ``paths``
-configuration:
+Com suites você pode configurar o Behat para testar diferentes tipos de funcionalidades 
+utilizando diferentes tipos de contextos e fazendo-o em uma única execução. Suites de 
+Testes são realmente poderosas e o ``behat.yml`` faz delas muito mais poderosas:
 
 .. code-block:: yaml
 
@@ -40,15 +16,39 @@ configuration:
 
     default:
         suites:
-            core_features:
+            principal_features:
+                paths:    [ %paths.base%/features/principal ]
+                contexts: [ PrincipalContext ]
+            usario_features:
+                paths:    [ %paths.base%/features/web ]
+                filters:  { role: usuario }
+                contexts: [ UsuarioContext ]
+            administrador_features:
+                paths:    [ %paths.base%/features/web ]
+                filters:  { role: administrador }
+                contexts: [ AdministradorContext ]
+
+Caminhos de Suite
+-----------------
+
+Uma das configurações mais óbvias das suites é a configuração 
+de ``caminhos``:
+
+.. code-block:: yaml
+
+    # behat.yml
+
+    default:
+        suites:
+            principal_features:
                 paths:
                     - %paths.base%/features
                     - %paths.base%/test/features
                     - %paths.base%/vendor/.../features
 
-As you might imagine, this option tells Behat where to search for test features. 
-You could, for example, tell Behat to look into the
-``features/web`` folder for features and test them with ``WebContext``:
+Como vocẽ pode imaginar, esta opção diz ao Behat onde é para buscar as funcionalidades 
+de teste. Você poderia, por exemplo, dizer ao Behat para procurar no arquivo ``features/web`` 
+por funcionalidades e testá-los com ``WebContext``:
 
 .. code-block:: yaml
 
@@ -60,8 +60,8 @@ You could, for example, tell Behat to look into the
                 paths:    [ %paths.base%/features/web ]
                 contexts: [ WebContext ]
 
-You then might want to also describe some API-specific features in
-``features/api`` and test them with an API-specific ``ApiContext``. Easy:
+Você então pode precisar também descrever alguma funcionalidade para uma API-específica 
+em ``features/api`` e testá-las com um ``ApiContext``. Fácil:
 
 .. code-block:: yaml
 
@@ -76,31 +76,29 @@ You then might want to also describe some API-specific features in
                 paths:    [ %paths.base%/features/api ]
                 contexts: [ ApiContext ]
 
-This will cause Behat to:
+Isto fará com que o Behat:
 
-#. Find all features inside ``features/web`` and test them using your
-   ``WebContext``.
+#. Encontre todas as funcionalidades em ``features/web`` e testá-las usando sua ``WebContext``.
 
-#. Find all features inside ``features/api`` and test them using your
-   ``ApiContext``.
+#. Encontre todas as funcionalidades em ``features/api`` e testá-las usando sua ``ApiContext``.
 
 .. note::
 
-    ``%paths.base%`` is a special variable in ``behat.yml`` that refers
-    to the folder in which ``behat.yml`` is stored.
+    ``%paths.base%`` é uma variável especial em ``behat.yml`` que se refere ao arquivo em que 
+    o ``behat.yml`` está armazenado.
 
-Path-based suites are an easy way to test highly-modular applications
-where features are delivered by highly decoupled components. With suites
-you can test all of them together.
+As suites Path-Based são um fácil modo de testar aplicações altamente modulares onde as 
+funcionalidades são entregues por componentes altamente desacoplados. Com suites você pode 
+testar todos eles juntos.
 
-Suite Filters
--------------
+Filtros de Suite
+----------------
 
-In addition to being able to run features from different directories,
-we can run scenarios from the same directory, but filtered by specific
-criteria. The Gherkin parser comes bundled with a set of cool filters
-such as *tags* and *name* filters. You can use these filters to run
-features with specific tag (or name) in specific contexts:
+Além de ser capaz de executar funcionalidades de diretórios diferentes, nós podemos executar 
+cenários do mesmo diretório, mas filtrado por critério específico. O analisador do Gherkin 
+vem empacotado com uma coleção de filtros legais tal como filtros de *tags* e *nome*. Você 
+pode utilizar estes filtros ao executar funcionalidades com uma tag (ou nome) específicas em 
+contextos específicos:
 
 .. code-block:: yaml
 
@@ -119,12 +117,11 @@ features with specific tag (or name) in specific contexts:
                 filters:
                     tags: @api
 
-This configuration will tell Behat to run features and scenarios
-tagged as ``@web`` in ``WebContext`` and features and scenarios
-tagged as ``@api`` in ``ApiContext``. Even if they all are stored
-in the same folder. How cool is that? But it gets even better,
-because Gherkin 4+ (used in Behat 3+) added a very special *role*
-filter. That means, you can now have nice actor-based suites:
+Esta configuração irá dizer ao Behat para executar funcionalidades e cenários com a tag 
+``@web`` em ``WebContext`` e funcionalidades e cenários com a tag ``@api`` em ``ApiContext``. 
+Mesmo se todos eles estão armazenados no mesmo arquivo. Como isso é legal? Mas fica ainda mais, 
+por que o Gherkin 4+ (usado no Behat 3+) adicionado um filtro muito especial *role*. Que 
+significa, que você agora pode ter uma boa suite baseada em ator:
 
 .. code-block:: yaml
 
@@ -132,43 +129,49 @@ filter. That means, you can now have nice actor-based suites:
 
     default:
         suites:
-            user_features:
+            usuario_features:
                 paths:    [ %paths.base%/features ]
-                contexts: [ UserContext ]
+                contexts: [ UsuarioContext ]
                 filters:
-                    role: user
-            admin_features:
+                    role: usuario
+            administrador_features:
                 paths:    [ %paths.base%/features ]
-                contexts: [ AdminContext ]
+                contexts: [ AdministradorContext ]
                 filters:
-                    role: admin
+                    role: administrador
 
-A Role filter takes a look into the feature description block:
+Uma Função filtro olha para o bloco da descrição da funcionalidade:
 
 .. code-block:: gherkin
 
-    Feature: Registering users
+    Funcionalidade: Registrando usuários
+      A fim de ajudar mais pessoas a utilizarem nosso sistema
+      Como um administrador
+      Eu preciso ser capaz de registrar mais usuários
+      
       In order to help more people use our system
       As an admin
       I need to be able to register more users
 
-It looks for a ``As a ...`` or ``As an ...`` pattern and guesses its
-actor from it. It then filters features that do not have the expected
-actor from the set. In the case of our example, it basically means that
-features described from the perspective of the *user* actor will
-be tested in ``UserContext`` and features described from the
-perspective of the *admin* actor will be tested in ``AdminContext``.
-Even if they are in the same folder.
+Ele procura por um padrão ``Como um...`` e supõe um ator a partir dele. 
+Ele então filtra funcionalidades que não tenham um ator no conjunto. No 
+caso do nosso exemplo, isso basicamente significa que a funcionalidade 
+descrita a partir da perspectiva do ator *usuário* irá ser testada em 
+``UsarioContext`` e funcionalidades descritas a partir da perspectiva 
+do ator *administrador* serão testadas em ``AdministradorContext``. 
+mesmo se eles estiverem no mesmo arquivo.
 
-Suite Contexts
---------------
+Contextos de Suites
+-------------------
 
-Being able to specify a set of features with a set of contexts for
-these features inside the suite has a very interesting side-effect.
-You can specify the same features in two different suites being tested
-against different contexts *or* the same contexts configured differently.
-This basically means that you can use the same subset of features to
-develop different layers of your application with Behat:
+São capazes de especificar um conjunto de funcionalidades com um 
+conjunto de contextos para estas funcionalidades dentro da suite 
+tem um efeito colateral muito interessante. Você pode especificar as 
+mesmas funcionalidades em duas suites diferentes sendo testadas por 
+contextos diferentes *ou* o mesmo contexto configurado diferentemente. 
+Isto basicamente significa que você pode utilizar o mesmo subconjunto de 
+funcionalidades para desenvolver diferentes camadas da sua aplicação com 
+o Behat:
 
 .. code-block:: yaml
 
@@ -185,25 +188,26 @@ develop different layers of your application with Behat:
                 filters:
                     tags: @web
 
-In this case, Behat will first run all the features from the ``features/``
-folder in ``DomainContext`` and then only those tagged with ``@web`` in ``WebContext``.
+Neste caso, o Behat irá primeiramente executar todas as funcionalidades de
+``features/`` do arquivo ``DomainContext`` e em seguida somente aqueles com 
+a tag ``@web`` em ``WebContext``.
 
-Executing Suites
-----------------
+Executando Suites
+-----------------
 
-By default, when you run Behat it will execute all registered suites
-one-by-one. If you want to run a single suite instead, use the ``--suite``
-option:
+Por padrão, quando você executa o Behat ele irá executar todas as suites 
+registradas uma por uma. Se ao invés disso você quiser executar uma única 
+suite, utilize a opção ``--suite``:
 
 .. code-block:: bash
 
     $ vendor/bin/behat --suite=web_features
 
-Suite Initialisation
----------------------
+Inicialização de Suite
+----------------------
 
-Suites are a core part of Behat. Any feature of Behat knows about
-them and can give you a hand with them. For example, if you defined
-your suites in ``behat.yml`` before running ``--init``, it will actually
-create the folders and suites you configured, instead of the default ones.
-
+Suites são a principal parte do Behat. Qualquer funcionalidade do Behat 
+sabe sobre elas e pode lhe dar uma mão com elas. Por exemplo, se você 
+definir suas suites em ``behat.yml`` antes de executar ``--init``, 
+ele realmente irá criar os arquivos e suites que você configurou, 
+ao invés do padrão.

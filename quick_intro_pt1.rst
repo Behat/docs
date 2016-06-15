@@ -1,246 +1,249 @@
-Building Domain Model
-=====================
+Construindo Modelo de Domínio
+=============================
 
-Welcome to Behat! Behat is a tool to close the `Behavior Driven Development`_
-(BDD) communication loop. BDD is a methodology for developing software through
-continuous example-based communication between developers and a business,
-which this application supports. This communication happens in a form that
-both the business and developers can clearly understand - examples. Examples are
-structured around the ``Context-Action-Outcome`` pattern and are written in a
-special format called *Gherkin*. The fact that Gherkin is very structural
-makes it very easy to automate and autotest your behaviour examples against
-a developing application. Automated examples are then actually used to drive
-this application development TDD-style.
+Bem vindo ao Behat! Behat é uma ferramenta para fechar o laço de comunicação do 
+`Desenvolvimento Dirigido por Comportamento-BDD`. BDD é uma metodologia de 
+desenvolvimento de software baseado em exemplo por meio da comunicação contínua 
+entre desenvolvedores e a área de negócios que esta aplicação suporta. Esta 
+comunicação acontece de uma forma que a área de negócios e os desenvolvedores 
+podem claramente entender - exemplos. Exemplos são estruturados entorno do padrão
+``Contexto-Ação-Resultado`` e são escritos em um formato especial chamado *Gherkin*.
+O fato do Guerkin ser muito estrutural torna muito fácil automatizar testes de 
+comportamento contra uma aplicação em desenvolvimento. Exemplos 
+automatizados são utilizados atualmente para guiar o desenvolvimento de aplicações TDD-style.
 
-Example
+Exemplo
 -------
 
-Let's imagine that you are building a completely new e-commerce platform.
-One of the key features of any online shopping platform is the ability to buy
-products. But before buying anything, customers should be able to tell the
-system which products they are interested in buying. You need a basket.
-So let's write our first user-story:
+Vamos imaginar que você está construindo uma plataforma totalmente nova de e-commerce.
+Uma das características fundamentais de qualquer plataforma de compras online é a habilidade
+de comprar produtos. Mas antes de comprar algo, os clientes devem poder informar ao sistema
+quais produtos eles têm interesse de comprar. Vocẽ precisa de um carrinho de produtos.
+Então vamos escrever sua primeira user-story:
 
 .. code-block:: gherkin
 
-    Feature: Product basket
-      In order to buy products
-      As a customer
-      I need to be able to put interesting products into a basket
+    # language: pt
+    Funcionalidade: Carrinho de produtos
+      A fim de comprar produtos
+      Como um cliente
+      Eu preciso colocar produtos do meu interesse no carrinho
 
-.. note::
+.. nota::
 
-    This is a basic Gherkin feature and it is a simple description of
-    this feature's story. Every feature starts with this same format: a
-    line with the title of the feature, followed by three lines that
-    describe the benefit, the role and the feature itself with any
-    amount of additional description lines following after.
+    Esta é uma feature básica em Gherkin e esta é uma simples descrição 
+    desta história. Cada feature inicia com este mesmo formato: uma
+    linha com o título da feature, seguida por três linhas que descrevem
+    os benefícios, o papel e o próprio recurso com qualquer quantidade de 
+    linhas de descrição adicionais seguem depois.
 
-Before we begin to work on this feature, we must fulfil a promise of any
-user-story and have a real conversation with our business stakeholders.
-They might say that they want customers to see not only the combined
-price of the products in the basket, but the price reflecting both the
-VAT (20%) and the delivery cost (which depends on the total price of
-the products):
-
-.. code-block:: gherkin
-
-    Feature: Product basket
-      In order to buy products
-      As a customer
-      I need to be able to put interesting products into a basket
-
-      Rules:
-      - VAT is 20%
-      - Delivery for basket under £10 is £3
-      - Delivery for basket over £10 is £2
-
-So as you can see, it already becomes tricky (ambiguous at least) to talk
-about this feature in terms of *rules*. What does it mean to add VAT? What
-happens when we have two products, one of which is less than £10 and another
-that is more? Instead you proceed with having a back-and-forth chat with
-stakeholders in form of actual examples of a *customer* adding products to
-the basket. After some time, you will come up with your first behaviour
-examples (in BDD these are called *scenarios*):
+Antes de nós começarmos a trabalhar nesta feature, nós precisamos preencher 
+uma promessa de user-story e ter uma conversa de verdade com nossos stakeholders 
+da área de negócios. Eles podem dizer que eles querem que os clientes vejam 
+o preço combinado do produto no carrinho, mas que o preço reflita o imposto (20%) 
+e o valor do frete (que depende da soma total dos produtos):
 
 .. code-block:: gherkin
 
-    Feature: Product basket
-      In order to buy products
-      As a customer
-      I need to be able to put interesting products into a basket
+    # language: pt
+    Funcionalidade: Carrinho de produtos
+      A fim de comprar produtos
+      Como um cliente
+      Eu preciso colocar produtos do meu interesse no carrinho
 
-      Rules:
-      - VAT is 20%
-      - Delivery for basket under £10 is £3
-      - Delivery for basket over £10 is £2
+      Regras:
+      - O imposto é de 20%
+      - O frete para um carrinho de compras até R$10 é R$3
+      - O frete para um carrinho de compras maior que R$10 é R$2
 
-      Scenario: Buying a single product under £10
-        Given there is a "Sith Lord Lightsaber", which costs £5
-        When I add the "Sith Lord Lightsaber" to the basket
-        Then I should have 1 product in the basket
-        And the overall basket price should be £9
+Então como você pode ver, está ficando complicado (ambíguo, pelo menos)
+falar sobre está feature, em termos de *regras*. O que você entende por 
+adicionar imposto? O que acontece quando nós tivermos dois produtos, 
+um com valor menor que R$10 e outro de maior valor? Ao invés de você
+prosseguir em ter um leva e traz de conversas entre os stakeholders na forma
+dos exemplos atuais de um *cliente* adicionando produtos ao carrinho. Depois
+de algum tempo, você vai levantar seus primeiros exemplos de comportamentos (no BDD 
+isto é chamado de *Cenários*):
 
-      Scenario: Buying a single product over £10
-        Given there is a "Sith Lord Lightsaber", which costs £15
-        When I add the "Sith Lord Lightsaber" to the basket
-        Then I should have 1 product in the basket
-        And the overall basket price should be £20
+.. code-block:: gherkin
 
-      Scenario: Buying two products over £10
-        Given there is a "Sith Lord Lightsaber", which costs £10
-        And there is a "Jedi Lightsaber", which costs £5
-        When I add the "Sith Lord Lightsaber" to the basket
-        And I add the "Jedi Lightsaber" to the basket
-        Then I should have 2 products in the basket
-        And the overall basket price should be £20
+    # language: pt
+    Funcionalidade: Carrinho de produtos
+      A fim de comprar produtos
+      Como um cliente
+      Eu preciso colocar produtos do meu interesse no carrinho
 
-.. note::
+      Regras:
+      - O imposto é de 20%
+      - O frete para um carrinho de compras até R$10 é R$3
+      - O frete para um carrinho de compras maior que R$10 é R$2
 
-    Each scenario always follows the same basic format:
+      Cenário: Comprando um único produto que custe menos que R$10
+        Dado que exista um "Sabre de luz do Lorde Sith", que custe R$5
+        Quando Eu adicionar o "Sabre de luz do Lorde Sith" ao carrinho
+        Então Eu devo ter 1 produto no carrinho
+        E o valor total do carrinho deve ser de R$9
+
+      Cenário: Comprando um único produto que custe mais que R$10
+        Dado que exista um "Sabre de luz do Lorde Sith", que custe R$15
+        Quando Eu adicionar o "Sabre de luz do Lorde Sith" ao carrinho
+        Então Eu devo ter 1 produto no carrinho
+        E o valor total do carrinho deve ser de R$20
+
+      Cenário: Comprando dois produtos que custem mais que R$10
+        Dado que exista um "Sabre de luz do Lorde Sith", que custe R$10
+        E que exista um "Sabre de luz Jedi", que custe R$5
+        Quando Eu adicionar o "Sabre de luz do Lorde Sith" ao carrinho
+        E Eu adicionar o "Sabre de luz Jedi" ao carrinho
+        Então Eu devo ter 2 products no carrinho
+        E o valor total do carrinho deve ser de R$20
+
+.. nota::
+
+    Cada cenário sempre segue o mesmo formato básico:
 
     .. code-block:: gherkin
 
-        Scenario: Some description of the scenario
-          Given some context
-          When some event
-          Then outcome
+        Cenário: Alguma descrição do cenário
+          Dado algum contexto
+          Quando algum evento
+          Então resultado
 
-    Each part of the scenario - the *context*, the *event*,  and the
-    *outcome* - can be extended by adding the ``And`` or ``But`` keyword:
+    Cada parte do cenário - o *contexto*, o *evento*,  e o
+    *resultado* - pode ser extendido pelo adicional da palavra chave ``E`` 
+    ou ``Mas``:
 
     .. code-block:: gherkin
 
-        Scenario: Some description of the scenario
-          Given some context
-          And more context
-          When some event
-          And second event occurs
-          Then outcome
-          And another outcome
-          But another outcome
+        Cenário: Alguma descrição do cenário
+          Dado algum contexto
+          E mais outro contexto
+          Quando algum evento
+          E um segundo evento ocorra
+          Então o resultado
+          E outro resultado
+          Mas outro resultado
 
-    There's no actual difference between, ``Then``, ``And`` ``But`` or any
-    of the other words that start each line. These keywords are all made
-    available so that your scenarios are natural and readable.
+    Não há uma real diferença entre ``Então``, ``E`` ``Mas`` ou qualquer 
+    outra palavra que inicie cada linha. Estas palavras chave são 
+    disponibilizadas para que os cenários sejam naturais e legíveis.
+    
+Isto é seu e seus stakeholders compartilham da mesma escrita em um formato 
+estruturado do projeto. Tudo é baseado na clara e construtiva conversa que 
+vocês tiveram juntos. Agora você pode colocar este texto em um arquivo 
+simples - ``features/carrinho.feature`` - dentro do diretório do seu projeto e 
+começar a implementar a funcionalidade checando manualmente se se encaixa no 
+cenário definido. Não é necessário nenhuma ferramenta (Behat em seu caso). 
+Isto é, na essência, o que o BDD é.
 
-This is your and your stakeholders' shared understanding of the project written
-in a structured format. It is all based on the clear and constructive
-conversation you have had together. Now you can put this text in a simple file -
-``features/basket.feature`` - under your project directory and start
-implementing the feature by manually checking if it fits the defined scenarios.
-No tools (Behat in our case) needed. That, in essence, is what BDD is.
+Se você ainda está lendo,  significa que você ainda espera mais. Ótimo! 
+Porque  apesar das ferramentas não serem a peça central do quebra-cabeça do BDD, 
+elas melhoram todo o processo e adicionam muitos benefícios ao topo disto.
+Para isso, ferramentas como o Behat atualmente fecham o ciclo de comunicação da história.
+Isto significa que não somente você e seu stakeholder podem juntos definir como sua 
+feature deveria trabalhar após ser implementada, ferramentas de BDD permitem a você
+automatizar a checagem do comportamento após a funcionalidade ser implementada. Então
+todo mundo sabe quando isto está feito e quando o time pode parar de escrever código.
+Isto, na essência, é oque o Behat é.
 
-If you are still reading, it means you are expecting more. Good! Because
-even though tools are not the central piece of BDD puzzle, they do improve
-the entire process and add a lot of benefits on top of it. For one, tools
-like Behat actually do close the communication loop of the story. It means
-that not only you and your stakeholder can together define how your
-feature should work before going to implement it, BDD tools allow you to
-automate that behaviour check after this feature is implemented. So everybody
-knows when it is done and when the team can stop writing code. That, in
-essence, is what Behat is.
+*Behat é um executável que quando você o executa da linha de comando ele irá testar como 
+a sua aplicação se comporta exatamente como você descreveu nos seus ``*.feature`` cenários.*
 
-Behat is an executable that you'll run from the command line to test that your
-application behaves exactly as you described in your ``*.feature`` scenarios.
+Indo adiante, nós vamos mostrar a você como o Behat pode ser usado para automatizar em 
+particular esta feature do carrinho de compras como um teste verificando se aquela 
+aplicação (existindo ou não) trabalha como você e seus stakeholders esperam (de acordo 
+com a conversa de vocês) também.
 
-Going forward, we'll show you how Behat can be used to automate this particular
-basket feature as a test verifying that the application (existing or not)
-works as you and your stakeholders expect (according to your conversation) it
-to.
+É isso ai! O Behat pode ser usado para automatizar qualquer coisa, inclusive relacionadas a
+funcionalidades web via `Mink`_ library.
 
-That's it! Behat can be used to automate anything, including web-related
-functionality via the `Mink`_ library.
+.. nota::
 
-.. note::
+    Se você quer aprender mais sobre a filosofia do "Desenvolvimento 
+    Dirigido por comportamento" sobre a sua aplicação, veja `What's in a Story?`_
 
-    If you want to learn more about the philosophy of "Behaviour Driven
-    Development" of your application, see `What's in a Story?`_
+.. nota::
 
-.. note::
+    Behat estava profundamente inspirado pelo projeto em Ruby `Cucumber`_. Desde a v3.0,
+    Behat é considerado uma implementação oficial do Cucumber em PHP e faz parte da grande
+    família de ferramentas BDD.
 
-    Behat was heavily inspired by Ruby's `Cucumber`_ project. Since v3.0,
-    Behat is considered an official Cucumber implementation in PHP and is part
-    of one big family of BDD tools.
+Instalação
+----------
 
-Installation
-------------
+Antes de você começar, garanta que você tem uma versão superior a 5.3.3 do PHP instalada.
 
-Before you begin, ensure that you have at least PHP 5.3.3 installed.
+Método #1 - Composer (o recomendado)
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-Method #1 - Composer (the recommended one)
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-
-The official way to install Behat is through Composer. Composer is a package
-manager for PHP. Not only can it install Behat for you right now, it will be
-able to easily update you to the latest version later when one comes out. If
-you don't have Composer already, see
-`the Composer documentation <https://getcomposer.org/download/>`_ for
-instructions. After that, just go into your project directory (or create a
-new one) and run:
+O caminho oficial para instalar o Behat é através do Composer. Composer é um
+gerenciador de pacotes para PHP. Ele não irá lhe ser útil somente para instalar o Behat para 
+você agora, ele será capaz de atualizar facilmente para a última versão mais tarde, quando 
+for lançada. Se você ainda não tem o Composer, veja `a documentação do Composer <https://getcomposer.org/download/>`_ 
+para instruções. Depois disto, basta ir ao diretório do projeto (ou criar um novo) e rodar:
 
 .. code-block:: bash
 
     $ php composer.phar require --dev behat/behat=~3.0.4
 
-Then you will be able to check installed Behat version using:
+Então vocẽ estará apto a checar a versão instalada do Behat:
 
 .. code-block:: bash
 
     $ vendor/bin/behat -V
     
-Method #2 - PHAR (an easy one)
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+Método #2 - PHAR (um caminho fácil)
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-An easier way to install Behat is to grab a latest ``behat.phar`` from
-`the download page <https://github.com/Behat/Behat/releases>`_. Make sure
-that you download a ``3+`` release. After downloading it, just place it in
-your project folder (or create a new one) and check the installed version using:
+Um caminho fácil para instalar o Behat é pegar a última ``behat.phar`` na 
+`página de download <https://github.com/Behat/Behat/releases>`_. Certifique-se
+de fazer o download de uma versão ``3+``. Depois de baixar isto, basta colocá-lo 
+no diretório do seu projeto (ou criar um novo) e checar a versão instalada usando:
 
 .. code-block:: bash
 
     $ php behat.phar -V
 
-Development
------------
+Desenvolvendo
+-------------
 
-Now we will use our newly installed Behat to automate our previously written
-feature under the ``features/basket.feature``.
+Agora nós vamos usar nosso recém instalado Behat para automatizar a feature escrita 
+anteriormente em ``features/carrinho.feature``.
 
-Our first step after describing the feature and installing Behat is configuring
-the test suite. A test suite is a key concept in Behat. Suites are a way for Behat
-to know where to find and how to test your application against your features.
-By default, Behat comes with a ``default`` suite, which tells Behat to search
-for features under the ``features/`` folder and test them using ``FeatureContext``
-class. Lets initialise this suite:
+Nosso primeiro passo após descrever a feature e instalar o Behat é configurar a suite 
+de teste. Uma suite de teste é um conceito chave em Behat. Suites são uma forma do Behat 
+saber onde achar e como testar sua aplicação com as suas features.
+Por padrão, Behat vem com uma suite ``default``, que diz ao Behat para procurar por 
+features no diretório ``features/`` e os teste usando a classe ``FeatureContext``.
+Vamos inicializar esta suite:
 
 .. code-block:: bash
 
     $ vendor/bin/behat --init
 
-.. note::
+.. nota::
 
-    If you installed Behat via PHAR, use ``php behat.phar`` instead of
-    ``vendor/bin/behat`` in the rest of this article.
+    Se você instalou o Behat via PHAR, use ``php behat.phar`` ao invés de
+    ``vendor/bin/behat`` no resto deste artigo.
 
-The ``--init`` command tells Behat to provide you with things missing
-to start testing your feature. In our case - it's just a ``FeatureContext``
-class under the ``features/bootstrap/FeatureContext.php`` file.
+O comando ``--init`` diz ao Behat para prover para você com coisas faltando 
+para começar a testar sua feature. Em nosso caso - é apenas uma classe ``FeatureContext`` 
+no arquivo ``features/bootstrap/FeatureContext.php``.
 
-Executing Behat
-~~~~~~~~~~~~~~~
+Executando o Behat
+~~~~~~~~~~~~~~~~~~
 
-I think we're ready to see Behat in action! Let's run it:
+Eu acho que nós estamos prontos para ver o Behat em ação! Vamos rodar isto:
 
 .. code-block:: bash
 
     $ vendor/bin/behat
 
-You should see that Behat recognised that you have 3 scenarios. Behat should
-also tell you that your ``FeatureContext`` class has missing steps and proposes
-step snippets for you. ``FeatureContext`` is your test environment. It is an
-object through which you will describe how you would test your application against
-your features. It was generated by the ``--init`` command and now looks like this:
+Vocẽ deve ver que o Behat reconheceu que você tem 3 cenários. o Behat deve também
+contar a você que na sua classe ``FeatureContext`` faltam passos e propor trechos 
+para etapas para você. ``FeatureContext`` é seu ambiente de teste. É um objeto 
+através do qual você descreve como você deve testar sua aplicação através de suas 
+features. Isso foi gerado através do comando ``--init`` e agora se parece com isso:
 
 .. code-block:: php
 
@@ -260,104 +263,103 @@ your features. It was generated by the ``--init`` command and now looks like thi
         }
     }
 
-Defining Steps
-~~~~~~~~~~~~~~
+Definindo Steps
+~~~~~~~~~~~~~~~
 
-Finally, we got to the automation part. How does Behat know what to do
-when it sees ``Given there is a "Sith Lord Lightsaber", which costs £5``? You
-tell it. You write PHP code inside your context class (``FeatureContext``
-in our case) and tell Behat that this code represents a specific scenario step
-(via an annotation with a pattern):
+Finalmente, nós chegamos a parte de automação. Como é que o Behat sabe o que fazer 
+quando vê  ``Dado que exista um "Sabre de luz do Lorde Sith", que custe R$5``? 
+Diga a ele. Você escreve em PHP dentro da sua classe de contexto (``FeatureContext`` 
+no seu caso) e diz ao Behat que este código representa um passo específico do cenário 
+(através de uma anotação com um padrão):
 
 .. code-block:: php
 
     /**
-     * @Given there is a(n) :arg1, which costs £:arg2
+     * @Given que exista um :arg1, que custe R$:arg2
      */
-    public function thereIsAWhichCostsPs($arg1, $arg2)
+    public function queExistaUmQueCusteR($arg1, $arg2)
     {
         throw new PendingException();
     }
 
-.. note::
 
-    ``/** ... */`` is a special syntax in PHP called a doc-block. It is
-    discoverable at runtime and used by different PHP frameworks as a
-    way to provide additional meta-information for the classes, methods and
-    functions. Behat uses doc-blocks for step definitions, step
-    transformations and hooks.
+.. nota::
 
-``@Given there is a(n) :arg1, which costs £:arg2`` above the method tells Behat
-that this particular method should be executed whenever Behat sees step that
-looks like ``... there is a ..., which costs £...``. This pattern will match
-any of the following steps:
+    ``/** ... */`` é uma sintaxe especial em PHP chamada de doc-block.
+    Isto é detectável em tempo de execução e usado por diferentes frameworks 
+    de PHP como um caminho para prover meta-informação adicionais para as 
+    classes, métodos e funções. Behat usa doc-blocks para step definitions, 
+    step transformations e hooks.
+
+``@Given que exista um :arg1, que custe R$:arg2`` sobre o método diz ao Behat
+que este método em particular deve ser executado sempre que o Behat ver um step 
+que se pareça com ``... que exista um ..., que custe R$...``. Este padrão 
+combina qualquer um dos seguintes steps:
 
 .. code-block:: gherkin
 
-    Given there is a "Sith Lord Lightsaber", which costs £5
-    When there is a "Sith Lord Lightsaber", which costs £10
-    Then there is an 'Anakin Lightsaber', which costs £10
-    And there is a Lightsaber, which costs £2
-    But there is a Lightsaber, which costs £25
+    Dado que exista um "Sabre de luz do Lorde Sith", que custe R$5
+    Quando que exista um "Sabre de luz do Lorde Sith", que custe R$10
+    Então que exista um "Sabre de luz do Anakin", que custe R$10
+    E que exista um "Sabre de luz", que custe R$2
+    Mas que exista um "Sabre de luz", que custe R$25
 
-Not only that, but Behat will capture tokens (words starting with ``:``, e.g.
-``:arg1``) from the step and pass their value to the method as arguments:
+Não somente estes, mas o Behat irá capturar tokens (palavras iniciadas com ``:``, 
+por exemplo ``:arg1``) a partir do step e passar seu valor para o método como argumentos:
 
 .. code-block:: php
 
-    // Given there is a "Sith Lord Lightsaber", which costs £5
-    $context->thereIsAWhichCostsPs('Sith Lord Lightsaber', '5');
+    // Dado que exista um "Sabre de luz do Lorde Sith", que custe R$5
+    $context->queExistaUmQueCusteR('Sabre de luz do Lorde Sith', '5');
 
-    // Then there is a 'Jedi Lightsaber', which costs £10
-    $context->thereIsAWhichCostsPs('Jedi Lightsaber', '10');
+    // Então que exista um "Sabre de luz Jedi", que custe R$10
+    $context->queExistaUmQueCusteR('Sabre de luz Jedi', '10');
 
-    // But there is a Lightsaber, which costs £25
-    $context->thereIsAWhichCostsPs('Lightsaber', '25');
+    // Mas que exista um "Sabre de luz", que custe R$25
+    $context->queExistaUmQueCusteR('Sabre de luz', '25');
 
-.. note::
+.. nota::
 
-    If you need to define more complex matching algorithms, you can also use regular
-    expressions:
+    Se você precisa definir algoritmos de correspondência mais complexos, 
+    você também pode usar expressões regulares:
 
     .. code-block:: php
 
         /**
-         * @Given /there is an? \"([^\"]+)\", which costs £([\d\.]+)/
+         * @Given /que exista um? \"([^\"]+)\", que custe R$([\d\.]+)/
          */
-        public function thereIsAWhichCostsPs($arg1, $arg2)
+        public function queExistaUmQueCusteR($arg1, $arg2)
         {
             throw new PendingException();
         }
 
-Those patterns could be quite powerful, but at the same time, writing them for all
-possible steps manually could become extremely tedious and boring. That's why Behat
-does it for you. Remember when you previously executed ``vendor/bin/behat`` you
-got:
+Estes padrões podem ser muito poderosos, mas ao mesmo tempo, escreve-los por todos steps 
+possíveis manualmente pode ser extremamente tedioso e chato. É por isso que o Behat faz
+isto para você. Relembre quando você executou anteriormente ``vendor/bin/behat`` você teve:
 
 .. code-block:: text
 
     --- FeatureContext has missing steps. Define them with these snippets:
 
         /**
-         * @Given there is a :arg1, which costs £:arg2
+         * @Given que exista um :arg1, que custe R$:arg2
          */
-        public function thereIsAWhichCostsPs($arg1, $arg2)
+        public function queExistaUmQueCusteR($arg1, $arg2)
         {
             throw new PendingException();
         }
 
-Behat automatically generates snippets for missing steps and all that you need to
-do is copy and paste them into your context classes. Or there is an even easier
-way - just run:
+O Behat gera automaticamente trechos para etapas que faltam e tudo que você precisa 
+para os copiar e colar em sua classe context. Ou há ainda um caminho mais fácil - pasta rodar:
 
 .. code-block:: bash
 
     $ vendor/bin/behat --dry-run --append-snippets
 
-And Behat will automatically append all the missing step methods into your
-``FeatureContext`` class. How cool is that?
+E o Behat vai automaticamente acrescentar todos os métodos das etapas que faltam em
+sua classe ``FeatureContext``. Como isso é legal?
 
-If you executed ``--append-snippets``, your ``FeatureContext`` should look like:
+Se vocẽ executou `--append-snippets``, sua ``FeatureContext`` deve se parecer com:
 
 .. code-block:: php
 
@@ -371,56 +373,56 @@ If you executed ``--append-snippets``, your ``FeatureContext`` should look like:
     class FeatureContext implements SnippetAcceptingContext
     {
         /**
-         * @Given there is a :arg1, which costs £:arg2
+         * @Given que exista um :arg1, que custe R$:arg2
          */
-        public function thereIsAWhichCostsPs($arg1, $arg2)
+        public function queExistaUmQueCusteR($arg1, $arg2)
         {
             throw new PendingException();
         }
 
         /**
-         * @When I add the :arg1 to the basket
+         * @When Eu adicionar o :arg1 ao carrinho
          */
-        public function iAddTheToTheBasket($arg1)
+        public function euAdicionarOAoCarrinho($arg1)
         {
             throw new PendingException();
         }
 
         /**
-         * @Then I should have :arg1 product(s) in the basket
+         * @Then Eu devo ter :arg1 produto(s) no carrinho
          */
-        public function iShouldHaveProductInTheBasket($arg1)
+        public function euDevoTerProdutoNoCarrinho($arg1)
         {
             throw new PendingException();
         }
 
         /**
-         * @Then the overall basket price should be £:arg1
+         * @Then o valor total do carrinho deve ser de R$:arg1
          */
-        public function theOverallBasketPriceShouldBePs($arg1)
+        public function oValorTotalDoCarrinhoDeveSerDeR($arg1)
         {
             throw new PendingException();
         }
     }
 
-.. note::
+.. nota::
 
-    We have removed the constructor and grouped ``I should have :arg1 product in the basket``
-    and ``I should have :arg1 products in the basket`` into one
-    ``I should have :arg1 product(s) in the basket``.
+    Nós removemos o construtor e agrupamos ``Eu devo ter :arg1 produto no carrinho`` e
+    ``Eu devo ter :arg1 produtos no carrinho`` em um ``Eu devo ter :arg1 produto(s) no carrinho``
 
 Automating Steps
 ~~~~~~~~~~~~~~~~
 
-Now it is finally time to start implementing our basket feature. The approach when
-you use tests to drive your application development is called a Test-Driven Development
-(or simply TDD). With TDD you start by defining test cases for the functionality you
-develop, then you fill these test cases with the best-looking application code you could
-come up with (use your design skills and imagination).
+Agora finalmente é o tempo de começar a implementar nossa feature do carrinho de compras.
+A abordagem quando você usa testes para dirigir o desenvolvimento da sua aplicação é chamada 
+de Test-Driven Development (ou simplesmente TDD). Com o TDD você inicia definindo casos de 
+testes para a funcionalidade que você vai desenvolver, em seguida você preenche estes casos 
+de teste com o melhor código da aplicação que você poderia chegar (use suas habilidades 
+de design e imaginação).
 
-In the case of Behat, you already have defined test cases (step definitions in your
-``FeatureContext``) and the only thing that is missing is that best-looking application
-code we could come up with to fulfil our scenario. Something like this:
+No caso do Behat, você já tem casos de teste definidos (step definitions em sua ``FeatureContext``) 
+e a unica coisa que está faltando é o melhor código da aplicação que poderíamos chegar para cumprir 
+o nosso cenário. Algo assim:
 
 .. code-block:: php
 
@@ -433,278 +435,278 @@ code we could come up with to fulfil our scenario. Something like this:
 
     class FeatureContext implements SnippetAcceptingContext
     {
-        private $shelf;
-        private $basket;
+        private $prateleira;
+        private $carrinho;
 
         public function __construct()
         {
-            $this->shelf = new Shelf();
-            $this->basket = new Basket($this->shelf);
+            $this->prateleira = new Prateleira();
+            $this->carrinho = new Carrinho($this->prateleira);
         }
 
         /**
-         * @Given there is a :product, which costs £:price
+         * @Given que exista um :produto, que custe R$:valor
          */
-        public function thereIsAWhichCostsPs($product, $price)
+        public function queExistaUmQueCuste($produto, $valor)
         {
-            $this->shelf->setProductPrice($product, floatval($price));
+            $this->prateleira->colocaValorProduto($produto, floatval($valor));
         }
 
         /**
-         * @When I add the :product to the basket
+         * @When Eu adicionar o :produto ao carrinho
          */
-        public function iAddTheToTheBasket($product)
+        public function euAdicionarOAoCarrinho($produto)
         {
-            $this->basket->addProduct($product);
+            $this->carrinho->adicionaProduto($produto);
         }
 
         /**
-         * @Then I should have :count product(s) in the basket
+         * @Then Eu devo ter :quantidade produto(s) no carrinho
          */
-        public function iShouldHaveProductInTheBasket($count)
+        public function euDevoTerProdutoNoCarrinho($quantidade)
         {
             PHPUnit_Framework_Assert::assertCount(
-                intval($count),
-                $this->basket
+                intval($quantidade),
+                $this->carrinho
             );
         }
 
         /**
-         * @Then the overall basket price should be £:price
+         * @Then o valor total do carrinho deve ser de R$:valor
          */
-        public function theOverallBasketPriceShouldBePs($price)
+        public function oValorTotalDoCarrinhoDeveSerDeR($valor)
         {
             PHPUnit_Framework_Assert::assertSame(
-                floatval($price),
-                $this->basket->getTotalPrice()
+                floatval($valor),
+                $this->carrinho->pegaValorTotal()
             );
         }
     }
 
-As you can see, in order to test and implement our application, we introduced 2 objects -
-``Shelf`` and ``Basket``. The first is responsible for storing products and their prices,
-the second is responsible for the representation of our customer basket. Through appropriate step
-definitions we declare products' prices and add products to the basket. We then compare the
-state of our ``Basket`` object with our expectations using PHPUnit assertions.
+Como você pode ver, afim de implementar e testar nossa aplicação, nós introduzimos 2 objetos - 
+``Prateleira`` and ``Carrinho``. O primeiro responsavel por armazenar produtos e seus preços, 
+o segundo é responsável pela representação do carrinho do nosso cliente. Através do step definitions
+apropriado nós declaramos produtos' preços e adicionamos ao carrinho. Nós então comparamos o estado 
+de nosso objeto ``Carrinho`` com a nossa expectativa usando asserções do PHPUnit.
 
-.. note::
+.. nota::
 
-    Behat doesn't come with its own assertion tool, but you can use any proper assertion
-    tool out there. A proper assertion tool is a library whose assertions throw
-    exceptions on failure. For example, if you're familiar with PHPUnit you can use
-    its assertions in Behat by installing it via composer:
+    O Behat não vem com uma ferramenta própria de asserção, mas você pode usar qualquer 
+    outra ferramenta correta de asserção. Uma ferramenta de asserção correta é uma biblioteca 
+    cujas afirmações lançam excessões em caso de falha. Por exemplo, se você está familiarizado 
+    com o PHPUnit você pode usar as asserções dele no Behat instalando via composer:
 
     .. code-block:: bash
 
         $ php composer.phar require --dev phpunit/phpunit='~4.1.0'
 
-    and then by simply using assertions in your steps:
+    E então simplesmente usar as asserções em seus steps:
 
     .. code-block:: php
 
         PHPUnit_Framework_Assert::assertCount(
             intval($count),
-            $this->basket
+            $this->carrinho
         );
 
-Now try to execute your feature tests:
+Agora vamos tentar executar seu teste funcional:
 
 .. code-block:: bash
 
     $ vendor/bin/behat
 
-You should see a beginning of the feature and then an error saying that class ``Shelf``
-does not exist. It means we're ready to start writing actual application code!
+Você deve ver o início da feature e em seguida um erro dizendo que a classe 
+``Prateleira`` não existe. Isso significa que estamos prontos para começar a 
+efetivamente escrever código da aplicação!
 
-Implementing the Feature
-~~~~~~~~~~~~~~~~~~~~~~~~
+Implementando a Feature
+~~~~~~~~~~~~~~~~~~~~~~~
 
-So now we have 2 very important things:
+Então agora nós temos 2 coisas muito importantes:
 
-1. A concrete user-aimed description of functionality we're trying to deliver.
-2. Set of failing tests that tell us what to do next.
+1. Uma concreta descrição da funcionalidade que estamos tentando entregar.
+2. Ao falhar, o teste nos diz o que fazer a seguir.
 
-Now is the easiest part of application development - feature implementation. Yes, with
-TDD and BDD implementation becomes a routine task, because you already did most of the
-job in the previous phases - you wrote tests, you came up with an elegant solution (as far
-as you could go in current context) and you chose the actors (objects) and actions
-(methods) that are involved. Now it's time to write a bunch of PHP keywords to glue it
-all together. Tools like Behat, when used in the right way, will help you to write this
-phase by giving you a simple set of instructions that you need to follow. You
-did your thinking and design, now it's time to sit back, run the tool and follow its
-instructions in order to write your production code.
+Agora a parte mais fácil do desenvolvimento da aplicação - implementação da feature.
+Sim, com TDD e BDD a implementação se torna uma rotina, devido você já ter a maioria 
+do trabalho nas fases anteriores - você escreveu os testes, vocẽ veio com uma solução
+elegante (tanto quanto você poderia dar no contexto atual) e você escolhe os atores (objetos) 
+e ações (métodos) que estão envolvidos. Agora é a hora de escrever um punhado de palavras 
+chave em PHP para colar tudo junto. Ferramentas como o Behat, quando usadas da forma correta, 
+vão ajudar vocẽ a escrever esta fase, lhe dando um simples conjunto de instruções que você
+precisa para seguir. Você fez seu pensamento e projeto,agora está na hora de sentar, rodar 
+a ferramenta e seguir as instruções na ordem para escrever seu código de produção.
 
-Lets start! Run:
+Vamos começar! Rode:
 
 .. code-block:: bash
 
     $ vendor/bin/behat
 
-Behat will try to test your application with ``FeatureContext`` but will fail soon,
-producing something like this onto your screen:
+O Behat vai tentar testar a sua aplicação com o ``FeatureContext`` mas vai falhar 
+logo, exibindo algum evento como este em sua tela:
 
 .. code-block:: text
 
-    Fatal error: Class 'Shelf' not found
+    Fatal error: Class 'Prateleira' not found
 
-Now our job is to reinterpret this phrase into an actionable instruction. Like
-"Create the ``Shelf`` class". Let's go and create it inside ``features/bootstrap``:
+Agora nosso trabalho é reinterpretar esta frase em uma instrução executável. Como 
+"Criar a classe ``Prateleira``". Vamos criar isto em ``features/bootstrap``:
 
 .. code-block:: php
 
     // features/bootstrap/Shelf.php
 
-    final class Shelf
+    final class Prateleira
     {
     }
 
-.. note::
+.. nota::
 
-    We put the ``Shelf`` class into ``features/bootstrap/Shelf.php`` because
-    ``features/bootstrap`` is an autoloading folder for Behat. Behat has a built-in
-    PSR-0 autoloader, which looks into ``features/bootstrap``. If you're developing
-    your own application, you probably would want to put classes into a place
-    appropriate for your app.
+    Nós colocamos a classe ``Prateleira`` em ``features/bootstrap/Prateleira.php`` pois 
+    ``features/bootstrap`` é um diretório de carregamento automático para o Behat. O Behat
+    tem um carregador automário em PSR-0, que olha para ``features/bootstrap``. Se você
+    está desenvolvendo sua própria aplicação, vocẽ provavelmente vai precisar colocar 
+    classes dentro da pasta apropriada para a sua aplicação.
 
-Let's run Behat again:
+Vamos executar o Behat novamente:
 
 .. code-block:: bash
 
     $ vendor/bin/behat
 
-We will get different message on our screen:
+Nós vamos ter uma mensagem diferente em nossa tela:
 
 .. code-block:: text
 
-    Fatal error: Class 'Basket' not found
+    Fatal error: Class 'Carrinho' not found
 
-Good, we are progressing! Reinterpreting the message as, "Create the ``Basket`` class".
-Let's follow our new instruction:
+Ótimo, nós estamos progredindo! Reinterpretando a mensagem como "Criar a classe ``Carrinho``".
+Vamos seguir nossa nova instrução:
 
 .. code-block:: php
 
-    // features/bootstrap/Basket.php
+    // features/bootstrap/Carrinho.php
 
-    final class Basket
+    final class Carrinho
     {
     }
 
-Run Behat again:
+Rode o Behat novamente:
 
 .. code-block:: bash
 
     $> vendor/bin/behat
 
-Great! Another "instruction":
+Maravilha! Outra "instrução":
 
 .. code-block:: text
 
-    Call to undefined method Shelf::setProductPrice()
+    Call to undefined method Prateleira::colocaValorProduto()
 
-Follow these instructions step-by-step and you will end up with ``Shelf``
-class looking like this:
-
-.. code-block:: php
-
-    // features/bootstrap/Shelf.php
-
-    final class Shelf
-    {
-        private $priceMap = array();
-
-        public function setProductPrice($product, $price)
-        {
-            $this->priceMap[$product] = $price;
-        }
-
-        public function getProductPrice($product)
-        {
-            return $this->priceMap[$product];
-        }
-    }
-
-and ``Basket`` class looking like this:
+Seguindo estas instruções passo-a-passo você vai terminar com uma classe ``Prateleira`` 
+parecida com esta:
 
 .. code-block:: php
 
-    // features/bootstrap/Basket.php
+    // features/bootstrap/Prateleira.php
 
-    final class Basket implements \Countable
+    final class Prateleira
     {
-        private $shelf;
-        private $products;
-        private $productsPrice = 0.0;
+        private $valores = array();
 
-        public function __construct(Shelf $shelf)
+        public function colocaValorProduto($produto, $valor)
         {
-            $this->shelf = $shelf;
+            $this->valores[$produto] = $valor;
         }
 
-        public function addProduct($product)
+        public function pegaValorProduto($produto)
         {
-            $this->products[] = $product;
-            $this->productsPrice += $this->shelf->getProductPrice($product);
-        }
-
-        public function getTotalPrice()
-        {
-            return $this->productsPrice
-                + ($this->productsPrice * 0.2)
-                + ($this->productsPrice > 10 ? 2.0 : 3.0);
-        }
-
-        public function count()
-        {
-            return count($this->products);
+            return $this->valores[$produto];
         }
     }
 
-Run Behat again:
+E uma classe ``Carrinho`` parecida com esta:
+
+.. code-block:: php
+
+    // features/bootstrap/Carrinho.php
+
+    final class Carrinho implements \Countable
+    {
+        private $prateleira;
+        private $produtos;
+        private $valoresProdutos = 0.0;
+
+        public function __construct(Prateleira $prateleira)
+        {
+            $this->prateleira = $prateleira;
+        }
+
+        public function adicionaProduto($produto)
+        {
+            $this->produtos[] = $produto;
+            $this->valoresProdutos += $this->prateleira->pegaValorProduto($produto);
+        }
+
+        public function pegaValorTotal()
+        {
+            return $this->valoresProdutos
+                + ($this->valoresProdutos * 0.2)
+                + ($this->valoresProdutos > 10 ? 2.0 : 3.0);
+        }
+
+        public function contador()
+        {
+            return contador($this->produtos);
+        }
+    }
+
+Execute o Behat novamente:
 
 .. code-block:: bash
 
     $ vendor/bin/behat
 
-All scenarios should pass now! Congratulations, you almost finished your first
-feature. The last step is to *refactor*. Look at the ``Basket`` and ``Shelf``
-classes and try to find a way to make their code even more cleaner, easier to
-read and concise.
+Todos os cenários devem passar agora! Parabéns, você quase terminou a sua primeira feature. 
+O último passo é *refatorar*. Olhe para as classes ``Carrinho`` e ``Prateleira`` e tente 
+achar um caminho para fazer um código mais limpo, fácil de ler e conciso.
 
-.. tip::
+.. dica::
+    
+    Eu recomendaria iniciar pelo método ``Carrinho::pegarValorTotal()`` e
+    extrair o calculo do imposto e do frete para métodos privados.
 
-    I would recommend starting from ``Basket::getTotalPrice()`` method and
-    extracting VAT and delivery cost calculation in private methods.
+Depois da refatoração pronta, vocẽ terá:
 
-After refactoring is done, you will have:
+#. Um código óbvio e claramente concebido que faz exatamente o que deveria fazer 
+   sem funcionalidades que não foram solicitadas pelos usuários.
 
-#. Clearly designed and obvious code that does exactly the thing it should do
-   without any gold plating.
+#. Um conjunto de testes de regressão que irá ajudá-lo a ter confiança em seu código daqui para frente.
 
-#. A regression test suite that will help you to be confident in your code going
-   forward.
+#. Uma documentação viva do comportaento do seu código, 
 
-#. Living documentation for the behaviour of your code that will live, evolve and
-   die together with your code.
+#. Documentação viva do comportamento do seu código que vai viver, evoluir e morrer em conjunto com o seu código.
 
-#. An incredible level of confidence in your code. Not only are you confident now
-   that it does exactly what it's supposed to do, you are confident that it does
-   so by delivering value to the final users (customers in our case).
+#. Um incrível nível de confiança em seu código. Não só você está confiante agora que ele faz exatamente o que é 
+   suposto fazer, você está confiante de que ele faz isso por entregar valor para os usuários finais (clientes, 
+   no nosso caso).
 
-There are many more benefits to BDD but those are the key reasons why most BDD
-practitioners do BDD in Ruby, .Net, Java, Python and JS. Welcome to the family!
+Existem muitos outros beneficios no BDD, mas estes são as razões chaves porque 
+a maioria dos praticantes de BDD fazem BDD em Ruby, .Net, Java, Python e JS.
+Bem vindo a família!
 
 What's Next?
 ------------
 
-Congratulations! You now know everything you need in order to get started
-with behavior driven development and Behat. From here, you can learn more
-about the :doc:`Gherkin </guides/1.gherkin>` syntax or learn how to test your
-web applications by using Behat with Mink.
+Parabéns! Você agora conhece tudo o que precisa para começar com o desenvolvimento
+dirigido por testes e Behat. Daqui, vocẽ pode aprender mais sobre a sintaxe :doc: `Gherkin </guides/1.gherkin>`
+ou aprender como testar suas aplicações web usando Behat com Mink.
 
-.. _`Behavior Driven Development`: http://en.wikipedia.org/wiki/Behavior_Driven_Development
+.. _`Behavior Driven Development`: https://pt.wikipedia.org/wiki/Behavior_Driven_Development
 .. _`Mink`: https://github.com/behat/mink
 .. _`What's in a Story?`: http://blog.dannorth.net/whats-in-a-story/
 .. _`Cucumber`: http://cukes.info/
 .. _`Goutte`: https://github.com/fabpot/goutte
 .. _`PHPUnit`: http://phpunit.de
-.. _`Testing Web Applications with Mink`: https://github.com/behat/mink
+.. _`Testando Aplicações Web com Mink`: https://github.com/behat/mink

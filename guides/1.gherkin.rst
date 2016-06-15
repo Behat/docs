@@ -1,447 +1,471 @@
-Writing Features
-================
+Escrevendo Features
+===================
 
-Behat is a tool to test the behavior of your application, described in a special
-language called Gherkin. Gherkin is a
-`Business Readable, Domain Specific Language <http://martinfowler.com/bliki/BusinessReadableDSL.html>`_
-created specifically for behavior descriptions. It gives you the ability to
-remove logic details from behavior tests.
+Behat é uma ferramenta para testar o o comportamento
+de seua aplicação, escrito em uma linguagem especial
+chamada Gherkin. Gherkin é uma `Business Readable, Domain Specific Language <http://martinfowler.com/bliki/BusinessReadableDSL.html>`_ creada especificamente
+para a descrição de comportamentos. Isto lhe dá a habilidade
+de remover detalhes lógicos dos testes de comportamento.
 
-Gherkin serves as your project's documentation as well as your project's
-automated tests. Behat also has a bonus feature: It talks back to you using
-real, human language telling you what code you should write.
+Gherkin serve como documentação do seu projeto, bem como
+para testes automatizados. Behat também tem uma característica
+bonus: Ele fala para você usando linguagem verdadeira, humana 
+dizendo a você o código que você deve escrever.
 
-.. tip::
+    Dica:
 
-    If you're still new to Behat, jump into the :doc:`/quick_intro_pt1` first,
-    then return here to learn more about Gherkin.
+    Se você ainda é novo no Behat, vá para :doc:`/quick_intro_pt1` 
+    primeiro,então retorne aqui para aprender mais sobre Gherkin.
 
-Gherkin Syntax
---------------
+Sintaxe Gherkin
+---------------
 
-Like YAML and Python, Gherkin is a whitespace-oriented language that uses
-indentation to define structure. Line endings terminate statements (called
-steps) and either spaces or tabs may be used for indentation (we suggest you
-use spaces for portability). Finally, most lines in Gherkin start with a
-special keyword:
+Bem como UAML e Python, Gherkin é uma linguagem orientada a espaços, ela
+usa identação para definir a estrutura. Os fins de linha encerram as 
+declarações (denominados steps) e espaços ou tabs também podem ser usados
+para identação (nós sugerimos a você usar espaços para portabilidade).
+Finalmente, a maioria das linhas em Gherkin iniciam com uma palavra
+chave especial:
 
 .. code-block:: gherkin
 
-    Feature: Some terse yet descriptive text of what is desired
-      In order to realize a named business value
-      As an explicit system actor
-      I want to gain some beneficial outcome which furthers the goal
+    # language: pt
+    Funcionalidade: Algum texto descritivo conciso do que é desejado
+      A fim de realizar um valor de negócio
+      Como ator explicito do sistema
+      Eu quero ganhar algum resultado benéfico que promova a meta 
 
-      Additional text...
-
-      Scenario: Some determinable business situation
-        Given some precondition
-        And some other precondition
-        When some action by the actor
-        And some other action
-        And yet another action
-        Then some testable outcome is achieved
-        And something else we can check happens too
-
-      Scenario: A different situation
+     Texto adicional...
+ 
+      Cenário: Uma determinada situação de negócios
+        Dado uma pré condição
+        E uma outra pŕe condição
+        Quando uma ação feita pelo ator
+        E uma outra ação
+        E outra ação diferente
+        Então um resultado testável é alcançado
+        E outra coisa que possamos verificar também acontece
+ 
+      Cenário: Uma situação diferente
         ...
 
-The parser divides the input into features, scenarios and steps. Let's walk
-through the above example:
+O analizador divide a entrada em funcionalidades, cenários e etapas.
+Vamos analizar o exemplo:
 
-#. ``Feature: Some terse yet descriptive text of what is desired`` starts
-   the feature and gives it a title. Learn more about features in the
-   "`Features`_" section.
+.# ``Funcionalidade: Algum texto descritivo conciso do que é desejado`` 
+    inicia a feature e lhe dá um título. Aprenda mais sobre funcionalidades
+    na seção "`Features`_".
 
-#. The next three lines (``In order to ...``, ``As an ...``, ``I want to
-   ...``) provide context to the people reading your feature and describe the
-   business value derived from the inclusion of the feature in your software.
-   These lines are not parsed by Behat and don't have a required structure.
+.# As próximas três linhas (``A fim de ...``, ``Como um ...``, ``Eu quero...``)
+    dão um contexto fornecem um contexto para as pessoas que lêem o seu recurso 
+    e descreve o valor do negócio derivada da inclusão do recurso em seu software.
+    Estas linhas não são analisadas pelo Behat e não requerem uma estrutura.
+    
+.# ``Cenário: Uma determinada situação de negócios`` inicia o cenário e
+    contêm uma descrição do cenário. Aprenda mais sobre cenários na seção 
+    "`Scenarios`_" 
+    
+.# As próximas 7 linhas são etapas do cenário, cada um dos quais é comparado
+    com um padrão definido em outro lugar. Aprenda mais sobre etapas na
+    seção "`Steps`_"
 
-#. ``Scenario: Some determinable business situation`` starts the scenario
-   and contains a description of the scenario. Learn more about scenarios in
-   the "`Scenarios`_" section.
+.# ``Cenário: Uma situação diferente`` inicia o próximo e cenário assim por diante.
 
-#. The next 7 lines are the scenario steps, each of which is matched to
-   a pattern defined elsewhere. Learn more about steps in the "`Steps`_"
-   section.
+Quando você está executando a funcionalidade, a porção da direita de cada passo
+(após as palavras chaves como ``Dado``, ``E``, ``Quando``, etc) coincide com 
+um padrão, que executa uma função callback do PHP. Você pode ler mais sobre 
+etapas de coincidencias e execução em :doc:`/guides/2.definitions`.
 
-#. ``Scenario: A different situation`` starts the next scenario and so on.
+Funcionalidades
+---------------
 
-When you're executing the feature, the trailing portion of each step (after
-keywords like ``Given``, ``And``, ``When``, etc) is matched to
-a pattern, which executes a PHP callback function. You can read more about
-steps matching and execution in :doc:`/guides/2.definitions`.
+Todos arquivos ``*.feature`` convencionalmente consistem em uma funcionalidade 
+única. Linhas iniciando com a palavra chave ``Funcionalidade:`` (ou o seu 
+equivalente) seguido de três linhas identadas iniciam uma funcionalidade. 
+Usualmente uma feature contém uma lista de cenários. Você pode escrever 
+qualquer coisa que você precise até o primeiro cenário, que inicia com 
+``Cenário:`` (ou o seu equivalente) em uma nova linha. Você pode usar
+`tags`_ para agrupar funcionalidades e cenários, independente da estrutura
+do seu arquivo e diretório.
 
-Features
---------
-
-Every ``*.feature`` file conventionally consists of a single feature. Lines
-starting with the keyword ``Feature:`` (or its localized equivalent) followed
-by three indented lines starts a feature. A feature usually contains a list of
-scenarios. You can write whatever you want up until the first scenario, which
-starts with ``Scenario:`` (or localized equivalent) on a new line. You can use
-`tags`_ to group features and scenarios together, independent of your file and
-directory structure.
-
-Every scenario consists of a list of `steps`_, which must start with one of the
-keywords ``Given``, ``When``, ``Then``, ``But`` or ``And`` (or a localized
-version of one of these). Behat treats them all the same, but you shouldn't.
-Here is an example:
-
-.. code-block:: gherkin
-
-    Feature: Serve coffee
-      In order to earn money
-      Customers should be able to
-      buy coffee at all times
-
-      Scenario: Buy last coffee
-        Given there are 1 coffees left in the machine
-        And I have deposited 1 dollar
-        When I press the coffee button
-        Then I should be served a coffee
-
-In addition to basic `scenarios`_, feature may contain `scenario outlines`_
-and `backgrounds`_.
-
-Scenarios
----------
-
-Scenarios are one of the core Gherkin structures. Every scenario starts with
-the ``Scenario:`` keyword (or localized keyword), followed by an optional scenario
-title. Each feature can have one or more scenarios and every scenario consists
-of one or more `steps`_.
-
-The following scenarios each have 3 steps:
+Todos cenários consistem em uma lista de `etapas`_, que devem iniciar com
+uma das palvras chaves ``Dado``, ``Quando``, ``Então``, ``Mas`` ou ``E``
+(ou o equivalente de um destes). O Behat trata eles do mesmo modo, mas
+você não deve fazer isto.
+Aqui temos um exemplo:
 
 .. code-block:: gherkin
 
-    Scenario: Wilson posts to his own blog
-      Given I am logged in as Wilson
-      When I try to post to "Expensive Therapy"
-      Then I should see "Your article was published."
+    # language: pt
+    Funcionalidade: Servir café
+        A fim de ganhar dinheiro
+        Os clientes devem ser capazes de
+        comprar café a todo momento
 
-    Scenario: Wilson fails to post to somebody else's blog
-      Given I am logged in as Wilson
-      When I try to post to "Greg's anti-tax rants"
-      Then I should see "Hey! That's not your blog!"
+      Cenário: Compra último café
+        Dado que tenha 1 café sobrando na máuqina
+        E eu tenha depositado 1 real
+        Quando eu pressionar o botão de café
+        Então eu deveria ser servido de um café
 
-    Scenario: Greg posts to a client's blog
-      Given I am logged in as Greg
-      When I try to post to "Expensive Therapy"
-      Then I should see "Your article was published."
+Além do básico `Cenário`_, uma feature pode conter `Esquema do Cenário`_
+e `Contexto`_.
 
-Scenario Outlines
------------------
+Cenário
+-------
 
-Copying and pasting scenarios to use different values can quickly become
-tedious and repetitive:
+Cenários são uma das principais estruturas do Gherkin. Todo cenário deve 
+iniciar com a palavra chave ``Cenário:`` (ou palavra chave equivalente),
+opcionalmente seguido de um título de cenário. Cada funcionalidade pode 
+ter um ou mais cenários e todo cenário consiste em um ou mais `etapa`_.
 
-.. code-block:: gherkin
-
-    Scenario: Eat 5 out of 12
-      Given there are 12 cucumbers
-      When I eat 5 cucumbers
-      Then I should have 7 cucumbers
-
-    Scenario: Eat 5 out of 20
-      Given there are 20 cucumbers
-      When I eat 5 cucumbers
-      Then I should have 15 cucumbers
-
-Scenario Outlines allow us to more concisely express these examples through the
-use of a template with placeholders:
+Os cenários seguintes tem cada um 3 etapas:
 
 .. code-block:: gherkin
 
-    Scenario Outline: Eating
-      Given there are <start> cucumbers
-      When I eat <eat> cucumbers
-      Then I should have <left> cucumbers
+    Cenário: Wilson posta em seu blog
+      Dado que eu estou logado como Wilson
+      Quando eu tento postar "A terapia cara"
+      Então eu devo ver "Seu artigo foi publicado."
 
-      Examples:
-        | start | eat | left |
-        |  12   |  5  |  7   |
-        |  20   |  5  |  15  |
+    Cenário: Wilson falha ao postar algo no blog de outra pessoa
+      Dado que eu estou logado como Wilson
+      Quando eu tento postar "Greg esbraveja contra impostos"
+      Então eu devo ver "Hey! Este não é o seu blog!"
 
-The Scenario Outline steps provide a template which is never directly run. A
-Scenario Outline is run once for each row in the Examples section beneath it
-(except for the first header row).
+    Cenário: Greg posta em blog cliente
+      Dado que eu estou logado como Greg
+      Quando eu tento postar "Terapia Cara"
+      Então eu devo ver "Seu artigo foi publicado."
 
-The Scenario Outline uses placeholders, which are contained within
-``< >`` in the Scenario Outline's steps. For example:
+Esquema do Cenário
+------------------
+
+Copiar e colar cenários para usar diferentes valores pode ser muito 
+tedioso e repetitivo:
 
 .. code-block:: gherkin
 
-    Given <I'm a placeholder and I'm ok>
+    Cenário: Comer 5 em cada 12
+      Dado que tenho 12 pepinos
+      Quando eu comer 5 peninos
+      Então eu devo ter 7 pepinos
 
-Think of a placeholder like a variable. It is replaced with a real value from
-the ``Examples:`` table row, where the text between the placeholder angle
-brackets matches that of the table column header. The value substituted for
-the placeholder changes with each subsequent run of the Scenario Outline,
-until the end of the ``Examples`` table is reached.
+    Cenário: Comer 5 em cada 20
+      Dado que tenho 20 pepinos
+      Quando eu comer 5 peninos
+      Então eu devo ter 15 pepinos    
+
+Os `Esquemas do Cenários` nos permitem formular estes exemplos com maior precisão 
+através da utilização de um modelo com espaços reservados:
+
+.. code-block:: gherkin
+
+    Esquema do Cenário: Comendo
+      Dado que tenho <antes> pepinos
+      Quando eu comer <come> pepinos
+      Então eu devo ter <depois> pepinos
+
+      Exemplos:
+        | antes | come | depois |
+        |  12   |  5   |   7    |
+        |  20   |  5   |   15   |
+
+As etapas do Esquema do Cenário fornecem um modelo que nunca é executado
+diretamente. Um Esquema do Cenário é executado uma vez para cada linha 
+na seção de exemplos abaixo dela (exceto para a primeira linha 
+que é o cabeçalho).
+
+O Esquema do Cenário utiliza espaços reservados, que estão
+contidos ``< >`` nas etapas de saída do Cenário. Por exemplo:
+
+.. code-block:: gherkin
+
+    Dado <Eu sou um espaço reservado e estou ok>
+
+Pense em um espaço reservado como uma variável. Isto pode ser substituido
+por um valor real das linhas da tabela de ``Exemplos:``, onde o texto 
+entre o ângulo de espaço em reservado corresponde ao que o cabeçalho da
+coluna da tabela. O valor substituido pelo espaço reservado muda a cada 
+execução subsequente do Esquema do Cenário, até que o fim da tabela de
+``Exemplos`` seja alcançado.
 
 .. tip::
 
-    You can also use placeholders in `Multiline Arguments`_.
+    Vocẽ também pode usar os espaços reservados em `Argumentos 
+    Multilineos`_.
 
 .. note::
 
-    Your step definitions will never have to match the placeholder text itself,
-    but rather the values replacing the placeholder.
+    Sua etapa de definições nunca terá que coincidir com o próprio texto 
+    do espaço reservado, mas sim os valores terão que substituir o 
+    espaço reservado.
 
-So when running the first row of our example:
-
-.. code-block:: gherkin
-
-    Scenario Outline: Eating
-      Given there are <start> cucumbers
-      When I eat <eat> cucumbers
-      Then I should have <left> cucumbers
-
-      Examples:
-        | start | eat | left |
-        |  12   |  5  |  7   |
-
-The scenario that is actually run is:
+Então quando executamos a primeira linha do nosso exemplo:
 
 .. code-block:: gherkin
 
-    Scenario: Eating
-      # <start> replaced with 12:
-      Given there are 12 cucumbers
-      # <eat> replaced with 5:
-      When I eat 5 cucumbers
-      # <left> replaced with 7:
-      Then I should have 7 cucumbers
+    Esquema do Cenário: Comer
+      Dado que temos <antes> pepinos
+      Quando eu comer <come> pepino
+      Então teremos <depois> pepinos
 
-Backgrounds
------------
+      Exemplos:
+        | antes | come | depois |
+        |  12   |   5  |   7    |
 
-Backgrounds allows you to add some context to all scenarios in a single
-feature. A Background is like an untitled scenario, containing a number of
-steps. The difference is when it is run: the background is run *before each* of
-your scenarios, but after your ``BeforeScenario`` hooks (:doc:`/guides/3.hooks`).
+O cenário que realmente é executado é:
 
 .. code-block:: gherkin
 
-    Feature: Multiple site support
+    Cenário: Comer
+      # <antes> é substituido por 12:
+      Dado que temos 12 pepinos
+      # <come> é substituido por 5:
+      Quando eu comer 5 pepino
+      # <depois> é substituido por 7:
+      Então teremos 7 pepinos
 
-      Background:
-        Given a global administrator named "Greg"
-        And a blog named "Greg's anti-tax rants"
-        And a customer named "Wilson"
-        And a blog named "Expensive Therapy" owned by "Wilson"
+Contexto
+--------
 
-      Scenario: Wilson posts to his own blog
-        Given I am logged in as Wilson
-        When I try to post to "Expensive Therapy"
-        Then I should see "Your article was published."
+Contexto permite a você adicionar algum contexto a todos os cenários em 
+um único recurso. Um Contexto é como um Cenário sem título, que contém
+uma série de etapas. A diferença ocorre quando ele é executado: o 
+contexto está executando *antes de cada* um de seus cenários, mas depois 
+dos seus hooks ``BeforeScenario`` (:doc:`/guides/3.hooks`).
 
-      Scenario: Greg posts to a client's blog
-        Given I am logged in as Greg
-        When I try to post to "Expensive Therapy"
-        Then I should see "Your article was published."
+.. code-block:: gherkin
 
-Steps
------
+    # language: pt
+    Funcionalidade: Suporte a múltiplos sites
+    
+    Contexto: 
+        Dado um administrador global chamado "Greg"
+        E um blog chamado "Greg esbraveja contra impostos"
+        E um cliente chamado "Wilson"
+        E um blog chamado "Terapia Cara" de própriedade de "Wilson"
+    
+    Cenário: Wilson posta em seu próprio blog
+        Dado que eu esteja logado como Wilson
+        Quando eu tentar postar em "Terapia Cara"
+        Então eu devo ver "Seu artigo foi publicado."
 
-`Features`_ consist of steps, also known as `Givens`_, `Whens`_ and `Thens`_.
+    Cenário: Greg posta no blog de um cliente
+        Dado que eu esteja logado como Greg
+        Quando eu tentar postar em "Terapia Cara"
+        Então eu devo ver "Seu artigo foi publicado"
 
-Behat doesn't technically distinguish between these three kind of steps.
-However, we strongly recommend that you do! These words have been carefully
-selected for their purpose and you should know what the purpose is to get into
-the BDD mindset.
 
-Robert C. Martin has written a
-`great post <https://sites.google.com/site/unclebobconsultingllc/the-truth-about-bdd>`_
-about BDD's Given-When-Then concept where he thinks of them as a finite state
-machine.
+Etapas
+------
 
-Givens
-~~~~~~
+`Funcionalidades`_ consiste em etapas, também conhecido como `Dado`_, `Quando`_ e `Então`_.
 
-The purpose of the **Given** steps is to **put the system in a known state** before
-the user (or external system) starts interacting with the system (in the When
-steps). Avoid talking about user interaction in givens. If you have worked with
-use cases, givens are your preconditions.
+O Behat não tem uma distinção técnica entre estes três tipos de etapas.
+Contudo, nós recomendamos fortemente que você faça! Estas palavras
+foram cuidadosamente selecionadas para o seus propósito e você deve
+saber que o objetivo é entrar na mentalidade BDD.
 
-.. sidebar:: Given Examples
+Robert C. Martin escreveu um 
+`ótimo post <https://sites.google.com/site/unclebobconsultingllc/the-truth-about-bdd>`_ 
+sobre o conceito de BDD Dado-Quando-Então onde ele pensa neles como uma 
+máquina de estados finitos.
 
-    Two good examples of using **Givens** are:
+Dado
+~~~~
 
-    * To create records (model instances) or set up the database:
+O propósito da etapa **Dado** é **colocar o sistema em um estado conhecido** 
+antes do usuário (ou sistema externo) iniciar a interalção com o sistema
+(na etapa Quando). Evite falar sobre a interação em Dado. Se você trabalhou
+com casos de uso, Dado é a sua pré condição.
+
+.. sidebar:: Exemplos de Dado
+
+    Dois bons exemplos do uso de **Dado** são:
+
+    * Criar 
+
+    * Para criar registros (instâncias de modelo) ou de configuração do 
+    banco de dados:
 
       .. code-block:: gherkin
 
-          Given there are no users on site
-          Given the database is clean
+          Dado que não tenha usuários no site
+          Dado que o banco de dados esteja limpo
 
-    * Authenticate a user (an exception to the no-interaction recommendation.
-      Things that "happened earlier" are ok):
+    * Autenticar um usuário (uma exceção para )
+
+    * Autenticar um usuário (uma exceção a recomendação não-interação 
+    Coisas que "aconteceram antes" estão ok.):
 
       .. code-block:: gherkin
 
-          Given I am logged in as "Everzet"
+          Dado que eu esteja logado como "Everzet"
 
 .. tip::
 
-    It's OK to call into the layer "inside" the UI layer here (in Symfony: talk
-    to the models).
+    Tudo bem chamar a camada de "dentro" da camada de interface do 
+    usuário aqui (em Symfony: falar com os modelos).
 
-.. sidebar:: Using Givens as Data Fixtures
+.. sidebar:: Usando Dado como massa de dados:
 
-    If you use ORMs like Doctrine or Propel, we recommend using a Given step
-    with a `tables`_ argument to set up records instead of fixtures. This
-    way you can read the scenario all in one place and make sense out of it
-    without having to jump between files:
+    Se você usa ORMs como Doctrine ou Propel, nós recomendamos a utilização
+    de uma etapa Dado com o argumento `tabela`_ para configurar registros 
+    em vez de objetos. Neste caminho você pode ler todos os cenários em um
+    único lugar e fazer sentido fora dele sem ter que saltar entre arquivos: 
 
     .. code-block:: gherkin
 
-        Given there are users:
+        Dado estes usuários:
         | username | password | email               |
         | everzet  | 123456   | everzet@knplabs.com |
         | fabpot   | 22@222   | fabpot@symfony.com  |
 
-Whens
+Quando
+~~~~~~
+
+O propósito da etapa **Quando** é **descrever a ação chave** que o 
+usuário executa (ou, usando a metáfora de Robert C. Martin, a transição
+de estado).
+
+.. sidebar:: Exemplos de Quando
+
+    Dois bons exemplos do uso de **Quando** são:
+    
+    * Interagir com uma página web (a biblioteca Mink lhe dá muitas etapas
+    ``Quando`` web-amigáveis fora da caixa):
+
+      .. code-block:: gherkin
+
+          Quando eu estiver em "/alguma/pagina"
+          Quando eu preencho o campo "username" com "everzet"
+          Quando eu preencho o campo "password" com "123456"
+          Quando eu clico em "login"
+
+    * Interagir com alguma biblioteca CLI (chama comandos e grava saída):
+
+      .. code-block:: gherkin
+
+          Quando eu chamo "ls -la"
+
+Então
 ~~~~~
 
-The purpose of **When** steps is to **describe the key action** the user
-performs (or, using Robert C. Martin's metaphor, the state transition).
+O propósito da etapa **Então** é **observar saídas**. As observações 
+devem estar relacionadas com o valor/benefício de negócios na sua 
+descrição da funcionalidade. As observações devem inspecionar a saída 
+do sistema (um relatório, interface de usuário, mensagem, saída de 
+comando) e não alguma coisa profundamente enterrado dentro dela 
+(que não tem valor de negócios e ao invés disso faz parte da 
+implementação).
 
-.. sidebar:: When Examples
+.. sidebar:: Exemplos de Então
 
-    Two good examples of using **Whens** are:
+    Dois bons exemplos do uso de **Então** são:
 
-    * Interact with a web page (the Mink library gives you many web-friendly
-      ``When`` steps out of the box):
-
-      .. code-block:: gherkin
-
-          When I am on "/some/page"
-          When I fill "username" with "everzet"
-          When I fill "password" with "123456"
-          When I press "login"
-
-    * Interact with some CLI library (call commands and record output):
+    * Verificar algo relacionado ao Dado + Quando está (ou não) na saída:
 
       .. code-block:: gherkin
 
-          When I call "ls -la"
+          Quando eu chamo "echo hello"
+          Então a saída deve ser "hello"
 
-Thens
-~~~~~
-
-The purpose of **Then** steps is to **observe outcomes**. The observations
-should be related to the business value/benefit in your feature description.
-The observations should inspect the output of the system (a report, user
-interface, message, command output) and not something deeply buried inside it
-(that has no business value and is instead part of the implementation).
-
-.. sidebar:: Then Examples
-
-    Two good examples of using **Thens** are:
-
-    * Verify that something related to the Given + When is (or is not) in the
-      output:
+    * Checar se algum sistema externo recebeu a mensagem esperada:
 
       .. code-block:: gherkin
 
-          When I call "echo hello"
-          Then the output should be "hello"
-
-    * Check that some external system has received the expected message:
-
-      .. code-block:: gherkin
-
-          When I send an email with:
+          Quando eu enviar um email com:
             """
             ...
             """
-          Then the client should receive the email with:
+          Então o cliente deve receber um email com:
             """
             ...
             """
 
 .. caution::
 
-    While it might be tempting to implement Then steps to just look in the
-    database – resist the temptation. You should only verify output that is
-    observable by the user (or external system). Database data itself is
-    only visible internally to your application, but is then finally exposed
-    by the output of your system in a web browser, on the command-line or an
-    email message.
+    Embora possa ser tentador implementar etapas Então para apenas 
+    olhar no banco de dados - resista à tentação. Você deve verificar
+    somente saídas que podem ser observadas pelo usuário (ou sistema 
+    externo). Se a base de dados somente é visível internamente por 
+    sua aplicação, mas é finalmente exposta pela saída do seu sistema
+    em um navegador web, na linha de comando ou uma mensagem de email.
 
-And, But
-~~~~~~~~
-
-If you have several Given, When or Then steps you can write:
-
-.. code-block:: gherkin
-
-    Scenario: Multiple Givens
-      Given one thing
-      Given another thing
-      Given yet another thing
-      When I open my eyes
-      Then I see something
-      Then I don't see something else
-
-Or you can use **And** or **But** steps, allowing your Scenario to read more
-fluently:
-
-.. code-block:: gherkin
-
-    Scenario: Multiple Givens
-      Given one thing
-      And another thing
-      And yet another thing
-      When I open my eyes
-      Then I see something
-      But I don't see something else
-
-Behat interprets steps beginning with And or But exactly the same as all other
-steps; it doesn't differentiate between them - you should!
-
-Multiline Arguments
--------------------
-
-The one line `steps`_ let Behat extract small strings from your steps
-and receive them in your step definitions. However, there are times when you
-want to pass a richer data structure from a step to a step definition.
-
-This is what multiline step arguments are designed for. They are written on
-lines immediately following a step and are passed to the step definition
-method as the last argument.
-
-Multiline step arguments come in two flavours: `tables`_ or `pystrings`_.
-
-Tables
+E, Mas
 ~~~~~~
 
-Tables as arguments to steps are handy for specifying a larger data set -
-usually as input to a Given or as expected output from a Then.
+Se você tem várias etapas Dado, Quando ou Então vocẽ pode escrever:
 
 .. code-block:: gherkin
 
-    Scenario:
-      Given the following people exist:
-        | name  | email           | phone |
+    Cenário: Múltiplos Dado
+      Dado uma coisa
+      Dado outra coisa
+      Dado mais outra coisa
+      Quando eu abrir meus olhos
+      Então eu verei qualquer coisa
+      Então eu não verei qualquer outra coisa
+
+Ou você pode usar etapas **E** ou **Mas**, permitindo uma leitura mais 
+fluente do seu Cenário:
+
+.. code-block:: gherkin
+
+    Cenário: Múltiplos Dado
+      Dado uma coisa
+      E outra coisa
+      E mais outra coisa
+      Quando eu abrir meus olhos
+      Então eu verei qualquer coisa
+      Mas eu não verei qualquer outra coisa
+
+O Behat interpreta as etapas iniciando com E ou Mas exatamente como 
+as outras etapas; que não faz distinção entre eles - Mas você deve!
+
+Argumentos Multilineos
+----------------------
+
+A linha um `etapa`_
+
+A única linha `etapas`_ permite ao Behat extrair pequenas strings de 
+suas etapas e recebê-los em suas step definitions. No entanto, há 
+momentos em que você quer passar uma estrutura de dados mais rica a 
+partir de uma step definition.
+
+Para isto foram porjetados os Argumentos Multilineos. Eles são 
+escritos nas linhas que seguem imediatamente uma etapa e são passadas 
+para o método step definition como um último argumento.
+
+Etapas de Argumentos Multilineos vem em dois modos: `tabelas`_ ou `pystrings`_.
+
+Tabelas
+~~~~~~~
+
+As tabelas são etapas de argumentos são úteis para a especificação de
+um grande conjunto de dados - normalmente como entrada para uma saída 
+de Dado ou como espera de um Então.
+
+.. code-block:: gherkin
+
+    Cenário:
+      Dado que as seguintes pessoas existem:
+        | nome  | email           | fone  |
         | Aslak | aslak@email.com | 123   |
         | Joe   | joe@email.com   | 234   |
         | Bryan | bryan@email.org | 456   |
 
 .. attention::
 
-    Don't confuse tables with `scenario outlines`_ - syntactically
-    they are identical, but they have a different purpose. Outlines declare
-    multiple different values for the same scenario, while tables are used to
-    expect a set of data.
+    Não confunda tabelas com `Esquemas do cenário`_  - sintaticamente 
+    eles são identicos, mas eles tem propósitos diferentes. Esquemas
+    declaram diferentes valores múltiplos ao mesmo cenário, enquanto
+    tabelas são usadas para esperar um conjunto de dados.
 
-.. sidebar:: Matching Tables in your Step Definition
+.. sidebar:: Tabelas correspondentes em sua Step Definition
 
-    A matching definition for this step looks like this:
+    Uma definição correspondente para esta etapa se parece com isso:
 
     .. code-block:: php
 
@@ -450,49 +474,52 @@ usually as input to a Given or as expected output from a Then.
         // ...
 
         /**
-         * @Given the following people exist:
+         * @Given as seguintes pessoas existem:
          */
-        public function thePeopleExist(TableNode $table)
+        public function asSeguintesPessoasExistem(TableNode $tabela)
         {
-            foreach ($table as $row) {
-                // $row['name'], $row['email'], $row['phone']
+            foreach ($tabela as $linha) {
+                // $linha['nome'], $linha['email'], $linha['fone']
             }
         }
 
-    A table is injected into a definition as a ``TableNode`` object, from
-    which you can get hash by columns (``TableNode::getHash()`` method) or by
-    rows (``TableNode::getRowsHash()``).
+    Uma tabela é injetada na definição do objeto ``TableNode``, com 
+    o qual vocẽ pode obter um hash de colunas (método 
+    ``TableNode::getHast()``) ou por linhas 
+    (``TableNode::getRowsHash()``).
 
 PyStrings
 ~~~~~~~~~
 
-Multiline Strings (also known as PyStrings) are useful for specifying a
-larger piece of text. The text should be offset by delimiters consisting of
-three double-quote marks (``"""``), placed on their own line:
+Strings multilineas (também conhecidas como PyStrings) são úteis 
+para a especificação de um grande pedaço de texto. O texto deve 
+ser compensado por delimitadores que consistem em três marcas de 
+aspas duplas (`` """ ``), colocadas em linha:
 
 .. code-block:: gherkin
 
-    Scenario:
-      Given a blog post named "Random" with:
+    Cenário:
+      Dado uma postagem em um blog chamado "Random" com:
         """
-        Some Title, Eh?
-        ===============
-        Here is the first paragraph of my blog post.
+        Algum título, Eh?
+        =================
+        Aqui está o primeiro parágrafo do meu post.
         Lorem ipsum dolor sit amet, consectetur adipiscing
         elit.
         """
 
 .. note::
 
-    The inspiration for PyString comes from Python where ``"""`` is used to
-    delineate docstrings, much in the way ``/** ... */`` is used for multiline
-    docblocks in PHP.
+    A inspiração para o PyString vem do Python onde ``"""`` é
+    usado para delimitar docstrings, mais ou menos como 
+    ``/** ... */`` é usado para docblocks em PHP.
 
-.. sidebar:: Matching PyStrings in your Step Definition
+.. sidebar:: PyStrings correspondentes em sua step definitions
 
-    In your step definition, there's no need to find this text and match it in
-    your pattern. The text will automatically be passed as the last
-    argument into the step definition method. For example:
+    Em sua step definition, não precisa procurar por este texto 
+    e corresponder com o seu padrão. O texto vai automaticamente 
+    passar pelo último argumento no método step definition. 
+    Por exemplo:
 
     .. code-block:: php
 
@@ -501,64 +528,65 @@ three double-quote marks (``"""``), placed on their own line:
         // ...
 
         /**
-         * @Given a blog post named :title with:
+         * @Given um post em um blog chamado :titulo com:
          */
-        public function blogPost($title, PyStringNode $markdown)
+        public function umPostEmUmBlogChamado($titulo, PyStringNode $texto)
         {
-            $this->createPost($title, $markdown->getRaw());
+            $this->criarPost($titulo, $texto->getRaw());
         }
 
-    PyStrings are stored in a ``PyStringNode`` instance, which you can simply
-    convert to a string with ``(string) $pystring`` or ``$pystring->getRaw()``
-    as in the example above.
+    PyStrings são armazenadas em uma instancia ``PyStringNode``, que você 
+    pode simplesmente converter a uma string com ``(string) $pystring``
+    ou ``$pystring->getRaw()`` como no exemplo acima.
 
 .. note::
 
-    Indentation of the opening ``"""`` is not important, although common practice
-    is two spaces in from the enclosing step. The indentation inside the triple
-    quotes, however, is significant. Each line of the string passed to the step
-    definition's callback will be de-indented according to the opening ``"""``.
-    Indentation beyond the column of the opening ``"""`` will therefore be
-    preserved.
+    A identação para abrir ``"""`` não é importante, apesar de ser uma 
+    prática comum deixar dois espaços da etapa de fechamento. A identação
+    dentro das aspas triplas, entretanto, é significante. Cada linha da
+    string passa pela chamada da step definition será re-identada de 
+    acordo com a abertura ``"""``. A identação além da coluna de abertura 
+    ``"""`` por conseguinte, será preservada.
 
 Tags
 ----
 
-Tags are a great way to organize your features and scenarios. Consider this
-example:
+Tags são uma ótima forma de organizar suas funcionalidades e cenários. 
+Considere este exemplo:
 
 .. code-block:: gherkin
 
-    @billing
-    Feature: Verify billing
+    @faturamento
+    Feature: Verifica o faturamento
 
-      @important
-      Scenario: Missing product description
+      @importante
+      Cenário: Falta da descrição do produto
 
-      Scenario: Several products
+      Cenário: Vários produtos
 
-A Scenario or Feature can have as many tags as you like, just separate them
-with spaces:
+Um Cenário ou Funcionalidade pode ter quantas tags você quiser, basta 
+apenas separá-los com espaços:
 
 .. code-block:: gherkin
 
-    @billing @bicker @annoy
-    Feature: Verify billing
+    @faturamento @brigar @incomodar
+    Funcionalidade: Verificar o faturamento
 
 .. note::
 
-    If a tag exists on a ``Feature``, Behat will assign that tag to all
-    child ``Scenarios`` and ``Scenario Outlines`` too.
+    Se uma tag existe em uma ``Funcionalidade``, o Behat irá atribuir essa 
+    tag para todos os ``Cenários`` filhos e ``Esquemas do Cenário`` também.
 
-Gherkin in Many Languages
--------------------------
+Gherkin em Muitas Linguagens
+----------------------------
 
-Gherkin is available in many languages, allowing you to write stories
-using localized keywords from your language. In other words, if you
-speak French, you can use the word ``Fonctionnalité`` instead of ``Feature``.
+O Gherkin está disponível em muitas linguagens, permitindo você escrever 
+histórias usando as palavras chave de sua linguagem. Em outras palavras, 
+se você fala Francês, você pode usar a palavra ``Fonctionnalité`` ao invés 
+de ``Funcionalidade``.
 
-To check if Behat and Gherkin support your language (for example, French),
-run:
+Para checar se o Behat e o Gherkin suportam a sua lingua (Francês, por exemplo),
+execute:
 
 .. code-block:: bash
 
@@ -566,17 +594,17 @@ run:
 
 .. note::
 
-    Keep in mind that any language different from ``en`` should be explicitly
-    marked with a ``# language: ...`` comment at the beginning of your
-    ``*.feature`` file:
+    Guarde em sua mente que qualquer linguagem diferente de ``en`` precisa 
+    ser explicitada com um comentário ``#language: ...`` no início de seu 
+    arquivo ``*.feature``:
 
     .. code-block:: gherkin
 
         # language: fr
-        Fonctionnalité: ...
+        Fonctionnalité: ...ta
           ...
 
-    This way your features will hold all the information about its content
-    type, which is very important for methodologies like BDD and also gives
-    Behat the ability to have multilanguage features in one suite.
-
+    Desta forma, suas funcionalidades vão realizar todas as informações sobre 
+    seu tipo de conteúdo, o que é muito importante para metodologias como BDD 
+    e também dá ao Behat a capacidade de ter recursos de vários idiomas em 
+    uma suíte.    

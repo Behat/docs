@@ -1,12 +1,12 @@
-Accessing contexts from each other
-==================================
+Acessando contexto de outro
+===========================
 
-When splitting the definitions in multiple contexts, it might be useful to
-access a context from another one. This is particularly useful when migrating
-from Behat 2.x to replace subcontexts.
+Quando dividimos as definições em múltiplos contextos, pode ser útil acessar 
+um contexto de um outro. Isto é particularmente útil ao migrar do Behat 2.x 
+para substituir sub contextos.
 
-Behat allows to access the environment in :doc:`hooks </guides/3.hooks>`,
-so other contexts can be retrieved using a ``BeforeScenario`` hook:
+O Behat permite acessar o ambiente em :doc:`hooks </guides/3.hooks>`, 
+então outros contextos podem ser recuperados utilizando a hook ``BeforeScenario``:
 
 .. code-block:: php
 
@@ -19,7 +19,7 @@ so other contexts can be retrieved using a ``BeforeScenario`` hook:
         private $minkContext;
 
         /** @BeforeScenario */
-        public function gatherContexts(BeforeScenarioScope $scope)
+        public function reunirContextos(BeforeScenarioScope $scope)
         {
             $environment = $scope->getEnvironment();
 
@@ -29,9 +29,10 @@ so other contexts can be retrieved using a ``BeforeScenario`` hook:
 
 .. caution::
 
-    Circular references in context objects would prevent the PHP reference
-    counting from collecting contexts at the end of each scenarios, forcing
-    to wait for the garbage collector to run. This would increase the memory
-    usage of your Behat run. To prevent that, it is better to avoid storing
-    the environment itself in your context classes. It is also better to
-    avoid creating circular references between different contexts.
+    Referências circulares em objetos de contexto impediriam a referência PHP 
+    contagem da recolha de contextos até o fim de cada cenário, forçando a 
+    aguardar o garbage colleector ser executado. Isso aumentaria o uso de 
+    memória utilizada pela execução do Behat. Para previnir isto, é melhor 
+    evitar o armazenamento do ambiente em suas classes de contexto. Também 
+    é melhor evitar a criação de referências circulares entre diferentes 
+    contextos.
