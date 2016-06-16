@@ -164,7 +164,7 @@ Feature Hooks
 -------------
 
 Same as suite hooks, feature hooks are ran outside of the scenario context.
-So same as suite hooks, your feature hooks should be defined as static methods
+So same as suite hooks, your feature hooks must be defined as static methods
 inside your context:
 
 .. code-block:: php
