@@ -181,7 +181,7 @@ new one) and run:
 
 .. code-block:: bash
 
-    $ php composer.phar require --dev behat/behat=~3.0.4
+    $ php composer.phar require --dev behat/behat
 
 Then you will be able to check installed Behat version using:
 
@@ -496,7 +496,7 @@ state of our ``Basket`` object with our expectations using PHPUnit assertions.
 
     .. code-block:: bash
 
-        $ php composer.phar require --dev phpunit/phpunit='~4.1.0'
+        $ php composer.phar require --dev phpunit/phpunit
 
     and then by simply using assertions in your steps:
 
