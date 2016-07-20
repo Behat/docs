@@ -29,6 +29,58 @@ all of your parameters under the ``default:`` root:
     # behat.yml
     default:
         #...
+        
+Overriding ``default`` params
+-----------------------------
+
+Each profile is an extension of the ``default`` profile. This means you can
+define a new profile that overrides configuration parameters defined in the
+``default`` profile.
+
+Let's assume we have a ``default`` profile as such:
+
+.. code-block:: yaml
+
+    # behat.yml
+    default:
+        suites:
+            default:
+                filters:
+                    tags: "@runthisonlyondefault"
+
+Now we want a profile that changes the tag which is to be run in the default
+suite. We can add the profile and just override:
+
+.. code-block:: yaml
+
+    # behat.yml
+    default:
+        suites:
+            default:
+                filters:
+                    tags: "@runthisonlyondefault"
+                    
+    profile1:
+        suites:
+            default:
+                filters:
+                    tags: "@runthisonlyonprofile1"
+                    
+Or maybe we want to unset the tag filter for a profile:
+
+.. code-block:: yaml
+
+    # behat.yml
+    default:
+        suites:
+            default:
+                filters:
+                    tags: "@runthisonlyondefault"
+                    
+    profile1:
+        suites:
+            default:
+                filters: ~
 
 Environment Variable - BEHAT_PARAMS
 -----------------------------------
