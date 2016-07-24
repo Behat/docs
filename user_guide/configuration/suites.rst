@@ -2,9 +2,9 @@ Configuring Test Suites
 =======================
 
 We already talked about configuring multiple contexts for a single test
-suite in a :doc:`previous chapter </guides/4.contexts>`. Now it is time to talk
-about test suites themselves. A test suite represents a group of concrete
-features together with the information on how to test them.
+suite in a :doc:`previous chapter </user_guide/context>`. Now it is
+time to talk about test suites themselves. A test suite represents a group of
+concrete features together with the information on how to test them.
 
 With suites you can configure Behat to test different kinds of features
 using different kinds of contexts and doing so in one run. Test suites are
@@ -46,7 +46,7 @@ configuration:
                     - %paths.base%/test/features
                     - %paths.base%/vendor/.../features
 
-As you might imagine, this option tells Behat where to search for test features. 
+As you might imagine, this option tells Behat where to search for test features.
 You could, for example, tell Behat to look into the
 ``features/web`` folder for features and test them with ``WebContext``:
 
@@ -160,6 +160,33 @@ be tested in ``UserContext`` and features described from the
 perspective of the *admin* actor will be tested in ``AdminContext``.
 Even if they are in the same folder.
 
+While it is possible to specify filters as part of suite configuration,
+sometimes you will want to exclude certain scenarios across the suite, with the
+option to override the filters at the command line.
+
+This is achieved by specifying the filter in the gherkin configuration:
+
+.. code-block:: yaml
+
+    # behat.yml
+
+    default:
+        gherkin:
+          filters:
+            tags: ~@wip
+
+In this instance, scenarios tagged as @wip will be ignored unless the CLI
+command is run with a custom filter, e.g.:
+
+.. code-block:: bash
+
+    vendor/bin/behat --tags=wip
+
+.. tip::
+
+   More details on identifying tests can be found in the chapter
+   :doc:`/user_guide/command_line_tool/identifying`.
+
 Suite Contexts
 --------------
 
@@ -186,24 +213,12 @@ develop different layers of your application with Behat:
                     tags: @web
 
 In this case, Behat will first run all the features from the ``features/``
-folder in ``DomainContext`` and then only those tagged with ``@web`` in ``WebContext``.
+folder in ``DomainContext`` and then only those tagged with ``@web`` in
+``WebContext``.
 
-Executing Suites
-----------------
+.. tip::
 
-By default, when you run Behat it will execute all registered suites
-one-by-one. If you want to run a single suite instead, use the ``--suite``
-option:
-
-.. code-block:: bash
-
-    $ vendor/bin/behat --suite=web_features
-
-Suite Initialisation
----------------------
-
-Suites are a core part of Behat. Any feature of Behat knows about
-them and can give you a hand with them. For example, if you defined
-your suites in ``behat.yml`` before running ``--init``, it will actually
-create the folders and suites you configured, instead of the default ones.
-
+   It might be worth reading how to :ref:`execute a specific
+   suite<user-guide--command-line-tool--identifying-tests--by-suite>` or
+   :ref:`initialize a new
+   suite<user-guide--initialize-a-new-behat-project--suite-initialisation>`
