@@ -102,3 +102,14 @@ and the same.
 * `Cucumber's "Backgrounder" <https://github.com/cucumber/cucumber/wiki/Cucumber-Backgrounder>`_
 
 .. _`Cucumber`: http://cukes.info/
+
+Integration with cloud services
+-------------------------------
+
+When you want to perform web testing on multiple browsers and operating systems,
+it can be quite complicated to maintain machines for each of the target environments.
+BrowserStack provides "remote web browsers as a service",
+making it easy to do this sort of matrix testing without having to maintain the multiple
+browser installations yourself.
+
+* `BrowserStack's sample repository for integration with Behat <https://github.com/browserstack/behat-browserstack>`_
