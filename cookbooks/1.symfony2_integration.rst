@@ -42,7 +42,7 @@ In order to verify Behat initialisation you can just run following command:
 
 .. code-block:: bash
 
-    $ bin/behat
+    $ vendor/bin/behat
 
 .. tip::
 
