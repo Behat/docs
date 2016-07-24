@@ -25,11 +25,25 @@
 
         <nav class="toc">
             <h3>Chapters</h3>
-            {{ toc }}
+            {% set toctree = toctree(maxdepth=2, collapse=True, includehidden=True) %}
+            {% if toctree %}
+                {{ toctree }}
+            {% else %}
+                <!-- Local TOC -->
+                <div class="local-toc">{{ toc }}</div>
+            {% endif %}
         </nav>
-
         <section class="text">
             {% block body %}{% endblock %}
+            <footer>
+                {% if prev %}
+                <dl><dt>Previous</dt> <dd><a class="prev" href="{{ prev.link|e }}">{{ prev.title }}</a></dd></dl>
+                {% endif %}
+
+                {% if next %}
+                <dl><dt>Next</dt><dd><a class="next" href="{{ next.link|e }}">{{ next.title }}</a></dd></dl>
+                {% endif %}
+            </footer>
         </section>
 
     </section>

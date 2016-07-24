@@ -2,7 +2,8 @@ Testing Features
 ================
 
 We've already used this strange ``FeatureContext`` class as a home for our
-:doc:`step definitions </guides/2.definitions>` and :doc:`hooks </guides/3.hooks>`,
+:doc:`step definitions </user_guide/context/definitions>`
+and :ref:`user-guide--testing-features--hooking-into-the-test-process--hooks`,
 but we haven't done much to explain what it actually is.
 
 Context classes are a keystone of testing environment in Behat. The context
@@ -54,6 +55,22 @@ technical detail exposed in them, so the way you will test those
 features pretty much depends on the context you test them in. That's what
 context classes are.
 
+.. tip::
+
+  Behat can automatically generate this class by using the
+  :doc:`Behat command line tool</user_guide/command_line_tool>` with the
+  ``--init`` option from your project's directory. Behat has several built-in
+  tools that can help you when creating a new project. Learn more about
+  ":doc:`/user_guide/initialize`".
+
+
+.. toctree::
+   :maxdepth: 2
+
+   context/hooks
+   context/definitions
+
+
 Context Class Requirements
 --------------------------
 
@@ -81,34 +98,12 @@ In order to be used by Behat, your context class should follow these rules:
     versions of the ``Behat\Behat\Context\Context`` interface that tell
     Behat this context expects snippets to be generated for it.
 
-The easiest way to start using Behat in your project is to call ``behat``
-with the ``--init`` option inside your project directory:
+.. tip::
 
-.. code-block:: bash
-
-    $ vendor/bin/behat --init
-
-Behat will create a few directories and a skeleton ``FeatureContext`` class
-inside your project.
-
-.. code-block:: php
-
-    // features/bootstrap/FeatureContext.php
-
-    use Behat\Behat\Context\SnippetAcceptingContext;
-    use Behat\Gherkin\Node\PyStringNode;
-    use Behat\Gherkin\Node\TableNode;
-
-    class FeatureContext implements SnippetAcceptingContext
-    {
-        /**
-         * Initializes context.
-         */
-        public function __construct()
-        {
-        }
-    }
-
+   The :doc:`Behat command line tool</user_guide/command_line_tool>`
+   has an ``--init`` option that will initialize a new Behat project in your
+   directory. Learn more about
+   :doc:`/user_guide/initialize`.
 
 Contexts Lifetime
 -----------------
@@ -129,7 +124,8 @@ Multiple Contexts
 -----------------
 
 At some point, it could become very hard to maintain all your
-:doc:`step definitions </guides/2.definitions>` and :doc:`hooks </guides/3.hooks>`
+:doc:`step definitions </user_guide/context/definitions>`
+and :ref:`user-guide--testing-features--hooking-into-the-test-process--hooks`
 inside a single class. You could use class inheritance and split definitions
 into multiple classes, but doing so could cause your code to become more
 difficult to follow and use.
@@ -154,10 +150,10 @@ to fine-tune the suite configuration inside ``behat.yml``:
                     - ThirdContext
 
 The first ``default`` in this configuration is a name of the profile. We
-will discuss :doc:`profiles </guides/6.profiles>` a little bit later. Under
+will discuss profiles a little bit later. Under
 the specific profile, we have a special ``suites`` section, which
 configures suites inside this profile. We will talk about test suites in more
-detail in the :doc:`next chapter </guides/5.suites>`, for now just keep in mind
+detail in the :doc:`next chapter </user_guide/configuration>`, for now just keep in mind
 that a suite is a way to tell Behat where to find your features and
 how to test them. The interesting part for us now is the ``contexts``
 section - this is an array of context class names. Behat will use the classes
@@ -168,8 +164,8 @@ Behat sees a scenario in your test suite, it will:
 
 #. Will try to initialize all these context classes into objects.
 
-#. Will search for :doc:`step definitions </guides/2.definitions>` and
-   :doc:`hooks </guides/3.hooks>` in all of them.
+#. Will search for :doc:`step definitions </user_guide/context/definitions>` and
+   :ref:`user-guide--testing-features--hooking-into-the-test-process--hooks` in all of them.
 
 .. note::
 
@@ -199,11 +195,11 @@ instead of the default ``FeatureContext``.
 
 .. note::
 
-    Unlike :doc:`profiles </guides/6.profiles>`, Behat will not inherit any
-    configuration of your ``default`` suite. The name ``default`` is only used
-    for demonstration purpose in this guide. If you have multiple suites that
-    all should use the same context, you will have to define that specific
-    context for every specific suite:
+    Unlike profiles, Behat will not inherit any configuration of your
+    ``default`` suite. The name ``default`` is only used for demonstration
+    purpose in this guide. If you have multiple suites that all should use the
+    same context, you will have to define that specific context for every
+    specific suite:
 
     .. code-block:: yaml
 
@@ -234,8 +230,8 @@ Context Parameters
 ------------------
 
 Context classes can be very flexible depending on how far you want
-to go in making them dynamic. Most of us will want to make our contexts 
-environment-independent; where should we put temporary files, which URLs 
+to go in making them dynamic. Most of us will want to make our contexts
+environment-independent; where should we put temporary files, which URLs
 will be used to access the application? These are
 context configuration options highly dependent on the environment you
 will test your features in.
@@ -392,9 +388,10 @@ both context classes.
 
 .. note::
 
-    Given that step definitions :doc:`cannot be duplicated within a Suite </guides/2.definitions>`,
-    this will only work for contexts used in separate suites.
+    Given that step definitions :doc:`cannot be duplicated within a Suite
+    </user_guide/context/definitions>`, this will only work
+    for contexts used in separate suites.
 
     In other words, if your Suite uses at least two different Contexts, and
     those context classes ``use`` the same Trait, this will result in a duplicate
-    step definition and behat will complain by throwing a ``Redundant`` exception.
+    step definition and Behat will complain by throwing a ``Redundant`` exception.

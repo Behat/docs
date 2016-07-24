@@ -1,8 +1,8 @@
 # -*- coding: utf-8 -*-
 
 import sys, os
-from sphinx.highlighting import lexers 
-from pygments.lexers.web import PhpLexer 
+from sphinx.highlighting import lexers
+from pygments.lexers.web import PhpLexer
 
 lexers['php'] = PhpLexer(startinline=True)
 extensions = []

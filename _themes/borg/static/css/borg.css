@@ -82,3 +82,39 @@ body > section {
     font-size: 1.6rem;
     color: #4F4F4F;
 }
+
+body > footer {
+    padding-bottom: 0;
+    padding-top: 0;
+    position: relative;
+}
+body > footer dl, section.text > footer dl {
+    float: left;
+    margin-bottom: 20px;
+    margin-right: 50px;
+    margin-top: 10px;
+}
+section.text > footer dl + dl {
+    float: right;
+}
+body > footer dl dt, section.text > footer dl dt {
+    color: #b3b3b3;
+    font-family: 'Comfortaa';
+    font-size: 18px;
+    margin-bottom: 5px;
+}
+body > footer dl dd, section.text > footer dl dd {
+    margin: 0 0 3px 0;
+}
+body > footer dl dd a, section.text > footer dl dd a {
+    color: #c9cbcb;
+    font-size: 14px;
+    font-weight: normal;
+    text-decoration: none;
+}
+body > footer dl dd a:hover, section.text > footer dl dd a:hover {
+    text-decoration: underline;
+}
+body > footer .clear {
+    clear: both;
+}

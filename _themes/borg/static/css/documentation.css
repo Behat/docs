@@ -131,8 +131,19 @@
     list-style: none;
 }
 
-.toc > ul > li > a {
-    display: none;
+nav.toc ul li {
+    margin-bottom: 10px;
+    margin-left: 15px;
+    margin-top: 10px;
+    padding-left: 0;
+}
+
+nav.toc > ul > li {
+    margin-left: 2px;
+}
+
+a.current {
+    font-weight: bold;
 }
 
 .toc > ul > li > ul {

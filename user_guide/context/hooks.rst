@@ -1,8 +1,8 @@
 Hooking into the Test Process
 =============================
 
-You've learned :doc:`how to write step definitions </guides/2.definitions>` and
-that with :doc:`Gherkin </guides/1.gherkin>` you can move common steps into a
+You've learned :doc:`how to write step definitions </user_guide/context/definitions>` and
+that with :doc:`Gherkin </user_guide/gherkin>` you can move common steps into a
 background block, making your features DRY. But what if that's not enough? What
 if you want to execute some code before the whole test suite or after a
 specific scenario? Hooks to the rescue:
@@ -74,8 +74,11 @@ steps. Note that when Behat actually runs, scenario outline examples are
 interpreted as scenarios - meaning each outline example becomes an actual
 scenario in this action tree.
 
+.. _user-guide--testing-features--hooking-into-the-test-process--hooks:
+
 Hooks
 -----
+
 Hooks allow you to execute your custom code just before or just after each
 of these actions. Behat allows you to use the following hooks:
 
@@ -128,7 +131,7 @@ class:
         // before it runs
     }
 
-We use annotations as we did before with :doc:`definitions </guides/2.definitions>`.
+We use annotations as we did before with :doc:`definitions </user_guide/context/definitions>`.
 Simply use the annotation of the name of the hook you want to use (e.g.
 ``@BeforeSuite``).
 
@@ -287,4 +290,3 @@ Use the ``&&`` tag to execute a hook only when it has *all* provided tags:
         // before @database @fixtures
         // scenarios
     }
-

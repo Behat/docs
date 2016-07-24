@@ -1,5 +1,5 @@
-Building Domain Model
-=====================
+Quick Start
+===========
 
 Welcome to Behat! Behat is a tool to close the `Behavior Driven Development`_
 (BDD) communication loop. BDD is a methodology for developing software through
@@ -11,6 +11,9 @@ special format called *Gherkin*. The fact that Gherkin is very structural
 makes it very easy to automate and autotest your behaviour examples against
 a developing application. Automated examples are then actually used to drive
 this application development TDD-style.
+
+To become a *Behat'er* in 30 minutes, just dive into the quick-start guide and
+enjoy!
 
 Example
 -------
@@ -175,7 +178,7 @@ The official way to install Behat is through Composer. Composer is a package
 manager for PHP. Not only can it install Behat for you right now, it will be
 able to easily update you to the latest version later when one comes out. If
 you don't have Composer already, see
-`the Composer documentation <https://getcomposer.org/download/>`_ for
+`the Composer documentation`_ for
 instructions. After that, just go into your project directory (or create a
 new one) and run:
 
@@ -188,12 +191,12 @@ Then you will be able to check installed Behat version using:
 .. code-block:: bash
 
     $ vendor/bin/behat -V
-    
+
 Method #2 - PHAR (an easy one)
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 An easier way to install Behat is to grab a latest ``behat.phar`` from
-`the download page <https://github.com/Behat/Behat/releases>`_. Make sure
+`the download page`_. Make sure
 that you download a ``3+`` release. After downloading it, just place it in
 your project folder (or create a new one) and check the installed version using:
 
@@ -593,7 +596,7 @@ Run Behat again:
 
 .. code-block:: bash
 
-    $> vendor/bin/behat
+    $ vendor/bin/behat
 
 Great! Another "instruction":
 
@@ -694,17 +697,16 @@ There are many more benefits to BDD but those are the key reasons why most BDD
 practitioners do BDD in Ruby, .Net, Java, Python and JS. Welcome to the family!
 
 What's Next?
-------------
+~~~~~~~~~~~~
 
 Congratulations! You now know everything you need in order to get started
 with behavior driven development and Behat. From here, you can learn more
-about the :doc:`Gherkin </guides/1.gherkin>` syntax or learn how to test your
-web applications by using Behat with Mink.
+about the :doc:`Gherkin </user_guide/gherkin>` syntax or learn how to
+test your web applications by using Behat with Mink.
 
-.. _`Behavior Driven Development`: http://en.wikipedia.org/wiki/Behavior_Driven_Development
+.. _`the Composer documentation`: https://getcomposer.org/download/
+.. _`the download page`: https://github.com/Behat/Behat/releases
 .. _`Mink`: https://github.com/behat/mink
 .. _`What's in a Story?`: http://blog.dannorth.net/whats-in-a-story/
 .. _`Cucumber`: http://cukes.info/
-.. _`Goutte`: https://github.com/fabpot/goutte
-.. _`PHPUnit`: http://phpunit.de
-.. _`Testing Web Applications with Mink`: https://github.com/behat/mink
+.. _`Behavior Driven Development`: http://en.wikipedia.org/wiki/Behavior_Driven_Development

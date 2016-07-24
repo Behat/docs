@@ -16,7 +16,7 @@ In this cookbook we will cover:
 
 #. Using Symfony2 test client as a Mink driver.
 
-Installing Behat in your Symfony2 project
+Installing Behat in your Symfony2 Project
 -----------------------------------------
 
 Recommended way of managing Behat dependency in your project is to use `Composer <https://getcomposer.org/)>`_.
@@ -46,9 +46,10 @@ In order to verify Behat initialisation you can just run following command:
 
 .. tip::
 
-    If you don't feel familiar with Behat enough please read :doc:`/quick_intro_pt1` first.
+    If you don't feel familiar with Behat enough please read :doc:`/quick_start`
+    first.
 
-Installing and enabling Symfony2 extension
+Installing and Enabling Symfony2 Extension
 ------------------------------------------
 
 Great, you have a Behat suite working in your project, now it's time to install `Symfony2Extension <https://github.com/Behat/Symfony2Extension>`_.
@@ -70,7 +71,7 @@ If it doesn't exist just create such file in your project root and fill it with 
 If this file already exists just change its contents accordingly.
 From that point you should be able to run Behat and Symfony2 extension will be loaded and ready to work with.
 
-Accessing application services in contexts
+Accessing Application Services in Contexts
 ------------------------------------------
 
 The extension we have just installed detects the default Symfony configuration and allows
@@ -91,7 +92,7 @@ to change your ``behat.yml`` configuration and tell the extension which services
 This configuration will try to to match the ``$session`` dependency of your ``FeatureContext`` constructor by injecting the ``session`` service into the context.
 Be careful because if such a service does not exist or its name does not match, it will not work and you will end up with a Behat exception.
 
-Using KernelDriver with your Behat suite
+Using KernelDriver with your Behat Suite
 ----------------------------------------
 
 Symfony2 has a build-in Test Client, which can help you with web acceptance testing, why not make use of it?
