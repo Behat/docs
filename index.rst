@@ -1,7 +1,7 @@
 Behat Documentation
 ===================
 
-*Behat v2.x is not maintained anymore. Please upgrade to v3.x ASAP*
+**Behat v2.x is not maintained anymore. Please upgrade to v3.x ASAP**
 
 Behat is an open source behavior-driven development framework for PHP 5.3 and 5.4.
 What is *behavior-driven development*, you ask? It's the idea that you start
