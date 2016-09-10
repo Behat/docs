@@ -1,0 +1,80 @@
+{% extends "layout.html" %}
+
+{% block title %}Behat &mdash; a php framework for autotesting your business expectations.{% endblock %}
+
+{% block stylesheets %}
+    <link rel="stylesheet" href="{{ pathto('_static/css/homepage.css', 1) }}">
+{% endblock %}
+
+{% block page %}
+   <div class="big-logo clearfix">
+       <img class="b" src="{{ pathto('_static/images/b@2x.png', 1)}}">
+       <img class="behat" src="{{ pathto('_static/images/behat@2x.png', 1) }}">
+   </div>
+
+   <span class="slogan">
+       A <strong>php</strong> framework for autotesting your <strong>business</strong> expectations.
+   </span>
+
+   <nav class="gates clearfix">
+       <a class="introduction" href="{{ pathto('quick_start') }}">
+           Read quick introduction
+       </a>
+       <a class="documentation" href="{{ pathto('guides') }}">
+           Read the documentation
+       </a>
+   </nav>
+
+    <section class="why clearfix">
+        <p>Behat is an open source <a href="http://en.wikipedia.org/wiki/Behavior-driven_development">Behavior-Driven Development</a> framework for
+            <strong>PHP</strong>.
+            It is a tool to support you in delivering <em>software that matters</em> through
+            continous communication, deliberate discovery and
+            test-automation.</p>
+
+        <div class="why-right communication clearfix">
+            <h4>Focused on communication</h4>
+
+            <p>Behat is like no other testing framework you have used. Instead of
+                proving that your system was built right, it helps you to build the right system in
+                the first place by facilitating and enriching requirements communication.</p>
+        </div>
+
+        <div class="why-left php clearfix">
+            <h4>Built from the ground up for the PHP community</h4>
+
+            <p>Behat was built from the ground up for PHP and it is a great PHP library to the core.
+                The codebase heavily uses Symfony2 components, religiously follows PSR standards
+                and has an incredibly high ratings according to major language static analysis tools.
+                This all basically means that as a PHP developer, with Behat you will always feel
+                like home.</p>
+        </div>
+
+        <div class="why-right extensions clearfix">
+            <h4>Extendable to the core</h4>
+
+            <p>Behat is very extensible. Almost every bit of the framework
+                functionality could be enhanced or even replaced through the powerful
+                extension system. There are plenty extensions already available.</p>
+        </div>
+    </section>
+
+    <section class="community clearfix">
+        <div class="community-links clearfix">
+            <h4>Join <strong>behat</strong> community</h4>
+
+            <div class="first clearfix">
+                <p>GitHub</p>
+                <a href="https://github.com/Behat">@Behat</a>
+            </div>
+            <div class="clearfix">
+                <p>Twitter</p>
+                <a href="https://twitter.com/BehatPHP">@BehatPHP</a>
+            </div>
+            <div class="clearfix">
+                <p>Google group</p>
+                <a href="https://groups.google.com/forum/#!forum/behat">#!forum/behat<br></a>
+            </div>
+        </div>
+    </section>
+{% endblock %}

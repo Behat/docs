@@ -1,0 +1,35 @@
+{% extends "layout.html" %}
+
+{% block title %}{{ docstitle }}{% endblock %}
+
+{% block stylesheets %}
+    <link rel="stylesheet" href="{{ pathto('_static/css/documentation.css', 1) }}">
+{% endblock %}
+
+{% block page %}
+   <section class="documentation">
+       <nav class="sidebar">
+            <div class="toc">
+                <h3>Chapters</h3>
+                {% set toctree = toctree(maxdepth=2, collapse=True, includehidden=True) %}
+                {% if toctree %}
+                    {{ toctree }}
+                {% else %}
+                    {{ toc }}
+                {% endif %}
+            </div>
+       </nav>
+
+       <section class="text">
+           {{ body }}
+
+           {% if prev %}
+           <dl class="prev"><dt>Previous chapter</dt><dd><a href="{{ prev.link|e }}">{{ prev.title }}</a></dd></dl>
+           {% endif %}
+
+           {% if next %}
+           <dl class="next"><dt>Next chapter</dt><dd><a href="{{ next.link|e }}">{{ next.title }}</a></dd></dl>
+           {% endif %}
+       </section>
+   </section>
+{% endblock %}

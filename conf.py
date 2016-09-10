@@ -9,13 +9,10 @@ extensions = []
 
 source_suffix = '.rst'
 source_encoding = 'utf-8'
-master_doc = 'index'
+master_doc = 'guides'
 
 project = u'Behat'
-copyright = u'2014, Konstantin Kudryashov (@everzet)'
-
-version = '3.0'
-release = '3.0.12'
+copyright = u'2016, Konstantin Kudryashov (@everzet)'
 
 language = 'php'
 highlight_language = 'php'

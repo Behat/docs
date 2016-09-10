@@ -1,52 +1,48 @@
-{%- extends "basic/layout.html" %}
+<!doctype html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="initial-scale=1.0">
+    <title>{% block title %}{% endblock %}</title>
+    <link rel="stylesheet" href="{{ pathto('_static/css/standardize.css', 1) }}">
+    <link rel="stylesheet" href="{{ pathto('_static/css/layout.css', 1) }}">
+    <link rel="stylesheet" href="{{ pathto('_static/css/pygments.css', 1) }}">
+    {% block stylesheets %}{% endblock %}
+    <link rel="stylesheet" type="text/css" href="https://fonts.googleapis.com/css?family=Comfortaa" />
+</head>
+<body class="body page-homepage clearfix">
 
-{% set script_files = script_files + [] %}
-{% set css_files = css_files + ['_static/css/normalize.css', '_static/css/borg.css', '_static/css/documentation.css', '_static/css/pygments.css', 'http://fonts.googleapis.com/css?family=Comfortaa'] %}
-
-{# do not display relbars #}
-{% block relbar1 %}{% endblock %}
-{% block relbar2 %}{% endblock %}
-
-{% block content %}
-    <header>
-        <a class="logo" href="http://behat.org">behat</a>
-
-        <nav>
-            <ul>
-                <li><a href="http://behat.org">About</a></li>
-                <li class="active"><a href="/">Docs</a></li>
-            </ul>
-        </nav>
-
-        <a class="fork" href="https://github.com/Behat/Behat">Fork us</a>
+    <header class="clearfix">
+        <div class="header-center">
+            <a href="{{ pathto('index') }}"><img class="nav-logo" src="{{ pathto('_static/images/logo@2x.png', 1) }}"></a>
+            <nav class="clearfix">
+                    <a class="section {% if pagename == 'guides' %}active{% endif %}" href="{{
+                            pathto('guides') }}">
+                    Guides
+                </a>
+                <a class="section {% if pagename == 'community' %}active{% endif %}"
+                   href="{{ pathto('community') }}">
+                    Community
+                </a>
+                <a class="section" href="https://github.com/Behat/Behat/blob/master/CHANGELOG.md#change-log">
+                    Releases
+                </a>
+                <a class="fork-us" href="https://github.com/Behat/Behat">GitHub</a>
+            </nav>
+        </div>
     </header>
 
-    <section>
-
-        <nav class="toc">
-            <h3>Chapters</h3>
-            {% set toctree = toctree(maxdepth=2, collapse=True, includehidden=True) %}
-            {% if toctree %}
-                {{ toctree }}
-            {% else %}
-                <!-- Local TOC -->
-                <div class="local-toc">{{ toc }}</div>
-            {% endif %}
-        </nav>
-        <section class="text">
-            {% block body %}{% endblock %}
-            <footer>
-                {% if prev %}
-                <dl><dt>Previous</dt> <dd><a class="prev" href="{{ prev.link|e }}">{{ prev.title }}</a></dd></dl>
-                {% endif %}
-
-                {% if next %}
-                <dl><dt>Next</dt><dd><a class="next" href="{{ next.link|e }}">{{ next.title }}</a></dd></dl>
-                {% endif %}
-            </footer>
-        </section>
-
+    <section class="page clearfix">
+    {% block page %}{% endblock %}
     </section>
-{% endblock %}
 
-{% block footer %}{% endblock %}
+    <footer class="clearfix">
+        <div class="footer-center">
+            <span class="copyright">Copyright © 2011-2016 Konstantin Kudryashov.</span>
+            <a class="github" href="https://github.com/Behat"></a>
+            <a class="twitter" href="https://twitter.com/BehatPHP"></a>
+        </div>
+    </footer>
+
+</body>
+</html>

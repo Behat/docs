@@ -1,0 +1,237 @@
+.big-logo {
+  position: relative;
+  width: 338px;
+  height: 139px;
+  margin: 80px auto 0;
+}
+
+.big-logo .b {
+  display: block;
+  float: left;
+  width: 101px;
+  height: auto;
+  overflow: hidden;
+}
+
+.big-logo .behat {
+  display: block;
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: 31.1446645426%;
+  z-index: 20;
+  width: 233px;
+  height: auto;
+  margin: auto 0;
+  overflow: hidden;
+}
+
+.slogan {
+  display: block;
+  width: 620px;
+  margin: 50px auto 0;
+  font: italic 3.8rem 'Trebuchet MS';
+  text-align: center;
+  color: #505050;
+}
+
+.slogan strong {
+  border: 0 none transparent;
+  background-color: transparent;
+  font-weight: 700;
+  color: #000;
+  opacity: 1;
+  word-break: normal;
+  word-wrap: normal;
+  white-space: normal;
+}
+
+.gates {
+  width: 542px;
+  margin: 80px auto 0;
+}
+
+.gates a {
+  display: block;
+  float: left;
+  width: 240px;
+  height: 60px;
+  padding-top: 5px;
+  padding-left: 70px;
+  font-style: italic;
+  font-size: 2.4rem;
+  font-weight: 400;
+  line-height: 1;
+  color: rgb(80, 80, 80);
+}
+
+.gates a:hover {
+  text-decoration: underline;
+  color: rgb(0, 0, 0);
+}
+
+.gates .introduction {
+  margin-left: 19px;
+  background: url('../images/sandclock@2x.png') no-repeat 15px 50%;
+  background-size: 34px 60px;
+}
+
+.gates .documentation {
+  margin-left: 31px;
+  background: url('../images/book@2x.png') no-repeat left center;
+  background-size: 55px 55px;
+}
+
+.why {
+  width: 100%;
+  margin: 80px auto 0;
+  padding-bottom: 60px;
+  border-top: 1px solid rgb(192, 192, 192);
+  border-bottom: 1px solid rgb(192, 192, 192);
+}
+
+.why > p {
+  width: 600px;
+  margin: 80px auto 0;
+  font-size: 1.8rem;
+  font-weight: 400;
+  color: #505050;
+  line-height: 1.5;
+}
+
+.why > p a {
+  text-decoration: underline;
+  color: rgb(0, 0, 0);
+}
+
+.why > p strong {
+  color: rgb(0, 0, 0);
+}
+
+.why > p em {
+  font-style: italic;
+}
+
+.why-right h4 {
+  float: right;
+  width: 400px;
+  font-size: 3.0rem;
+  font-weight: 400;
+  line-height: 1.2;
+  color: #000;
+  font-family: 'Comfortaa';
+  text-transform: lowercase;
+}
+
+.why-right p {
+  float: right;
+  clear: both;
+  width: 400px;
+  margin-top: 30px;
+  font-size: 1.6rem;
+  color: #505050;
+  line-height: 1.5;
+}
+
+.why-left h4,
+.community h4{
+  float: left ;
+  width: 400px;
+  font-size: 3.0rem;
+  font-weight: 400;
+  line-height: 1.2;
+  color: #000;
+  font-family: 'Comfortaa';
+  text-transform: lowercase;
+}
+
+.why-left p {
+  float: left;
+  clear: both;
+  width: 400px;
+  margin-top: 30px;
+  font-size: 1.6rem;
+  color: #505050;
+  line-height: 1.5;
+}
+
+.why .communication {
+  position: relative;
+  width: 730px;
+  min-height: 225px;
+  margin: 80px auto 0;
+  background: url('../images/talk@2x.png') no-repeat left top;
+  background-size: 250px 225px;
+}
+
+.why .php {
+  position: relative;
+  width: 730px;
+  min-height: 250px;
+  margin: 80px auto 0;
+  background: url('../images/php@2x.png') no-repeat right top;
+  background-size: 250px 129px;
+}
+
+.why .extensions {
+  position: relative;
+  width: 730px;
+  min-height: 250px;
+  margin: 80px auto 0;
+  background: url('../images/gear@2x.png') no-repeat left top;
+  background-size: 250px 250px;
+}
+
+.community {
+  position: relative;
+  width: 730px;
+  min-height: 225px;
+  margin: 80px auto 0;
+  background: url('../images/people@2x.png') no-repeat right top;
+  background-size: 250px 225px;
+}
+
+.community-links {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  z-index: 15;
+  width: 450px;
+  height: 152px;
+  margin: auto 0;
+}
+
+.community-links h4 strong {
+  font-family: Comfortaa;
+  font-weight: Bold;
+}
+
+.community-links > div {
+  float: left;
+  clear: both;
+  width: 250px;
+  height: 22px;
+  margin-top: 10px;
+  font-size: 1.6rem;
+}
+
+.community-links .first {
+  margin-top: 25px;
+}
+
+.community-links p {
+  float: left;
+  font-weight: 400;
+  line-height: 1.38;
+  color: #505050;
+}
+
+.community-links a {
+  display: block;
+  float: right;
+  min-width: 140px;
+  font-weight: bold;
+  text-decoration: underline;
+  color: rgb(0, 0, 0);
+}

@@ -1,0 +1,152 @@
+html {
+  font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+  font-size: 62.5%;
+}
+
+body {
+  height: 100%;
+  background: rgb(255, 255, 255) url('../images/bg@2x.png') repeat-x left top;
+  background-size: 60px 290px;
+  font: 100% Helvetica;
+  color: rgb(0, 0, 0);
+}
+
+header {
+  width: 100%;
+  margin: 0 auto;
+  border-bottom: 1px solid #c0c0c0;
+}
+
+header .header-center {
+  position: relative;
+  width: 820px;
+  height: 68px;
+  margin: 0 auto;
+}
+
+header .nav-logo {
+  display: block;
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  right: 708px;
+  z-index: 31;
+  width: 92px;
+  height: auto;
+  margin: auto 0;
+  overflow: hidden;
+}
+
+header nav {
+  position: absolute;
+  top: 0;
+  left: 146px;
+  z-index: 30;
+  width: 654px;
+  height: 68px;
+}
+
+header nav .section {
+  display: block;
+  float: left;
+  height: 67px;
+  min-height: 20px;
+  padding-top: 21px;
+  padding-right: 15px;
+  padding-left: 15px;
+  border-top: 6px solid rgb(161, 159, 159);
+  font-size: 1.4rem;
+  font-weight: 400;
+  line-height: 1.38;
+  text-align: center;
+  color: rgb(80, 80, 80);
+  text-transform: uppercase;
+}
+
+header nav .section.active {
+  border-top: 6px solid rgb(0, 0, 0);
+  color: rgb(0, 0, 0);
+}
+
+header nav a:hover {
+  border-top-color: #858585;
+}
+
+header nav .fork-us {
+  display: block;
+  float: right;
+  height: 67px;
+  min-height: 20px;
+  padding-top: 21px;
+  padding-left: 22px;
+  border-top: 6px solid rgb(161, 159, 159);
+  background: url('../images/fork@2x.png') no-repeat left center;
+  background-size: 15px 20px;
+  font-size: 1.4rem;
+  font-weight: 400;
+  line-height: 1.38;
+  text-align: right;
+  color: rgb(80, 80, 80);
+  text-transform: uppercase;
+}
+
+.page {
+  width: 820px;
+  margin: 0 auto;
+}
+
+footer {
+  width: 100%;
+  margin: 80px auto 0;
+  border-top: 1px solid rgb(192, 192, 192);
+}
+
+footer .footer-center {
+  position: relative;
+  width: 820px;
+  height: 50px;
+  margin: 0 auto;
+}
+
+footer .github {
+  display: block;
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  right: 75px;
+  z-index: 1;
+  width: 30px;
+  height: 30px;
+  margin: auto 0;
+  background: url('../images/github@2x.png') no-repeat center center;
+  background-size: 30px 26px;
+}
+
+footer .twitter {
+  display: block;
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  right: 20px;
+  width: 30px;
+  height: 30px;
+  margin: auto 0;
+  background: url('../images/twitter@2x.png') no-repeat center center;
+  background-size: 30px 25px;
+}
+
+footer .copyright {
+  display: block;
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: 20px;
+  z-index: 2;
+  width: 400px;
+  height: 22px;
+  margin: auto 0;
+  font-size: 1.3em;
+  font-weight: 400;
+  line-height: 1.38;
+  color: rgb(192, 192, 192);
+}
