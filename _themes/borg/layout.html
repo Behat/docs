@@ -16,13 +16,16 @@
         <div class="header-center">
             <a href="{{ pathto('index') }}"><img class="nav-logo" src="{{ pathto('_static/images/logo@2x.png', 1) }}"></a>
             <nav class="clearfix">
-                    <a class="section {% if pagename == 'guides' %}active{% endif %}" href="{{
-                            pathto('guides') }}">
+                    <a class="section {% if pagename == 'guides' %}active{% endif %}" href="{{ pathto('guides') }}">
                     Guides
                 </a>
                 <a class="section {% if pagename == 'community' %}active{% endif %}"
                    href="{{ pathto('community') }}">
                     Community
+                </a>
+                <a class="section"
+                   href="https://github.com/search?o=desc&q=behat+extension+in%3Aname%2Cdescription+language%3APHP&ref=searchresults&s=stars&type=Repositories&utf8=✓">
+                    Extensions
                 </a>
                 <a class="section" href="https://github.com/Behat/Behat/blob/master/CHANGELOG.md#change-log">
                     Releases
