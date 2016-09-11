@@ -461,6 +461,14 @@ body > section {
   background-size: 20px 20px;
 }
 
+.text ol {
+  list-style: decimal;
+}
+
+.text ul {
+  list-style: square;
+}
+
 .text .prev {
   margin-top: 2.0em;
   float: left;
