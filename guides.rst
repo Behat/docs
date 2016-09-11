@@ -71,6 +71,7 @@ and the same.
    user_guide
    cookbooks
    useful_resources
+   community
 
 .. _`Cucumber`: http://cukes.info/
 .. _Dan North's "What's in a Story?": http://dannorth.net/whats-in-a-story
