@@ -230,6 +230,7 @@ body > section {
 
 .text ol > li,
 .text ul > li {
+  margin-top: 7px;
   margin-bottom: 7px;
 }
 
