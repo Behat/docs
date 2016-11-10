@@ -670,7 +670,7 @@ Run Behat again:
 
 All scenarios should pass now! Congratulations, you almost finished your first
 feature. The last step is to *refactor*. Look at the ``Basket`` and ``Shelf``
-classes and try to find a way to make their code even more cleaner, easier to
+classes and try to find a way to make their code even more clean, easier to
 read and concise.
 
 .. tip::
