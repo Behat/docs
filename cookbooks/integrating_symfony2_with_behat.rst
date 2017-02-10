@@ -46,6 +46,16 @@ In order to verify Behat initialisation you can just run following command:
 
 .. tip::
 
+    If the command above doesn't work, you may need to run ``bin/behat`` instead.
+
+Next, let's initialize Behat:
+
+.. code-block:: bash
+
+    $ vendor/bin/behat --init
+
+.. tip::
+
     If you don't feel familiar with Behat enough please read :doc:`/quick_start`
     first.
 
