@@ -1,0 +1,115 @@
+BDD with Symfony and Behat
+==========================
+
+Symfony2 is a `Web Application Framework <http://symfony.com/>`_ that can be easily integrated and used seamlessly with Behat 3.
+In this tutorial we will extend ideas explained in  :doc:`/quick_intro_pt1`,
+so if you don't feel comfortable enough it's recommended to step back and have a look on it.
+
+As a prerequisite we need to assume, you have some knowledge of Symfony framework,
+if you don't have any please have a look into `documentation <http://symfony.com/doc/current/book/index.html>`_.
+We will explain used concepts, but in case something is not really clear this link is the best source to look at.
+
+In previous article we decided to develop a online shopping platform which allows clients to buy products.
+In this step we will actually extend previously built Domain Model,
+and make use of it inside real web application written in Symfony framework,
+so you will be able to see incremental evolution of product.
+
+Setting up Symfony project
+--------------------------
+
+Recommended way of managing Behat dependency in your project is to use `Composer <https://getcomposer.org/)>`_,
+and we also did recommend that in previous tutorial. From this point, this is the official one.
+We will not support others because it will be a pain to manage dependencies, and you want to learn good practices, don't you?
+
+In order to create a new Symfony project we need to run following command:
+
+.. code-block:: bash
+
+    $ php composer.phar create-project symfony/framework-standard-edition bdd-with-symfony '~2.5.3'
+
+During the installation process script will ask us a question: ``Would you like to install Acme demo bundle? [y/N]``.
+Because we are going to implement our app from scratch suggested option is ``N`` - we will not need to remove any unnecessary config.
+All the questions that will follow will be about parameters, but just pressing return for all of them will be fine, defaults here are sensible for our example.
+
+Now it's time to copy your composer.phar file to project directory, open it and verify Symfony installation.
+
+.. code-block:: bash
+
+    $ cp composer.phar bdd-with-symfony
+    $ cd bdd-with-symfony
+    $ php app/check.php
+
+As an output of this message you should get nice green box with sucess message ``[OK] Your system is ready to run Symfony2 projects``.
+If it doesn't happen Symfony's command line check will suggest way of fixing existing problems, and please sort them out.
+
+Installing Behat and Symfony extension
+--------------------------------------
+
+Now it's time to add dependencies to our project. The main one is Behat, but also we will need Symfony2Extension for it,
+which adds a layer of integration between these two. Following commands will install Behat dev dependency in our project.
+
+.. code-block:: bash
+
+    php composer.phar require --dev "behat/behat ~3.0.4"
+
+Now we are able to initialise our suite with usual command, and verify installation:
+
+.. code-block:: bash
+
+    bin/behat --init
+    bin/behat
+
+.. tip::
+
+    By default in Symfony2 project ``vendor/bin`` folder is linked to ``bin`` so we can save some typing.
+
+Once we are sure our installation works as expected we can proceed and add extension.
+
+.. code-block:: bash
+
+    php composer.phar require --dev "behat/symfony2-extension 2.0.*@dev"
+
+
+Good. Now it's time to enable it and check if our installation still works as expected.
+As a first thing we need to create new file called ``behat.yml`` and add fill it with following contents:
+
+.. code-block:: yaml
+
+    default:
+      extensions:
+        Behat\Symfony2Extension: ~
+
+As we did previously we will start from the ``features/basket.feature`` file that we are already familiar with.
+Just to make things simpler here are the contents you need just need to copy & paste.
+
+.. code-block:: gherkin
+
+    Feature: Product basket
+      In order to buy products
+      As a customer
+      I need to be able to put interesting products into a basket
+
+      Rules:
+      - VAT is 20%
+      - Delivery for basket under £10 is £3
+      - Delivery for basket over £10 is £2
+
+      Scenario: Buying a single product under £10
+        Given there is a "Sith Lord Lightsaber", which costs £5
+        When I add the "Sith Lord Lightsaber" to the basket
+        Then I should have 1 product in the basket
+        And the overall basket price should be £9
+
+      Scenario: Buying a single product over £10
+        Given there is a "Sith Lord Lightsaber", which costs £15
+        When I add the "Sith Lord Lightsaber" to the basket
+        Then I should have 1 product in the basket
+        And the overall basket price should be £20
+
+      Scenario: Buying two products over £10
+        Given there is a "Sith Lord Lightsaber", which costs £10
+        And there is a "Jedi Lightsaber", which costs £5
+        When I add the "Sith Lord Lightsaber" to the basket
+        And I add the "Jedi Lightsaber" to the basket
+        Then I should have 2 products in the basket
+        And the overall basket price should be £20
