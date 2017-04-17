@@ -1,0 +1,118 @@
+1	Introduction
+1.1		Behaviour Driven Development
+1.2		Why use Behat?
+1.3		Features
+1.4		Support / Questions
+1.5		License
+
+2	Quick Start
+2.1		Example
+2.2		Installation
+2.3		Development
+2.3.1			Implementing the Feature
+2.3.2			Automating Steps
+2.3.3			Defining Steps
+2.3.4			Executing Behat
+
+3	User Guide
+3.1		Feature Context
+3.1.1			Context Traits
+3.1.2			Context Parameters
+3.1.3			Contexts Lifetime
+3.1.4			Context Class Requirements
+3.1.5			Using Scopes
+3.1.6			Multiple Contexts
+3.1.6.1			Gathering Contexts
+3.1.7			Hooks
+3.1.7.1			Tagged Hooks
+3.1.7.2			Scenario Hooks
+3.1.7.3			Feature Hooks
+3.1.7.4			Step Hooks
+3.1.8			Step Definitions
+3.1.8.1			Step argument transformation
+3.1.8.1.1 				Table Transformation
+3.1.8.2			Definition Snippets
+3.1.8.3			Arguments
+3.1.8.4			Definition Keywords
+3.2		Defining a Feature
+3.2.1			Gherkin Language
+3.2.2			Multilingual Support
+3.2.3			Tags
+3.2.4			Defining a Scenario
+3.2.4.1			Tags
+3.2.4.2			Pystrings
+3.2.4.3			Tables
+3.2.4.4			Multiline Arguments
+3.2.4.5			Scenario Background
+3.2.4.6			Scenario Outline
+3.2.4.7			Steps
+3.2.4.7.1				Then
+3.2.4.7.2				And, But
+3.2.4.7.3				Given
+3.2.4.7.4				When
+3.3		Command Line Tool
+3.3.1			Identify Tests
+3.3.1.1			By Suite
+3.3.1.2			By Tags
+3.3.1.3			By Path
+3.3.1.4			By Language
+3.3.1.5			By Name
+3.3.1.6			By Role
+3.3.1.7			By Profile
+3.3.2			Formatting
+3.3.2.1			Define Formatter
+3.3.2.2			Specify Output
+3.3.2.3			Format Settings
+3.3.3			Development Support
+3.3.3.1			Append Snippets
+3.3.3.2			Dry Running
+3.3.3.3			Stop on Failure
+3.3.3.4			Rerun
+3.3.4			Informative Options
+3.3.4.1			Print Definitions
+3.3.4.2			Verbose
+3.3.4.3			Help
+3.3.4.4			Version
+3.3.4.5			Config Reference
+3.3.4.6			Output Story Syntax
+3.3.5			Displaying Colours
+3.3.6			Strict
+3.3.7			Specifying Configuration file
+3.4		Configuration
+3.4.1			Paths
+3.4.2			Filters
+3.4.3			Suites
+3.4.3.1			Contexts
+3.4.3.2			Formatters
+3.4.4			Extensions
+3.4.5			Profiles
+3.4.6			Importing
+3.4.7			Custom Autoloading
+3.4.8			Tags
+3.5		Extending Behat
+3.5.1			Custom Extensions
+3.5.1.1			Exceptions
+3.5.2			Custom Formatters
+3.5.3			Popular Extensions
+3.5.3.1			Mink Extension
+3.5.3.2			Web Api Extension
+3.5.3.3			Drupal Extension
+3.5.3.4			Symfony2 Extension
+
+4	Cookbooks
+4.1		Configuring Behat for testing Selenium
+4.2		Integrating Symfony2 with Behat
+4.3		Developing Web Applications with Behat and Mink
+4.4		Migrating from Behat 2.x to 3.0
+4.5		Using Spin Functions for Slow Tests
+4.6		Using the Symfony2 Profiler with Behat and Symfony2Extension
+4.7		Intercepting the redirection with Behat and Mink
+
+5	Useful Resources
+5.1		Integrate Behat with PHPStorm
+5.2		Behat vs Cucumber
+5.3		Gherkin API
+5.4		Behat API
+5.5		Cheat Sheet
+
+
