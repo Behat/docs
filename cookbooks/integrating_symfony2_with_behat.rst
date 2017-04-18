@@ -92,6 +92,30 @@ to change your ``behat.yml`` configuration and tell the extension which services
 This configuration will try to to match the ``$session`` dependency of your ``FeatureContext`` constructor by injecting the ``session`` service into the context.
 Be careful because if such a service does not exist or its name does not match, it will not work and you will end up with a Behat exception.
 
+Accessing Symfony2 parameters in behat.yml
+------------------------------------------
+
+The extension makes it possible to use Symfony's parameters. To make a Symfony parameter available in a context
+you need to change your ``behat.yml`` configuration and tell the extension which parameter to inject:
+
+.. code-block:: yaml
+
+    default:
+        suites:
+            default:
+                contexts:
+                    - FeatureContext:
+                        mySymfonyParam: %%my.symfony_param%%
+        extensions:
+            Behat\Symfony2Extension: ~
+
+This configuration will try to match the ``$mySymfonyParam`` dependency of your ``FeatureContext`` constructor by
+injecting the ``my.symfony_param`` parameter into the context. If the parameter does not exists, you will get a
+Behat exception.
+The parameters needs to be quoted (double %) for escaping because the Behat configuration is also using Symfony's DIC and supports
+Behat's parameters injection.
+
+
 Using KernelDriver with your Behat Suite
 ----------------------------------------
 
