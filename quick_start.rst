@@ -190,7 +190,7 @@ Then you will be able to check installed Behat version using:
 
 .. code-block:: bash
 
-    $ vendor/bin/behat -V
+    $ php vendor/behat/behat/bin/behat -V
 
 Method #2 - PHAR (an easy one)
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
