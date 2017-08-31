@@ -87,6 +87,22 @@ Or maybe we want to unset the tag filter for a profile:
             default:
                 filters: ~
 
+Importing Config
+----------------
+
+The ``imports`` block can be used to merge multiple configuration files in to one loaded config in Behat, using the following syntax:
+
+.. code-block:: yaml
+
+    # behat.yml
+    imports:
+        - config/base.behat.yml
+        - config/ci.behat.yml
+
+All files from the ``imports`` block will be loaded by Behat and merged, in the listed order, into your ``behat.yml`` config. This is especially useful when you want to tweak configuration slightly between local development and on Continuous Integration environments by using partial configuration files.
+
+This allows configuration files listed in the ``imports`` key to override configuration values for previously listed files.
+
 Environment Variable - BEHAT_PARAMS
 -----------------------------------
 
