@@ -136,6 +136,20 @@ always use good old regular expressions:
      */
     public function thereAreMonsters($count) {}
 
+And if you want to be able to say things in different ways that are not so
+easily written as a single regular expression, you can write multiple 
+annotations for the one method:
+
+.. code-block:: php
+
+    /**
+     * @When /^I create (\d+) monsters$/i
+     * @Given /^(\d+) monster(?:s|) (?:have|has) been created$/i
+     */
+    public function thereAreMonsters($count) {}
+
+Behat will call the corresponding method if any of the patterns matches.
+
 Definition Snippets
 -------------------
 
