@@ -23,8 +23,8 @@
                    href="{{ pathto('community') }}">
                     Community
                 </a>
-                <a class="section"
-                   href="https://github.com/search?o=desc&q=behat+extension+in%3Aname%2Cdescription+language%3APHP&ref=searchresults&s=stars&type=Repositories&utf8=✓">
+                <a class="section {% if pagename == 'extensions' %}active{% endif %}"
+                   href="{{ pathto('extensions') }}">
                     Extensions
                 </a>
                 <a class="section" href="https://github.com/Behat/Behat/blob/master/CHANGELOG.md#change-log">
