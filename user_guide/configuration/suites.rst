@@ -42,9 +42,9 @@ configuration:
         suites:
             core_features:
                 paths:
-                    - %paths.base%/features
-                    - %paths.base%/test/features
-                    - %paths.base%/vendor/.../features
+                    - '%paths.base%/features'
+                    - '%paths.base%/test/features'
+                    - '%paths.base%/vendor/.../features'
 
 As you might imagine, this option tells Behat where to search for test features.
 You could, for example, tell Behat to look into the
