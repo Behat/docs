@@ -17,14 +17,14 @@ really powerful and ``behat.yml`` makes them that much more powerful:
     default:
         suites:
             core_features:
-                paths:    [ %paths.base%/features/core ]
+                paths:    [ '%paths.base%/features/core' ]
                 contexts: [ CoreDomainContext ]
             user_features:
-                paths:    [ %paths.base%/features/web ]
+                paths:    [ '%paths.base%/features/web' ]
                 filters:  { role: user }
                 contexts: [ UserContext ]
             admin_features:
-                paths:    [ %paths.base%/features/web ]
+                paths:    [ '%paths.base%/features/web' ]
                 filters:  { role: admin }
                 contexts: [ AdminContext ]
 
@@ -42,9 +42,9 @@ configuration:
         suites:
             core_features:
                 paths:
-                    - %paths.base%/features
-                    - %paths.base%/test/features
-                    - %paths.base%/vendor/.../features
+                    - '%paths.base%/features'
+                    - '%paths.base%/test/features'
+                    - '%paths.base%/vendor/.../features'
 
 As you might imagine, this option tells Behat where to search for test features.
 You could, for example, tell Behat to look into the
@@ -57,7 +57,7 @@ You could, for example, tell Behat to look into the
     default:
         suites:
             web_features:
-                paths:    [ %paths.base%/features/web ]
+                paths:    [ '%paths.base%/features/web' ]
                 contexts: [ WebContext ]
 
 You then might want to also describe some API-specific features in
@@ -70,10 +70,10 @@ You then might want to also describe some API-specific features in
     default:
         suites:
             web_features:
-                paths:    [ %paths.base%/features/web ]
+                paths:    [ '%paths.base%/features/web' ]
                 contexts: [ WebContext ]
             api_features:
-                paths:    [ %paths.base%/features/api ]
+                paths:    [ '%paths.base%/features/api' ]
                 contexts: [ ApiContext ]
 
 This will cause Behat to:
@@ -87,7 +87,8 @@ This will cause Behat to:
 .. note::
 
     ``%paths.base%`` is a special variable in ``behat.yml`` that refers
-    to the folder in which ``behat.yml`` is stored.
+    to the folder in which ``behat.yml`` is stored. When using it, or 
+    any other percent-encased variable, it has to be put in quotes.
 
 Path-based suites are an easy way to test highly-modular applications
 where features are delivered by highly decoupled components. With suites
@@ -109,15 +110,20 @@ features with specific tag (or name) in specific contexts:
     default:
         suites:
             web_features:
-                paths:    [ %paths.base%/features ]
+                paths:    [ '%paths.base%/features' ]
                 contexts: [ WebContext ]
                 filters:
-                    tags: @web
+                    tags: '@web'
             api_features:
-                paths:    [ %paths.base%/features ]
+                paths:    [ '%paths.base%/features' ]
                 contexts: [ ApiContext ]
                 filters:
-                    tags: @api
+                    tags: '@api'
+
+.. note::
+
+    The `@` character is a special and requires the tag to be
+    put in quotes.
 
 This configuration will tell Behat to run features and scenarios
 tagged as ``@web`` in ``WebContext`` and features and scenarios
@@ -133,12 +139,12 @@ filter. That means, you can now have nice actor-based suites:
     default:
         suites:
             user_features:
-                paths:    [ %paths.base%/features ]
+                paths:    [ '%paths.base%/features' ]
                 contexts: [ UserContext ]
                 filters:
                     role: user
             admin_features:
-                paths:    [ %paths.base%/features ]
+                paths:    [ '%paths.base%/features' ]
                 contexts: [ AdminContext ]
                 filters:
                     role: admin
@@ -173,7 +179,7 @@ This is achieved by specifying the filter in the gherkin configuration:
     default:
         gherkin:
           filters:
-            tags: ~@wip
+            tags: '~@wip'
 
 In this instance, scenarios tagged as @wip will be ignored unless the CLI
 command is run with a custom filter, e.g.:
@@ -204,13 +210,13 @@ develop different layers of your application with Behat:
     default:
         suites:
             domain_features:
-                paths:    [ %paths.base%/features ]
+                paths:    [ '%paths.base%/features' ]
                 contexts: [ DomainContext ]
             web_features:
-                paths:    [ %paths.base%/features ]
+                paths:    [ '%paths.base%/features' ]
                 contexts: [ WebContext ]
                 filters:
-                    tags: @web
+                    tags: '@web'
 
 In this case, Behat will first run all the features from the ``features/``
 folder in ``DomainContext`` and then only those tagged with ``@web`` in
