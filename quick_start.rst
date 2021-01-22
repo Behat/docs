@@ -706,7 +706,7 @@ test your web applications by using Behat with Mink.
 
 .. _`the Composer documentation`: https://getcomposer.org/download/
 .. _`the download page`: https://github.com/Behat/Behat/releases
-.. _`Mink`: https://github.com/behat/mink
+.. _`Mink`: https://github.com/minkphp/Mink
 .. _`What's in a Story?`: http://blog.dannorth.net/whats-in-a-story/
-.. _`Cucumber`: http://cukes.info/
+.. _`Cucumber`: https://cucumber.io
 .. _`Behavior Driven Development`: http://en.wikipedia.org/wiki/Behavior_Driven_Development
