@@ -190,7 +190,7 @@ Then you will be able to check installed Behat version using:
 
 .. code-block:: bash
 
-    $ vendor/bin/behat -V
+    $ php vendor/behat/behat/bin/behat -V
 
 Method #2 - PHAR (an easy one)
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -702,11 +702,11 @@ What's Next?
 Congratulations! You now know everything you need in order to get started
 with behavior driven development and Behat. From here, you can learn more
 about the :doc:`Gherkin </user_guide/gherkin>` syntax or learn how to
-test your web applications by using Behat with Mink.
+test your web applications by using Behat with `Mink`_.
 
 .. _`the Composer documentation`: https://getcomposer.org/download/
 .. _`the download page`: https://github.com/Behat/Behat/releases
-.. _`Mink`: https://github.com/behat/mink
+.. _`Mink`: http://mink.behat.org/
 .. _`What's in a Story?`: http://blog.dannorth.net/whats-in-a-story/
 .. _`Cucumber`: http://cukes.info/
 .. _`Behavior Driven Development`: http://en.wikipedia.org/wiki/Behavior_Driven_Development
