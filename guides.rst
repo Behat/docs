@@ -73,6 +73,6 @@ and the same.
    useful_resources
    community
 
-.. _`Cucumber`: http://cukes.info/
+.. _`Cucumber`: https://cucumber.io/
 .. _Dan North's "What's in a Story?": http://dannorth.net/whats-in-a-story
 .. _Cucumber's "Backgrounder": https://github.com/cucumber/cucumber/wiki/Cucumber-Backgrounder
