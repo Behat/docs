@@ -294,7 +294,7 @@ method as the last argument.
 Multiline step arguments come in two flavours: `tables`_ or `pystrings`_.
 
 Tables
-------
+^^^^^^
 
 Tables as arguments to steps are handy for specifying a larger data set -
 usually as input to a ``Given`` or as expected output from a ``Then``:
@@ -340,7 +340,7 @@ usually as input to a ``Given`` or as expected output from a ``Then``:
     rows (``TableNode::getRowsHash()``).
 
 Pystrings
----------
+^^^^^^^^^
 
 Multiline Strings (also known as PyStrings) are useful for specifying a
 larger piece of text. The text should be offset by delimiters consisting of
