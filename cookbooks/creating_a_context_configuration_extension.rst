@@ -1,5 +1,5 @@
 Creating a Behat extension to provide custom configuration for Contexts
-==========================
+=======================================================================
 
 Extensions are particularly useful when configuration becomes a necessity.
 
@@ -132,6 +132,7 @@ Initializing the Context
 To pass configuration values to our ``HelloWorldContext``, we need to create an initializer.
 
 .. code-block::
+
   src/
       Context/
           Initializer/
