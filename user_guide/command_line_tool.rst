@@ -81,6 +81,8 @@ This is a summary of the usage of Behat in the command line:
           Do not print snippets for undefined steps after stats.
       --strict
           Passes only if all tests are explicitly passing.
+      --print-unused-definitions
+          Reports definitions that were never used.
       --order=ORDER
           Set an order in which to execute the specifications
           (this will result in slower feedback).
