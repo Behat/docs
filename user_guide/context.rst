@@ -146,9 +146,9 @@ to fine-tune the suite configuration inside ``behat.php``:
     <?php
     // behat.php
 
-    use App\Tests\Behat\Context\FeatureContext;
-    use App\Tests\Behat\Context\SecondContext;
-    use App\Tests\Behat\Context\ThirdContext;
+    use FeatureContext;
+    use SecondContext;
+    use ThirdContext;
     use Behat\Config\Config;
     use Behat\Config\Profile;
     use Behat\Config\Suite;
@@ -204,7 +204,7 @@ how you change it:
     <?php
     // behat.php
 
-    use App\Tests\Behat\Context\MyAwesomeContext;
+    use MyAwesomeContext;
     use Behat\Config\Config;
     use Behat\Config\Profile;
     use Behat\Config\Suite;
@@ -238,8 +238,8 @@ instead of the default ``FeatureContext``.
         <?php
         // behat.php
 
-        use App\Tests\Behat\Context\MyAwesomeContext;
-        use App\Tests\Behat\Context\MyWickedContext;
+        use MyAwesomeContext;
+        use MyWickedContext;
         use Behat\Config\Config;
         use Behat\Config\Profile;
         use Behat\Config\Suite;
@@ -310,14 +310,14 @@ PHP classes? Use *constructor arguments*:
 
 As a matter of fact, Behat gives you ability to do just that. You can
 specify arguments required to instantiate your context classes through
-same ``contexts`` setting inside your ``behat.yml``:
+same ``contexts`` setting inside your ``behat.php``:
 
 .. code-block:: php
 
     <?php
     // behat.php
 
-    use App\Tests\Behat\Context\MyAwesomeContext;
+    use MyAwesomeContext;
     use Behat\Config\Config;
     use Behat\Config\Profile;
     use Behat\Config\Suite;
@@ -346,7 +346,7 @@ names instead:
     <?php
     // behat.php
 
-    use App\Tests\Behat\Context\MyAwesomeContext;
+    use MyAwesomeContext;
     use Behat\Config\Config;
     use Behat\Config\Profile;
     use Behat\Config\Suite;
@@ -373,7 +373,7 @@ arguments becomes irrelevant:
     <?php
     // behat.php
 
-    use App\Tests\Behat\Context\MyAwesomeContext;
+    use MyAwesomeContext;
     use Behat\Config\Config;
     use Behat\Config\Profile;
     use Behat\Config\Suite;
@@ -410,7 +410,7 @@ You then can specify only the parameter that you actually need to change:
     <?php
     // behat.php
 
-    use App\Tests\Behat\Context\MyAwesomeContext;
+    use MyAwesomeContext;
     use Behat\Config\Config;
     use Behat\Config\Profile;
     use Behat\Config\Suite;
