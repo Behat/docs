@@ -85,7 +85,7 @@ In order to be used by Behat, your context class should follow these rules:
 #. The context class should be called ``FeatureContext``. It's a simple convention
    inside the Behat infrastructure. ``FeatureContext`` is the name of the
    context class for the default suite. This can easily be changed through
-   suite configuration inside ``behat.yml``.
+   suite configuration inside ``behat.php``.
 
 #. The context class should be discoverable and loadable by Behat. That means you
    should somehow tell Behat about your class file. Behat comes with a PSR-0
@@ -93,7 +93,7 @@ In order to be used by Behat, your context class should follow these rules:
    ``features/bootstrap``. That's why the default ``FeatureContext`` is loaded so
    easily by Behat. You can place your own classes under ``features/bootstrap``
    by following the PSR-0 convention or you can even define your own custom
-   autoloading folder via ``behat.yml``.
+   autoloading folder via ``behat.php``.
 
 .. note::
 
@@ -139,19 +139,34 @@ your code more structured by allowing you to use multiple contexts in a single t
 suite.
 
 In order to customise the list of contexts your test suite requires, you need
-to fine-tune the suite configuration inside ``behat.yml``:
+to fine-tune the suite configuration inside ``behat.php``:
 
-.. code-block:: yaml
+.. code-block:: php
 
-    # behat.yml
+    <?php
+    // behat.php
 
-    default:
-        suites:
-            default:
-                contexts:
-                    - FeatureContext
-                    - SecondContext
-                    - ThirdContext
+    use FeatureContext;
+    use SecondContext;
+    use ThirdContext;
+    use Behat\Config\Config;
+    use Behat\Config\Profile;
+    use Behat\Config\Suite;
+
+    $profile = new Profile('default')
+        ->withSuite(
+            new Suite('default')
+                ->withContexts(
+                    FeatureContext::class,
+                    SecondContext::class,
+                    ThirdContext::class,
+                )
+        )
+    ;
+
+    return new Config()
+        ->withProfile($profile)
+    ;
 
 The first ``default`` in this configuration is a name of the profile. We
 will discuss profiles a little bit later. Under
@@ -178,21 +193,34 @@ Behat sees a scenario in your test suite, it will:
     ``Behat\Behat\Context\Context`` interface and be autoloadable by
     Behat.
 
-Basically, all contexts under the ``contexts`` section of your ``behat.yml``
+Basically, all contexts under the ``contexts`` section of your ``behat.php``
 are the same for Behat. It will find and use the methods in them the same way
 it does in the default ``FeatureContext``. And if you're happy with a single
 context class, but you don't like the name ``FeatureContext``, here's
 how you change it:
 
-.. code-block:: yaml
+.. code-block:: php
 
-    # behat.yml
+    <?php
+    // behat.php
 
-    default:
-        suites:
-            default:
-                contexts:
-                    - MyAwesomeContext
+    use MyAwesomeContext;
+    use Behat\Config\Config;
+    use Behat\Config\Profile;
+    use Behat\Config\Suite;
+
+    $profile = new Profile('default')
+        ->withSuite(
+            new Suite('default')
+                ->withContexts(
+                    MyAwesomeContext::class,
+                )
+        )
+    ;
+
+    return new Config()
+        ->withProfile($profile)
+    ;
 
 This configuration will tell Behat to look for ``MyAwesomeContext``
 instead of the default ``FeatureContext``.
@@ -205,23 +233,44 @@ instead of the default ``FeatureContext``.
     same context, you will have to define that specific context for every
     specific suite:
 
-    .. code-block:: yaml
+    .. code-block:: php
 
-        # behat.yml
+        <?php
+        // behat.php
 
-        default:
-            suites:
-                default:
-                    contexts:
-                        - MyAwesomeContext
-                        - MyWickedContext
-                suite_a:
-                    contexts:
-                        - MyAwesomeContext
-                        - MyWickedContext
-                suite_b:
-                    contexts:
-                        - MyAwesomeContext
+        use MyAwesomeContext;
+        use MyWickedContext;
+        use Behat\Config\Config;
+        use Behat\Config\Profile;
+        use Behat\Config\Suite;
+
+        $profile = new Profile('default')
+            ->withSuite(
+                new Suite('default')
+                    ->withContexts(
+                        MyAwesomeContext::class,
+                        MyWickedContext::class,
+                    )
+            )
+            ->withSuite(
+                new Suite('suite_a')
+                    ->withContexts(
+                        MyAwesomeContext::class,
+                        MyWickedContext::class,
+                    )
+            )
+            ->withSuite(
+                new Suite('suite_b')
+                    ->withContexts(
+                        MyAwesomeContext::class,
+                        MyWickedContext::class,
+                    )
+            )
+        ;
+
+        return new Config()
+            ->withProfile($profile)
+        ;
 
     This configuration will tell Behat to look for ``MyAwesomeContext`` and
     ``MyWickedContext`` when testing ``suite_a`` and ``MyAwesomeContext`` when
@@ -261,64 +310,87 @@ PHP classes? Use *constructor arguments*:
 
 As a matter of fact, Behat gives you ability to do just that. You can
 specify arguments required to instantiate your context classes through
-same ``contexts`` setting inside your ``behat.yml``:
+same ``contexts`` setting inside your ``behat.php``:
 
-.. code-block:: yaml
+.. code-block:: php
 
-    # behat.yml
+    <?php
+    // behat.php
 
-    default:
-        suites:
-            default:
-                contexts:
-                    - MyAwesomeContext:
-                        - http://localhost:8080
-                        - /var/tmp
+    use MyAwesomeContext;
+    use Behat\Config\Config;
+    use Behat\Config\Profile;
+    use Behat\Config\Suite;
 
-.. note::
+    $profile = new Profile('default')
+        ->withSuite(
+            new Suite('default')
+                ->addContext(MyAwesomeContext::class, [
+                    'http://localhost:8080',
+                    '/var/tmp',
+                ])
+        )
+    ;
 
-    Note an indentation for parameters. It is significant:
-
-    .. code-block:: yaml
-
-        contexts:
-            - MyAwesomeContext:
-                - http://localhost:8080
-                - /var/tmp
-
-    Aligned four spaces from the context class itself.
+    return new Config()
+        ->withProfile($profile)
+    ;
 
 Arguments would be passed to the ``MyAwesomeContext`` constructor in
 the order they were specified here. If you are not happy with the idea
 of keeping an order of arguments in your head, you can use argument
 names instead:
 
-.. code-block:: yaml
+.. code-block:: php
 
-    # behat.yml
+    <?php
+    // behat.php
 
-    default:
-        suites:
-            default:
-                contexts:
-                    - MyAwesomeContext:
-                        baseUrl: http://localhost:8080
-                        tempPath: /var/tmp
+    use MyAwesomeContext;
+    use Behat\Config\Config;
+    use Behat\Config\Profile;
+    use Behat\Config\Suite;
+
+    $profile = new Profile('default')
+        ->withSuite(
+            new Suite('default')
+                ->addContext(MyAwesomeContext::class, [
+                    'baseUrl' => 'http://localhost:8080',
+                    'tempPath' => '/var/tmp',
+                ])
+        )
+    ;
+
+    return new Config()
+        ->withProfile($profile)
+    ;
 
 As a matter of fact, if you do, the order in which you specify these
 arguments becomes irrelevant:
 
-.. code-block:: yaml
+.. code-block:: php
 
-    # behat.yml
+    <?php
+    // behat.php
 
-    default:
-        suites:
-            default:
-                contexts:
-                    - MyAwesomeContext:
-                        tempPath: /var/tmp
-                        baseUrl: http://localhost:8080
+    use MyAwesomeContext;
+    use Behat\Config\Config;
+    use Behat\Config\Profile;
+    use Behat\Config\Suite;
+
+    $profile = new Profile('default')
+        ->withSuite(
+            new Suite('default')
+                ->addContext(MyAwesomeContext::class, [
+                    'tempPath' => '/var/tmp',
+                    'baseUrl' => 'http://localhost:8080',
+                ])
+        )
+    ;
+
+    return new Config()
+        ->withProfile($profile)
+    ;
 
 Taking this a step further, if your context constructor arguments are
 optional:
@@ -333,16 +405,28 @@ optional:
 
 You then can specify only the parameter that you actually need to change:
 
-.. code-block:: yaml
+.. code-block:: php
 
-    # behat.yml
+    <?php
+    // behat.php
 
-    default:
-        suites:
-            default:
-                contexts:
-                    - MyAwesomeContext:
-                        tempPath: /var/tmp
+    use MyAwesomeContext;
+    use Behat\Config\Config;
+    use Behat\Config\Profile;
+    use Behat\Config\Suite;
+
+    $profile = new Profile('default')
+        ->withSuite(
+            new Suite('default')
+                ->addContext(MyAwesomeContext::class, [
+                    'tempPath' => '/var/tmp',
+                ])
+        )
+    ;
+
+    return new Config()
+        ->withProfile($profile)
+    ;
 
 In this case, the default values would be used for other parameters.
 
