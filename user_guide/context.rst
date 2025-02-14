@@ -73,6 +73,7 @@ context classes are.
 
    context/hooks
    context/definitions
+   context/transformations
 
 
 Context Class Requirements
