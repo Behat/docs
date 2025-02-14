@@ -62,3 +62,43 @@ You can also search for a specific pattern by running:
     #...
 
 That's it, you can now search and browse your whole step dictionary.
+
+Print Unused Definitions
+------------------------
+
+If your project is large, you may end up with definitions which are no longer used. If you want to print a list of
+these unused definitions you can use the ``--print-unused-definitions`` command line flag. With this flag you will see
+output similar to this:
+
+.. code-block:: console
+
+    $ behat --print-unused-definitions
+      ...
+      --- 1 unused definition:
+
+      [Then|*] I call a step not used in any feature
+      `FeatureContext::stepNotUsedInAnyFeature()`
+
+This can also be set for each profile using the PHP configuration:
+
+.. code-block:: php
+
+    use Behat\Config\Config;
+    use Behat\Config\Profile;
+
+    return (new Config())
+        ->withProfile(
+            (new Profile('default'))
+            ->withPrintUnusedDefinitions()
+        )
+    ;
+
+Or the yaml configuration:
+
+.. code-block:: yaml
+
+    default:
+        definitions:
+            print_unused_definitions: true
+
+
