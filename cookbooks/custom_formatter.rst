@@ -3,7 +3,7 @@ Writing a custom Behat formatter
 
 How to write a custom formatter for Behat?
 
-Introdution
+Introduction
 -----------
 
 Why a custom formatter?
