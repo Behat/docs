@@ -4,7 +4,7 @@ Writing a custom Behat formatter
 How to write a custom formatter for Behat?
 
 Introduction
------------
+------------
 
 Why a custom formatter?
 ~~~~~~~~~~~~~~~~~~~~~~~~
@@ -13,26 +13,34 @@ Behat has three native formatters:
 
 -  **pretty**: the default formatter, which prints every line in green (if a test passes) or red (if it fails),
 -  **progress**: print a "dot" for each test, and a recap of all failing tests at the end,
--  **junit**: outputs a `junit <https://junit.org/>`__ compatible XML file.
+-  **junit**: outputs a `junit`_ compatible XML file.
 
 Those are nice, and worked for most of the cases. You can use the "progress" one for the CI, and the "pretty" for
 development for example.
 
 But you might want to handle differently the output that Behat renders.
-In this cookbook, we will see how to implement a custom formatter for `reviewdog <https://github.com/reviewdog/reviewdog>`__,
+In this cookbook, we will see how to implement a custom formatter for `reviewdog`_,
 a global review tool that takes input of linters or testers, and that can send "checks" on github,
 bitbucket or gitlab PR.
 
-Reviewdog can handle `two types of input <https://github.com/reviewdog/reviewdog#input-format>`__:
+Reviewdog can handle `two types of input`_:
 
--  any stdin, coupled with an "errorformat" (a Vim inspired format that can convert text string to machine-readable errors),
--  a `"Reviewdog Diagnostic Format" <https://github.com/reviewdog/reviewdog/tree/48b25a0aafb8494e751387e16f729faee9522c46/proto/rdf>`__: a JSON with error data that reviewdog can parse.
+-  any stdin, coupled with an "errorformat"
+   (a Vim inspired format that can convert text string to machine-readable errors),
+-  a `"Reviewdog Diagnostic Format"`_: a JSON with error data that reviewdog can parse.
 
 But parsing Behat stdout with errorformat is not that easy, as Behat's output is multi-line, add dots, errorformat can
 be tricky and might not handle every case (behat has different possible outputs, etc.).
 So We will create a custom formatter for Behat.
 
-This way, we will still have Behat's human-readable stdout, and a JSON file written that reviewdog can understand.
+This way, we will still
+have Behat's human-readable stdout, and a JSON file written that reviewdog can understand.
+
+
+.. _`junit`: https://junit.org/
+.. _`reviewdog`: https://github.com/reviewdog/reviewdog
+.. _`two types of input`: https://github.com/reviewdog/reviewdog#input-format
+.. _`"Reviewdog Diagnostic Format"`: https://github.com/reviewdog/reviewdog/tree/48b25a0aafb8494e751387e16f729faee9522c46/proto/rdf
 
 Let's dive
 ----------
@@ -457,24 +465,27 @@ That's how you can write a basic custom Behat formatter!
 
 If you have much more complex logic, and you need the formatter to be more dynamic, Behat provides a
 FormatterFactory interface.
-You can see usage examples directly in
-`Behat's codebase <https://github.com/Behat/Behat/tree/2a3832d9cb853a794af3a576f9e524ae460f3340/src/Behat/Behat/Output/ServiceContainer/Formatter>`__,
+You can see usage examples directly in `Behat's codebase`_,
 but in a lot of cases, something like this example should work.
+
+.. _`Behat's codebase`: https://github.com/Behat/Behat/tree/2a3832d9cb853a794af3a576f9e524ae460f3340/src/Behat/Behat/Output/ServiceContainer/Formatter
 
 Want to use reviewdog and the custom formatter yourself?
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-If you want to use the reviewdog custom formatter, you can find it on github:
-https://github.com/jdeniau/behat-reviewdog-formatter
+If you want to use the reviewdog custom formatter, you can find it on github: `jdeniau/behat-reviewdog-formatter`_
 
-There are other Behat custom formatters in the wild, especially
-`BehatHtmlFormatterPlugin <https://github.com/dutchiexl/BehatHtmlFormatterPlugin>`__.
+There are other Behat custom formatters in the wild, especially `BehatHtmlFormatterPlugin`_.
 Reading this formatter might help you understand how the Behat formatter system works, and it can output an HTML
 file that can help you understand why your CI is failing.
 
+
+.. _`jdeniau/behat-reviewdog-formatter`: https://github.com/jdeniau/behat-reviewdog-formatter
+.. _`BehatHtmlFormatterPlugin`: https://github.com/dutchiexl/BehatHtmlFormatterPlugin
 
 About the author
 ~~~~~~~~~~~~~~~~
 
 Written by `Julien Deniau <https://julien.deniau.me>`__,
-originally posted as a blog post `on my blog <https://julien.deniau.me/posts/2024-01-24-custom-behat-formatter>`__.
+originally posted as a blog post `on his blog <https://julien.deniau.me/posts/2024-01-24-custom-behat-formatter>`__.
+
