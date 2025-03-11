@@ -432,6 +432,11 @@ and configure it to use the formatter:
          # file_name is optional and a custom parameter that we inject into the printer
          file_name: 'reviewdog-behat.json'
 
+.. note::
+
+      Remember, this formatter only produces output if scenarios fail - if your features all
+      pass, the output file will not be created.
+
 Different output per profile
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
