@@ -415,22 +415,30 @@ file.
 Integration in your project
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-You need to add the extension in your Behat configuration file (default is ``behat.yml``)
+You need to add the extension in your Behat configuration file (default is ``behat.php``)
 and configure it to use the formatter:
 
-.. code:: yaml
+.. code:: php
 
-   default:
-     extensions:
-       HelloWorld\BehatReviewdogFormatter\ReviewdogFormatterExtension: ~
+    <?php
 
-     formatters:
-       pretty: true
-       reviewdog: # "reviewdog" here is the "name" given in our formatter
-         # output_path is optional and handled directly by Behat
-         output_path: 'build/logs/behat'
-         # file_name is optional and a custom parameter that we inject into the printer
-         file_name: 'reviewdog-behat.json'
+    use Behat\Config\Config;
+    use Behat\Config\Extension;
+    use Behat\Config\Formatter\Formatter;
+    use Behat\Config\Formatter\PrettyFormatter;
+    use Behat\Config\Profile;
+
+    return new Config()
+        ->withProfile(new Profile('default')
+            ->withExtension(new Extension('HelloWorld\BehatReviewdogFormatter\ReviewdogFormatterExtension')));
+            ->withFormatter(new PrettyFormatter())
+            // "reviewdog" here is the "name" given in our formatter
+            ->withFormatter(new Formatter('reviewdog', [
+                // 'file_name' is optional and a custom parameter that we inject into the printer
+                'file_name' => 'reviewdog-behat.json',
+            ])
+                // outputPath is optional and handled directly by Behat
+                ->withOutputPath('build/logs/behat'))
 
 .. note::
 
@@ -445,23 +453,28 @@ You can activate the extension only when you specify a profile in your command (
 For example if you want the pretty formatter by default, but both progress and reviewdog on your CI,
 you can configure it like this:
 
-.. code:: yaml
+.. code:: php
 
-   default:
-     extensions:
-       HelloWorld\BehatReviewdogFormatter\ReviewdogFormatterExtension: ~
+    <?php
 
-     formatters:
-       pretty: true
+    use Behat\Config\Config;
+    use Behat\Config\Extension;
+    use Behat\Config\Formatter\Formatter;
+    use Behat\Config\Formatter\PrettyFormatter;
+    use Behat\Config\Formatter\ProgressFormatter;
+    use Behat\Config\Profile;
 
-   ci:
-     formatters:
-       pretty: false
-       progress: true
-       reviewdog:
-         output_path: 'build/logs/behat'
-         file_name: 'reviewdog-behat.json'
-
+    return new Config()
+        ->withProfile(new Profile('default')
+            ->withExtension(new Extension('HelloWorld\BehatReviewdogFormatter\ReviewdogFormatterExtension')))
+            ->withFormatter(new PrettyFormatter())
+        ->withProfile(new Profile('ci')
+            ->disableFormatter('pretty')
+            ->withFormatter(new ProgressFormatter())
+            ->withFormatter(new Formatter('reviewdog', [
+                'file_name' => 'reviewdog-behat.json',
+            ])
+                ->withOutputPath('build/logs/behat')));
 
 Enjoy!
 -------

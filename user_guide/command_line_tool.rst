@@ -107,6 +107,8 @@ This is a summary of the usage of Behat in the command line:
           addition to exceptions.
       -h, --help
           Display this help message.
+      --convert-config
+          Convert the configuration to the PHP format.
       --config-reference
           Display the configuration reference.
       --debug

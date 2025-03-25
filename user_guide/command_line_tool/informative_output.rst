@@ -93,12 +93,4 @@ This can also be set for each profile using the PHP configuration:
         )
     ;
 
-Or the yaml configuration:
-
-.. code-block:: yaml
-
-    default:
-        definitions:
-            print_unused_definitions: true
-
 

@@ -8,6 +8,7 @@ profiles.
    :maxdepth: 2
 
    configuration/suites.rst
+   configuration/yaml_configuration.rst
 
 ``behat.php``
 -------------
