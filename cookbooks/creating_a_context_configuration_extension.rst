@@ -223,20 +223,31 @@ the ``HelloWorldExtension`` key and configure our ``text`` and ``enable`` value.
 
 Finally, we need to load the ``HelloWorld\Context\HelloWorldContext`` into our suite.
 
-Here's the ``behat.yaml``:
+Here's the ``behat.php``:
 
-.. code-block:: yaml
+.. code-block:: php
 
-  default:
-    suites:
-      default:
-        contexts:
-          - FeatureContext
-          - HelloWorld\Context\HelloWorldContext
-    extensions:
-      HelloWorld\ServiceContainer\HelloWorldExtension:
-        text: 'Hi there!'
-        enable: true
+    <?php
+
+    use Behat\Config\Config;
+    use Behat\Config\Extension;
+    use Behat\Config\Profile;
+    use Behat\Config\Suite;
+    use FeatureContext;
+    use HelloWorld\Context\HelloWorldContext;
+    use HelloWorld\ServiceContainer\HelloWorldExtension;
+
+    return new Config()
+        ->withProfile(new Profile('default')
+            ->withExtension(new Extension(HelloWorldExtension::class, [
+                'text' => 'Hi there!',
+                'enable' => true,
+            ]))
+            ->withSuite(new Suite('default')
+                ->withContexts(
+                    FeatureContext::class,
+                    HelloWorldContext::class
+                )));
 
 And now a scenario like this one:
 
