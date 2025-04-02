@@ -427,10 +427,11 @@ and configure it to use the formatter:
     use Behat\Config\Formatter\Formatter;
     use Behat\Config\Formatter\PrettyFormatter;
     use Behat\Config\Profile;
+    use HelloWorld\BehatReviewdogFormatter\ReviewdogFormatterExtension;
 
     return new Config()
         ->withProfile(new Profile('default')
-            ->withExtension(new Extension('HelloWorld\BehatReviewdogFormatter\ReviewdogFormatterExtension')));
+            ->withExtension(new Extension(ReviewdogFormatterExtension::class)));
             ->withFormatter(new PrettyFormatter())
             // "reviewdog" here is the "name" given in our formatter
             ->withFormatter(new Formatter('reviewdog', [
@@ -463,10 +464,11 @@ you can configure it like this:
     use Behat\Config\Formatter\PrettyFormatter;
     use Behat\Config\Formatter\ProgressFormatter;
     use Behat\Config\Profile;
+    use HelloWorld\BehatReviewdogFormatter\ReviewdogFormatterExtension;
 
     return new Config()
         ->withProfile(new Profile('default')
-            ->withExtension(new Extension('HelloWorld\BehatReviewdogFormatter\ReviewdogFormatterExtension')))
+            ->withExtension(new Extension(ReviewdogFormatterExtension::class)))
             ->withFormatter(new PrettyFormatter())
         ->withProfile(new Profile('ci')
             ->disableFormatter('pretty')

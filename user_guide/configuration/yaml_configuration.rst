@@ -47,6 +47,9 @@ This will load the default config file loaded by your project and convert it fro
 Yaml format to the PHP format. It will also convert any config files that are imported
 by this main file. It will then remove the old Yaml files.
 
+We recommend carefully reviewing the generated config, particularly if you are using extensions,
+custom formatters, or have complex configuration files.
+
 If you want to convert any other config file which is not your default config file (for
 example a config file used in the CI environment), just load it with the ``-c``
 (or ``--config``) option like this:

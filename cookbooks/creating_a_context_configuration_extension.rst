@@ -233,17 +233,20 @@ Here's the ``behat.php``:
     use Behat\Config\Extension;
     use Behat\Config\Profile;
     use Behat\Config\Suite;
+    use FeatureContext;
+    use HelloWorld\Context\HelloWorldContext;
+    use HelloWorld\ServiceContainer\HelloWorldExtension;
 
     return new Config()
         ->withProfile(new Profile('default')
-            ->withExtension(new Extension('HelloWorld\ServiceContainer\HelloWorldExtension', [
+            ->withExtension(new Extension(HelloWorldExtension::class, [
                 'text' => 'Hi there!',
                 'enable' => true,
             ]))
             ->withSuite(new Suite('default')
                 ->withContexts(
-                    'FeatureContext',
-                    'HelloWorld\Context\HelloWorldContext'
+                    FeatureContext::class,
+                    HelloWorldContext::class
                 )));
 
 And now a scenario like this one:
