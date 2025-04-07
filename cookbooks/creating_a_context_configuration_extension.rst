@@ -16,6 +16,9 @@ Setting Up the Context
 First, we create a ``Context`` class that will throw a ``PendingException`` with a configurable text.
 The configuration will also control whether the behaviour is enabled or not.
 
+The example directory structure and file locations in this cookbook assume you have configured
+composer to autoload the ``HelloWorld`` namespace from the ``src`` directory.
+
 .. code-block::
 
   src/
