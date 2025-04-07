@@ -16,6 +16,9 @@ Setting Up the Context
 First, we create a ``Context`` class that will throw a ``PendingException`` with a configurable text.
 The configuration will also control whether the behaviour is enabled or not.
 
+The example directory structure and file locations in this cookbook assume you have configured
+composer to autoload the ``HelloWorld`` namespace from the ``src`` directory.
+
 .. code-block::
 
   src/
@@ -212,14 +215,78 @@ through the ``HelloWorldExtension``, ensuring it gets loaded:
       // ...
   }
 
+Finally, we can define a custom configuration object for use in a project's ``behat.php``.
+This step is optional - users can also register your extension with the generic
+``Behat\Config\Extension`` class. However, providing a custom class will make it easier
+for users to discover and configure the correct settings for your extension.
+
+.. code-block:: php
+
+  <?php
+
+  namespace HelloWorld\Config;
+
+  use Behat\Config\ExtensionConfigInterface;
+  use HelloWorld\ServiceContainer\HelloWorldExtension;
+
+  final class HelloWorldExtensionConfig implements ExtensionConfigInterface
+  {
+
+      // You don't need to set defaults here, they are defined along with the config structure in
+      // HelloWorld\ServiceContainer\HelloWorldExtension::configure(). It is important that this
+      // object only returns settings that the user has explicitly configured.
+      private array $settings = [];
+
+      // The following methods must be provided for Behat to read the configuration object
+
+      public function name(): string
+      {
+          // This should return the fully qualified name of your entrypoint class
+          return HelloWorldExtension::class;
+      }
+
+      public function toArray(): array
+      {
+          return $this->settings;
+      }
+
+      // The following methods provide the mechanism for users to customise your
+      // extension's configuration.
+      // We recommend using setters rather than constructor properties, for
+      // consistency with Behat's own config objects.
+
+      public function enable(): self
+      {
+          $this->settings['enable'] = true;
+
+          return $this;
+      }
+
+      public function disable(): self
+      {
+          $this->settings['enable'] = false;
+
+          return $this;
+      }
+
+      public function withText(string $text): self
+      {
+          $this->settings['text'] = $text;
+
+          return $this;
+      }
+  }
+
+
 Using the extension
 -------------------
 
 Now that the extension is ready and will inject values into context, we just
 need to configure it into a project.
 
-In the ``extensions`` key of a profile (``default`` in our case), we'll add
-the ``HelloWorldExtension`` key and configure our ``text`` and ``enable`` value.
+We'll set up an instance of our custom ``HelloWorldExtensionConfig`` configuration
+object, and use the ``withExtension()`` method of a profile (``default`` in our
+case) to register it.
 
 Finally, we need to load the ``HelloWorld\Context\HelloWorldContext`` into our suite.
 
@@ -235,14 +302,14 @@ Here's the ``behat.php``:
     use Behat\Config\Suite;
     use FeatureContext;
     use HelloWorld\Context\HelloWorldContext;
-    use HelloWorld\ServiceContainer\HelloWorldExtension;
+    use HelloWorld\Config\HelloWorldExtensionConfig;
 
     return new Config()
         ->withProfile(new Profile('default')
-            ->withExtension(new Extension(HelloWorldExtension::class, [
-                'text' => 'Hi there!',
-                'enable' => true,
-            ]))
+            ->withExtension(new HelloWorldExtensionConfig()
+                ->withText('Hi there!')
+                ->enable()
+            )
             ->withSuite(new Suite('default')
                 ->withContexts(
                     FeatureContext::class,
