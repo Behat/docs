@@ -32,6 +32,9 @@ htmlhelp_basename = 'behat'
 # name.
 html_static_path = ['_theme/static']
 
+# Files in these paths override templates provided by the theme
+templates_path = ['_theme/templates']
+
 html_baseurl = os.environ.get("READTHEDOCS_CANONICAL_URL", "/")
 html_theme='sphinx_wagtail_theme'
 html_theme_options = dict(
