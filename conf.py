@@ -32,6 +32,17 @@ html_theme='sphinx_wagtail_theme'
 html_theme_options = dict(
   # Base path for "Edit on Github" links
   github_url="https://github.com/Behat/docs/blob/v3.0/",
+
+  # Global header / footer links as text|target
+  header_links=', '.join([
+    'Guides|/guides.html',
+    'Community|/community.html',
+    'Extensions|https://github.com/search?o=desc&q=behat+extension+in%3Aname%2Cdescription&ref=searchresults&s=stars&type=Repositories&utf8=%E2%9C%93',
+    'Releases|/releases.html',
+    'Github|https://github.com/Behat/Behat'
+  ]),
+  footer_links=', '.join([
+  ])
 )
 
 # If false, no index is generated.
