@@ -47,3 +47,12 @@ pre {
 .admonition.seealso > .admonition-title {
     background-color: var(--behat-green);
 }
+
+/**
+ * Spacing tweaks
+ */
+
+.admonition > p:last-child {
+    /** Remove redundant whitespace at the bottom of an admonition - @todo: could be contributed back to wagtail? */
+    margin-bottom: 0;
+}
