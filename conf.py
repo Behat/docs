@@ -17,7 +17,7 @@ source_encoding = 'utf-8'
 master_doc = 'guides'
 
 project = u'Behat'
-copyright = u'2016, Konstantin Kudryashov (@everzet)'
+copyright = u'2016 - %Y, Konstantin Kudryashov (@everzet)'
 
 language = 'php'
 highlight_language = 'php'
