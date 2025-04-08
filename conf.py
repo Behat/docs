@@ -27,9 +27,22 @@ exclude_patterns = []
 
 htmlhelp_basename = 'behat'
 
+# Files in these paths are copied to the _static output directory e.g. theme/static/img/file.png
+# will become "/_static/img/file.png". They will overwrite any file from the theme with the same
+# name.
+html_static_path = ['_theme/static']
+
 html_baseurl = os.environ.get("READTHEDOCS_CANONICAL_URL", "/")
 html_theme='sphinx_wagtail_theme'
 html_theme_options = dict(
+  # Navbar branding
+  project_name = "Behat",
+  logo = 'img/behat-b-2x-white.png',
+  logo_alt = 'Behat',
+  logo_url = '/',
+  logo_width = 36,
+  logo_height = 50,
+
   # Base path for "Edit on Github" links
   github_url="https://github.com/Behat/docs/blob/v3.0/",
 
