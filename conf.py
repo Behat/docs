@@ -29,3 +29,9 @@ htmlhelp_basename = 'behat'
 
 html_baseurl = os.environ.get("READTHEDOCS_CANONICAL_URL", "/")
 html_theme='sphinx_wagtail_theme'
+
+# If false, no index is generated.
+# Since we are implementing search with Algolia DocSearch through ReadTheDocs,
+# we do not need Sphinx to generate its own index. It might not hurt to keep
+# the Sphinx index, but speeds up the build process.
+html_use_index = False
