@@ -8,7 +8,8 @@ lexers['php'] = PhpLexer(startinline=True)
 extensions = [
    'notfound.extension',
    # Enables automatic linking to headings within the document within Sphinx
-   'sphinx.ext.autosectionlabel'
+   'sphinx.ext.autosectionlabel',
+   'sphinx_wagtail_theme'
 ]
 
 source_suffix = '.rst'
@@ -27,5 +28,4 @@ exclude_patterns = []
 htmlhelp_basename = 'behat'
 
 html_baseurl = os.environ.get("READTHEDOCS_CANONICAL_URL", "/")
-html_theme_path = ["_themes"]
-html_theme = 'borg'
+html_theme='sphinx_wagtail_theme'
