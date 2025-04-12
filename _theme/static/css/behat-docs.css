@@ -90,3 +90,21 @@ body > div.container-fluid {
        and nav content down by the same amount
     */
 }
+
+/**
+ * Use Behat (Comfortaa) font
+ */
+h1,
+h2,
+h3,
+h4,
+h5 {
+    font-family: 'Comfortaa', var(--font-family-sans-serif);
+}
+
+header .navbar-brand {
+    font-family: 'Comfortaa', var(--font-family-sans-serif);
+    /* font metrics are different to the font wagtail is using, their 1.5em is offcentre vertically with our font */
+    font-size: 1.25rem;
+}
+

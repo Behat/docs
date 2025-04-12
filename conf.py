@@ -32,8 +32,11 @@ htmlhelp_basename = 'behat'
 # name.
 html_static_path = ['_theme/static']
 
-# CSS files here are relative to html_static_path
-html_css_files = ['css/behat-docs.css']
+# CSS files here are relative to html_static_path (or absolute urls)
+html_css_files = [
+  'https://fonts.googleapis.com/css?family=Comfortaa',
+  'css/behat-docs.css',
+]
 
 # Files in these paths override templates provided by the theme
 templates_path = ['_theme/templates']
