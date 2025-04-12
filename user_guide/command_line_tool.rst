@@ -97,6 +97,8 @@ This is a summary of the usage of Behat in the command line:
       --dry-run
           Invokes formatters without executing the tests and
           hooks.
+      --allow-no-tests
+          Will not fail if no specifications are found.
       -p, --profile=PROFILE
           Specify config profile to use.
       -c, --config=CONFIG
@@ -107,6 +109,8 @@ This is a summary of the usage of Behat in the command line:
           addition to exceptions.
       -h, --help
           Display this help message.
+      --convert-config
+          Convert the configuration to the PHP format.
       --config-reference
           Display the configuration reference.
       --debug
