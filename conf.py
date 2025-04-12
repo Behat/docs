@@ -54,10 +54,10 @@ html_theme_options = dict(
 
   # Global header / footer links as text|target
   header_links=', '.join([
-    'Guides|/guides.html',
-    'Community|/community.html',
+    f"Guides|{html_baseurl}guides.html",
+    f"Community|{html_baseurl}community.html",
     'Extensions|https://github.com/search?o=desc&q=behat+extension+in%3Aname%2Cdescription&ref=searchresults&s=stars&type=Repositories&utf8=%E2%9C%93',
-    'Releases|/releases.html',
+    f"Releases|{html_baseurl}releases.html",
     'Github|https://github.com/Behat/Behat'
   ]),
   footer_links=', '.join([
