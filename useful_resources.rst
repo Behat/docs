@@ -1,8 +1,8 @@
 Useful Resources & Extensions
 =============================
 
-Extensions
-----------
+Behat Extensions
+----------------
 
 There are a wide range of extensions already available. These include integrations with
 common PHP application frameworks, browser automation, test result reporters, data fixtures
