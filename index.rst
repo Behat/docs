@@ -33,19 +33,15 @@ that **anyone on your team** can read. This improves **communication**, **collab
 and **trust**, giving you the confidence to build the right system from the start and to
 maintain it over time.
 
-..
-  Read quick introduction
-  @todo either work out how to make this into cards / buttons / something similar for more
-        of a CTA? or we *could* slightly restructure the nav structure and make this a
-        toctree with releases etc as well
+.. button::
+   :text: Read the quick start guide
+   :link: /quick_start.html
+   :class: btn btn-lg btn-primary btn-block mb-1
 
-.. rst-class:: border rounded lead p-2
-
-:doc:`/quick_start`
-
-.. rst-class:: border rounded lead p-2
-
-:doc:`/guides`
+.. button::
+   :text: Explore the documentation
+   :link: /guides.html
+   :class: btn btn-lg btn-primary btn-block mb-1
 
 
 Cover your whole application

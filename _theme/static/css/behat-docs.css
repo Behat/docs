@@ -22,6 +22,18 @@
     background-color: var(--behat-green) !important;
 }
 
+.btn-primary {
+    background-color: var(--behat-green) !important;
+    color: white !important;
+    border-color: var(--behat-green-dk) !important;
+}
+
+.btn-primary:hover {
+    background-color: var(--behat-green-dk) !important;
+    color: white !important;
+    border-color: var(--behat-green-dk) !important;
+}
+
 a {
     color: var(--behat-green-dk);
     text-decoration-color: var(--behat-green-2);
@@ -108,3 +120,10 @@ header .navbar-brand {
     font-size: 1.25rem;
 }
 
+/**
+ * Fix bootstrap button styles
+ */
+.btn {
+    /* reset the underline that wagtail adds to all `a` elements */
+    text-decoration: none;
+}

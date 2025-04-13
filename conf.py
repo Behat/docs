@@ -5,11 +5,17 @@ from sphinx.highlighting import lexers
 from pygments.lexers.web import PhpLexer
 
 lexers['php'] = PhpLexer(startinline=True)
+
+# Add our custom python path to the system search path so that sphinx can find extensions there
+sys.path.insert(0, os.path.abspath('./_theme/python'))
+
 extensions = [
    'notfound.extension',
    # Enables automatic linking to headings within the document within Sphinx
    'sphinx.ext.autosectionlabel',
-   'sphinx_wagtail_theme'
+   'sphinx_wagtail_theme',
+   # Enables a .. button:: directive to render a link as a button e.g. on homepage. Use sparingly.
+   'button',
 ]
 
 source_suffix = '.rst'
