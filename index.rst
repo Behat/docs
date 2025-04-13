@@ -86,6 +86,18 @@ There are a wide range of `extensions`_ already available. These include integra
 common PHP application frameworks, browser automation, test result reporters, data fixtures
 and many more.
 
+
+.. toctree::
+   :hidden:
+   :maxdepth: 2
+
+   quick_start
+   guides
+   cookbooks
+   releases
+   useful_resources
+   community
+
 .. _`Behaviour Driven Development`: https://en.wikipedia.org/wiki/Behavior-driven_development
 .. _`Cucumber`: https://cucumber.io/
 .. _`Behat's features are specified in plain language`: https://github.com/Behat/Behat/tree/master/features

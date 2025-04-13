@@ -20,7 +20,7 @@ extensions = [
 
 source_suffix = '.rst'
 source_encoding = 'utf-8'
-master_doc = 'guides'
+master_doc = 'index'
 
 project = u'Behat'
 copyright = u'2016 - %Y, Konstantin Kudryashov (@everzet)'
@@ -63,8 +63,6 @@ html_theme_options = dict(
 
   # Global header / footer links as text|target
   header_links=', '.join([
-    f"Guides|{html_baseurl}guides.html",
-    f"Community|{html_baseurl}community.html",
     'Extensions|https://github.com/search?o=desc&q=behat+extension+in%3Aname%2Cdescription&ref=searchresults&s=stars&type=Repositories&utf8=%E2%9C%93',
     f"Releases|{html_baseurl}releases.html",
     'Github|https://github.com/Behat/Behat'

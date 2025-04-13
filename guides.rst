@@ -63,16 +63,22 @@ and the same.
     Behat is considered an official Cucumber implementation in PHP and is part
     of one big family of BDD tools.
 
-.. toctree::
-   :hidden:
-   :maxdepth: 2
+Documentation Contents
+----------------------
 
-   quick_start
-   user_guide
-   cookbooks
-   releases
-   useful_resources
-   community
+.. toctree::
+   :maxdepth: 1
+
+   user_guide/gherkin
+   user_guide/features_scenarios
+   user_guide/initialize
+   user_guide/writing_scenarios
+   user_guide/organizing
+   user_guide/context
+   user_guide/annotations
+   user_guide/command_line_tool
+   user_guide/configuration
+   user_guide/integrations
 
 .. _`Cucumber`: https://cucumber.io/
 .. _Dan North's "What's in a Story?": http://dannorth.net/whats-in-a-story
