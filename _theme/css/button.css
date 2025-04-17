@@ -1,0 +1,25 @@
+/*
+ * Styles for bootstrap buttons
+ */
+
+.btn {
+    /* reset the underline that wagtail adds to all `a` elements */
+    text-decoration: none;
+}
+
+
+.btn-primary {
+    background-color: var(--bh-bg-primary) !important;
+    color: white !important;
+    /* Fallback for older browsers */
+    border-color: var(--bh-bg-primary) !important;
+    /* Use color-mix to shade the border for modern browsers */
+    border-color: color-mix(in srgb, var(--bh-bg-primary) 90%, #000) !important;
+}
+
+.btn-primary:hover {
+    /* These will fallback to the native theme hover colours, not pretty but it works */
+    background-color: color-mix(in srgb, var(--bh-bg-primary) 80%, #000) !important;
+    border-color: color-mix(in srgb, var(--bh-bg-primary) 70%, #000) !important;
+    color: white !important;
+}

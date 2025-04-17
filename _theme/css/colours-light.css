@@ -1,0 +1,29 @@
+/*
+ * Defines variables for the default (light mode) theme
+ */
+body {
+    /*
+     * General page colours
+     */
+    --bh-bg-primary: var(--behat-green);
+
+    /*
+     * Links
+     */
+    --bh-link-color: var(--behat-green-dk);
+    --bh-link-underline: var(--behat-green-2);
+
+    --bh-link-color-current: #333;
+    --bh-link-color-current-underline: transparent;
+
+    /*
+     * Code samples
+     */
+    --bh-code-bg: var(--behat-black);
+
+    /*
+     * Admonitions (tips, warnings, etc)
+     */
+    --bh-adm-tip-bg: var(--behat-green-lt);
+    --bh-adm-tip-title-bg: var(--behat-green);
+}

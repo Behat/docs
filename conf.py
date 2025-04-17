@@ -16,6 +16,8 @@ extensions = [
    'sphinx_wagtail_theme',
    # Enables a .. button:: directive to render a link as a button e.g. on homepage. Use sparingly.
    'button',
+   # Installs and runs lightningcss to bundle and minify our custom CSS
+   'lightningcss',
 ]
 
 source_suffix = '.rst'

@@ -1,0 +1,17 @@
+/*
+ * Apply the colour scheme to main page / simple elements.
+ * More complex components should get their own CSS files.
+ */
+.bg-primary {
+    background-color: var(--bh-bg-primary) !important;
+}
+
+a {
+    color: var(--bh-link-color);
+    text-decoration-color: var(--bh-link-underline);
+}
+
+.toc .current > a {
+    color: var(--bh-link-color-current);
+    text-decoration-color: var(--bh-link-color-current-underline);
+}

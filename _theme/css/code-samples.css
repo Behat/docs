@@ -1,0 +1,7 @@
+/*
+ * Customise the style of code blocks
+ */
+
+pre {
+    background-color: var(--bh-code-bg);
+}

@@ -1,0 +1,7 @@
+/**
+ * Remove redundant whitespace at the bottom of an admonition
+ * @todo: could be contributed back to wagtail?
+ */
+.admonition > p:last-child {
+    margin-bottom: 0;
+}

@@ -1,0 +1,12 @@
+/*
+ * Defines variables for the dark mode theme
+ */
+body.theme-dark {
+    /*
+     * General page colours
+     */
+
+    /* @todo: set an actual background colour, and customise the other theme colours */
+    background-color: var(--behat-black);
+
+}

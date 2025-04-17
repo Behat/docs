@@ -1,0 +1,15 @@
+/*
+ * Apply custom colour scheme to admonitions
+ * @todo could Wagtail support this as CSS variables directly?
+ */
+.admonition.tip,
+.admonition.important,
+.admonition.seealso {
+    background-color: var(--bh-adm-tip-bg);
+}
+
+.admonition.tip > .admonition-title,
+.admonition.important > .admonition-title,
+.admonition.seealso > .admonition-title {
+    background-color: var(--bh-adm-tip-title-bg);
+}

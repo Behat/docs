@@ -1,0 +1,20 @@
+/*
+ * Color scheme (based on "Cool as a Cucumber" https://www.color-hex.com/color-palette/10563)
+ */
+:root {
+    --behat-green: #0e9454;
+    /** 20% shade of behat-green */
+    --behat-green-dk: #0b7643;
+    /** 80% tint of behat-green */
+    --behat-green-lt: #e7f4ee;
+
+    /** 90% shade of behat-green */
+    --behat-black: #010f08;
+
+    /* Alternate green */
+    --behat-green-2: #2cea72;
+
+
+    --behat-accent: #54e5da;
+}
+

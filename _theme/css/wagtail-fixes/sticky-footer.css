@@ -1,0 +1,14 @@
+/**
+ * Ensure that the footer is pulled to the bottom on short pages
+ * @todo: this could be contributed back to the theme
+ */
+body {
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
+
+    > div.container-fluid {
+        flex-grow: 1;
+    }
+}
+
