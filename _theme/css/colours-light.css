@@ -20,6 +20,15 @@ body {
      * Code samples
      */
     --bh-code-bg: var(--behat-black);
+    --bh-code-comment: #aaa;
+    --bh-code-keyword: #66d9ef;
+    --bh-code-literal: #ae81ff;
+    --bh-code-text: #f8f8f2;
+    --bh-code-var: #f8f8f2;
+    --bh-code-operator: #f92672;
+    --bh-code-string: #e6db74;
+    --bh-code-name: #a6e22e;
+
 
     /*
      * Admonitions (tips, warnings, etc)
