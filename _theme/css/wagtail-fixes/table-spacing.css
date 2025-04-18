@@ -1,0 +1,11 @@
+/**
+ * Remove redundant whitespace at the bottom of table cells
+ * Because sphinx renders the cell content as `<p>` tags and bootstrap always puts a bottom
+ * margin on them.
+ * @todo: could be contributed back to wagtail?
+ */
+td, th {
+    > p:last-child {
+        margin-bottom: 0;
+    }
+}

@@ -15,5 +15,6 @@
 
 @import "wagtail-fixes/admonition-spacing.css";
 @import "wagtail-fixes/sticky-footer.css";
+@import "wagtail-fixes/table-spacing.css";
 @import "wagtail-fixes/top-whitespace.css";
 @import "wagtail-fixes/dark-theme-overrides.css";
