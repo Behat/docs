@@ -60,13 +60,13 @@ html_theme_options = dict(
   logo_width = 36,
   logo_height = 50,
 
-  # Base path for "Edit on Github" links
+  # Base path for "Edit on GitHub" links
   github_url="https://github.com/Behat/docs/blob/v3.0/",
 
   # Global header / footer links as text|target
   header_links=', '.join([
     f"Releases|{html_baseurl}releases.html",
-    'Github|https://github.com/Behat/Behat'
+    'GitHub|https://github.com/Behat/Behat'
   ]),
   footer_links=', '.join([
   ])
