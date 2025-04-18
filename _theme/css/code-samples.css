@@ -4,11 +4,13 @@
 
 pre, .pre {
     /*
-     * The default font stack in wagtail isn't that readable on some devices. It's also smaller than body text, but
-     * in many cases our text is "main content" so it feels like it should be bigger.
+     * The default font stack in wagtail isn't that readable on some devices.
      */
     font-family: 'JetBrains Mono', monospace;
-    font-size: 100%;
+    /* Bootstrap sizes `code` inline smaller than the text surrounding it, which looks
+       odd when we use it for things like "Behat will set up a `features` directory".
+     */
+    font-size: 1rem;
 }
 
 
@@ -16,6 +18,8 @@ pre, .pre {
     pre {
         background-color: var(--bh-code-bg);
         color: var(--bh-code-text);
+        /* big code blocks can be very slightly smaller in font to fit wider line width */
+        font-size: 0.9rem;
     }
 
     .c, /* Comment */
