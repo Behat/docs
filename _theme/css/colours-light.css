@@ -10,7 +10,7 @@ body {
     /*
      * Links
      */
-    --bh-link-color: var(--behat-green-dk);
+    --bh-link-color: var(--behat-green-dk-2);
     --bh-link-underline: var(--behat-green-2);
 
     --bh-link-color-current: #333;
@@ -35,7 +35,7 @@ body {
      */
     --bh-admonition-title-color: #fff;
     --bh-adm-hint-bg: var(--behat-green);
-    --bh-adm-tip-bg: var(--behat-accent-dk);
-    --bh-adm-warning-bg: #95540e;
-    --bh-adm-danger-bg: #95100e;
+    --bh-adm-tip-bg: var(--behat-accent);
+    --bh-adm-warning-bg: #dba507;
+    --bh-adm-danger-bg: #6a2a30;
 }

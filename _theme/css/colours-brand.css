@@ -1,19 +1,22 @@
 /*
- * Color scheme (based on "Cool as a Cucumber" https://www.color-hex.com/color-palette/10563)
+ * Main behat colours - based on extraction from a picture of a cucumber 😂 and then
+ * generating complementary etc colours.
  */
 :root {
-    --behat-green: #0e9454;
-    /** 20% shade of behat-green */
-    --behat-green-dk: #0b7643;
-    /** 80% tint of behat-green */
-    --behat-green-lt: #e7f4ee;
+    /*
+     * Tints and shades here can be computed from brand colours using color-mix for ease
+     * of changing / clarity about where they came from. However, the color-mix functions
+     * need to take hardcoded colours (not variables) to allow lightningcss to compile them
+     * out for older browsers.
+     */
+    --behat-green: #506A2A;
+    --behat-green-dk-1: color-mix(in oklab, var(--behat-green), black 20%);
+    --behat-green-lt-4: color-mix(in oklab, var(--behat-green), white 80%);
 
-    /** 90% shade of behat-green */
-    --behat-black: #010f08;
+    --behat-black: color-mix(in oklab, var(--behat-green), black 60%);
 
     /* Alternate green */
-    --behat-green-2: #2cea72;
+    --behat-green-2: #DBDFBE;
 
-    --behat-accent: #54e5da;
-    --behat-accent-dk: #328983;
+    --behat-accent: #2a506a;
 }
