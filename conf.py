@@ -72,6 +72,8 @@ html_theme_options = dict(
   ])
 )
 
+html_favicon = '_theme/static/favicon.png'
+
 # If false, no index is generated.
 # Since we are implementing search with Algolia DocSearch through ReadTheDocs,
 # we do not need Sphinx to generate its own index. It might not hurt to keep
