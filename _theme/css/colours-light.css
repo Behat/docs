@@ -10,7 +10,7 @@ body {
     /*
      * Links
      */
-    --bh-link-color: var(--behat-green-dk-2);
+    --bh-link-color: var(--behat-green-dk1);
     --bh-link-underline: var(--behat-green-2);
 
     --bh-link-color-current: #333;
@@ -19,7 +19,7 @@ body {
     /*
      * Code samples
      */
-    --bh-code-bg: var(--behat-black);
+    --bh-code-bg: var(--behat-green-dk4);
     --bh-code-comment: #aaa;
     --bh-code-keyword: #66d9ef;
     --bh-code-literal: #ae81ff;

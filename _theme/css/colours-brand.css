@@ -10,13 +10,15 @@
      * out for older browsers.
      */
     --behat-green: #506A2A;
-    --behat-green-dk-1: color-mix(in oklab, var(--behat-green), black 20%);
-    --behat-green-lt-4: color-mix(in oklab, var(--behat-green), white 80%);
-
-    --behat-black: color-mix(in oklab, var(--behat-green), black 60%);
+    --behat-green-dk1: color-mix(in oklab, #506A2A, black 20%);
+    --behat-green-dk2: color-mix(in oklab, #506A2A, black 40%);
+    --behat-green-dk3: color-mix(in oklab, #506A2A, black 60%);
+    --behat-green-dk4: color-mix(in oklab, #506A2A, black 80%);
 
     /* Alternate green */
     --behat-green-2: #DBDFBE;
+    --behat-green-2-dk3: color-mix(in oklab, #DBDFBE, black 60%);
+    --behat-green-2-lt2: color-mix(in oklab, #DBDFBE, white 40%);
 
     --behat-accent: #2a506a;
 }

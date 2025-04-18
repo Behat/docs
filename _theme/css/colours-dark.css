@@ -5,8 +5,24 @@ body.theme-dark {
     /*
      * General page colours
      */
+    background-color: var(--behat-green-dk4) !important;
+    color: var(--behat-green-2-lt2) !important;
 
-    /* @todo: set an actual background colour, and customise the other theme colours */
-    background-color: var(--behat-black);
+    --bh-bg-primary: var(--behat-green-dk1);
+    --bh-link-underline: var(--behat-green-2-dk3);
+
+    /*
+     * Code samples
+     */
+    --bh-code-bg: var(--behat-green-dk3);
+
+
+    /*
+     * Fixes for elements that are forced to hardcoded colours by wagtail
+     */
+
+
+
+
 
 }
