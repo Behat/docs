@@ -6,6 +6,7 @@ body {
      * General page colours
      */
     --bh-bg-primary: var(--behat-green);
+    --bh-footer-bg: var(--behat-green-dk3);
 
     /*
      * Links

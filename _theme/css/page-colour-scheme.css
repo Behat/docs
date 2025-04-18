@@ -6,6 +6,10 @@
     background-color: var(--bh-bg-primary) !important;
 }
 
+footer.bg-primary {
+    background-color: var(--bh-footer-bg) !important;
+}
+
 a {
     color: var(--bh-link-color);
     text-decoration-color: var(--bh-link-underline);
