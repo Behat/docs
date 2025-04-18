@@ -2,14 +2,43 @@
  * Apply custom colour scheme to admonitions
  * @todo could Wagtail support this as CSS variables directly?
  */
-.admonition.tip,
-.admonition.important,
-.admonition.seealso {
-    background-color: var(--bh-adm-tip-bg);
-}
 
-.admonition.tip > .admonition-title,
-.admonition.important > .admonition-title,
-.admonition.seealso > .admonition-title {
-    background-color: var(--bh-adm-tip-title-bg);
+.admonition {
+    /* fallback for old browsers (they already get a border and drop shadow) */
+    background-color: transparent !important;
+    /*
+     * the panel body should be a subdued version of the title background. This can be done
+     * by mixing with transparent, which will lighten the colour in light mode, and darken
+     * it in dark.
+     */
+    background-color: color-mix(in oklab, var(--bh-admonition-bg) 15%, transparent) !important;
+
+    > .admonition-title {
+        background-color: var(--bh-admonition-bg) !important;
+        color: var(--bh-admonition-title-color) !important;
+    }
+
+    &.hint,
+    &.note {
+        --bh-admonition-bg: var(--bh-adm-hint-bg);
+    }
+
+    &.important,
+    &.seealso,
+    &.tip {
+        --bh-admonition-bg: var(--bh-adm-tip-bg);
+    }
+
+    &.caution,
+    &.warning,
+    &.attention {
+        --bh-admonition-bg: var(--bh-adm-warning-bg);
+    }
+
+    &.danger,
+    &.error {
+        --bh-admonition-bg: var(--bh-adm-danger-bg);
+    }
+
+
 }

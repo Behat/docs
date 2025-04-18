@@ -33,6 +33,9 @@ body {
     /*
      * Admonitions (tips, warnings, etc)
      */
-    --bh-adm-tip-bg: var(--behat-green-lt);
-    --bh-adm-tip-title-bg: var(--behat-green);
+    --bh-admonition-title-color: #fff;
+    --bh-adm-hint-bg: var(--behat-green);
+    --bh-adm-tip-bg: var(--behat-accent-dk);
+    --bh-adm-warning-bg: #95540e;
+    --bh-adm-danger-bg: #95100e;
 }
