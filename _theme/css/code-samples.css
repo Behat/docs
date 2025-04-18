@@ -3,5 +3,12 @@
  */
 
 pre {
+    /*
+     * The default font stack in wagtail isn't that readable on some devices. It's also smaller than body text, but
+     * in many cases our text is "main content" so it feels like it should be bigger.
+     */
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 100%;
+
     background-color: var(--bh-code-bg);
 }

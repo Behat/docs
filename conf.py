@@ -42,7 +42,7 @@ html_static_path = ['_theme/static']
 
 # CSS files here are relative to html_static_path (or absolute urls)
 html_css_files = [
-  'https://fonts.googleapis.com/css?family=Comfortaa',
+  'https://fonts.googleapis.com/css?family=Comfortaa&family=JetBrains+Mono:ital,wght@0,100..800;1,100..800',
   'css/behat-docs.css',
 ]
 
