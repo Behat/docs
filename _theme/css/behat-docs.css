@@ -1,0 +1,20 @@
+/*
+ * Behat custom documentation CSS
+ * These CSS files are compiled together and minified with lightningcss
+ * Do not add individual styles in this file, group them together
+ */
+@import "colours-brand.css";
+@import "colours-light.css";
+@import "colours-dark.css";
+@import "page-colour-scheme.css";
+@import "font.css";
+
+@import "admonition.css";
+@import "button.css";
+@import "code-samples.css";
+
+@import "wagtail-fixes/admonition-spacing.css";
+@import "wagtail-fixes/sticky-footer.css";
+@import "wagtail-fixes/table-spacing.css";
+@import "wagtail-fixes/top-whitespace.css";
+@import "wagtail-fixes/dark-theme-overrides.css";

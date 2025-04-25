@@ -1,0 +1,42 @@
+/*
+ * Defines variables for the default (light mode) theme
+ */
+body {
+    /*
+     * General page colours
+     */
+    --bh-bg-primary: var(--behat-green);
+    --bh-footer-bg: var(--behat-green-dk3);
+
+    /*
+     * Links
+     */
+    --bh-link-color: var(--behat-green-dk1);
+    --bh-link-underline: var(--behat-green-2);
+
+    --bh-link-color-current: #333;
+    --bh-link-color-current-underline: transparent;
+
+    /*
+     * Code samples
+     */
+    --bh-code-bg: var(--behat-green-dk4);
+    --bh-code-comment: #aaa;
+    --bh-code-keyword: #66d9ef;
+    --bh-code-literal: #ae81ff;
+    --bh-code-text: #f8f8f2;
+    --bh-code-var: #f8f8f2;
+    --bh-code-operator: #f92672;
+    --bh-code-string: #e6db74;
+    --bh-code-name: #a6e22e;
+
+
+    /*
+     * Admonitions (tips, warnings, etc)
+     */
+    --bh-admonition-title-color: #fff;
+    --bh-adm-hint-bg: var(--behat-green);
+    --bh-adm-tip-bg: var(--behat-accent);
+    --bh-adm-warning-bg: #dba507;
+    --bh-adm-danger-bg: #6a2a30;
+}

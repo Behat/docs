@@ -17,7 +17,7 @@ jobs:
       - uses: actions/checkout@v4
 
       - name: Run build command
-        run: docker compose run --rm read-the-docs-builder
+        run: docker compose run --rm read-the-docs-builder build
 
       - name: Check build
         run: cat _build/html/guides.html

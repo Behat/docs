@@ -39,17 +39,34 @@ built version.
 ## Building locally
 
 For more significant changes, you may want to build the full docs site locally. For this, you will need python, sphinx
-and the relevant dependencies. The easiest solution may be to use a temporary docker container. In this repository you will
-find a `Dockerfile` and a `docker-compose.yml` file that will let you do that easily
+and the relevant dependencies. 
+
+The easiest solution may be to use a temporary docker container. In this repository you will find a `Dockerfile` 
+and a `docker-compose.yml` file that will let you do that easily.
+
+You can run a one-time build:
 
 ```bash
 # Launch a docker container with the right dependencies and run the site build command
 # This will build the container if needed, using the Dockerfile
-docker compose run --rm read-the-docs-builder
+docker compose run --rm read-the-docs-builder build
 
 # The docs will be generated into _build/html
 # Check the CLI output for any errors
 ```
+
+Or you can serve the docs locally over HTTP and rebuild them automatically as you make changes:
+
+```bash
+# By default, the docs will be served on port 8000 but you can specify a custom port
+SPHINX_PORT=8129 docker compose up --remove-orphans
+
+# Browse to http://localhost:8129 (or your specified SPHINX_PORT) to see the built docs.
+# They will re-build and refresh in the browser each time you save changes.
+
+# The docs will also be generated statically into _build/html
+```
+
 
 If you encounter problems, start by looking at the logs of the latest build on Read the Docs to see the commands that
 were executed. It's possible that this README has got out of date with later changes to the build process.

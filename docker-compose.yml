@@ -4,4 +4,12 @@ services:
             context: .
         volumes:
             - ./:/workspace
-        command: python -m sphinx -T -W --keep-going -b html -d _build/doctrees -D language=en . _build/html
+        ports:
+          # Technically speaking, we don't need to override the sphinx-autobuild port inside the container.
+          # However, sphinx-autobuild prints the URL / port it is serving on after every build and it will
+          # be confusing if this does not match the forwarded port on the host.
+          - ${SPHINX_PORT:-8000}:${SPHINX_PORT:-8000}
+        environment:
+            SPHINX_PORT: ${SPHINX_PORT:-8000}
+        entrypoint: /workspace/docker/entrypoint.sh
+        command: serve

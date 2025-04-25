@@ -1,0 +1,24 @@
+{#
+Wagtail includes a javascript search that we're not using, they render a bunch of
+JS and meta links etc into the markup for this.
+We extend their template to prevent rendering that content.
+@todo this would ideally be a config option - I'm not sure where the "search" document
+actually comes from.
+#}
+{% extends "sphinx_wagtail_theme/layout.html" %}
+{% block linktags %}
+  {# suppress the wagtail-generated link rel=search meta tag #}
+  <link rel="top" title="{{ docstitle|e }}" href="{{ pathto(pagename) }}" />
+  {%- if parents %}
+    <link rel="up" title="{{ parents[-1].title|striptags|e }}" href="{{ parents[-1].link|e }}" />
+  {%- endif %}
+  {%- if next %}
+    <link rel="next" title="{{ next.title|striptags|e }}" href="{{ next.link|e }}" />
+  {%- endif %}
+  {%- if prev %}
+    <link rel="prev" title="{{ prev.title|striptags|e }}" href="{{ prev.link|e }}" />
+  {%- endif %}
+{% endblock %}
+{% block search %}
+  {# suppress the wagtail search javascript #}
+{% endblock %}

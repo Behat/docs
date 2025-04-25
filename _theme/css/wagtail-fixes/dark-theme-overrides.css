@@ -1,0 +1,76 @@
+/*
+ * Forces style application to the elements wagtail override in their _darkmode.scss
+ *
+ * @todo: some of these could be tidied by applying them consistently with CSS variables
+ */
+body.theme-dark {
+
+    hr,
+    .border,
+    .border-top,
+    .border-right,
+    .border-bottom,
+    .border-left,
+    .sidebar-container,
+    .search li {
+        /* The borders between layout elements */
+        border-color: var(--behat-green-dk3) !important;
+    }
+
+    .toc .toctree-expand {
+        /* The + drilldowns at the side of the nav */
+        background-color: var(--bh-bg-primary) !important;
+    }
+
+    .btn-light {
+        /* The Light mode / edit on github buttons */
+        color: #eee !important;
+        background-color: var(--bh-bg-primary) !important;
+        border-color: color-mix(in oklab, var(--bh-bg-primary) 80%, transparent) !important;
+
+        &:hover,
+        &:focus,
+        &:focus-within,
+        &:not(:disabled):not(.disabled):active,
+        &:not(:disabled):not(.disabled).active {
+            color: #eee !important;
+            background-color: var(--behat-green) !important;
+        }
+    }
+
+    .searchbox {
+        > .input-group {
+            color: #eee !important;
+            background-color: var(--bh-bg-primary) !important;
+
+            .input-group-text {
+                color: inherit !important;
+                background-color: transparent !important;
+                border-color: #ffffff22 !important;
+            }
+
+            .form-control {
+                color: inherit !important;
+                background-color: transparent !important;
+                border-color: #ffffff22 !important;
+
+                &::placeholder {
+                    color: inherit !important;
+                }
+            }
+        }
+    }
+
+    table.docutils:not(.field-list) {
+        th {
+            background-color: var(--behat-green-dk2) !important;
+            border-color: #ffffff22 !important;
+        }
+
+        td {
+            background-color: var(--behat-green-dk3) !important;
+            border-color: #ffffff22 !important;
+        }
+    }
+
+}
