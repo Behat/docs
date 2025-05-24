@@ -41,6 +41,10 @@ This is a summary of the usage of Behat in the command line:
           Set formatters parameters using json object.
           Keys are parameter names, values are values. (multiple
           values allowed)
+      --print-absolute-paths
+          Print absolute paths in output
+      --editor-url=EDITOR-URL
+          URL template for opening files in an editor
       --init
           Initialize all registered test suites.
       --lang=LANG
