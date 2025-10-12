@@ -21,6 +21,12 @@ need to be different if you are running your code within a Docker container). So
 - For PhpStorm: ``phpstorm://open?file={relPath}&line={line}``
 - For VS Code: ``vscode://file/{absPath}:{line}``
 
+``Remove Prefix``: This allows you to define a list of prefixes that need to be removed from paths
+when printing them. This affects only the visible paths, not the ones used in the editorUrl. This is
+useful if your feature or context files are located in some subfolders, for example ``tests/behat/features``
+and ``src/behat``. It is not very informative if these folders are always printed when printing paths
+and you may prefer to remove them
+
 .. note::
 
     The path style can be different for the visible path and the one used in the editor URL. For example you
@@ -40,11 +46,15 @@ These options can be set using the ``withPathOptions()`` function of the ``Profi
         ->withProfile((new Profile('default'))
             ->withPathOptions(
                 printAbsolutePaths: true,
-                editorUrl: 'phpstorm://open?file={relPath}&line={line}'
+                editorUrl: 'phpstorm://open?file={relPath}&line={line}',
+                removePrefix: [
+                    'tests/behat/features',
+                    'src/behat',
+                ]
             ));
 
 They can also be set as command line options (notice that the editor URL will usually need to be quoted):
 
 .. code-block:: bash
 
-    behat --print-absolute-paths --editor-url="phpstorm://open?file={relPath}&line={line}"
+    behat --print-absolute-paths --editor-url="phpstorm://open?file={relPath}&line={line}" --remove-prefix=tests/behat/features,src/behat

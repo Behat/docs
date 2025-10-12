@@ -116,6 +116,8 @@ The following options are specific to the Pretty formatter:
 * ``multiline`` print out PyStrings and TableNodes in full. Boolean, defaults to true.
 * ``showOutput`` show the test stdout output as part of the formatter output. Should be one of the
   ``ShowOutputOption`` enum values, defaults to ``ShowOutputOption::Yes``.
+* ``shortSummary`` show just a list of failing scenarios at the end of the output. If false, a full summary
+  (which also includes a list of failing steps) will be printed. Defaults to true
 
 Progress formatter
 ^^^^^^^^^^^^^^^^^^
@@ -125,6 +127,8 @@ The following options are specific to the Progress formatter:
 * ``timer`` show time and memory usage at the end of the test run. Boolean, defaults to true.
 * ``showOutput`` show the test stdout output as part of the formatter output. Should be one of the
   ``ShowOutputOption`` enum values, defaults to ``ShowOutputOption::InSummary``.
+* ``shortSummary`` show just a list of failing scenarios at the end of the output. If false, a full summary
+  (which also includes a list of failing steps) will be printed. Defaults to false
 
 Setting format options
 ^^^^^^^^^^^^^^^^^^^^^^
