@@ -27,6 +27,10 @@ Behat supports 3 formatters out of the box:
 
 * ``junit`` - prints the output to xml files in the standard junit.xml format
 
+* ``json`` - prints the output to a json file in json format.
+
+    You can see the schema of this json file in the `Schema`_ definition in GitHub
+
 If you don't want to print output to the console, you can tell Behat
 to print output to a file instead of ``STDOUT`` with the ``--out`` option:
 
@@ -36,9 +40,11 @@ to print output to a file instead of ``STDOUT`` with the ``--out`` option:
 
 .. note::
 
-    Some formatters, like ``junit``, always require the ``--out`` option to be
+    Some formatters, like ``junit`` or ``json``, always require the ``--out`` option to be
     specified. The ``junit`` formatter generates ``*.xml`` files for every
-    suite, so it needs a destination directory to put these XML files into.
+    suite, so it needs a destination directory to put these XML files into. The ``json`` formatter
+    outputs a single file, so it needs the path of this file (which will be created if it does
+    not exist)
 
 Also, you can specify multiple formats to be used by Behat using multiple --format options:
 
@@ -130,6 +136,21 @@ The following options are specific to the Progress formatter:
 * ``shortSummary`` show just a list of failing scenarios at the end of the output. If false, a full summary
   (which also includes a list of failing steps) will be printed. Defaults to false
 
+JUnit formatter
+^^^^^^^^^^^^^^^
+
+The following options are specific to the JUnit formatter:
+
+* ``timer`` show time spent in each scenario and feature. Boolean, defaults to true.
+
+
+JSON formatter
+^^^^^^^^^^^^^^
+
+The following options are specific to the JSON formatter:
+
+* ``timer`` show time spent in each scenario, feature and suite. Boolean, defaults to true.
+
 Setting format options
 ^^^^^^^^^^^^^^^^^^^^^^
 
@@ -179,7 +200,7 @@ You can disable a formatter so that it won't be available by using the ``disable
 
     return (new Config())->withProfile($profile);
 
-
+.. _`Schema`: https://github.com/Behat/Behat/blob/master/resources/schema.json
 
 
 
