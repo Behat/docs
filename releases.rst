@@ -10,6 +10,7 @@ Supported versions
 Major   Released   Bugfix EOL Security EOL
 ======= ========== ========== ============ =======================================================================
 `v3.x`_ April 2014 See below  See below    `Changelog <https://github.com/Behat/Behat/blob/master/CHANGELOG.md>`__
+`v4.x`_ tbc 2025/6 See below  See below    `Changelog <https://github.com/Behat/Behat/blob/4.x/CHANGELOG.md>`__
 ======= ========== ========== ============ =======================================================================
 
 As a minimum, a major version series will receive:
@@ -52,6 +53,9 @@ By "current", we mean:
   on the `official php.net version support page`_.
 * Symfony versions that are listed as maintained or receiving security fixes on the `official Symfony releases page`_.
 
+Note that Symfony 8 introduces breaking changes to interfaces that Behat cannot support without ourselves making
+breaking changes. Therefore, Symfony 8 will only be supported from Behat 4.0 onwards.
+
 Once a PHP or Symfony version reaches End of Life we will remove it from our composer.json and CI flows.
 
 .. note::
@@ -84,3 +88,4 @@ Major   Released   Bugfix EOL   Security EOL
 .. _`official Symfony releases page`: https://symfony.com/releases
 .. _`v2.x`: https://github.com/Behat/Behat/releases?q=v2
 .. _`v3.x`: https://github.com/Behat/Behat/releases?q=v3
+.. _`v4.x`: https://github.com/Behat/Behat/releases?q=v4
