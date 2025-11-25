@@ -9,7 +9,7 @@ Supported versions
 ======= ========== ========== ============ =======================================================================
 Major   Released   Bugfix EOL Security EOL
 ======= ========== ========== ============ =======================================================================
-`v3.x`_ April 2014 See below  See below    `Changelog <https://github.com/Behat/Behat/blob/master/CHANGELOG.md>`__
+`v3.x`_ April 2014 See below  See below    `Changelog <https://github.com/Behat/Behat/blob/3.x/CHANGELOG.md>`__
 `v4.x`_ tbc 2025/6 See below  See below    `Changelog <https://github.com/Behat/Behat/blob/4.x/CHANGELOG.md>`__
 ======= ========== ========== ============ =======================================================================
 
