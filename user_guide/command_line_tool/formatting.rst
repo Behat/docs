@@ -124,6 +124,8 @@ The following options are specific to the Pretty formatter:
   ``ShowOutputOption`` enum values, defaults to ``ShowOutputOption::Yes``.
 * ``shortSummary`` show just a list of failing scenarios at the end of the output. If false, a full summary
   (which also includes a list of failing steps) will be printed. Defaults to true
+* ``printSkippedSteps`` If the output should include any steps which are skipped by the runner. Useful when you
+  don't want to see all the skipped steps after a failed step. Defaults to true
 
 Progress formatter
 ^^^^^^^^^^^^^^^^^^
