@@ -49,7 +49,7 @@ For example a list of the most known:
     **WARNING: using PHPUnit for assertions no longer works with PHP 11.3.0 and later out-of-the-box**.
 
     This is due to a change in how PHPUnit's internal components are initialized. The recommended workaround
-    to use the PHPUnit assertions is to bootstrap PHPUnit during Behat execution from a `BeforeSuite` hook:
+    to use the PHPUnit assertions is to bootstrap PHPUnit during Behat execution from a ``BeforeSuite`` hook:
 
     .. code-block:: php
 
