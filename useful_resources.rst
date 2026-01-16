@@ -31,8 +31,11 @@ For example a list of the most known:
 - https://github.com/beberlei/assert
 - https://github.com/zenstruck/assert
 
-.. caution::
+.. admonition:: Caution with PHPUnit
+    :class: caution
+
     If you are familiar with PHPUnit, you can use its assertion library
+
     .. code-block:: bash
 
         $ php composer.phar require --dev phpunit/phpunit
