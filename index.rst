@@ -96,6 +96,7 @@ and many more.
    cookbooks
    releases
    useful_resources
+   behat_and_ai
    community
 
 .. _`Behaviour Driven Development`: https://en.wikipedia.org/wiki/Behavior-driven_development
