@@ -54,7 +54,10 @@ that can be used directly by AI tooling.
 Human Review and Iteration
 --------------------------
 
-Generated scenarios should be reviewed to ensure they accurately represent the intended behaviour.
+As with any specification or testing tool, generated scenarios and assertions should be reviewed carefully.
+It is critical to ensure that both the human-readable scenarios and the executable step definitions
+accurately represent the intended behaviour. They also need to be robust enough to prove that
+the actual behaviour matches the expectations, even if the implementation changes.
 
 Once validated, scenarios serve as the authoritative definition of the feature. AI agents can implement
 or modify the system until all scenarios pass.
@@ -64,8 +67,8 @@ This creates a reliable feedback loop where behaviour is defined, verified, and 
 Maintaining Behaviour Over Time
 -------------------------------
 
-Behat ensures that behaviour remains stable as code changes. AI agents can safely modify or refactor code,
-and Behat will detect any unintended behavioural changes.
+With well-designed scenarios and step definitions, Behat ensures that behaviour remains stable as code changes.
+AI agents can safely modify or refactor code, and Behat will detect any unintended behavioural changes.
 
 As long as scenarios pass, the defined behaviour is preserved.
 
