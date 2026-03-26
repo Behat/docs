@@ -16,6 +16,12 @@ real, human language telling you what code you should write.
     If you're still new to Behat, jump into the :doc:`/quick_start` first,
     then return here to learn more about Gherkin.
 
+.. note::
+
+    You can configure whether Behat's Gherkin parsing is compatible with
+    previous Behat versions, or with the official ``cucumber/gherkin``
+    parsers. See :doc:`gherkin/parser_mode` for more details.
+
 Gherkin Syntax
 --------------
 
@@ -103,3 +109,9 @@ run:
     Behat the ability to have multilanguage features in one suite.
 
 .. _`Business Readable, Domain Specific Language`: http://martinfowler.com/bliki/BusinessReadableDSL.html
+
+.. toctree::
+   :maxdepth: 2
+   :hidden:
+
+   gherkin/parser_mode
