@@ -267,7 +267,9 @@ Tagged Hooks
 Sometimes you may want a certain hook to run only for certain scenarios,
 features or steps. This can be achieved by associating a ``BeforeFeature``,
 ``AfterFeature``, ``BeforeScenario`` or ``AfterScenario`` hook with one
-or more tags. You can also use ``OR`` (``||``) and ``AND`` (``&&``) tags:
+or more tags. You can also use ``OR`` (``,``) and ``AND`` (``&&``) tags:
+
+Use the ``,`` tag to execute a hook when it has *any* of the provided tags:
 
 .. code-block:: php
 
