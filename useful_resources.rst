@@ -18,6 +18,60 @@ Integrating Behat with PHPStorm
 More information on integrating Behat with PHPStorm can be found in this
 `blog post`_.
 
+.. _assertion-tools:
+
+Assertion tools
+---------------
+
+A proper assertion tool is a library whose assertions throw exceptions on failure.
+
+For example a list of the most known:
+
+- https://github.com/webmozarts/assert
+- https://github.com/beberlei/assert
+- https://github.com/zenstruck/assert
+
+.. admonition:: Caution with PHPUnit
+    :class: caution
+
+    If you are familiar with PHPUnit, you can use its assertion library
+
+    .. code-block:: bash
+
+        $ php composer.phar require --dev phpunit/phpunit
+
+    and then by simply using assertions in your steps:
+
+    .. code-block:: php
+
+        \PHPUnit\Framework\Assert::assertCount(
+            intval($count),
+            $this->basket
+        );
+
+    **WARNING: using PHPUnit for assertions no longer works with PHP 11.3.0 and later out-of-the-box**.
+
+    This is due to a change in how PHPUnit's internal components are initialized. The recommended workaround
+    to use the PHPUnit assertions is to bootstrap PHPUnit during Behat execution from a ``BeforeSuite`` hook:
+
+    .. code-block:: php
+
+        use Behat\Hook\BeforeSuite;
+
+        class FeatureContext {
+
+            #[BeforeSuite]
+            public static function initPhpunit() {
+                (new \PHPUnit\TextUI\Configuration\Builder())->build([]);
+            }
+        }
+
+    If you have multiple suites, you may want to use a static variable in the hook to ensure the initialization only
+    runs once.
+
+    Learn more at https://github.com/Behat/Behat/issues/1618.
+
+
 Behat cheat sheet
 -----------------
 

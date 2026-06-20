@@ -455,21 +455,32 @@ code we could come up with to fulfil our scenario. Something like this:
          #[Then('I should have :arg1 product(s) in the basket')]
         public function iShouldHaveProductInTheBasket($count)
         {
-            // Normally you would import this class - we are using the fully qualified name
-            // to highlight that Behat does not come with an assertion tool (see note below).
-            \PHPUnit\Framework\Assert::assertCount(
-                intval($count),
-                $this->basket
-            );
+            if (count($this->basket) !== intval($count)) {
+                throw new \Exception(
+                    sprintf(
+                        'The basket should have %d item(s), but it has %d.',
+                        intval($count),
+                        count($this->basket)
+                    )
+                );
+            }
         }
 
          #[Then('the overall basket price should be £:arg1')]
         public function theOverallBasketPriceShouldBePs($price)
         {
-            \PHPUnit\Framework\Assert::assertSame(
-                floatval($price),
-                $this->basket->getTotalPrice()
-            );
+            $expectedPrice = floatval($price);
+            $actualPrice = $this->basket->getTotalPrice();
+
+            if ($expectedPrice !== $actualPrice) {
+                throw new \Exception(
+                    sprintf(
+                        'Expected basket total price to be %s, but got %s.',
+                        $expectedPrice,
+                        $actualPrice
+                    )
+                );
+            }
         }
     }
 
@@ -477,27 +488,13 @@ As you can see, in order to test and implement our application, we introduced 2 
 ``Shelf`` and ``Basket``. The first is responsible for storing products and their prices,
 the second is responsible for the representation of our customer basket. Through appropriate step
 definitions we declare products' prices and add products to the basket. We then compare the
-state of our ``Basket`` object with our expectations using PHPUnit assertions.
+state of our ``Basket`` object with our expectations and throw exception if the expectations aren't met.
 
 .. note::
 
     Behat doesn't come with its own assertion tool, but you can use any proper assertion
-    tool out there. A proper assertion tool is a library whose assertions throw
-    exceptions on failure. For example, if you're familiar with PHPUnit you can use
-    its assertions in Behat by installing it via composer:
-
-    .. code-block:: bash
-
-        $ php composer.phar require --dev phpunit/phpunit
-
-    and then by simply using assertions in your steps:
-
-    .. code-block:: php
-
-        \PHPUnit\Framework\Assert::assertCount(
-            intval($count),
-            $this->basket
-        );
+    tool out there.
+    Learn more about :ref:`assertion-tools`.
 
 Now try to execute your feature tests:
 
