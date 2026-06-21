@@ -1,7 +1,9 @@
 Releases & version support
 ==========================
 
-Behat follows `Semantic Versioning`_ - breaking changes will only be made in a major release.
+Behat follows `Semantic Versioning`_ - therefore we will only make breaking changes to the Public API in a major
+release. Note that a significant portion of Behat's codebase is **not considered part of the Public API** - you
+can read more in :doc:`the Backward Compatibility documentation </releases/backwards-compatibility>`.
 
 Supported versions
 ------------------
@@ -82,6 +84,13 @@ Major   Released   Bugfix EOL   Security EOL
 `v2.x`_ July 2011  June 2015    June 2015    `Changelog <https://github.com/Behat/Behat/blob/2.5/CHANGES.md>`__
 ======= ========== ============ ============ =====================================================================
 
+Additional Releases documentation
+---------------------------------
+
+.. toctree::
+   :maxdepth: 1
+
+   releases/backwards-compatibility
 
 .. _`Semantic Versioning`: http://semver.org/
 .. _`official php.net version support page`: https://www.php.net/supported-versions.php
