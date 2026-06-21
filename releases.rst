@@ -8,12 +8,12 @@ can read more in :doc:`the Backward Compatibility documentation </releases/backw
 Supported versions
 ------------------
 
-======= ========== ========== ============ =======================================================================
+======= ========== ========== ============ ====================================================================
 Major   Released   Bugfix EOL Security EOL
-======= ========== ========== ============ =======================================================================
+======= ========== ========== ============ ====================================================================
 `v3.x`_ April 2014 See below  See below    `Changelog <https://github.com/Behat/Behat/blob/3.x/CHANGELOG.md>`__
-`v4.x`_ tbc 2025/6 See below  See below    `Changelog <https://github.com/Behat/Behat/blob/4.x/CHANGELOG.md>`__
-======= ========== ========== ============ =======================================================================
+`v4.x`_ tbc Q3/26  See below  See below    `4.x Changelog`_ :doc:`Upgrading </releases/upgrading-to-4.0>`
+======= ========== ========== ============ ====================================================================
 
 As a minimum, a major version series will receive:
 
@@ -91,6 +91,7 @@ Additional Releases documentation
    :maxdepth: 1
 
    releases/backwards-compatibility
+   releases/upgrading-to-4.0
 
 .. _`Semantic Versioning`: http://semver.org/
 .. _`official php.net version support page`: https://www.php.net/supported-versions.php
@@ -98,3 +99,4 @@ Additional Releases documentation
 .. _`v2.x`: https://github.com/Behat/Behat/releases?q=v2
 .. _`v3.x`: https://github.com/Behat/Behat/releases?q=v3
 .. _`v4.x`: https://github.com/Behat/Behat/releases?q=v4
+.. _`4.x Changelog`: https://github.com/Behat/Behat/blob/4.x/CHANGELOG.md
