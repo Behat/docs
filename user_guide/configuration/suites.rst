@@ -8,7 +8,7 @@ concrete features together with the information on how to test them.
 
 With suites you can configure Behat to test different kinds of features
 using different kinds of contexts and doing so in one run. Test suites are
-really powerful and ``behat.yml`` makes them that much more powerful:
+really powerful and ``behat.php`` makes them that much more powerful:
 
 .. code-block:: php
 
@@ -161,9 +161,9 @@ This will cause Behat to:
 
 .. note::
 
-    ``%paths.base%`` is a special variable in ``behat.yml`` that refers
-    to the folder in which ``behat.yml`` is stored. When using it, or
-    any other percent-encased variable, it has to be put in quotes.
+    ``%paths.base%`` is a special placeholder in Behat configuration that
+    refers to the directory containing the currently active config file.
+    By default this will be the working directory where you are running Behat.
 
 Path-based suites are an easy way to test highly-modular applications
 where features are delivered by highly decoupled components. With suites

@@ -9,24 +9,15 @@ profiles.
 
    configuration/suites.rst
    configuration/printing_paths.rst
-   configuration/yaml_configuration.rst
 
 ``behat.php``
 -------------
 
-All configuration happens inside a single configuration file in the ``PHP`` or the ``YAML``
-format. By default, Behat loads the configuration from the first file matching:
+All configuration happens inside a single PHP configuration file. By default, Behat loads
+the configuration from your current working directory from the first file matching:
 
-#. ``behat.yaml`` or ``behat.yml``
-#. ``behat.yaml.dist`` or ``behat.yml.dist``
-#. ``behat.dist.yaml`` or ``behat.dist.yml``
 #. ``behat.php``
 #. ``behat.dist.php``
-#. ``config/behat.yaml`` or ``config/behat.yml``
-#. ``config/behat.yaml.dist`` or ``config/behat.yml.dist``
-#. ``config/behat.dist.yaml`` or ``config/behat.dist.yml``
-#. ``config/behat.php``
-#. ``config/behat.dist.php``
 
 You can also tell Behat where your config file is with the ``--config`` option:
 
@@ -34,10 +25,15 @@ You can also tell Behat where your config file is with the ``--config`` option:
 
     $ behat --config custom-config.php
 
-All configuration parameters in that file are defined under a profile name root
-(``default:`` for example). A profile is just a custom name you can use to
-quickly switch testing configuration by using the ``--profile`` option when
-executing your feature suite.
+.. note::
+
+   From Behat 4.0, we no longer support the old YAML config format. You can
+   automatically convert this to PHP before you upgrade - see
+   :doc:`the 4.0 upgrade guide </releases/upgrading-to-4.0>`.
+
+All configuration parameters in that file are defined under a profile. A profile is just
+a custom name you can use to quickly switch testing configuration by using the
+``--profile`` option when executing your feature suite.
 
 The default profile is always ``default``. All other profiles inherit
 parameters from the ``default`` profile. If you only need one profile, define
@@ -428,12 +424,13 @@ Extensions can be configured like this:
     use Behat\Config\Config;
     use Behat\Config\Profile;
     use Behat\Config\Formatter\PrettyFormatter;
+    use Behat\MinkExtension\ServiceContainer\MinkExtension;
 
     return new Config()
         ->withProfile(
             new Profile('default')
                 >withExtension(
-                    new Extension('Behat\MinkExtension', [
+                    new Extension(MinkExtension::class, [
                         'base_url' => 'http://www.example.com',
                         'selenium2' => null,
                     ])

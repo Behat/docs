@@ -150,7 +150,7 @@ etc.
        }
 
        /**
-        * setParameter will be called for each key given to the formatter in your behat.yml file.
+        * setParameter will be called for each key given to the formatter in your behat.php file.
         * We will see that later in the "integration".
         * In our case, the only allowed parameter is a "file_name" that must be a string : the JSON file that we will write.
         */
@@ -194,7 +194,7 @@ etc.
        }
 
        /**
-        * This is the name of the formatter, that will be used in the behat.yml file
+        * This is the name of the formatter, that will be used in the behat.php file
         */
        public function getName(): string
        {
@@ -508,4 +508,3 @@ About the author
 
 Written by `Julien Deniau <https://julien.deniau.me>`__,
 originally posted as a blog post `on his blog <https://julien.deniau.me/posts/2024-01-24-custom-behat-formatter>`__.
-
