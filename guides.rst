@@ -75,7 +75,6 @@ Documentation Contents
    user_guide/writing_scenarios
    user_guide/organizing
    user_guide/context
-   user_guide/annotations
    user_guide/command_line_tool
    user_guide/configuration
    user_guide/integrations
