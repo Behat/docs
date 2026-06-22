@@ -1,117 +1,104 @@
 Upgrading to Behat 4.0
 ======================
 
-We have tried to make it as easy as possible to upgrade to Behat 4.0, but it does
-contain some breaking changes.
+We want to make upgrading to Behat 4.0 as smooth as possible. While there are some breaking changes, we've tried to
+keep them to a minimum.
 
-If you are an end-user (you use Behat to run your specifications, but you haven't
-extended / integrated with the Behat internals), then many of these will not affect
-you. We also expect that you will be able to resolve the majority of these with
-automated tools - follow this guide to find out more.
+If you are an end-user (meaning you use Behat to run tests but haven't written custom extensions), most of these changes
+won't affect you. In many cases, you can use automated tools to handle the upgrade for you. Follow this guide to get
+started.
 
-Upgrading for end-users
------------------------
+Upgrading for users
+--------------------
 
-For end-user projects, the major changes are:
+For most projects, these are the main changes:
 
-* We no longer support YAML configuration - and we only automatically detect
-  config from ``behat.php`` or ``behat.dist.php`` in the directory where you
-  run Behat.
-* We no longer support PHPDoc annotations to mark up step definitions, hooks and
-  argument transformations.
-* All deprecated features and code have been removed.
-* We now default to the :doc:`GHERKIN_32 parser compatibility mode </user_guide/gherkin/parser_mode>`.
+* **PHP Configuration:** We now use PHP for configuration. YAML files are no longer supported. Behat will look for
+  ``behat.php`` or ``behat.dist.php`` in your current directory.
+* **PHP Attributes:** We've replaced PHPDoc annotations (like ``@Given`` or ``@BeforeScenario``) with native PHP
+  Attributes.
+* **Cleanup:** All previously deprecated features and code have been removed.
+* **New Parser Mode:** We now default to a newer parser compatibility mode
+  (:doc:`GHERKIN_32 </user_guide/gherkin/parser_mode>`).
 
-Preparing to upgrade
-~~~~~~~~~~~~~~~~~~~~
+Step-by-step preparation
+~~~~~~~~~~~~~~~~~~~~~~~~~
 
-**Before** you attempt to update to Behat 4.0, you should make all of these changes:
+**Before** you switch to Behat 4.0, we recommend taking these steps:
 
-1. Ensure you are running the latest Behat 3.x
-2. If you have YAML configuration, run ``vendor/bin/behat --convert-config`` to
-   `convert it to the new PHP config`_. Review the output carefully - the tool will handle most
-   common configurations but is not guaranteed to cater for all unusual or complex cases.
-3. If your Behat config file is in a ``config/`` subdirectory, either move it to the directory
-   where you run Behat, or add the ``--config {PATH TO FILE}`` argument to any Behat runs.
-4. If you use any extensions, check that these are enabled using the fully-qualified class name
-   of the ``Extension`` class. The ``--convert-config`` tool will usually do this for you.
-5. Run `Rector`_ with the ``->withAttributeSets(behat: true)`` rule to convert any
-   `Behat annotations`_ into PHP Attributes. If your project isn't already using Rector, you
-   can install it temporarily and just run that rule.
-6. Run your full Behat suite(s) with the ``--fail-on-deprecations`` option and fix any failures.
-7. Configure Behat to use the :doc:`GHERKIN_32 parser compatibility mode </user_guide/gherkin/parser_mode>`
-   and check if this affects your project. If this causes issues, you can either fix your feature
-   files or update your Behat configuration to force the ``GherkinCompatibilityMode::LEGACY``.
+1. **Update Behat 3:** Make sure you are using the latest version of Behat 3.x.
+2. **Convert Config:** If you use YAML, run ``vendor/bin/behat --convert-config`` to `convert it to PHP`_. Review the
+   results to make sure everything looks correct.
+3. **Check File Location:** If your config file is in a ``config/`` folder, move it to your project root or use the
+   ``--config`` flag when running Behat.
+4. **Update Extensions:** Make sure any extensions you use are referenced by their full class name (e.g.
+   ``Behat\MinkExtension\ServiceContainer\MinkExtension::class`` not ``Behat\MinkExtension```). The conversion tool
+   usually handles this.
+5. **Convert Annotations:** Use `Rector`_ with the ``->withAttributeSets(behat: true)`` rule to automatically change
+   `Behat annotations`_ into PHP Attributes.
+6. **Check Deprecations:** Run your tests with ``--fail-on-deprecations`` and fix any warnings that appear.
+7. **Test the New Parser:** Enable the :doc:`GHERKIN_32 parser mode </user_guide/gherkin/parser_mode>` and see if your
+   tests still run correctly. If you have issues, you can fix your feature files or use
+   ``GherkinCompatibilityMode::LEGACY`` in your config. This mode will be removed in future.
 
-Upgrading
-~~~~~~~~~
+Ready to upgrade?
+~~~~~~~~~~~~~~~~~
 
-If you have followed the steps above, you should be ready to update your composer.json and
-start using Behat 4.0!
+Once you've completed the steps above, update your ``composer.json`` to start using Behat 4.0!
 
 .. caution::
-   We expect there will be a small number of breaking changes between 4.0.0-alpha1 and
-   4.0.0. We recommend ``{"require": {"behat/behat": "4.0.0-alpha1@alpha"}}`` for now.
-   See below for more details.
+   While we are in the alpha phase, we recommend using:
+   ``{"require": {"behat/behat": "4.0.0-alpha1@alpha"}}``.
 
 .. note::
-   If you use any third-party Behat extensions, you will need to update these to a version
-   that supports Behat 4.0. If you find an extension that hasn't yet been updated, please
-   consider submitting a PR. The more the Behat community contributes to updating the
-   ecosystem, the quicker we will all get there :)
+   Don't forget to update your third-party extensions to versions that support Behat 4.0. If you find one that hasn't
+   been updated yet, consider helping out by submitting a Pull Request! The community's help makes the transition faster
+   for everyone.
 
 
 Upgrading for extension authors
 -------------------------------
 
-It should be possible to support Behat 3.x and 4.x simultaneously (e.g.
+It's possible to support both Behat 3.x and 4.x at the same time (for example, by using
 ``{"require": {"behat/behat": "^3.x || ^4.x"}}``).
 
-If your project uses Behat directly (e.g. to "dog-food" your extension / run your own features)
-you will first need to follow the steps above for upgrading end-user projects.
+If your project uses Behat to test itself, first follow the "Upgrading for users" steps above.
 
-The major changes for all extension authors are:
+Here are the key changes for all extension authors:
 
-* All interfaces and classes now have strict parameter, property & return types. You will
-  need to add return types to all methods that implement Behat interfaces or extend Behat classes.
-  ``Rector`` can do this for you with the ``AddReturnTypeBasedOnParentClassMethodRector``.
-  This is included by default if you enable Rector's ``typeDeclarations`` set.
-* We are now much stricter about what counts as the public API (and will therefore be covered
-  by the :doc:`backwards compatibility promise </releases/backwards-compatibility>` in future).
-  If your extension needs to use Behat code that we haven't marked as public, please let us know.
-* We no longer support users referencing an extension by a "short name" (e.g. ``Behat\MinkExtension``).
-  Users must always give the fully-qualified name of your ``Extension`` class. Please update your
-  documentation.
-* If your extension needs to report deprecations, we recommend calling
-  ``Behat\Testwork\Deprecation\DeprecationCollector::trigger()`` (available since 3.30.0) instead
-  of the native ``trigger_error``. This will guarantee it is handled by the ``--print-deprecations``
-  / ``--fail-on-deprecations`` options in all cases.
-* The ``ScenarioLikeTested`` base event class no longer exists. ``ScenarioTested`` and
-  ``BackgroundTested`` are now separate event families. This is particularly likely to affect
-  formatter extensions.
+* **Strict Types:** All interfaces and classes now use strict types for parameters, properties, and return values. As a
+  minimum, you will need to add return types to any methods that implement Behat interfaces or extend Behat classes.
+  `Rector`_ can automate this for you with the ``AddReturnTypeBasedOnParentClassMethodRector`` (included in the
+  ``typeDeclarations`` set).
+* **Public API:** We are now stricter about what is considered public API. This helps us maintain a solid
+  :doc:`backwards compatibility promise </releases/backwards-compatibility>`. If your extension needs to use code that
+  isn't marked public yet, please let us know.
+* **Full Class Names:** Users can no longer use "short names" for extensions (like ``Behat\MinkExtension``). They must
+  now use the fully-qualified class name of your ``Extension`` class. Please update your documentation to reflect this.
+* **Deprecations:** If your extension needs to report deprecations, we recommend using
+  ``Behat\Testwork\Deprecation\DeprecationCollector::trigger()`` (available since 3.30.0) instead of ``trigger_error``.
+   This ensures they are correctly handled by Behat's deprecation flags regardless of the user's runtime environment.
+* **Event Changes:** The ``ScenarioLikeTested`` base event class has been removed. ``ScenarioTested`` and
+  ``BackgroundTested`` are now separate. This may affect you if you maintain a formatter extension.
 
 There are several other changes that might affect a minority of extension authors. See the full
 `CHANGELOG`_ for details.
 
-
-Planned changes between 4.0.0-alpha1 and 4.0.0
+Planned changes before the final 4.0.0 release
 ----------------------------------------------
 
-There are two significant changes that we plan to make before 4.0.0:
+We plan to make two more significant changes before the final 4.0.0 release:
 
-* We will review the behaviour of steps where the number of function parameters does not match
-  the number of parameters in the step definition text. As a minimum, this will trigger a
-  deprecation - it may trigger a failure. See `#1691`_.
-* Support for rendering details of a PHPUnit assertion failure will move out of Behat core
-  into a standalone extension. Without the extension, tests will still pass/fail as expected
-  but the failure output will be less useful. See `#1746`_. This is because PHPUnit assertions
-  are not designed to be used outside PHPUnit and we no longer recommend using PHPUnit for
-  assertions within Behat steps.
+* **Parameter Matching:** We are reviewing how steps behave when the number of function parameters doesn't match the
+  step definition. This will likely trigger a deprecation or a failure. You can follow the progress in `#1691`_.
+* **PHPUnit Assertions:** Support for rendering PHPUnit assertion failures will move to a standalone extension. While
+  tests will still pass or fail, the output will be less detailed without the extension. We no longer recommend using
+  PHPUnit for assertions within Behat steps, as the PHPUnit project has confirmed this is not supported. See
+  `#1746`_ for details.
 
-We may make more changes before 4.0, depending on feedback from extension authors as they start
-to upgrade.
+We may make additional changes based on feedback from the community as more people begin to upgrade.
 
-.. _`convert it to the new PHP config`: https://docs.behat.org/en/3.x/user_guide/configuration/yaml_configuration.html#converting-your-configuration
+.. _`convert it to PHP`: https://docs.behat.org/en/v3.x/user_guide/configuration/yaml_configuration.html#converting-your-configuration
 .. _`Rector`: https://getrector.com/documentation
 .. _`Behat annotations`: https://docs.behat.org/en/v3.x/user_guide/annotations.html#existing-code
 .. _`AddReturnTypeBasedOnParentClassMethodRector`: https://getrector.com/rule-detail/add-return-type-declaration-based-on-parent-class-method-rector
