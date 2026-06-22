@@ -66,7 +66,7 @@ Traits
 
 
 Other tips for extension authors
--------------------------------
+--------------------------------
 
 Our compatibility promise covers changes to existing code, but we will still add new features like CLI arguments,
 config options, or methods.

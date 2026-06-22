@@ -77,7 +77,7 @@ Here are the key changes for all extension authors:
   now use the fully-qualified class name of your ``Extension`` class. Please update your documentation to reflect this.
 * **Deprecations:** If your extension needs to report deprecations, we recommend using
   ``Behat\Testwork\Deprecation\DeprecationCollector::trigger()`` (available since 3.30.0) instead of ``trigger_error``.
-   This ensures they are correctly handled by Behat's deprecation flags regardless of the user's runtime environment.
+  This ensures they are correctly handled by Behat's deprecation flags regardless of the user's runtime environment.
 * **Event Changes:** The ``ScenarioLikeTested`` base event class has been removed. ``ScenarioTested`` and
   ``BackgroundTested`` are now separate. This may affect you if you maintain a formatter extension.
 
