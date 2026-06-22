@@ -39,7 +39,7 @@ Step-by-step preparation
 6. **Check Deprecations:** Run your tests with ``--fail-on-deprecations`` and fix any warnings that appear.
 7. **Test the New Parser:** Enable the :doc:`GHERKIN_32 parser mode </user_guide/gherkin/parser_mode>` and see if your
    tests still run correctly. If you have issues, you can fix your feature files or use
-   ``GherkinCompatibilityMode::LEGACY`` in your config. This mode will be removed in future.
+   ``GherkinCompatibilityMode::LEGACY`` in your config. This mode will be removed in the future.
 
 Ready to upgrade?
 ~~~~~~~~~~~~~~~~~
