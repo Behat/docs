@@ -282,11 +282,10 @@ in our case) and tell Behat that this code represents a specific scenario step
 
 .. note::
 
-    Behat uses PHP Attributes for step definitions, step
-    transformations and hooks. It also supports doc-block
-    annotations for compatibility with legacy code, but this
-    syntax is deprecated - see the :doc:`annotations </user_guide/annotations>` documentation
-    for details.
+    Behat uses PHP Attributes for step definitions, step transformations and hooks.
+    In Behat 4.0, we removed support for defining this with PHPDoc annotations.
+    You can automatically convert these to attributes - see
+    :doc:`the 4.0 upgrade guide </releases/upgrading-to-4.0>`.
 
 ``#[Given('there is a(n) :arg1, which costs £:arg2')]`` above the method tells Behat
 that this particular method should be executed whenever Behat sees step that

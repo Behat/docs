@@ -45,5 +45,5 @@ Suite Initialisation
 
 Suites are a core part of Behat. Any feature of Behat knows about
 them and can give you a hand with them. For example, if you defined
-your suites in ``behat.yml`` before running ``--init``, it will actually
+your suites in ``behat.php`` before running ``--init``, it will actually
 create the folders and suites you configured, instead of the default ones.

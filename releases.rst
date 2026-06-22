@@ -1,17 +1,19 @@
 Releases & version support
 ==========================
 
-Behat follows `Semantic Versioning`_ - breaking changes will only be made in a major release.
+Behat follows `Semantic Versioning`_ - therefore we will only make breaking changes to the Public API in a major
+release. Note that a significant portion of Behat's codebase is **not considered part of the Public API** - you
+can read more in :doc:`the Backward Compatibility documentation </releases/backwards-compatibility>`.
 
 Supported versions
 ------------------
 
-======= ========== ========== ============ =======================================================================
+======= ========== ========== ============ ====================================================================
 Major   Released   Bugfix EOL Security EOL
-======= ========== ========== ============ =======================================================================
+======= ========== ========== ============ ====================================================================
 `v3.x`_ April 2014 See below  See below    `Changelog <https://github.com/Behat/Behat/blob/3.x/CHANGELOG.md>`__
-`v4.x`_ tbc 2025/6 See below  See below    `Changelog <https://github.com/Behat/Behat/blob/4.x/CHANGELOG.md>`__
-======= ========== ========== ============ =======================================================================
+`v4.x`_ tbc Q3/26  See below  See below    `4.x Changelog`_ :doc:`Upgrading </releases/upgrading-to-4.0>`
+======= ========== ========== ============ ====================================================================
 
 As a minimum, a major version series will receive:
 
@@ -82,6 +84,14 @@ Major   Released   Bugfix EOL   Security EOL
 `v2.x`_ July 2011  June 2015    June 2015    `Changelog <https://github.com/Behat/Behat/blob/2.5/CHANGES.md>`__
 ======= ========== ============ ============ =====================================================================
 
+Additional Releases documentation
+---------------------------------
+
+.. toctree::
+   :maxdepth: 1
+
+   releases/backwards-compatibility
+   releases/upgrading-to-4.0
 
 .. _`Semantic Versioning`: http://semver.org/
 .. _`official php.net version support page`: https://www.php.net/supported-versions.php
@@ -89,3 +99,4 @@ Major   Released   Bugfix EOL   Security EOL
 .. _`v2.x`: https://github.com/Behat/Behat/releases?q=v2
 .. _`v3.x`: https://github.com/Behat/Behat/releases?q=v3
 .. _`v4.x`: https://github.com/Behat/Behat/releases?q=v4
+.. _`4.x Changelog`: https://github.com/Behat/Behat/blob/4.x/CHANGELOG.md
