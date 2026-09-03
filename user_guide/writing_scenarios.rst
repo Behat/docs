@@ -321,22 +321,35 @@ usually as input to a ``Given`` or as expected output from a ``Then``:
 
     .. code-block:: php
 
-        use Behat\Gherkin\Node\TableNode;
+        use Behat\Step\DataTable;
         use Behat\Step\Given;
 
         // ...
 
         #[Given('the following people exist:')]
-        public function thePeopleExist(TableNode $table)
+        public function thePeopleExist(DataTable $table)
         {
-            foreach ($table as $row) {
+            foreach ($table->asMaps() as $row) {
                 // $row['name'], $row['email'], $row['phone']
             }
         }
 
-    A table is injected into a definition as a ``TableNode`` object, from
-    which you can get hash by columns (``TableNode::getHash()`` method) or by
-    rows (``TableNode::getRowsHash()``).
+    Type the parameter as ``DataTable`` and Behat passes the table as such.
+    It reads the table in whichever shape the step needs:
+
+    * ``asMaps()`` uses the first row as keys, giving one associative array
+      per following row, which is what the example above iterates over;
+    * ``asLists()`` returns every row as a plain list of cells, header row
+      included, for a table with no header;
+    * ``asMap()`` turns a two-column table into a single associative array,
+      which suits a table of settings or of expected values;
+    * ``cell()``, ``row()``, ``column()``, ``height()``, ``width()``,
+      ``isEmpty()`` and ``transpose()`` cover the rest.
+
+    ``DataTable`` was added in Behat 3.33. Typing the parameter as
+    ``Behat\Gherkin\Node\TableNode`` still works and is not deprecated, but
+    ``DataTable`` keeps your definitions decoupled from the Gherkin syntax
+    tree.
 
 Pystrings
 ^^^^^^^^^
@@ -371,20 +384,24 @@ three double-quote marks (``"""``), placed on their own line:
 
     .. code-block:: php
 
-        use Behat\Gherkin\Node\PyStringNode;
+        use Behat\Step\DocString;
         use Behat\Step\Given;
 
         // ...
 
         #[Given('a blog post named :title with:')]
-        public function blogPost($title, PyStringNode $markdown)
+        public function blogPost($title, DocString $markdown)
         {
-            $this->createPost($title, $markdown->getRaw());
+            $this->createPost($title, $markdown->getContent());
         }
 
-    PyStrings are stored in a ``PyStringNode`` instance, which you can simply
-    convert to a string with ``(string) $pystring`` or ``$pystring->getRaw()``
-    as in the example above.
+    Type the parameter as ``DocString`` to receive the text. Read it with
+    ``getContent()``, or cast it with ``(string) $markdown``.
+
+    ``DocString`` was added in Behat 3.33. Typing the parameter as
+    ``Behat\Gherkin\Node\PyStringNode`` still works and is not deprecated,
+    but ``DocString`` keeps your definitions decoupled from the Gherkin syntax
+    tree.
 
 .. note::
 
