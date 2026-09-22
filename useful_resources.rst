@@ -33,7 +33,7 @@ Some well-known options are:
   which is reflected in the information it provides when assertions fail.
 - `beberlei/assert`_ - primarily designed as a fast, lightweight input validation
   library for business models and runtime code.
-- `webmozart/assert`_ - inspired by beberlei/assert and also designed for runtime
+- `webmozarts/assert`_ - inspired by beberlei/assert and also designed for runtime
   assertions, but with more control over failure messages.
 
 .. admonition:: Caution with PHPUnit
