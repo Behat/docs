@@ -2,7 +2,8 @@ name: Check Docs
 
 on:
   push:
-    branches: [v3.0]
+    branches:
+      - "v*"
   pull_request: null
 
 jobs:
