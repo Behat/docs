@@ -28,4 +28,6 @@ jobs:
     steps:
       - uses: actions/checkout@v4
       - name: Search for misspellings
-        uses: crate-ci/typos@master
+        # Pinned to a specific version to avoid unexpected build failures on changes
+        # to the typos dictionary.
+        uses: crate-ci/typos@v1.50.2
