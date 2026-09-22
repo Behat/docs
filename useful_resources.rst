@@ -23,53 +23,38 @@ More information on integrating Behat with PHPStorm can be found in this
 Assertion tools
 ---------------
 
-A proper assertion tool is a library whose assertions throw exceptions on failure.
+Behat does not officially recommend an assertion library - you can use any code that
+throws an Exception on failure. You easily use more than one library in parallel (or
+no library, for simple assertions).
 
-For example a list of the most known:
+Some well-known options are:
 
-- https://github.com/webmozarts/assert
-- https://github.com/beberlei/assert
-- https://github.com/zenstruck/assert
+- `zenstruck/assert`_ - specifically designed for dependency-free test assertions,
+  which is reflected in the information it provides when assertions fail.
+- `beberlei/assert`_ - primarily designed as a fast, lightweight input validation
+  library for business models and runtime code.
+- `webmozart/assert`_ - inspired by beberlei/assert and also designed for runtime
+  assertions, but with more control over failure messages.
 
 .. admonition:: Caution with PHPUnit
     :class: caution
 
-    If you are familiar with PHPUnit, you can use its assertion library
+    Behat docs used to suggest using PHPUnit's assertions. PHPUnit's author has
+    explicitly stated that using PHPUnit assertions outside of PHPUnit itself
+    is not supported or covered by any backwards compatibility promise.
 
-    .. code-block:: bash
+    We **strongly recommend** that you use a different assertion tool in new
+    projects.
 
-        $ php composer.phar require --dev phpunit/phpunit
+    If you have PHPUnit assertions in an existing project, we recommend
+    planning to migrate these. In the meantime, `behat/phpunit-assertions-extension`_
+    provides the required bootstrapping on PHPUnit >= 11.3.0, and renders the
+    details of failing assertions in your Behat output.
 
-    and then by simply using assertions in your steps:
-
-    .. code-block:: php
-
-        \PHPUnit\Framework\Assert::assertCount(
-            intval($count),
-            $this->basket
-        );
-
-    **WARNING: using PHPUnit for assertions no longer works with PHP 11.3.0 and later out-of-the-box**.
-
-    This is due to a change in how PHPUnit's internal components are initialized. The recommended workaround
-    to use the PHPUnit assertions is to bootstrap PHPUnit during Behat execution from a ``BeforeSuite`` hook:
-
-    .. code-block:: php
-
-        use Behat\Hook\BeforeSuite;
-
-        class FeatureContext {
-
-            #[BeforeSuite]
-            public static function initPhpunit() {
-                (new \PHPUnit\TextUI\Configuration\Builder())->build([]);
-            }
-        }
-
-    If you have multiple suites, you may want to use a static variable in the hook to ensure the initialization only
-    runs once.
-
-    Learn more at https://github.com/Behat/Behat/issues/1618.
+    Behat 3.x has partial support for older PHPUnit versions - we recommend
+    installing the extension for better compatibility. Behat 4.x does not
+    have any built-in PHPUnit support so you will need to add the extension
+    before upgrading.
 
 
 Behat cheat sheet
@@ -79,5 +64,9 @@ An interesting `Behat and Mink cheat sheet`_ developed by `Jean-François Lépin
 
 .. _`most extensions can be found on GitHub`: https://github.com/search?o=desc&q=behat+extension+in%3Aname%2Cdescription&ref=searchresults&s=stars&type=Repositories&utf8=%E2%9C%93
 .. _`blog post`: http://blog.jetbrains.com/phpstorm/2014/07/using-behat-in-phpstorm/
+.. _`webmozarts/assert`_: https://github.com/webmozarts/assert
+.. _`beberlei/assert`_: https://github.com/beberlei/assert
+.. _`zenstruck/assert`_: https://github.com/zenstruck/assert
+.. _`behat/phpunit-assertions-extension`_: https://github.com/behat/PHPUnitAssertionsExtension
 .. _`Behat and Mink cheat sheet`: http://blog.lepine.pro/images/2012-04-behat-cheat-sheet1.pdf
 .. _`Jean-François Lépine`: http://blog.lepine.pro
