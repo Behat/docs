@@ -64,9 +64,9 @@ An interesting `Behat and Mink cheat sheet`_ developed by `Jean-François Lépin
 
 .. _`most extensions can be found on GitHub`: https://github.com/search?o=desc&q=behat+extension+in%3Aname%2Cdescription&ref=searchresults&s=stars&type=Repositories&utf8=%E2%9C%93
 .. _`blog post`: http://blog.jetbrains.com/phpstorm/2014/07/using-behat-in-phpstorm/
-.. _`webmozarts/assert`_: https://github.com/webmozarts/assert
-.. _`beberlei/assert`_: https://github.com/beberlei/assert
-.. _`zenstruck/assert`_: https://github.com/zenstruck/assert
-.. _`behat/phpunit-assertions-extension`_: https://github.com/behat/PHPUnitAssertionsExtension
+.. _`webmozarts/assert`: https://github.com/webmozarts/assert
+.. _`beberlei/assert`: https://github.com/beberlei/assert
+.. _`zenstruck/assert`: https://github.com/zenstruck/assert
+.. _`behat/phpunit-assertions-extension`: https://github.com/behat/PHPUnitAssertionsExtension
 .. _`Behat and Mink cheat sheet`: http://blog.lepine.pro/images/2012-04-behat-cheat-sheet1.pdf
 .. _`Jean-François Lépine`: http://blog.lepine.pro
