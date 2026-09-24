@@ -24,7 +24,7 @@ Assertion tools
 ---------------
 
 Behat does not officially recommend an assertion library - you can use any code that
-throws an Exception on failure. You easily use more than one library in parallel (or
+throws an Exception on failure. You can use more than one library in parallel (or
 no library, for simple assertions).
 
 Some well-known options are:
