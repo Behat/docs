@@ -14,7 +14,7 @@ jobs:
       run:
         shell: bash
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v7
       - name: Install sphinx-lint
         run: |
           pip install --user sphinx-lint
@@ -27,7 +27,7 @@ jobs:
     name: Typos
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v7
       - name: Search for misspellings
         # Pinned to a specific version to avoid unexpected build failures on changes
         # to the typos dictionary.
