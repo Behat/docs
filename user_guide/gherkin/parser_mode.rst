@@ -12,11 +12,10 @@ To resolve this, we have added a ``GherkinCompatibilityMode`` setting to the par
 has two possible options:
 
 * ``GherkinCompatibilityMode::LEGACY`` - match our previous behaviour. This is the default in Behat 3.x.
-* ``GherkinCompatibilityMode::GHERKIN_32`` - match the official parsers. This will become the default in Behat 4.0.
-
-.. caution::
-    ``GherkinCompatibilityMode::GHERKIN_32`` is currently considered experimental. We expect that
-    there will be more changes to how the parser behaves in this mode before we mark it as stable.
+  but is not recommended for new projects.
+* ``GherkinCompatibilityMode::GHERKIN_32`` - match the official parsers version >= 32.0 < 42.0
+* ``GherkinCompatibilityMode::GHERKIN_42`` - match the official parsers version >= 42.0. This is
+  the default in Behat 4.x.
 
 Configuring the parser mode
 ---------------------------
@@ -159,6 +158,27 @@ In ``GHERKIN_32`` mode, if one of the elements listed above has multi-line text,
   left padding / indentation as the feature file. In legacy mode, we attempted to left-trim all lines to match the
   indentation of the keyword.
 
+Rules
+~~~~~
+
+The Gherkin `Rule` keyword is not supported in ``LEGACY`` mode. Rule nodes will either be parsed as part of the feature
+description, or cause a ParserException, depending on the nodes that come before them in the file.
+
+``GHERKIN_32`` mode introduces backwards-compatible support for Rules. Scenarios within Rules will be parsed, filtered,
+and executed as expected with any caller. However, callers that have not been updated to support this feature will
+receive a modified node tree with all Rule details stripped out. This will behave as though any Scenarios were a direct
+child of the Feature - with any Rule Background steps repeated as the first steps of each Scenario.
+
+Steps with a DataTable **and** a DocString
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+Historically, a step could only accept **either** a DataTable **or** a DocString. ``StepNode::getArguments()`` has
+always been typed as returning an array but in practice could only return 0 or 1 elements. Therefore in ``LEGACY``
+and``GHERKIN_32`` mode, we throw a ParserException if a step has more than one multiline argument.
+
+In ``GHERKIN_42`` mode, a step with a DataTable **and** a DocString is valid. ``StepNode::getArguments()` will
+return both nodes, in the order they appeared in the feature file. It is still not valid to have more than one
+argument of any given type (e.g. two tables) - in this case we still throw a ParserException.
 
 .. _`behat/gherkin`: http://martinfowler.com/bliki/BusinessReadableDSL.html
 .. _`the official parsers provided by the Cucumber project`: https://github.com/cucumber/gherkin
