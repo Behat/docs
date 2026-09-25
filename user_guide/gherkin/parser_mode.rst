@@ -161,7 +161,7 @@ In ``GHERKIN_32`` mode, if one of the elements listed above has multi-line text,
 Rules
 ~~~~~
 
-The Gherkin `Rule` keyword is not supported in ``LEGACY`` mode. Rule nodes will either be parsed as part of the feature
+The Gherkin ``Rule`` keyword is not supported in ``LEGACY`` mode. Rule nodes will either be parsed as part of the feature
 description, or cause a ParserException, depending on the nodes that come before them in the file.
 
 ``GHERKIN_32`` mode introduces backwards-compatible support for Rules. Scenarios within Rules will be parsed, filtered,
@@ -174,9 +174,9 @@ Steps with a DataTable **and** a DocString
 
 Historically, a step could only accept **either** a DataTable **or** a DocString. ``StepNode::getArguments()`` has
 always been typed as returning an array but in practice could only return 0 or 1 elements. Therefore in ``LEGACY``
-and``GHERKIN_32`` mode, we throw a ParserException if a step has more than one multiline argument.
+and ``GHERKIN_32`` mode, we throw a ParserException if a step has more than one multiline argument.
 
-In ``GHERKIN_42`` mode, a step with a DataTable **and** a DocString is valid. ``StepNode::getArguments()` will
+In ``GHERKIN_42`` mode, a step with a DataTable **and** a DocString is valid. ``StepNode::getArguments()`` will
 return both nodes, in the order they appeared in the feature file. It is still not valid to have more than one
 argument of any given type (e.g. two tables) - in this case we still throw a ParserException.
 
