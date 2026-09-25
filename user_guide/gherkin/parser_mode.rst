@@ -161,8 +161,8 @@ In ``GHERKIN_32`` mode, if one of the elements listed above has multi-line text,
 Rules
 ~~~~~
 
-The Gherkin ``Rule`` keyword is not supported in ``LEGACY`` mode. Rule nodes will either be parsed as part of the feature
-description, or cause a ParserException, depending on the nodes that come before them in the file.
+The Gherkin ``Rule`` keyword is not supported in ``LEGACY`` mode. Rule nodes will either be parsed as part of the
+feature description, or cause a ParserException, depending on the nodes that come before them in the file.
 
 ``GHERKIN_32`` mode introduces backwards-compatible support for Rules. Scenarios within Rules will be parsed, filtered,
 and executed as expected with any caller. However, callers that have not been updated to support this feature will
