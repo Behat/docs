@@ -54,7 +54,7 @@ By "current", we mean:
 * Symfony versions that are listed as maintained or receiving security fixes on the `official Symfony releases page`_.
 
 Note that Symfony 8 introduces breaking changes to interfaces that Behat cannot support without ourselves making
-breaking changes. Therefore, Symfony 8 will only be supported from Behat 4.0 onwards.
+breaking changes. Therefore, Symfony 8 is only supported from Behat 4.0 onwards.
 
 Once a PHP or Symfony version reaches End of Life we will remove it from our composer.json and CI flows.
 
