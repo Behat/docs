@@ -19,7 +19,7 @@ For most projects, these are the main changes:
   Attributes.
 * **Cleanup:** All previously deprecated features and code have been removed.
 * **New Parser Mode:** We now default to a newer parser compatibility mode
-  (:doc:`GHERKIN_32 </user_guide/gherkin/parser_mode>`).
+  (:doc:`GHERKIN_42 </user_guide/gherkin/parser_mode>`).
 
 Step-by-step preparation
 ~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -36,8 +36,15 @@ Step-by-step preparation
    usually handles this.
 5. **Convert Annotations:** Use `Rector`_ with the ``->withAttributeSets(behat: true)`` rule to automatically change
    `Behat annotations`_ into PHP Attributes.
-6. **Check Deprecations:** Run your tests with ``--fail-on-deprecations`` and fix any warnings that appear.
-7. **Test the New Parser:** Enable the :doc:`GHERKIN_32 parser mode </user_guide/gherkin/parser_mode>` and see if your
+6. **Parameter Matching:** You may see deprecations if your step definition patterns capture a different number
+    of arguments to the function parameters. These will become an error in 4.0. Fix these by adding the missing
+    parameters to your function, or using non-capturing groups in your regex.
+7. **PHPUnit assertions:** We no longer recommend using PHPUnit assertions in your Behat steps, as the
+    creator of PHPUnit has stated that this is not supported or covered by any backwards compatibility
+    promise. If your steps use PHPUnit assertions, add the `behat/phpunit-assertions-extension`_ for
+    improved support in 3.x. You will need this extension in 4.0, as the built-in support has been removed.
+8. **Check other Deprecations:** Run your tests with ``--fail-on-deprecations`` and fix any warnings that appear.
+9. **Test the New Parser:** Enable the :doc:`GHERKIN_42 parser mode </user_guide/gherkin/parser_mode>` and see if your
    tests still run correctly. If you have issues, you can fix your feature files or use
    ``GherkinCompatibilityMode::LEGACY`` in your config. This mode will be removed in the future.
 
@@ -45,10 +52,6 @@ Ready to upgrade?
 ~~~~~~~~~~~~~~~~~
 
 Once you've completed the steps above, update your ``composer.json`` to start using Behat 4.0!
-
-.. caution::
-   While we are in the alpha phase, we recommend using:
-   ``{"require": {"behat/behat": "4.0.0-alpha1@alpha"}}``.
 
 .. note::
    Don't forget to update your third-party extensions to versions that support Behat 4.0. If you find one that hasn't
@@ -80,28 +83,20 @@ Here are the key changes for all extension authors:
   This ensures they are correctly handled by Behat's deprecation flags regardless of the user's runtime environment.
 * **Event Changes:** The ``ScenarioLikeTested`` base event class has been removed. ``ScenarioTested`` and
   ``BackgroundTested`` are now separate. This may affect you if you maintain a formatter extension.
+* **Transformations:** If you define your own step argument transformations, the ``ArgumentTransformer`` and
+  ``SimpleArgumentTransformation`` interfaces have changed.
+* **Pretty Behat output format:** The output of the Pretty formatter has changed slightly, and is no longer
+  guaranteed to be consistent between releases. If your extension has its own Behat features, and needs to
+  assert the result / output of a Behat run, we strongly recommend against one of the machine-readable
+  output formats e.g. ``json`` or ``junit``.
 
 There are several other changes that might affect a minority of extension authors. See the full
 `CHANGELOG`_ for details.
 
-Planned changes before the final 4.0.0 release
-----------------------------------------------
-
-We plan to make two more significant changes before the final 4.0.0 release:
-
-* **Parameter Matching:** We are reviewing how steps behave when the number of function parameters doesn't match the
-  step definition. This will likely trigger a deprecation or a failure. You can follow the progress in `#1691`_.
-* **PHPUnit Assertions:** Support for rendering PHPUnit assertion failures will move to a standalone extension. While
-  tests will still pass or fail, the output will be less detailed without the extension. We no longer recommend using
-  PHPUnit for assertions within Behat steps, as the PHPUnit project has confirmed this is not supported. See
-  `#1746`_ for details.
-
-We may make additional changes based on feedback from the community as more people begin to upgrade.
 
 .. _`convert it to PHP`: https://docs.behat.org/en/v3.x/user_guide/configuration/yaml_configuration.html#converting-your-configuration
 .. _`Rector`: https://getrector.com/documentation
 .. _`Behat annotations`: https://docs.behat.org/en/v3.x/user_guide/annotations.html#existing-code
 .. _`AddReturnTypeBasedOnParentClassMethodRector`: https://getrector.com/rule-detail/add-return-type-declaration-based-on-parent-class-method-rector
 .. _`CHANGELOG`: https://github.com/Behat/Behat/blob/4.x/CHANGELOG.md
-.. _`#1691`: https://github.com/Behat/Behat/issues/1691
-.. _`#1746`: https://github.com/Behat/Behat/issues/1746
+.. _`behat/phpunit-assertions-extension`: https://github.com/behat/PHPUnitAssertionsExtension
