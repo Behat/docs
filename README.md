@@ -9,10 +9,11 @@ can find build history for each version on RtD.
 | Version | Status                                                                                                                                                                        | Docs URL                          | Build dashboard                                                                                   |
 |---------|-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|-----------------------------------|---------------------------------------------------------------------------------------------------|
 | v2.5    | [![Documentation Status](https://readthedocs.org/projects/behat/badge/?version=v2.5&style=for-the-badge)](https://docs.behat.org/en/latest/?badge=v2.5)                       | https://docs.behat.org/en/v2.5/   | [v2.5 build history](https://app.readthedocs.org/projects/behat/builds/?version__slug=v2.5)       |
-| v3.0    | [![Documentation Status](https://readthedocs.org/projects/behat/badge/?version=v3.0&style=for-the-badge)](https://docs.behat.org/en/latest/?badge=v3.0)                       | https://docs.behat.org/en/v3.0/   | [v3.0 build history](https://app.readthedocs.org/projects/behat/builds/?version__slug=v3.0)       |
-| latest* | [![Documentation Status](https://readthedocs.org/projects/behat/badge/?version=latest&style=for-the-badge)](https://docs.behat.org/en/latest/?badge=v3.0&style=for-the-badge) | https://docs.behat.org/en/latest/ | ["latest" build history](https://app.readthedocs.org/projects/behat/builds/?version__slug=latest) |
+| v3.x    | [![Documentation Status](https://readthedocs.org/projects/behat/badge/?version=v3.x&style=for-the-badge)](https://docs.behat.org/en/latest/?badge=v3.x)                       | https://docs.behat.org/en/v3.x/   | [v3.x build history](https://app.readthedocs.org/projects/behat/builds/?version__slug=v3.x)       |
+| v4.x    | [![Documentation Status](https://readthedocs.org/projects/behat/badge/?version=v4.x&style=for-the-badge)](https://docs.behat.org/en/latest/?badge=v4.x)                       | https://docs.behat.org/en/v4.x/   | [v4.x build history](https://app.readthedocs.org/projects/behat/builds/?version__slug=v4.x)       |
+| latest* | [![Documentation Status](https://readthedocs.org/projects/behat/badge/?version=latest&style=for-the-badge)](https://docs.behat.org/en/latest/?badge=latest&style=for-the-badge) | https://docs.behat.org/en/latest/ | ["latest" build history](https://app.readthedocs.org/projects/behat/builds/?version__slug=latest) |
 
-> \* the "latest" version is currently also based off the v3.0 branch, but is a separate build on RTD.
+> \* the "latest" version is currently also based off the v4.x branch, but is a separate build on RTD.
 
 ## Project structure
 
