@@ -8,12 +8,12 @@ can read more in :doc:`the Backward Compatibility documentation </releases/backw
 Supported versions
 ------------------
 
-======= ========== ========== ============ ====================================================================
-Major   Released   Bugfix EOL Security EOL
-======= ========== ========== ============ ====================================================================
-`v3.x`_ April 2014 See below  See below    `Changelog <https://github.com/Behat/Behat/blob/3.x/CHANGELOG.md>`__
-`v4.x`_ tbc Q3/26  See below  See below    `4.x Changelog`_ :doc:`Upgrading </releases/upgrading-to-4.0>`
-======= ========== ========== ============ ====================================================================
+======= =========== ============ ============ =======================================================================
+Major   Released    Bugfix EOL   Security EOL
+======= =========== ============ ============ =======================================================================
+`v3.x`_ April 2014  30 Sep 2027  30 Sep 2028  `Changelog <https://github.com/Behat/Behat/blob/3.x/CHANGELOG.md>`__
+`v4.x`_ 28 Sep 2026 See below    See below    `4.x Changelog`_ :doc:`Upgrading </releases/upgrading-to-4.0>`
+======= =========== ============ ============ =======================================================================
 
 As a minimum, a major version series will receive:
 
@@ -56,7 +56,7 @@ By "current", we mean:
 * Symfony versions that are listed as maintained or receiving security fixes on the `official Symfony releases page`_.
 
 Note that Symfony 8 introduces breaking changes to interfaces that Behat cannot support without ourselves making
-breaking changes. Therefore, Symfony 8 will only be supported from Behat 4.0 onwards.
+breaking changes. Therefore, Symfony 8 is only supported from Behat 4.0 onwards.
 
 Once a PHP or Symfony version reaches End of Life we will remove it from our composer.json and CI flows.
 
