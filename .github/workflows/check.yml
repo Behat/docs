@@ -31,4 +31,4 @@ jobs:
       - name: Search for misspellings
         # Pinned to a specific version to avoid unexpected build failures on changes
         # to the typos dictionary.
-        uses: crate-ci/typos@v1.50.2
+        uses: crate-ci/typos@v1.50.3
